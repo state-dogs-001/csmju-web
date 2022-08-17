@@ -95,6 +95,7 @@ export default {
   data() {
     return {
       dropdownPopoverShow: false,
+      about_arr: [],
     };
   },
   methods: {

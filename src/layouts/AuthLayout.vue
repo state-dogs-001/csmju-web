@@ -2,7 +2,7 @@
   <div>
     <auth-navbar />
     <main>
-      <section class="relative w-full h-screen py-40">
+      <section class="relative w-full min-h-screen py-20">
         <div
           class="absolute top-0 w-full h-full bg-blueGray-800 bg-full"
           :style="`background-image: url('${backgroundLogin}');`"
@@ -12,7 +12,7 @@
             <component :is="Component"></component>
           </transition>
         </router-view>
-        <auth-foot absolute />
+        <auth-footer absolute />
       </section>
     </main>
   </div>

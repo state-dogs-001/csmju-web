@@ -21,11 +21,12 @@
           </div>
         </div>
 
+        <!-- News -->
         <div class="flex flex-wrap">
           <div
-            v-for="news in products.data"
+            v-for="news in newsArray"
             :key="news.newsId"
-            class="w-full px-2 pb-4 lg:w-4/12"
+            class="w-full px-2 py-2 pb-4 lg:w-4/12"
           >
             <div
               @click="ShowAll(news.newsId)"
@@ -58,7 +59,7 @@
                 </p>
                 <div class="mt-2 text-center border-t border-blueGray-200">
                   <button
-                    @click="ShowAll(news.newsId)"
+                    @click="readMore(news.newsId)"
                     class="px-4 py-2 mt-2 mb-1 mr-1 text-xs font-semibold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-md focus:outline-none"
                     type="button"
                   >
@@ -73,7 +74,8 @@
           :current="currentPage"
           :total="total"
           :per-page="perPage"
-          @page-changed="onPageClick($event)"
+          @page-changed="currentPage = $event"
+          class="my-6"
         />
       </div>
     </div>
@@ -87,49 +89,45 @@ export default {
   components: {
     VueTailwindPagination,
   },
+
   data() {
     return {
-      products: [],
+      newsArray: [],
       currentPage: 0,
       perPage: 0,
       total: 0,
     };
   },
-  mounted() {
-    this.currentPage = 1;
-    // อ่านสินค้าจาก API
-    this.getProducts(this.currentPage);
+
+  watch: {
+    currentPage(newPage) {
+      //? Watch page change
+      this.getNews();
+    },
   },
+
+  mounted() {
+    //? Setting default current page equal 1
+    this.currentPage = 1;
+    //? Call function get data
+    this.getNews();
+  },
+
   methods: {
-    /***********************************************************************
-     * ส่วนของการอ่านข้อมูลจาก API และแสดงผลในตาราง
-     ************************************************************************/
-    // ฟังก์ชันสำหรับดึงรายการสินค้าจาก api ทั้งหมด
-    ShowAll(newsId) {
+    //? Handle router to detail news
+    readMore(newsId) {
       this.$router.push({ name: "NewsExplain" });
       this.$store.state.newsShowAll = newsId;
     },
 
-    async getProducts(pageNumber) {
-      let response = await http.get(`news?page=${pageNumber}`);
-      let responseProduct = response.data;
-      this.products = response.data;
-      this.currentPage = responseProduct.current_page;
-      this.perPage = responseProduct.per_page;
-      this.total = responseProduct.total;
-      this.products.data.reverse();
-    },
-
-    // สร้างฟังก์ชันสำหรับการคลิ๊กเปลี่ยนหน้า
-    onPageClick(event) {
-      this.currentPage = event;
-      // เช็คว่ามีการค้นหาสินค้าอยู่หรือไม่
-      if (this.keyword == "") {
-        // ไม่ได้ค้นหา
-        this.getProducts(this.currentPage);
-      } else {
-        this.getProductsSearch(this.currentPage);
-      }
+    //? Get data
+    async getNews() {
+      let response = await http.get(`news?page=${this.currentPage}`);
+      let data = response.data;
+      this.newsArray = data.data.reverse();
+      this.currentPage = data.current_page;
+      this.perPage = data.per_page;
+      this.total = data.total;
     },
   },
 };

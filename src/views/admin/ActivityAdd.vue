@@ -18,138 +18,166 @@
             </div>
 
             <br class="shadow-xl" />
-            <form
-              ref="addProductForm"
-              @submit.prevent="onSubmit"
-              enctype="multipart/form-data"
-            >
+            <form ref="activityForm" @submit.prevent="handleSubmit">
+              <!-- Line 1 -->
               <div class="flex flex-wrap mb-4">
-                <div class="w-full px-4 md:w-6/12">
+                <!-- Date -->
+                <div class="w-full md:w-4/12 mt-2 px-4">
                   <label class="block my-3 text-gray-700 text-md"
                     >วันที่ประกาศกิจกรรม</label
                   >
-                  <div class="flex w-full mt-2">
-                    <v-date-picker v-model="Activity_Start">
-                      <template #default="{ inputValue, inputEvents }">
-                        <input
-                          class="px-3 py-1 border border-gray-500 text-gray-700 text-md focus:outline-none focus:border-blue-500"
-                          :value="inputValue"
-                          v-on="inputEvents"
-                        />
-                      </template>
-                    </v-date-picker>
-                  </div>
+                  <v-date-picker
+                    v-model="activityStart"
+                    v-model.lazy="activityEnd"
+                    mode="date"
+                    :min-date="new Date()"
+                  >
+                    <template #default="{ inputValue, inputEvents }">
+                      <input
+                        class="w-full px-3 py-2 text-gray-700 focus:outline-none"
+                        :value="inputValue"
+                        v-on="inputEvents"
+                      />
+                    </template>
+                  </v-date-picker>
                   <div
-                    v-if="v$.Activity_Start.$error"
+                    v-if="v$.activityStart.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Activity_Start.$errors[0].$message }}
+                    {{ v$.activityStart.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <!-- Time start -->
+                <div class="w-full md:w-4/12 mt-2 px-4">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >เวลาเริ่มต้น</label
+                  >
+                  <v-date-picker v-model="activityStart" mode="time">
+                    <template #default="{ inputValue, inputEvents }">
+                      <input
+                        class="w-full px-3 py-2 text-gray-700 focus:outline-none"
+                        :value="inputValue"
+                        v-on="inputEvents"
+                      />
+                    </template>
+                  </v-date-picker>
+                  <div
+                    v-if="v$.activityStart.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.activityStart.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <!-- Time end -->
+                <div class="w-full md:w-4/12 mt-2 px-4">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >เวลาสิ้นสุด</label
+                  >
+                  <v-date-picker v-model="activityEnd" mode="time">
+                    <template #default="{ inputValue, inputEvents }">
+                      <input
+                        class="w-full px-3 py-2 text-gray-700 focus:outline-none"
+                        :value="inputValue"
+                        v-on="inputEvents"
+                      />
+                    </template>
+                  </v-date-picker>
+                  <div
+                    v-if="v$.activityStart.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.activityStart.$errors[0].$message }}
                   </div>
                 </div>
               </div>
-              <div class="flex flex-wrap mb-4">
-                <div class="w-full px-4 md:w-6/12">
+
+              <!-- Line 2 -->
+              <div class="flex flex-wrap">
+                <div class="w-full px-4 md:w-6/12 mt-2">
                   <label class="block my-3 text-gray-700 text-md" for="Title"
                     >ชื่อกิจกรรม</label
                   >
                   <input
-                    v-model="Activity_Title"
+                    v-model="activityTitle"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="text"
                     placeholder="Title"
                   />
                   <div
-                    v-if="v$.Activity_Title.$error"
+                    v-if="v$.activityTitle.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Activity_Title.$errors[0].$message }}
+                    {{ v$.activityTitle.$errors[0].$message }}
                   </div>
                 </div>
-                <div class="w-full px-4 md:w-6/12">
+
+                <div class="w-full px-4 md:w-6/12 mt-2">
                   <label class="block my-3 text-gray-700 text-md" for="Title"
                     >ผู้รับผิดชอบ</label
                   >
                   <input
-                    v-model="Activity_Organizer"
+                    v-model="activityOrganizer"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="text"
                     placeholder="Organizer"
                   />
                   <div
-                    v-if="v$.Activity_Organizer.$error"
+                    v-if="v$.activityOrganizer.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Activity_Organizer.$errors[0].$message }}
+                    {{ v$.activityOrganizer.$errors[0].$message }}
                   </div>
                 </div>
               </div>
-              <div class="flex flex-wrap mb-4">
-                <div class="w-full px-4 md:w-12/12">
-                  <label class="block my-3 text-gray-700 text-md"
-                    >รายละเอียดกิจกรรม</label
-                  >
-                  <textarea
-                    v-model="Activity_Detail"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
-                    rows="5"
-                    placeholder="Description"
-                  ></textarea>
-                  <div
-                    v-if="v$.Activity_Detail.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
-                    {{ v$.Activity_Detail.$errors[0].$message }}
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-wrap mb-4">
-                <div class="w-full px-4 md:w-12/12">
+
+              <!-- Line 3 -->
+              <div class="flex flex-wrap">
+                <div class="w-full px-4 md:w-12/12 mt-2">
                   <label class="block my-3 text-gray-700 text-md"
                     >รูปแบบกิจกรรม</label
                   >
                   <input
-                    v-model="Activity_Location"
+                    v-model="activityLocation"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="text"
                     placeholder="Location / Platform"
                   />
                   <div
-                    v-if="v$.Activity_Location.$error"
+                    v-if="v$.activityLocation.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Activity_Location.$errors[0].$message }}
+                    {{ v$.activityLocation.$errors[0].$message }}
                   </div>
                 </div>
               </div>
-              <div class="flex flex-wrap mb-4">
-                <div class="w-full px-4 md:w-12/12">
-                  <div class="mt-4">
-                    <img
-                      v-if="imgUrl"
-                      :src="imgUrl"
-                      class="w-auto h-350-px rounded-lg shadow-lg center-img bg-emerald-500 border"
-                    />
-                  </div>
 
-                  <label class="block my-3 text-gray-700 text-md" for="image"
-                    >รูปภาพ</label
+              <!-- Line 4 -->
+              <div class="flex flex-wrap">
+                <div class="w-full px-4 md:w-12/12 mt-2">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >รายละเอียดกิจกรรม</label
                   >
+                  <textarea
+                    v-model="activityDetail"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    rows="5"
+                    placeholder="Description"
+                  ></textarea>
                   <div
-                    class="relative flex items-center justify-center h-32 bg-gray-100 border-b border-blue-700"
+                    v-if="v$.activityDetail.$error"
+                    class="mt-2 text-sm text-red-500"
                   >
-                    <input
-                      ref="fileupload"
-                      type="file"
-                      @change="onFileChange"
-                      class="w-full h-50-px opacity-0 p-3 bg-white"
-                    />
+                    {{ v$.activityDetail.$errors[0].$message }}
                   </div>
                 </div>
               </div>
 
+              <!-- Buttons -->
               <div class="py-6 text-center">
                 <button
-                  @click="onResetForm"
+                  @click="handleReset"
                   class="px-6 py-2 mb-1 mr-1 text-sm font-bold text-red-500 uppercase transition-all duration-150 ease-linear outline-none background-transparent focus:outline-none"
                   type="button"
                 >
@@ -157,9 +185,8 @@
                   ล้าง
                 </button>
                 <button
-                  @click="submit"
                   class="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
-                  type="button"
+                  type="submit"
                 >
                   ยืนยัน
                 </button>
@@ -181,59 +208,50 @@ import { required, helpers } from "@vuelidate/validators";
 export default {
   data() {
     return {
+      //? Validation
       v$: useValidate(),
 
-      Activity_Start: "",
-      Activity_TimeStart: "",
-      Activity_TimeEnd: "",
-      Activity_Organizer: "",
-      Activity_Location: "",
-      Activity_Detail: "",
-      Activity_Title: "",
-      Activity_Picture: "",
-
-      fileName: "",
-      imgUrl: "",
-      file: null,
+      //? Form attributes
+      activityStart: null,
+      activityEnd: null,
+      activityTitle: null,
+      activityOrganizer: null,
+      activityDetail: null,
+      activityLocation: null,
     };
   },
+
   methods: {
     onFileChange(e) {
-      const file = e.target.files[0];
       this.file = e.target.files[0];
-      this.imgUrl = URL.createObjectURL(file);
-    },
-    onResetForm() {
-      this.$refs.addProductForm.reset();
-      (this.Activity_Start = ""),
-        (this.Activity_TimeStart = ""),
-        (this.Activity_TimeEnd = ""),
-        (this.Activity_Organizer = ""),
-        (this.Activity_Location = ""),
-        (this.Activity_Detail = ""),
-        (this.Activity_Title = ""),
-        (this.Activity_Picture = ""),
-        (this.fileName = "");
-      this.imgUrl = "";
-      this.file = "";
-      this.$refs.fileupload.value = null;
+      this.imgUrl = URL.createObjectURL(this.file);
     },
 
-    submit() {
+    handleReset() {
+      this.$refs.activityForm.reset();
+      this.activityStart = null;
+      this.activityEnd = null;
+      this.activityTitle = null;
+      this.activityOrganizer = null;
+      this.activityLocation = null;
+      this.activityDetail = null;
+    },
+
+    handleSubmit() {
       this.v$.$validate();
       if (!this.v$.$error) {
-        this.Dates = this.year + "-" + this.month + "-" + this.day;
-        this.Time = this.hour + ":" + this.minute + ":" + this.second;
+        const data = {
+          activityStart: this.activityStart,
+          activityEnd: this.activityEnd,
+          activityTitle: this.activityTitle,
+          activityOrganizer: this.activityOrganizer,
+          activityLocation: this.activityLocation,
+          activityDetail: this.activityDetail,
+        };
+
+        console.log(data);
+        /*
         let data = new FormData();
-        data.append("Activity_Start", this.Activity_Start);
-        data.append("Activity_TimeStart", this.Activity_TimeStart);
-        data.append("Activity_TimeEnd", this.Activity_TimeEnd);
-        data.append("Activity_Organizer", this.Activity_Organizer);
-        data.append("Activity_Location", this.Activity_Location);
-        data.append("Activity_Detail", this.Activity_Detail);
-        data.append("Activity_Title", this.Activity_Title);
-        data.append("Activity_Picture", this.Activity_Picture);
-        //Post in Web
         http.post(`activity/create`, data).then(() => {
           const Toast = this.$swal.mixin({
             toast: true,
@@ -249,31 +267,43 @@ export default {
             this.$router.push({ name: "ActivityShow" });
           });
         });
+        */
       }
     },
   },
+
   validations() {
     return {
-      Activity_Start: {
-        required: helpers.withMessage("ป้อนวันที่ประกาศกิจกรรมก่อน", required),
+      activityStart: {
+        required: helpers.withMessage(
+          "กรุณาป้อนวันที่และเวลาของกิจกรรมก่อน",
+          required
+        ),
       },
-      Activity_Organizer: {
-        required: helpers.withMessage("ป้อนชื่อผู้จัดกิจกรรมก่อน", required),
+      activityOrganizer: {
+        required: helpers.withMessage(
+          "กรุณาป้อนชื่อผู้จัดกิจกรรมก่อน",
+          required
+        ),
       },
-      Activity_Location: {
-        required: helpers.withMessage("ป้อนสถานที่จัดกิจกรรมก่อน", required),
+      activityLocation: {
+        required: helpers.withMessage(
+          "กรุณาป้อนสถานที่จัดกิจกรรมก่อน",
+          required
+        ),
       },
-      Activity_Detail: {
-        required: helpers.withMessage("ป้อนรายละเอียดกิจกรรมก่อน", required),
+      activityDetail: {
+        required: helpers.withMessage(
+          "กรุณาป้อนรายละเอียดกิจกรรมก่อน",
+          required
+        ),
       },
-      Activity_Title: {
-        required: helpers.withMessage("ป้อนชื่อกิจกรรมก่อน", required),
+      activityTitle: {
+        required: helpers.withMessage("กรุณาป้อนชื่อกิจกรรมก่อน", required),
       },
     };
   },
-  components: {},
-  mounted() {
-    // อ่านสินค้าจาก API
-  },
+
+  mounted() {},
 };
 </script>

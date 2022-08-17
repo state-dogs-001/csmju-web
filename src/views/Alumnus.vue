@@ -21,11 +21,11 @@
           </div>
         </div>
 
-        <div class="flex flex-wrap">
+        <div class="flex flex-wrap justify-center">
           <div
-            v-for="alum in products.data"
+            v-for="alum in alumnus"
             :key="alum.AlumniId"
-            class="w-full h-full lg:w-3/12"
+            class="w-full h-full lg:w-3/12 mr-2 my-2"
           >
             <div
               class="flex flex-col w-full min-w-0 break-words border rounded-lg bg-blueGray-100"
@@ -76,7 +76,8 @@
           :current="currentPage"
           :total="total"
           :per-page="perPage"
-          @page-changed="onPageClick($event)"
+          @page-changed="currentPage = $event"
+          class="my-6"
         />
       </div>
     </div>
@@ -90,44 +91,63 @@ export default {
   components: {
     VueTailwindPagination,
   },
+
   data() {
     return {
-      products: [],
+      alumnus: [],
       currentPage: 0,
       perPage: 0,
       total: 0,
     };
   },
-  mounted() {
-    this.currentPage = 1;
-    // อ่านสินค้าจาก API
-    this.getProducts(this.currentPage);
-  },
-  methods: {
-    /***********************************************************************
-     * ส่วนของการอ่านข้อมูลจาก API และแสดงผลในตาราง
-     ************************************************************************/
-    // ฟังก์ชันสำหรับดึงรายการสินค้าจาก api ทั้งหมด
-    async getProducts(pageNumber) {
-      let response = await http.get(`alumni?page=${pageNumber}`);
-      let responseProduct = response.data;
-      this.products = response.data;
-      this.products.reverse();
-      this.currentPage = responseProduct.current_page;
-      this.perPage = responseProduct.per_page;
-      this.total = responseProduct.total;
-    },
 
-    // สร้างฟังก์ชันสำหรับการคลิ๊กเปลี่ยนหน้า
-    onPageClick(event) {
-      this.currentPage = event;
-      // เช็คว่ามีการค้นหาสินค้าอยู่หรือไม่
-      if (this.keyword == "") {
-        // ไม่ได้ค้นหา
-        this.getProducts(this.currentPage);
-      } else {
-        this.getProductsSearch(this.currentPage);
+  watch: {
+    //? Watch page change
+    currentPage(newPage) {
+      if (newPage) {
+        this.getAlumnus();
       }
+    },
+  },
+
+  mounted() {
+    //? For onload page setting default page equal 1
+    this.currentPage = 1;
+    //? Call function get data when load page
+    this.getAlumnus();
+  },
+
+  methods: {
+    getAlumnus() {
+      http
+        .get(`alumni?page=${this.currentPage}`)
+        .then((res) => {
+          let data = res.data;
+
+          this.alumnus = data.data.reverse();
+
+          //? Use for pagination
+          this.currentPage = data.current_page;
+          this.perPage = data.per_page;
+          this.total = data.total;
+        })
+        .catch((error) => {
+          if (error.response) {
+            if (error.response.status == 500) {
+              const Toast = this.$swal.mixin({
+                position: "center",
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+              });
+
+              Toast.fire({
+                icon: "error",
+                title: "Connection Error",
+              });
+            }
+          }
+        });
     },
   },
 };

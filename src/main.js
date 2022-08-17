@@ -22,10 +22,14 @@ import "v-calendar/dist/style.css";
 //? Styles
 import "./assets/styles/tailwind.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import "vue3-carousel/dist/carousel.css";
 
+//? Create app
 const app = createApp(App);
+
 app.use(router);
 app.use(store);
 app.use(VueSweetalert2, options);
 app.use(VCalendar, {});
+
 app.mount("#app");

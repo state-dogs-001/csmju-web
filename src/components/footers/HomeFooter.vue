@@ -122,13 +122,14 @@
               ตำแหน่งที่ตั้ง :
             </h3>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3774.8002840419385!2d99.010800714766!3d18.8959391871915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30da234aca979f93%3A0xb01d3d9375066a7a!2z4Liq4Liy4LiC4Liy4Lin4Li04LiK4Liy4Lin4Li04LiX4Lii4Liy4LiB4Liy4Lij4LiE4Lit4Lih4Lie4Li04Lin4LmA4LiV4Lit4Lij4LmMIOC4oS7guYHguKHguYjguYLguIjguYk!5e0!3m2!1sen!2sth!4v1638262841677!5m2!1sen!2sth"
-              width="400"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3774.80028404194!2d99.01080071469455!3d18.895939187191424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30da234aca979f93%3A0xb01d3d9375066a7a!2z4Liq4Liy4LiC4Liy4Lin4Li04LiK4Liy4Lin4Li04LiX4Lii4Liy4LiB4Liy4Lij4LiE4Lit4Lih4Lie4Li04Lin4LmA4LiV4Lit4Lij4LmMIOC4oS7guYHguKHguYjguYLguIjguYk!5e0!3m2!1sth!2sth!4v1659712877357!5m2!1sth!2sth"
+              class="w-full duration-150 ease-linear rounded-lg shadow-lg hover:zoom-xs"
+              width="600"
               height="300"
               style="border: 0"
               allowfullscreen=""
               loading="lazy"
-              class="w-full duration-150 ease-linear rounded-lg shadow-lg hover:zoom-xs"
+              referrerpolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
         </div>

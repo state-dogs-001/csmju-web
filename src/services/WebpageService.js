@@ -15,7 +15,7 @@ WebpageService.interceptors.request.use((config) => {
   let token = "";
 
   try {
-    token = process.env.VITE_TOKEN_API;
+    token = import.meta.env.VITE_TOKEN_API;
   } catch (error) {
     console.log(error);
   }

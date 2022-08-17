@@ -26,6 +26,8 @@
                     | Course Residualisation System
                   </h3>
                 </div>
+
+                <!-- Back to main service -->
                 <div class="w-full lg:w-3/12">
                   <div class="mt-4 text-right">
                     <router-link
@@ -40,13 +42,17 @@
 
               <div class="py-6 mt-2 text-left border-t border-blueGray-200">
                 <div class="flex flex-wrap">
+                  <!-- Image cover -->
                   <div class="w-full lg:w-6/12 lg:order-2">
                     <div class="p-4">
                       <img :src="cover" class="shadow-none" alt="" />
                     </div>
                   </div>
+
+                  <!-- Form -->
                   <div class="w-full lg:w-6/12 lg:order-1">
-                    <form>
+                    <form @submit.stop.prevent="handleSubmit">
+                      <!-- Subject type -->
                       <div class="flex flex-wrap mb-4">
                         <div class="w-full px-4 md:w-12/12">
                           <label class="block my-3 text-gray-700 text-md"
@@ -57,6 +63,9 @@
                             @keyup="getSubject"
                             class="w-full px-3 py-2 leading-tight text-gray-700"
                           >
+                            <option value="" selected disabled>
+                              เลือกกลุ่มรายวิชาเฉพาะ
+                            </option>
                             <option value="1">กลุ่มรายวิชาภายในสาขา</option>
                             <option value="2">กลุ่มรายวิชาภายนอกสาขา</option>
                           </select>
@@ -68,6 +77,8 @@
                           </div>
                         </div>
                       </div>
+
+                      <!-- Subject code -->
                       <div class="flex flex-wrap mb-4">
                         <div class="w-full px-4 md:w-8/12">
                           <label class="block my-3 text-gray-700 text-md"
@@ -79,7 +90,7 @@
                             class="w-full px-3 py-2 leading-tight text-gray-700"
                             type="text"
                             maxlength="8"
-                            placeholder="Subject Code"
+                            placeholder="กรอกรหัสรายวิชา"
                           />
                           <div
                             v-if="v$.s_code.$error"
@@ -96,7 +107,7 @@
                             v-model="s_section"
                             class="w-full px-3 py-2 leading-tight text-gray-700"
                             type="number"
-                            placeholder="Section"
+                            placeholder="กลุ่มเรียน"
                           />
                           <div
                             v-if="v$.s_section.$error"
@@ -106,6 +117,8 @@
                           </div>
                         </div>
                       </div>
+
+                      <!-- Subject name -->
                       <div class="flex flex-wrap mb-4">
                         <div class="w-full px-4 md:w-12/12">
                           <label class="block my-3 text-gray-700 text-md"
@@ -115,7 +128,7 @@
                             v-model="s_name"
                             class="w-full px-3 py-2 leading-tight text-gray-700"
                             type="text"
-                            placeholder="Subject Name"
+                            placeholder="กรอกชื่อรายวิชา"
                           />
                           <div
                             v-if="v$.s_name.$error"
@@ -125,6 +138,8 @@
                           </div>
                         </div>
                       </div>
+
+                      <!-- Teacher -->
                       <div class="flex flex-wrap mb-4">
                         <div class="w-full px-4 md:w-12/12">
                           <label
@@ -137,15 +152,26 @@
                             v-model="advisor"
                             id="advisor"
                             class="w-full px-3 py-2 leading-tight text-gray-700"
-                          ></select>
-                          <input
-                            v-if="showInput"
-                            v-model="advisor"
-                            class="w-full px-3 py-2 leading-tight text-gray-700"
-                            type="text"
-                            placeholder="Subject Advisor"
-                          />
-
+                          >
+                            <option value="" selected disabled>
+                              รายชื่ออาจารย์ผู้รับผิดชอบ
+                            </option>
+                            <option
+                              v-for="advisor in advisor_array"
+                              :key="advisor"
+                              :value="
+                                advisor.titlePosition +
+                                ' ' +
+                                advisor.name +
+                                ' ' +
+                                advisor.surname
+                              "
+                            >
+                              {{ advisor.titlePosition }}
+                              {{ advisor.firstName }}
+                              {{ advisor.lastName }}
+                            </option>
+                          </select>
                           <div
                             v-if="v$.advisor.$error"
                             class="mt-2 text-sm text-red-500"
@@ -154,6 +180,8 @@
                           </div>
                         </div>
                       </div>
+
+                      <!-- Description -->
                       <div class="flex flex-wrap mb-4">
                         <div class="w-full px-4 md:w-12/12">
                           <label class="block my-3 text-gray-700 text-md"
@@ -163,7 +191,7 @@
                             v-model="s_detail"
                             class="w-full px-3 py-2 leading-tight text-gray-700"
                             rows="5"
-                            placeholder="Explain your detail"
+                            placeholder="ระบุเหตุผลในการยืนคำร้องแจ้งตก-ค้างรายวิชา"
                           ></textarea>
                           <div
                             v-if="v$.s_detail.$error"
@@ -173,6 +201,8 @@
                           </div>
                         </div>
                       </div>
+
+                      <!-- Buttons -->
                       <div class="py-6 text-center">
                         <button
                           @click="clearForm"
@@ -182,9 +212,8 @@
                           ล้าง
                         </button>
                         <button
-                          @click="submit"
                           class="px-6 py-3 mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
-                          type="button"
+                          type="submit"
                         >
                           ยืนยัน
                         </button>
@@ -214,7 +243,7 @@ export default {
     return {
       v$: useValidate(),
       cover,
-      s_type: [{ value: "" }],
+      s_type: "",
       s_code: "",
       s_name: "",
       s_section: "",
@@ -232,43 +261,65 @@ export default {
       fromCheck: null,
     };
   },
+
+  mounted() {
+    this.getPersonnals();
+    this.getProfile();
+  },
+
   methods: {
     getSubject() {
-      if (this.s_type == "1") {
-        this.showSelect = true;
-        this.showInput = false;
-        http.get(`subject/code/${this.s_code}`).then((response) => {
-          this.subject_arr = response.data[0];
-          if (this.s_code == "") {
-            this.s_name = "";
-            this.advisor = "";
-          } else {
-            this.s_name =
-              this.subject_arr.Subject_NameTh +
-              ` (${this.subject_arr.Subject_NameEn})`;
+      console.log('test');
+      // if (this.s_type == "1") {
+      //   this.showSelect = true;
+      //   this.showInput = false;
+      //   http.get(`subject/code/${this.s_code}`).then((response) => {
+      //     console.log(response.data);
+      //     // this.subject_arr = response.data[0];
+      //     // if (this.s_code == "") {
+      //     //   this.s_name = "";
+      //     //   this.advisor = "";
+      //     // } else {
+      //     //   this.s_name =
+      //     //     this.subject_arr.Subject_NameTh +
+      //     //     ` (${this.subject_arr.Subject_NameEn})`;
+      //     // }
+      //   });
+      // } else if (this.s_type == "2") {
+      //   this.showSelect = false;
+      //   this.showInput = true;
+      // }
+    },
+
+    getPersonnals() {
+      http
+        .get(`personnel/teacher`)
+        .then((response) => {
+          this.advisor_array = response.data;
+        })
+        .catch((error) => {
+          if (error.response) {
+            if (error.response.status == 500) {
+              const Toast = this.$swal.mixin({
+                position: "center",
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+              });
+
+              Toast.fire({
+                icon: "error",
+                title: "Connection Error",
+              });
+            }
           }
         });
-      } else if (this.s_type == "2") {
-        this.showSelect = false;
-        this.showInput = true;
-      }
     },
-    Personnal() {
-      let dateDropdown = document.getElementById("advisor");
-      http.get(`personnel/teacher`).then((response) => {
-        this.advisor_array = response.data;
-        for (let i = 0; i <= this.advisor_array.length; i++) {
-          let dateOption = document.createElement("option");
-          dateOption.text = `${this.advisor_array[i].titlePosition} ${this.advisor_array[i].firstName} ${this.advisor_array[i].lastName} `;
-          dateOption.value = `${this.advisor_array[i].titlePosition} ${this.advisor_array[i].firstName} ${this.advisor_array[i].lastName} `;
-          dateDropdown.add(dateOption);
-          this.advisor_array[i].Classroom_Name -= 1;
-        }
-      });
-    },
+
     listMenu() {
       this.$router.push({ name: "CourseAlertList" });
     },
+
     clearForm() {
       this.s_type = "";
       this.s_code = "";
@@ -277,6 +328,7 @@ export default {
       this.s_detail = "";
       this.advisor = "";
     },
+
     getProfile() {
       let local_user = JSON.parse(window.localStorage.getItem("user"));
       let email_cut = local_user.email;
@@ -300,7 +352,8 @@ export default {
         }
       });
     },
-    submit() {
+
+    handleSubmit() {
       this.v$.$validate();
       if (!this.v$.$error) {
         const swalWithBootstrapButtons = this.$swal.mixin({
@@ -390,10 +443,7 @@ export default {
       }
     },
   },
-  mounted() {
-    this.Personnal();
-    this.getProfile();
-  },
+
   validations() {
     return {
       s_code: {

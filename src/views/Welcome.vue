@@ -25,7 +25,7 @@
       <!-- Button go to home page -->
       <button
         @click="homePage"
-        class="mt-48 bg-white py-4 nextpage-button text-2xl shadow-lg rounded-lg"
+        class="mt-48 bg-white py-4 nextpage-button text-2xl shadow-lg rounded-full"
       >
         <span class="text-white font-bold">เข้าสู่เว็บไซต์</span>
         <p class="text-lg font-semibold text-blueGray-700">Enter Website</p>
