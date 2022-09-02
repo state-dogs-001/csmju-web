@@ -21,138 +21,153 @@
 
             <br class="shadow-xl" />
 
-            <form @submit.prevent="onSubmit" enctype="multipart/form-data">
-              <div class="flex flex-wrap mb-2">
+            <!-- Form -->
+            <form
+              ref="addProductForm"
+              @submit.prevent="onSubmit"
+              enctype="multipart/form-data"
+            >
+              <!-- Name -->
+              <div class="flex flex-wrap mb-4">
+                <!-- First name -->
                 <div class="w-full px-4 md:w-6/12">
                   <label
                     class="block my-3 text-gray-700 text-md"
-                    for="eFirstname"
+                    for="firstname"
                     >ชื่อ</label
                   >
                   <input
-                    v-model="eFirstname"
+                    v-model="firstname"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="text"
-                    placeholder="Product name"
+                    placeholder="Firstname"
                   />
                   <div
-                    v-if="v$.Firstname.$error"
+                    v-if="v$.firstname.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Firstname.$errors[0].$message }}
+                    {{ v$.firstname.$errors[0].$message }}
                   </div>
                 </div>
+
+                <!-- Last name -->
                 <div class="w-full px-4 md:w-6/12">
-                  <label
-                    class="block my-3 text-gray-700 text-md"
-                    for="eLastname"
+                  <label class="block my-3 text-gray-700 text-md" for="lastname"
                     >นามสกุล</label
                   >
                   <input
-                    v-model="eLastname"
+                    v-model="lastname"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="text"
-                    placeholder="Product name"
+                    placeholder="Lastname"
                   />
                   <div
-                    v-if="v$.Lastname.$error"
+                    v-if="v$.lastname.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Lastname.$errors[0].$message }}
+                    {{ v$.lastname.$errors[0].$message }}
                   </div>
                 </div>
               </div>
-              <div class="flex flex-wrap mb-2">
+
+              <!-- Generation -->
+              <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-6/12">
-                  <label class="block my-3 text-gray-700 text-md" for="eCode"
+                  <label
+                    class="block my-3 text-gray-700 text-md"
+                    for="generation"
                     >ศิษย์เก่ารุ่นที่</label
                   >
                   <select
-                    v-model="eCode"
+                    v-model="generation"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
+                    :class="{ 'text-placeholder': generation == '' }"
                   >
+                    <option value="" selected disabled>
+                      Alumni generation
+                    </option>
                     <option
-                      v-for="i in this.born"
-                      :key="`ศิษย์เก่าวิทย์คอม รุ่นที่ ${i}`"
-                      :value="i"
+                      v-for="index in years"
+                      :key="index"
+                      :value="`ศิษย์เก่าวิทย์คอม รุ่นที่ ${years + 1 - index}`"
                     >
-                      ศิษย์เก่าวิทย์คอม รุ่นที่ {{ i }}
+                      ศิษย์เก่าวิทย์คอม รุ่นที่ {{ years + 1 - index }}
                     </option>
                   </select>
+                  <div
+                    v-if="v$.generation.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.generation.$errors[0].$message }}
+                  </div>
                 </div>
               </div>
-              <div class="flex flex-wrap mb-2">
+
+              <!-- Work -->
+              <div class="flex flex-wrap mb-4">
+                <!-- Walk place -->
                 <div class="w-full px-4 md:w-6/12">
                   <label
                     class="block my-3 text-gray-700 text-md"
-                    for="eWorkplace"
+                    for="workplace"
                     >สังกัดหน่วยงาน / บริษัท</label
                   >
                   <input
-                    v-model="eWorkplace"
+                    v-model="workplace"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="text"
-                    placeholder="Product name"
+                    placeholder="Workplace"
                   />
                   <div
-                    v-if="v$.Workplace.$error"
+                    v-if="v$.workplace.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Workplace.$errors[0].$message }}
+                    {{ v$.workplace.$errors[0].$message }}
                   </div>
                 </div>
+
+                <!-- Work position -->
                 <div class="w-full px-4 md:w-6/12">
-                  <label
-                    class="block my-3 text-gray-700 text-md"
-                    for="ePosition"
+                  <label class="block my-3 text-gray-700 text-md" for="position"
                     >ตำแหน่งงาน</label
                   >
                   <input
-                    v-model="ePosition"
+                    v-model="position"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="text"
-                    placeholder="Product name"
+                    placeholder="Position"
                   />
                   <div
-                    v-if="v$.Position.$error"
+                    v-if="v$.position.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Position.$errors[0].$message }}
+                    {{ v$.position.$errors[0].$message }}
                   </div>
                 </div>
               </div>
-              <div class="flex flex-wrap mb-2">
+
+              <!-- Caption -->
+              <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
-                  <label class="block my-3 text-gray-700 text-md" for="eCaption"
+                  <label class="block my-3 text-gray-700 text-md" for="caption"
                     >ประวัติส่วนตัว / คติประจำใจ</label
                   >
                   <textarea
-                    v-model="eCaption"
+                    v-model="caption"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     rows="5"
-                    placeholder="Product description"
+                    placeholder="Caption"
                   ></textarea>
                 </div>
               </div>
-              <div class="flex flex-wrap mb-2">
-                <div class="w-full px-4 md:w-12/12">
-                  <label class="block my-3 text-gray-700 text-md" for="eContact"
-                    >การติดต่อ</label
-                  >
-                  <input
-                    v-model="eContact"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
-                    type="text"
-                    placeholder="Product name"
-                  />
-                </div>
-              </div>
-              <div class="flex flex-wrap mb-2">
+
+              <!-- Image -->
+              <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <div class="mt-4">
                     <img
-                      v-if="eimgUrl"
-                      :src="eimgUrl"
+                      v-if="imgUrl"
+                      :src="imgUrl"
                       class="w-48 h-200-px center-img cropped"
                     />
                   </div>
@@ -168,13 +183,22 @@
                   />
                 </div>
               </div>
+
+              <!-- Buttons -->
               <div class="py-6 text-center">
                 <button
-                  @click="submitFormEdit(AlumniId)"
-                  class="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                  @click="onResetForm"
+                  class="px-6 py-4 mr-2 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow-lg outline-none bg-red-500 active:bg-red-600 hover:shadow-lg focus:outline-none"
                   type="button"
                 >
-                  อัพเดทข้อมูล
+                  <i class="fas fa-broom"></i> ล้าง
+                </button>
+                <button
+                  class="px-6 py-4 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow-lg outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                  type="submit"
+                >
+                  <i class="fas fa-save"></i>
+                  บันทึกข้อมูล
                 </button>
               </div>
             </form>
@@ -195,116 +219,140 @@ export default {
   data() {
     return {
       v$: useValidate(),
-      born: new Date().getFullYear() - 1997,
 
-      eAlumniId: 0,
-      eFirstname: "",
-      eLastname: "",
-      eCode: "",
-      eWorkplace: "",
-      ePosition: "",
-      eCaption: "",
-      eContact: "",
-      eimgUrl: "",
+      //? Alumni id
+      alumId: this.$route.params.id,
 
-      imgSrc: "",
-      fileName: "",
+      //? Alumni generation
+      years: new Date().getFullYear() - 1997,
 
+      //? Form
+      firstname: "",
+      lastname: "",
+      generation: "",
+      workplace: "",
+      position: "",
+      caption: "",
       file: null,
+
+      //? Image preview
+      imgUrl: "",
     };
   },
+
+  mounted() {
+    this.getAlumni();
+  },
+
   methods: {
-    /***********************************************************************
-     * ส่วนของการแก้ไขข้อมูลสินค้า
-     ************************************************************************/
-    // สร้างฟังก์ชันสำหรับเปิด popup แก้ไขสินค้า
+    //? Get alumni
+    async getAlumni() {
+      let alumni = await http.get(`alumni/show/${this.alumId}`);
+      if (alumni) {
+        let data = alumni.data.data;
+        let name = data.name.split(" ");
+        this.firstname = name[0];
+        this.lastname = name[1];
+        this.generation = data.generation;
+        this.workplace = data.work_place;
+        this.position = data.job_title;
+        this.caption = data.caption;
+        this.imgUrl = data.image_profile;
+      }
+    },
+
+    //? Upload image
     onFileChange(e) {
       const file = e.target.files[0];
       this.file = e.target.files[0];
-      this.eimgUrl = URL.createObjectURL(file);
+      this.imgUrl = URL.createObjectURL(file);
     },
 
-    EditProduct() {
-      this.AlumniId = this.$store.state.alumnusEdit;
-      http.get(`alumni/id/${this.AlumniId}`).then((response) => {
-        // console.log(response.data)
-        this.eAlumniId = response.data.AlumniId;
-        this.eFirstname = response.data.Firstname_Alumni;
-        this.eLastname = response.data.Lastname_Alumni;
-        this.eCode = response.data.StudentCode_Alumni;
-        this.eWorkplace = response.data.Workplace;
-        this.ePosition = response.data.Job_Title;
-        this.eCaption = response.data.Caption;
-        this.eContact = response.data.Contact;
-
-        this.eimgUrl = response.data.Alumni_Picture;
-      });
+    //? Reset form
+    onResetForm() {
+      this.v$.$reset();
+      this.firstname = "";
+      this.lastname = "";
+      this.generation = "";
+      this.workplace = "";
+      this.position = "";
+      this.caption = "";
+      this.imgUrl = "";
+      this.file = null;
+      this.$refs.fileupload.value = null;
     },
 
-    // สร้างฟังก์ขันสำหรับอัพเดทข้อมูล
-    submitFormEdit(AlumniId) {
-      // console.log(id)
+    //? Submit form
+    onSubmit() {
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        let data = new FormData();
+        let name = this.firstname + " " + this.lastname;
+        data.append("name", name);
+        data.append("generation", this.generation);
+        data.append("work_place", this.workplace);
+        data.append("job_title", this.position);
 
-      let data = new FormData();
-      data.append("Firstname_Alumni", this.eFirstname);
-      data.append("Lastname_Alumni", this.eLastname);
-      data.append("StudentCode_Alumni", this.eCode);
-      data.append("Workplace", this.eWorkplace);
-      data.append("Job_Title", this.ePosition);
-      data.append("Caption", this.eCaption);
-      data.append("Contact", this.eContact);
-      data.append("Alumni_Picture", this.file);
+        if (this.caption != null) {
+          data.append("caption", this.caption);
+        } else {
+          data.append("caption", "");
+        }
 
-      // Send Patch request to laravel
-      data.append("_method", "PUT");
-      http
-        .post(`alumni/update/${AlumniId}`, data)
-        .then((response) => {
-          console.log(response.data);
+        if (this.file != null) {
+          data.append("image_profile", this.file);
+        }
 
-          // เรียกใช้งาน popup ของ sweetalert2
-          const Toast = this.$swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-          });
-          Toast.fire({
-            icon: "success",
-            title: "อัพเดทข้อมูลเรียบร้อย",
-          }).then(() => {
-            this.$router.push({ name: "AlumnusShow" });
-          });
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
+        //? Set default sweet alert
+        const Toast = this.$swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
         });
+
+        //? Call API
+        http
+          .post(`alumni/update/${this.alumId}`, data)
+          .then(() => {
+            Toast.fire({
+              icon: "success",
+              title: "อัพเดทข้อมูลเรียบร้อย",
+            }).then(() => {
+              this.$router.push({ name: "AlumnusShow" });
+            });
+          })
+          .catch((err) => {
+            if (err) {
+              Toast.fire({
+                icon: "error",
+                title: "ขออภัย ทำรายการไม่สำเร็จ",
+              });
+            }
+          });
+      }
     },
   },
+
   validations() {
     return {
-      Firstname: {
-        required: helpers.withMessage("ป้อนรายละเอียดข่าวก่อน", required),
+      firstname: {
+        required: helpers.withMessage("ป้อนชื่อก่อน", required),
       },
-      Lastname: {
-        required: helpers.withMessage("ป้อนวันที่ก่อน", required),
+      lastname: {
+        required: helpers.withMessage("ป้อนนามสกุลก่อน", required),
       },
-
-      Workplace: {
-        required: helpers.withMessage("ป้อนหัวข้อข่าวก่อน", required),
+      generation: {
+        required: helpers.withMessage("เลือกรุ่นของศิษย์เก่าก่อน", required),
       },
-
-      Position: {
-        required: helpers.withMessage("ป้อนประเภทข่าวก่อน", required),
+      workplace: {
+        required: helpers.withMessage("ป้อนสังกัด / บริษัทก่อน", required),
+      },
+      position: {
+        required: helpers.withMessage("ป้อนตำแหน่งก่อน", required),
       },
     };
-  },
-  components: {},
-  mounted() {
-    this.EditProduct(this.AlumniId);
   },
 };
 </script>

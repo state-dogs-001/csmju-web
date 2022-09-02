@@ -46,6 +46,8 @@ import PersonnelRoomReserve from "../views/personnel/PersonnelRoomReserve.vue";
 import Dashboard from "../views/admin/Dashboard.vue";
 import ChangePassword from "../views/admin/ChangePassword.vue";
 import Banner from "../views/admin/Banner.vue";
+import BannerAdd from "../views/admin/BannerAdd.vue";
+import BannerEdit from "../views/admin/BannerEdit.vue";
 import AboutMeShow from "../views/admin/AboutMeShow.vue";
 import AboutMeAdd from "../views/admin/AboutMeAdd.vue";
 import AboutMeEdit from "../views/admin/AboutMeEdit.vue";
@@ -271,6 +273,7 @@ const routes = [
     path: "/admin",
     redirect: "/admin/dashboard",
     component: AdminLayout,
+    beforeEnter: adminAuthGuard,
     children: [
       {
         path: "/admin/dashboard",
@@ -286,6 +289,16 @@ const routes = [
         path: "/admin/banner",
         name: "Banner",
         component: Banner,
+      },
+      {
+        path: "/admin/banneradd",
+        name: "BannerAdd",
+        component: BannerAdd,
+      },
+      {
+        path: "/admin/banneredit/:id",
+        name: "BannerEdit",
+        component: BannerEdit,
       },
       {
         path: "/admin/aboutmeshow",
@@ -313,7 +326,7 @@ const routes = [
         component: SubjectAdd,
       },
       {
-        path: "/admin/subjectedit",
+        path: "/admin/subjectedit/:id",
         name: "SubjectEdit",
         component: SubjectEdit,
       },
@@ -343,7 +356,7 @@ const routes = [
         component: StudentAdd,
       },
       {
-        path: "/admin/studentedit",
+        path: "/admin/studentedit/:id",
         name: "StudentEdit",
         component: StudentEdit,
       },
@@ -358,7 +371,7 @@ const routes = [
         component: PersonnelAdd,
       },
       {
-        path: "/admin/personneledit",
+        path: "/admin/personneledit/:id",
         name: "PersonnelEdit",
         component: PersonnelEdit,
       },
@@ -373,7 +386,7 @@ const routes = [
         component: FeedAdd,
       },
       {
-        path: "/admin/feededit",
+        path: "/admin/feededit/:id",
         name: "EditFeed",
         component: FeedEdit,
       },
@@ -388,7 +401,7 @@ const routes = [
         component: AlumnusAdd,
       },
       {
-        path: "/admin/alumnusedit",
+        path: "/admin/alumnusedit/:id",
         name: "AlumnusEdit",
         component: AlumnusEdit,
       },
@@ -545,7 +558,7 @@ function adminAuthGuard(to, from, next) {
     let user_role = local_user.user.role;
     let token = local_user.token;
 
-    if (token && user_role == 0) {
+    if (token && user_role == "admin") {
       next();
     } else {
       localStorage.removeItem("user");

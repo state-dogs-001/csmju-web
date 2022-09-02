@@ -17,38 +17,31 @@
               <div class="px-4 py-3 mb-0 border-0 rounded-t">
                 <div class="flex flex-wrap items-center">
                   <div class="w-full px-4 font-semibold text-md md:w-2/12">
-                    จำนวน {{ products.total }} รายการ
+                    จำนวน {{ total }} รายการ
                   </div>
 
                   <div class="w-full px-4 py-4 md:w-6/12">
-                    <form @submit.prevent="onSubmit">
+                    <form @submit.prevent="onSearch">
                       <input
                         v-model="keyword"
                         class="w-full py-2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-200 border-0 rounded-md"
                         type="text"
-                        placeholder="ป้อนชื่อศิษย์เก่าที่ต้องการค้นหา"
+                        placeholder="ป้อนคำที่ต้องการค้นหา เช่น ชื่อ สถานที่ทำงาน หรือรุ่นของศิษย์เก่า"
                         aria-label="Search"
                       />
-                      <button
-                        @click="submitSearchForm"
-                        type="submit"
-                        class="hidden"
-                      >
-                        Submit
-                      </button>
                     </form>
                   </div>
 
                   <div class="w-full px-4 text-center md:w-4/12">
                     <button
-                      @click="submitSearchForm"
+                      @click="onSearch"
                       class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-lightBlue-500 active:bg-lightBlue-600 hover:shadow-md focus:outline-none"
                       type="button"
                     >
                       <i class="fas fa-search"></i> ค้นหา
                     </button>
                     <button
-                      @click="resetSearchForm"
+                      @click="resetSearch"
                       class="px-4 py-2 mb-1 mr-4 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
                       type="button"
                     >
@@ -115,13 +108,13 @@
                   <tbody>
                     <tr
                       class="border-b"
-                      v-for="alum in products.data"
-                      :key="alum.AlumniId"
+                      v-for="(alumni, index) in alumnus"
+                      :key="index"
                     >
                       <td
                         class="p-4 px-6 text-sm align-middle whitespace-nowrap"
                       >
-                        {{ alum.AlumniId }}
+                        {{ (currentPage - 1) * perPage + index + 1 }}
                       </td>
                       <td
                         class="p-4 px-6 text-xs align-middle whitespace-nowrap"
@@ -130,14 +123,13 @@
                           class="flex items-center text-xs text-left align-middle whitespace-nowrap"
                         >
                           <img
-                            :src="alum.Alumni_Picture"
-                            alt="..."
+                            :src="alumni.image_profile"
                             class="w-10 h-10 rounded-full shadow-lg"
                           />
                           <span class="ml-3 text-sm font-semiBold">
-                            {{ alum.Firstname_Alumni }}
+                            {{ alumni.name.split(" ")[0] }}
                             <div class="text-xs font-normal">
-                              {{ alum.Lastname_Alumni }}
+                              {{ alumni.name.split(" ")[1] }}
                             </div>
                           </span>
                         </div>
@@ -145,31 +137,31 @@
                       <td
                         class="p-4 px-6 text-sm align-middle whitespace-nowrap"
                       >
-                        ศิษย์เก่าวิทย์คอม รุ่นที่ {{ alum.StudentCode_Alumni }}
+                        {{ alumni.generation }}
                       </td>
                       <td
                         class="p-4 px-6 text-sm align-middle whitespace-nowrap"
                       >
-                        {{ alum.Workplace }}
+                        {{ alumni.work_place }}
                       </td>
                       <td
                         class="p-4 px-6 text-sm align-middle whitespace-nowrap"
                       >
-                        {{ alum.Job_Title }}
+                        {{ alumni.job_title }}
                       </td>
 
                       <td
                         class="p-4 px-6 text-xs align-middle whitespace-nowrap"
                       >
                         <button
-                          @click="Edit(alum.AlumniId)"
+                          @click="onUpdate(alumni.id)"
                           class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
                           type="button"
                         >
                           <i class="fas fa-edit"></i>
                         </button>
                         <button
-                          @click="onclickDelete(alum.AlumniId)"
+                          @click="onDelete(alumni.id)"
                           class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
                           type="button"
                         >
@@ -179,7 +171,8 @@
                     </tr>
                   </tbody>
                 </table>
-                <!-- แสดงผลตัวแบ่งหน้าเพจ-->
+
+                <!-- Paginate -->
                 <VueTailwindPagination
                   :current="currentPage"
                   :total="total"
@@ -204,9 +197,6 @@ export default {
   data() {
     return {
       products: [],
-      currentPage: 0,
-      perPage: 0,
-      total: 0,
 
       AlumniId: 0,
       Firstname_Alumni: "",
@@ -217,95 +207,132 @@ export default {
       Caption: "",
       Job_Title: "",
       Alumni_Picture: "",
+
+      //? Data
+      alumnus: null,
+
+      //? Paginate
+      currentPage: 0,
+      perPage: 0,
+      total: 0,
+
+      //? Search
+      keyword: "",
     };
   },
-  methods: {
-    Edit(AlumniId) {
-      this.$router.push({ name: "AlumnusEdit" });
-      this.$store.state.alumnusEdit = AlumniId;
-    },
-    async getProducts(pageNumber) {
-      let response = await http.get(`alumni?page=${pageNumber}`);
-      let responseProduct = response.data;
-      this.products = responseProduct;
-      this.currentPage = responseProduct.current_page;
-      this.perPage = responseProduct.per_page;
-      this.total = responseProduct.total;
-    },
-    async getProductsSearch(pageNumber) {
-      let response = await http.get(
-        `alumni/name/${this.keyword}?page=${pageNumber}`
-      );
-      let responseProduct = response.data;
-      this.products = responseProduct;
-      this.currentPage = responseProduct.current_page;
-      this.perPage = responseProduct.per_page;
-      this.total = responseProduct.total;
-    },
-    // สร้างฟังก์ชันสำหรับการคลิ๊กเปลี่ยนหน้า
-    onPageClick(event) {
-      this.currentPage = event;
-      // เช็คว่ามีการค้นหาสินค้าอยู่หรือไม่
-      if (this.keyword == "") {
-        // ไม่ได้ค้นหา
-        this.getProducts(this.currentPage);
-      } else {
-        this.getProductsSearch(this.currentPage);
+
+  components: { VueTailwindPagination },
+
+  watch: {
+    keyword(val) {
+      if (!val) {
+        this.currentPage = 1;
+        this.getAlumnus(this.currentPage);
       }
     },
-    onclickDelete(id) {
-      this.$swal
+  },
+
+  mounted() {
+    this.currentPage = 1;
+    this.getAlumnus(this.currentPage);
+  },
+
+  methods: {
+    //? Get alumnus
+    async getAlumnus(pageNumber) {
+      let alumnus = await http.get(`alumnus?page=${pageNumber}`);
+      if (alumnus) {
+        let data = alumnus.data;
+        this.alumnus = data.data;
+        this.total = data.total;
+        this.perPage = data.per_page;
+        this.currentPage = data.current_page;
+      }
+    },
+
+    //? Search
+    async onSearch(pageNumber) {
+      let alumnus = await http.get(
+        `alumni/search/${this.keyword}?page=${pageNumber}`
+      );
+      if (alumnus) {
+        let data = alumnus.data;
+        this.alumnus = data.data;
+        this.total = data.total;
+        this.perPage = data.per_page;
+        this.currentPage = data.current_page;
+      }
+    },
+
+    //? Reset search
+    resetSearch() {
+      this.currentPage = 1;
+      this.getAlumnus(this.currentPage);
+      this.keyword = "";
+    },
+
+    //? Paginate
+    onPageClick(event) {
+      this.currentPage = event;
+      if (this.keyword == "") {
+        this.getAlumnus(this.currentPage);
+      } else {
+        this.onSearch(this.currentPage);
+      }
+    },
+
+    //? Update
+    onUpdate(id) {
+      this.$router.push({ name: "AlumnusEdit", params: { id: id } });
+    },
+
+    //? Delete
+    onDelete(id) {
+      //? Set default sweet alert
+      const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          title: "font-weight-bold",
+          confirmButton:
+            "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+          cancelButton:
+            "px-6 py-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+        },
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons
         .fire({
-          title: "ยืนยันการลบรายการนี้",
-          showDenyButton: false,
+          title: "ยืนยันการลบข้อมูล",
+          icon: "warning",
           showCancelButton: true,
-          confirmButtonText: `ยืนยัน`,
-          cancelButtonText: `ปิดหน้าต่าง`,
+          confirmButtonText: "ยืนยัน",
+          cancelButtonText: "ยกเลิก",
+          reverseButtons: true,
         })
         .then((result) => {
           if (result.isConfirmed) {
             http
-              .delete(`alumni/delete/${id}`)
+              .post(`alumni/delete/${id}`)
               .then(() => {
-                this.$swal.fire("ลบรายการเรียบร้อย!", "", "success");
-                window.location.reload();
-                if (this.keyword == "") {
-                  this.getProducts(this.currentPage);
-                } else {
-                  this.getProductsSearch(this.currentPage);
-                }
+                swalWithBootstrapButtons
+                  .fire("ลบข้อมูลเรียบร้อย!", "", "success")
+                  .then(() => {
+                    window.location.reload();
+                  });
               })
               .catch((error) => {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
+                if (error) {
+                  swalWithBootstrapButtons.fire({
+                    icon: "error",
+                    title: "ขออภัย ทำรายการไม่สำเร็จ",
+                  });
+                }
               });
+          } else {
+            swalWithBootstrapButtons.fire("ยกเลิกการลบข้อมูล", "", "error");
           }
         });
     },
-    submitSearchForm() {
-      if (this.keyword != "") {
-        http.get(`alumni/name/${this.keyword}`).then((response) => {
-          let responseProduct = response.data;
-          this.products = responseProduct;
-          this.currentPage = responseProduct.current_page;
-          this.perPage = responseProduct.per_page;
-          this.total = responseProduct.total;
-        });
-      } else {
-        this.$swal.fire("ป้อนชื่อศิษย์เก่าที่ต้องการค้นหาก่อน");
-      }
-    },
-    resetSearchForm() {
-      this.currentPage = 1;
-      this.getProducts(this.currentPage);
-      this.keyword = "";
-    },
-  },
-  components: { VueTailwindPagination },
-  mounted() {
-    this.currentPage = 1;
-    this.getProducts(this.currentPage);
   },
 };
 </script>

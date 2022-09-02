@@ -173,41 +173,10 @@ export default {
   },
 
   methods: {
-    LoginCheck() {
-      let user = JSON.parse(window.localStorage.getItem("user"));
-
-      if (user != null) {
-        let username = user.name + " " + user.surname;
-        let type = user.type[0];
-        let date =
-          new Date().getDate() +
-          "/" +
-          (new Date().getMonth() + 1) +
-          "/" +
-          new Date().getFullYear();
-
-        let time =
-          new Date().getHours() +
-          ":" +
-          new Date().getMinutes() +
-          ":" +
-          new Date().getSeconds();
-        let device = navigator.userAgent;
-        let data = new FormData();
-        data.append("Username", username);
-        data.append("type", type);
-        data.append("Date", date + " " + time);
-        data.append("Device", device);
-
-        http.post(`checklogin/create`, data).then((response) => {
-          this.$store.state.id_login = response.data.LoginId;
-        });
-      }
-    },
     getPersonnelData() {
       let local_user = JSON.parse(window.localStorage.getItem("user"));
 
-      if (local_user != null) {
+      if (local_user) {
         http
           .get(`personnel/cardid/${local_user.card_id}`)
           .then((response) => {

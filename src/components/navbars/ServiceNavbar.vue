@@ -94,15 +94,13 @@
           </li>
 
           <li class="flex items-center">
-            <router-link to="/auth/login">
-              <button
-                @click="onClickLogout"
-                class="px-4 py-2 mb-3 ml-3 text-xs font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none text-blueGray-700 active:bg-blueGray-50 hover:shadow-md focus:outline-none lg:mr-1 lg:mb-0"
-                type="button"
-              >
-                ออกจากระบบ
-              </button>
-            </router-link>
+            <button
+              @click="onClickLogout"
+              class="px-4 py-2 mb-3 ml-3 text-xs font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none text-blueGray-700 active:bg-blueGray-50 hover:shadow-md focus:outline-none lg:mr-1 lg:mb-0"
+              type="button"
+            >
+              ออกจากระบบ
+            </button>
           </li>
         </ul>
       </div>
@@ -113,15 +111,12 @@
 <script>
 //? Component
 import AboutPage from "../dropdowns/DropdownInAboutPage.vue";
-//? APIs
-import http from "../../services/WebpageService";
 export default {
   components: {
     AboutPage,
   },
   data() {
     return {
-      id_login: 0,
       navbarOpen: false,
       dropdownPopoverShow: false,
     };
@@ -130,9 +125,8 @@ export default {
     setNavbarOpen: function () {
       this.navbarOpen = !this.navbarOpen;
     },
+
     onClickLogout() {
-      let id = this.$store.state.id_login;
-      http.delete(`checklogin/delete/${id}`).then(() => {});
       localStorage.removeItem("user");
       localStorage.removeItem("permission");
       this.$router.push({ name: "Login" });

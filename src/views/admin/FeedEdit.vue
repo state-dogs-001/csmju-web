@@ -21,33 +21,55 @@
 
             <br class="shadow-xl" />
             <form
-              ref="addProductForm"
+              ref="editNewsForm"
               @submit.prevent="onSubmit"
               enctype="multipart/form-data"
             >
+              <!-- Checkbox for banner status -->
               <div class="flex flex-wrap mb-4">
+                <div class="w-full px-4 md:w-12/12">
+                  <label class="inline-flex items-center cursor-pointer">
+                    <input
+                      v-model="isShow"
+                      type="checkbox"
+                      class="w-5 h-5 ml-1 rounded bg-blueGray-200 text-blueGray-700"
+                    />
+                    <span class="ml-2 text-blueGray-700">
+                      แสดงข่าวสารในหน้าสาธารณะ
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Head news and type -->
+              <div class="flex flex-wrap mb-4">
+                <!-- Head -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md" for="Title"
                     >หัวข้อข่าว</label
                   >
                   <input
-                    v-model="Title"
+                    v-model="title"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="text"
                     placeholder="News Title"
                   />
-                  <div v-if="v$.Title.$error" class="mt-2 text-sm text-red-500">
-                    {{ v$.Title.$errors[0].$message }}
+                  <div v-if="v$.title.$error" class="mt-2 text-sm text-red-500">
+                    {{ v$.title.$errors[0].$message }}
                   </div>
                 </div>
+
+                <!-- Type -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md" for="Type"
                     >ประเภทข่าว</label
                   >
                   <select
-                    v-model="Type"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    v-model="type"
+                    class="w-full px-3 py-2 leading-tight"
+                    :class="type == '' ? 'text-placeholder' : 'text-gray-700'"
                   >
+                    <option value="" selected disabled>News type</option>
                     <option value="ทั่วไป">ทั่วไป</option>
                     <option value="ประกาศ">ประกาศ</option>
                     <option value="รับสมัคร">รับสมัคร</option>
@@ -56,64 +78,68 @@
                     <option value="กิจกรรม">กิจกรรม</option>
                     <option value="เร่งด่วน">เร่งด่วน</option>
                   </select>
-                  <div v-if="v$.Type.$error" class="mt-2 text-sm text-red-500">
-                    {{ v$.Type.$errors[0].$message }}
+                  <div v-if="v$.type.$error" class="mt-2 text-sm text-red-500">
+                    {{ v$.type.$errors[0].$message }}
                   </div>
                 </div>
               </div>
-              <div class="flex flex-wrap mb-4">
-                <div class="w-full px-4 md:w-6/12">
-                  <label class="block my-3 text-gray-700 text-md" for="Dates"
-                    >วันที่ประกาศข่าว (วว/ดด/ปปปป)</label
-                  >
-                  <div class="flex w-full mt-2">
-                    <v-date-picker v-model="Dates">
-                      <template #default="{ inputValue, inputEvents }">
-                        <input
-                          class="px-3 py-1 border border-gray-500 text-gray-700 text-md focus:outline-none focus:border-blue-500"
-                          :value="inputValue"
-                          v-on="inputEvents"
-                        />
-                      </template>
-                    </v-date-picker>
-                  </div>
-                  <div v-if="v$.Dates.$error" class="mt-2 text-sm text-red-500">
-                    {{ v$.Dates.$errors[0].$message }}
-                  </div>
-                </div>
-              </div>
+
+              <!-- Datail -->
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <label class="block my-3 text-gray-700 text-md" for="Detail"
                     >รายละเอียด</label
                   >
                   <textarea
-                    v-model="Detail"
+                    v-model="detail"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     rows="5"
                     placeholder="News Description"
                   ></textarea>
                   <div
-                    v-if="v$.Detail.$error"
+                    v-if="v$.detail.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Detail.$errors[0].$message }}
+                    {{ v$.detail.$errors[0].$message }}
                   </div>
                 </div>
               </div>
+
+              <!-- Checkbox for link -->
+              <div class="flex flex-wrap mb-4">
+                <div class="w-full px-4 md:w-12/12">
+                  <label class="inline-flex items-center cursor-pointer">
+                    <input
+                      v-model="isLink"
+                      type="checkbox"
+                      class="w-5 h-5 ml-1 rounded bg-blueGray-200 text-blueGray-700"
+                    />
+                    <span class="ml-2 text-blueGray-700"> เพิ่มลิงค์ </span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Link -->
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <label class="block my-3 text-gray-700 text-md" for="links"
                     >ลิงค์ที่เกี่ยวข้อง</label
                   >
                   <input
-                    v-model="links"
+                    v-model="link"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
+                    :class="!isLink ? 'bg-gray-200' : ''"
                     type="text"
                     placeholder="News Links / Read more (www.example.com)"
+                    :disabled="!isLink"
                   />
+                  <div v-if="v$.link.$error" class="mt-2 text-sm text-red-500">
+                    {{ v$.link.$errors[0].$message }}
+                  </div>
                 </div>
               </div>
+
+              <!-- Image -->
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <div class="mt-4">
@@ -139,22 +165,21 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Button -->
               <div class="py-6 text-center">
                 <button
                   @click="onResetForm"
-                  class="px-6 py-2 mb-1 mr-1 text-sm font-bold text-red-500 uppercase transition-all duration-150 ease-linear outline-none background-transparent focus:outline-none"
+                  class="px-6 py-4 mr-2 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow-lg outline-none bg-red-500 active:bg-red-600 hover:shadow-lg focus:outline-none"
                   type="button"
                 >
-                  <i class="fas fa-broom"></i>
-                  ล้าง
+                  <i class="fas fa-broom"></i> ล้าง
                 </button>
                 <button
-                  @click="submit()"
                   class="px-6 py-4 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow-lg outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
-                  type="button"
+                  type="submit"
                 >
-                  <i class="fas fa-save"></i>
-                  แก้ไขข้อมูล
+                  <i class="fas fa-edit"></i> แก้ไขข้อมูล
                 </button>
               </div>
             </form>
@@ -168,123 +193,152 @@
 <script>
 //? API
 import http from "../../services/APIService";
-//? PAckages
+//? Pakages
 import useValidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 export default {
   data() {
     return {
-      id: "",
-      hour: new Date().getHours(),
-      minute: new Date().getMinutes(),
-      second: new Date().getSeconds(),
       v$: useValidate(),
 
-      Detail: "",
-      Dates: "",
-      old_Dates: "",
-      Time: "",
-      Title: "",
-      links: "",
-      Type: "",
+      newsId: this.$route.params.id,
 
-      imgSrc: "",
-      fileName: "",
+      isShow: true,
+      isLink: false,
+
+      title: "",
+      detail: "",
+      link: "",
+      type: "",
+
       imgUrl: "",
       file: null,
     };
   },
+
+  mounted() {
+    this.getNews();
+  },
+
   methods: {
-    async getProducts() {
-      this.id = this.$store.state.newsEdit;
-      http.get(`news/id/${this.id}`).then((response) => {
-        this.Title = response.data.News_Title;
-        this.Type = response.data.News_Type;
-        this.Dates = response.data.News_Date;
-        this.old_Dates = response.data.News_Date;
-        this.Detail = response.data.News_Detail;
-        this.links = response.data.News_links;
-        this.imgUrl = response.data.News_Picture;
-      });
+    //? Get data
+    async getNews() {
+      let news = await http.get(`news/show/private/${this.newsId}`);
+      if (news) {
+        let data = news.data.data;
+        this.title = data.title;
+        this.detail = data.detail;
+        this.imgUrl = data.image;
+        this.type = data.type;
+
+        if (data.link != null) {
+          this.isLink = true;
+          this.link = data.link;
+        }
+
+        if (!data.is_show) {
+          this.isShow = false;
+        }
+      }
     },
+
     onFileChange(e) {
       const file = e.target.files[0];
       this.file = e.target.files[0];
       this.imgUrl = URL.createObjectURL(file);
     },
-    onResetForm() {
-      this.$refs.addProductForm.reset();
-      (this.Detail = ""),
-        (this.Dates = ""),
-        (this.Time = ""),
-        (this.Picture = ""),
-        (this.Title = ""),
-        (this.File = ""),
-        (this.links = ""),
-        (this.Type = "");
 
-      this.fileName = "";
-      this.imgUrl = "";
-      this.file = "";
-      this.$refs.fileupload.value = null;
-    },
-    submit() {
+    onSubmit() {
       this.v$.$validate();
       if (!this.v$.$error) {
-        this.Time = this.hour + ":" + this.minute + ":" + this.second;
-        if (this.Dates != this.old_Dates) {
-          this.Dates = this.Dates.toISOString().slice(0, 10);
-        }
         let data = new FormData();
-        data.append("News_Detail", this.Detail);
-        data.append("News_Date", this.Dates);
-        data.append("News_Time", this.Time);
-        data.append("News_Title", this.Title);
-        data.append("News_File", this.File);
-        data.append("News_links", this.links);
-        data.append("News_Type", this.Type);
-        data.append("News_Picture", this.file);
-        data.append("_method", "PUT");
-        http.post(`news/update/${this.id}`, data).then(() => {
-          const Toast = this.$swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-          });
-          Toast.fire({
-            icon: "success",
-            title: "แก้ไขข้อมูลใหม่เรียบร้อย",
-          }).then(() => {
-            this.$router.push({ name: "Feed" });
-          });
+        data.append("title", this.title);
+        data.append("detail", this.detail);
+        data.append("type", this.type);
+
+        //? If file not null
+        if (this.file != null) {
+          data.append("image", this.file);
+        }
+
+        //? If isLink is true set data link else ''(NUll)
+        if (this.isLink) {
+          data.append("link", this.link);
+        } else {
+          data.append("link", "");
+        }
+
+        //? If isShow is false set data is_show to 0 else 1
+        if (!this.isShow) {
+          data.append("is_show", 0);
+        } else {
+          data.append("is_show", 1);
+        }
+
+        //? Set default sweet alert
+        const Toast = this.$swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
         });
+
+        //? Call API
+        http
+          .post(`news/update/${this.newsId}`, data)
+          .then((res) => {
+            let msg = res.data.message;
+            Toast.fire({
+              icon: "success",
+              title: msg,
+            }).then(() => {
+              this.$router.push({ name: "Feed" });
+            });
+          })
+          .catch((error) => {
+            if (error) {
+              Toast.fire({
+                icon: "error",
+                title: "ขออภัย ทำรายการไม่สำเร็จ",
+              });
+            }
+          });
       }
     },
+
+    onResetForm() {
+      this.v$.$reset();
+      this.title = "";
+      this.detail = "";
+      this.links = "";
+      this.type = "";
+      this.imgUrl = "";
+      this.file = null;
+      this.isShow = true;
+      this.isLink = false;
+      this.$refs.fileupload.value = null;
+    },
   },
+
   validations() {
     return {
-      Detail: {
+      detail: {
         required: helpers.withMessage("ป้อนรายละเอียดข่าวก่อน", required),
       },
-      Dates: {
-        required: helpers.withMessage("ป้อนวันที่ก่อน", required),
-      },
-
-      Title: {
+      title: {
         required: helpers.withMessage("ป้อนหัวข้อข่าวก่อน", required),
       },
-
-      Type: {
+      type: {
         required: helpers.withMessage("ป้อนประเภทข่าวก่อน", required),
       },
+      link: {
+        required: helpers.withMessage(
+          "ป้อนลิงค์ก่อน",
+          () => !this.isLink || this.link != ""
+        ),
+      },
     };
-  },
-
-  mounted() {
-    this.currentPage = 1;
-    this.getProducts();
   },
 };
 </script>

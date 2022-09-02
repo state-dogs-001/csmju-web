@@ -160,92 +160,92 @@ export default {
       last_nameEn: "",
       email: "",
       phone: "",
-      address: "",
-
       imgUrl: "",
-      file: null,
-
-      profile: [],
     };
   },
+
   mounted() {
     this.ShowProfile();
   },
+
   methods: {
-    ShowProfile() {
+    async ShowProfile() {
       let local_user = JSON.parse(window.localStorage.getItem("user"));
-      let email_cut = local_user.email;
-      let studentID = email_cut.slice(3, 13);
-      let csStudent = studentID.substring(3, 6);
 
-      //Check Student ID => ComSci 410
-      if (csStudent == "410") {
-        http.get(`student/${studentID}`).then((response) => {
-          this.profile = response.data.data[0];
-          let fromCheck = response.data.from;
-          if (fromCheck != null) {
-            this.studentID = this.profile.studentCode;
-            this.first_name = this.profile.nameTh;
-            this.last_name = this.profile.surnameTh;
-            this.first_nameEn = this.profile.nameEn;
-            this.last_nameEn = this.profile.surnameEn;
-            this.email = this.profile.EmailStudent;
-            this.phone = this.profile.mobile;
-            this.address = this.profile.Address;
-            this.imgUrl = this.profile.PictureProfile;
-          } else {
-            this.first_name = local_user.name;
-            this.last_name = local_user.surname;
-            this.phone = local_user.mobile;
-            this.email = local_user.email;
-            this.imgUrl = this.team;
-            let email_cut = local_user.email;
-            this.studentID = email_cut.slice(3, 13);
+      if (local_user) {
+        let email_cut = local_user.email;
+        let studentID = email_cut.slice(3, 13);
+        let csStudent = studentID.substring(3, 6);
+        let citizenId = local_user.card_id;
+
+        //? Check Student ID => ComSci 410
+        if (csStudent == "410") {
+          let student = await http.get(
+            `student/search/citizen-id/${citizenId}`
+          );
+          if (student) {
+            if (student.data.success) {
+              let data = student.data.data;
+              this.studentID = data.student_code;
+
+              let name = data.name_th.split(" ");
+              this.first_name = name[0];
+              this.last_name = name[1];
+
+              let nameEn = data.name_en.split(" ");
+              this.first_nameEn = nameEn[0];
+              this.last_nameEn = nameEn[1];
+
+              this.email = data.email;
+
+              //? Format phone number
+              let phone = data.tel_number;
+              let phone_format =
+                phone.substring(0, 3) +
+                "-" +
+                phone.substring(3, 7) +
+                "-" +
+                phone.substring(7, 10);
+              this.phone = phone_format;
+
+              this.imgUrl = data.image_profile;
+            } else {
+              //! Not found user
+              this.studentID = studentID;
+              this.first_name = local_user.name;
+              this.last_name = local_user.surname;
+              this.email = local_user.email;
+
+              //? Format phone number
+              let phone = local_user.mobile;
+              let phone_format =
+                phone.substring(0, 3) +
+                "-" +
+                phone.substring(3, 6) +
+                "-" +
+                phone.substring(6, 10);
+              this.phone = phone_format;
+
+              this.imgUrl = this.team;
+            }
           }
-        });
-      } else {
-        const Toast = this.$swal.mixin({
-          position: "center",
-          showConfirmButton: false,
-          timer: 2000,
-          timerProgressBar: true,
-        });
-        Toast.fire({
-          icon: "error",
-          title: "Your account is not found.",
-        }).then(() => {
-          localStorage.removeItem("user");
-          localStorage.removeItem("permission");
-          this.$router.push({ name: "Login" });
-        });
+        } else {
+          const Toast = this.$swal.mixin({
+            position: "center",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+          });
+          Toast.fire({
+            icon: "error",
+            title: "ขออภัย ไม่พบข้อมูลนักศึกษา",
+          }).then(() => {
+            localStorage.removeItem("user");
+            localStorage.removeItem("permission");
+            this.$router.push({ name: "Login" });
+          });
+        }
       }
-    },
-    LoginCheck() {
-      let user = JSON.parse(window.localStorage.getItem("user"));
-      let username = user.name + " " + user.surname;
-      let type = user.type[0];
-      let date =
-        new Date().getDate() +
-        "/" +
-        (new Date().getMonth() + 1) +
-        "/" +
-        new Date().getFullYear();
-
-      let time =
-        new Date().getHours() +
-        ":" +
-        new Date().getMinutes() +
-        ":" +
-        new Date().getSeconds();
-      let device = navigator.userAgent;
-      let data = new FormData();
-      data.append("Username", username);
-      data.append("type", type);
-      data.append("Date", date + " " + time);
-      data.append("Device", device);
-      http.post(`checklogin/create`, data).then((response) => {
-        this.$store.state.id_login = response.data.LoginId;
-      });
     },
   },
 };

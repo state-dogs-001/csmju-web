@@ -87,15 +87,13 @@
           </li>
 
           <li class="flex items-center">
-            <router-link to="/auth/login">
-              <button
-                @click="checkLogin()"
-                class="px-4 py-2 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-emerald-500 rounded-lg shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
-                type="button"
-              >
-                เข้าสู่ระบบ
-              </button>
-            </router-link>
+            <button
+              @click="checkLogin()"
+              class="px-4 py-2 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-emerald-500 rounded-lg shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
+              type="button"
+            >
+              เข้าสู่ระบบ
+            </button>
           </li>
         </ul>
       </div>
@@ -122,48 +120,59 @@ export default {
       let user = JSON.parse(window.localStorage.getItem("user"));
       let permission = JSON.parse(window.localStorage.getItem("permission"));
 
-      let status = user.status;
-      let type = user.type[0];
-      let role = permission.role;
+      if (user && permission) {
+        let status = user.status;
+        let type = user.type[0];
+        let role = permission.role;
 
-      if (status == "success" && type == "student" && role == 2) {
-        const Toast = this.$swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 1000,
-          timerProgressBar: true,
-        });
+        //? User is student
+        if (status == "success" && type == "student" && role == 2) {
+          const Toast = this.$swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
 
-        Toast.fire({
-          icon: "success",
-          title: "กำลังเข้าสู่ระบบ",
-        }).then(() => {
-          this.$router.push({ name: "StudentService" });
-        });
-      } else if (status == "success" && type == "personnel" && role == 1) {
-        const Toast = this.$swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 1000,
-          timerProgressBar: true,
-        });
+          Toast.fire({
+            icon: "success",
+            title: "กำลังเข้าสู่ระบบ",
+          }).then(() => {
+            this.$router.push({ name: "StudentService" });
+          });
+        }
+        //? User is personnel
+        else if (status == "success" && type == "personnel" && role == 1) {
+          const Toast = this.$swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+          });
 
-        Toast.fire({
-          icon: "success",
-          title: "กำลังเข้าสู่ระบบ",
-        }).then(() => {
-          this.$router.push({ name: "PersonnelService" });
-        });
+          Toast.fire({
+            icon: "success",
+            title: "กำลังเข้าสู่ระบบ",
+          }).then(() => {
+            this.$router.push({ name: "PersonnelService" });
+          });
+        } else {
+          //! Invalid user
+          this.$router.push({ name: "Login" });
+        }
       } else {
+        //! Not has user
         this.$router.push({ name: "Login" });
       }
     },
-    setNavbarOpen: function () {
+
+    setNavbarOpen() {
       this.navbarOpen = !this.navbarOpen;
     },
-    toggleDropdown: function () {
+
+    toggleDropdown() {
       if (this.dropdownPopoverShow) {
         this.dropdownPopoverShow = false;
       } else {

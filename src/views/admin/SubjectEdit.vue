@@ -22,6 +22,7 @@
             <br class="shadow-xl border-t" />
 
             <form @submit.prevent="onSubmit" enctype="multipart/form-data">
+              <!-- Subject code -->
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-4/12">
                   <label class="block my-3 text-gray-700 text-md"
@@ -32,13 +33,15 @@
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="text"
                     maxlength="8"
-                    placeholder="Subject Code"
+                    placeholder="ป้อนรหัสวิชา"
                   />
                   <div v-if="v$.code.$error" class="mt-2 text-sm text-red-500">
                     {{ v$.code.$errors[0].$message }}
                   </div>
                 </div>
               </div>
+
+              <!-- Subject name thai -->
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <label class="block my-3 text-gray-700 text-md"
@@ -48,7 +51,7 @@
                     v-model="nameTh"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="text"
-                    placeholder="Subject name (Thai)"
+                    placeholder="ชื่อวิชาภาษาไทย"
                   />
                   <div
                     v-if="v$.nameTh.$error"
@@ -58,6 +61,8 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Subject name english -->
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <label class="block my-3 text-gray-700 text-md"
@@ -67,7 +72,7 @@
                     v-model="nameEn"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="text"
-                    placeholder="Subject name (English)"
+                    placeholder="ชื่อวิชาภาษาอังกฤษ"
                   />
                   <div
                     v-if="v$.nameEn.$error"
@@ -77,7 +82,39 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Subject detail -->
+              <div class="flex flex-wrap mb-4">
+                <div class="w-full px-4 md:w-12/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >กลุ่มรายวิชา</label
+                  >
+                  <select
+                    v-model="detail"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                  >
+                    <option value="" selected disabled>
+                      เลือกกลุ่มรายวิชา
+                    </option>
+                    <option
+                      v-for="detail in details"
+                      :key="detail"
+                      :value="detail.value"
+                    >
+                      {{ detail.value }}
+                    </option>
+                  </select>
+                  <div
+                    v-if="v$.detail.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.detail.$errors[0].$message }}
+                  </div>
+                </div>
+              </div>
+
               <div class="flex flex-wrap mb-4 mt-8">
+                <!-- Credit -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
                     >หน่วยกิต</label
@@ -85,9 +122,9 @@
                   <input
                     v-model="credit"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
-                    type="text"
+                    type="number"
                     maxlength="4"
-                    placeholder="Subject Credit (Ex. 3325 => 3(3-2-5))"
+                    placeholder="จำนวนหน่วยกิต"
                   />
                   <div
                     v-if="v$.credit.$error"
@@ -96,61 +133,64 @@
                     {{ v$.credit.$errors[0].$message }}
                   </div>
                 </div>
+
+                <!-- Theory Hour -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >กลุ่มรายวิชา</label
+                    >ชั่วโมงเรียนบรรยาย</label
                   >
-                  <select
-                    v-model="detail"
+                  <input
+                    v-model="theoryHour"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
-                  >
-                    <option
-                      value="กลุ่มวิชาความรู้พื้นฐานทางวิทยาการคอมพิวเตอร์ (Fundamental Computer Science)"
-                    >
-                      กลุ่มวิชาความรู้พื้นฐานทางวิทยาการคอมพิวเตอร์ (Fundamental
-                      Computer Science)
-                    </option>
-                    <option
-                      value="กลุ่มวิชาแนวคิดการวิเคราะห์และออกแบบ (System Analysis)"
-                    >
-                      กลุ่มวิชาแนวคิดการวิเคราะห์และออกแบบ (System Analysis)
-                    </option>
-                    <option
-                      value="กลุ่มวิชาการพัฒนาระบบแอปพลิเคชัน (Application Development)"
-                    >
-                      กลุ่มวิชาการพัฒนาระบบแอปพลิเคชัน (Application Development)
-                    </option>
-                    <option value="กลุ่มวิชาระบบเครือข่าย (Network System)">
-                      กลุ่มวิชาระบบเครือข่าย (Network System)
-                    </option>
-                    <option value="กลุ่มวิชาวิทยาการข้อมูล (Data Science)">
-                      กลุ่มวิชาวิทยาการข้อมูล (Data Science)
-                    </option>
-                    <option
-                      value="กลุ่มวิชาอินเทอร์เน็ตในทุกสิ่ง (Internet of Things)"
-                    >
-                      กลุ่มวิชาอินเทอร์เน็ตในทุกสิ่ง (Internet of Things)
-                    </option>
-                    <option
-                      value="กลุ่มวิชาปัญญาประดิษฐ์  (Artificial Intelligence)"
-                    >
-                      กลุ่มวิชาปัญญาประดิษฐ์ (Artificial Intelligence)
-                    </option>
-                    <option
-                      value="กลุ่มวิชาการประยุกต์งานด้านธุรกิจ (Computer Science for Business)"
-                    >
-                      กลุ่มวิชาการประยุกต์งานด้านธุรกิจ (Computer Science for
-                      Business)
-                    </option>
-                    <option value="กลุ่มวิชาหัวข้อพิเศษ (Special Topics)">
-                      กลุ่มวิชาหัวข้อพิเศษ (Special Topics)
-                    </option>
-                  </select>
+                    type="number"
+                    maxlength="4"
+                    placeholder="จำนวนชั่วโมงเรียนบรรยาย"
+                  />
                   <div
-                    v-if="v$.detail.$error"
+                    v-if="v$.theoryHour.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.detail.$errors[0].$message }}
+                    {{ v$.theoryHour.$errors[0].$message }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap mb-4 mt-8">
+                <!-- Practical hour -->
+                <div class="w-full px-4 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >ชั่วโมงเรียนปฏิบัติ</label
+                  >
+                  <input
+                    v-model="practicalHour"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    type="number"
+                    placeholder="จำนวนชั่วโมงเรียนปฏิบัติ"
+                  />
+                  <div
+                    v-if="v$.practicalHour.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.practicalHour.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <!-- Self Hour -->
+                <div class="w-full px-4 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >ชั่วโมงเรียนรู้ด้วยตนเอง</label
+                  >
+                  <input
+                    v-model="selfHour"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    type="number"
+                    placeholder="จำนวนชั่วโมงเรียนรู้ด้วยตนเอง"
+                  />
+                  <div
+                    v-if="v$.selfHour.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.selfHour.$errors[0].$message }}
                   </div>
                 </div>
               </div>
@@ -164,22 +204,31 @@
                     v-model="term"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                   >
-                    <option value="-">-</option>
-                    <option v-for="i in 8" :key="i" :value="i">{{ i }}</option>
+                    <option value="" selected disabled>เลือกเทอม</option>
+                    <option v-for="i in 8" :key="i" :value="i">
+                      ปี
+                      <span>{{ Math.ceil(i / 2) }}</span>
+                      เทอม
+                      <span v-if="i % 2 !== 0">1</span>
+                      <span v-else>2</span>
+                    </option>
                   </select>
-                  <div v-if="v$.term.$error" class="mt-2 text-sm text-red-500">
-                    {{ v$.term.$errors[0].$message }}
-                  </div>
                 </div>
               </div>
 
               <div class="py-6 text-center">
                 <button
-                  @click="submitFormEdit"
-                  class="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                  @click="onResetForm"
+                  class="px-6 py-4 mr-2 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow-lg outline-none bg-red-500 active:bg-red-600 hover:shadow-lg focus:outline-none"
                   type="button"
                 >
-                  บันทึกข้อมูล
+                  <i class="fas fa-broom"></i> ล้าง
+                </button>
+                <button
+                  class="px-6 py-4 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow-lg outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                  type="submit"
+                >
+                  <i class="fas fa-edit"></i> แก้ไขข้อมูล
                 </button>
               </div>
             </form>
@@ -195,76 +244,145 @@
 import http from "../../services/APIService";
 //? Packages
 import useValidate from "@vuelidate/core";
-import { required, helpers } from "@vuelidate/validators";
+import { required, numeric, helpers } from "@vuelidate/validators";
 export default {
   data() {
     return {
       v$: useValidate(),
 
-      id: "",
+      subjectId: this.$route.params.id,
 
       code: "",
       nameTh: "",
       nameEn: "",
       credit: "",
+      theoryHour: "",
+      practicalHour: "",
+      selfHour: "",
       detail: "",
       term: "",
+
+      details: [
+        {
+          value:
+            "กลุ่มวิชาความรู้พื้นฐานทางวิทยาการคอมพิวเตอร์ (Fundamental Computer Science)",
+        },
+        {
+          value: "กลุ่มวิชาแนวคิดการวิเคราะห์และออกแบบ (System Analysis)",
+        },
+        {
+          value: "กลุ่มวิชาการพัฒนาระบบแอปพลิเคชัน (Application Development)",
+        },
+        {
+          value: "กลุ่มวิชาระบบเครือข่าย (Network System)",
+        },
+        {
+          value: "กลุ่มวิชาวิทยาการข้อมูล (Data Science)",
+        },
+        {
+          value: "กลุ่มวิชาอินเทอร์เน็ตในทุกสิ่ง (Internet of Things)",
+        },
+        {
+          value: "กลุ่มวิชาปัญญาประดิษฐ์  (Artificial Intelligence)",
+        },
+        {
+          value:
+            "กลุ่มวิชาการประยุกต์งานด้านธุรกิจ (Computer Science for Business)",
+        },
+        {
+          value: "กลุ่มวิชาหัวข้อพิเศษ (Special Topics)",
+        },
+      ],
     };
   },
+
+  mounted() {
+    this.getSubject();
+  },
+
   methods: {
-    EditProduct() {
-      this.id = this.$store.state.subjectEdit;
-      http.get(`subject/id/${this.id}`).then((response) => {
-        this.code = response.data.Subject_Code;
-        this.nameTh = response.data.Subject_NameTh;
-        this.nameEn = response.data.Subject_NameEn;
-        let credit = response.data.Subject_Credit;
-        this.credit = credit[0] + credit[3] + credit[5] + credit[7];
-        this.detail = response.data.Subject_Detail;
-        this.term = response.data.Subject_Term;
-      });
-    },
-    submitFormEdit() {
-      this.v$.$validate();
-      if (!this.v$.$error) {
-        let credit_format =
-          this.credit[0] +
-          "(" +
-          this.credit[1] +
-          "-" +
-          this.credit[2] +
-          "-" +
-          this.credit[3] +
-          ")";
-        let data = new FormData();
-        data.append("Subject_Code", this.code);
-        data.append("Subject_NameTh", this.nameTh);
-        data.append("Subject_NameEn", this.nameEn);
-        data.append("Subject_Credit", credit_format);
-        data.append("Subject_Detail", this.detail);
-        data.append("Subject_Term", this.term);
-        data.append("_method", "PUT");
-        http.post(`subject/create`, data).then(() => {
-          const Toast = this.$swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-          });
-          Toast.fire({
-            icon: "success",
-            title: "เพิ่มข้อมูลเรียบร้อย",
-          }).then(() => {
-            this.$router.push({ name: "SubjectShow" });
-          });
-        });
+    //? Get Subject
+    async getSubject() {
+      let subject = await http.get(`subject/show/${this.subjectId}`);
+      if (subject) {
+        let data = subject.data.data;
+        this.code = data.subject_code;
+        this.nameTh = data.name_th;
+        this.nameEn = data.name_en;
+        this.credit = data.credit;
+        this.theoryHour = data.theory_hour;
+        this.practicalHour = data.practical_hour;
+        this.selfHour = data.self_hour;
+        this.detail = data.detail;
+        this.term = data.term;
       }
     },
+
+    //? Submit Form
+    onSubmit() {
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        let data = new FormData();
+
+        if (this.term !== "") {
+          data.append("term", this.term);
+        }
+
+        data.append("subject_code", this.code);
+        data.append("name_th", this.nameTh);
+        data.append("name_en", this.nameEn);
+        data.append("credit", this.credit);
+        data.append("theory_hour", this.theoryHour);
+        data.append("practical_hour", this.practicalHour);
+        data.append("self_hour", this.selfHour);
+        data.append("detail", this.detail);
+
+        //? Set default sweet alert
+        const Toast = this.$swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+        });
+
+        //? Call API
+        http
+          .post(`subject/update/${this.subjectId}`, data)
+          .then(() => {
+            Toast.fire({
+              icon: "success",
+              title: "อัพเดตข้อมูลเรียบร้อย",
+            }).then(() => {
+              this.$router.push({ name: "SubjectShow" });
+            });
+          })
+          .catch((err) => {
+            if (err) {
+              Toast.fire({
+                icon: "error",
+                title: "ขออภัย ทำรายการไม่สำเร็จ",
+              });
+            }
+          });
+      }
+    },
+
+    //? Reset form
+    onResetForm() {
+      this.v$.$reset();
+      this.code = "";
+      this.nameTh = "";
+      this.nameEn = "";
+      this.credit = "";
+      this.theoryHour = "";
+      this.practicalHour = "";
+      this.selfHour = "";
+      this.detail = "";
+      this.term = "";
+    },
   },
-  mounted() {
-    this.EditProduct();
-  },
+
   validations() {
     return {
       code: {
@@ -281,12 +399,40 @@ export default {
       },
       credit: {
         required: helpers.withMessage("ป้อนหน่วยกิตก่อน", required),
+        numeric: helpers.withMessage("หน่วยกิตต้องเป็นตัวเลขเท่านั้น", numeric),
+      },
+      theoryHour: {
+        required: helpers.withMessage(
+          "ป้อนจำนวนชั่วโมงเรียนบรรยายก่อน",
+          required
+        ),
+        numeric: helpers.withMessage(
+          "จำนวนชั่วโมงเรียนบรรยายต้องเป็นตัวเลขเท่านั้น",
+          numeric
+        ),
+      },
+      practicalHour: {
+        required: helpers.withMessage(
+          "ป้อนจำนวนชั่วโมงเรียนปฏิบัติก่อน",
+          required
+        ),
+        numeric: helpers.withMessage(
+          "จำนวนชั่วโมงเรียนปฏิบัติต้องเป็นตัวเลขเท่านั้น",
+          numeric
+        ),
+      },
+      selfHour: {
+        required: helpers.withMessage(
+          "ป้อนจำนวนชั่วโมงเรียนด้วยตนเองก่อน",
+          required
+        ),
+        numeric: helpers.withMessage(
+          "จำนวนชั่วโมงเรียนด้วยตนเองต้องเป็นตัวเลขเท่านั้น",
+          numeric
+        ),
       },
       detail: {
         required: helpers.withMessage("ป้อนกลุ่มรายวิชาก่อน", required),
-      },
-      term: {
-        required: helpers.withMessage("ป้อนการแสดงเทอมก่อน", required),
       },
     };
   },

@@ -8,24 +8,14 @@
           <h3 class="text-base font-semibold text-blueGray-700">
             ผู้ใช้งานเข้าสู่ระบบ
             <span class="italic text-emerald-600 text-sm">
-              ( จำนวน {{ this.total }} บัญชี )
+              ( จำนวน {{ total }} บัญชี )
             </span>
           </h3>
         </div>
-        <!-- <div
-          class="relative flex-1 flex-grow w-full max-w-full px-4 text-right"
-        >
-          <button
-            class="px-3 py-1 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-indigo-500 rounded outline-none active:bg-indigo-600 focus:outline-none"
-            type="button"
-          >
-            See all
-          </button>
-        </div> -->
       </div>
     </div>
-    <div class="block w-full overflow-x-auto">
-      <!-- Projects table -->
+    <div class="block w-full overflow-x-auto p-5">
+      <!-- table -->
       <table class="items-center w-full bg-transparent border-collapse">
         <thead>
           <tr>
@@ -57,39 +47,46 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in products" :key="user.LoginId">
+          <tr v-for="(user, index) in userLogin" :key="index">
             <th
               class="p-4 px-6 text-md text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
             >
-              {{ user.LoginId }}
+              {{ (currentPage - 1) * perPage + index + 1 }}
             </th>
             <td
               class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
             >
-              {{ user.Username }}
+              {{ user.email }}
             </td>
             <td
               class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
             >
-              {{ user.type }}
+              {{ user.user_type }}
             </td>
             <td
               class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
             >
-              {{ user.Date.slice(0, 9) }}
+              {{ new Date(user.created_at).toDateString() }}
               <p class="text-sm text-emerald-600 font-semibold">
-                ( {{ user.Date.slice(10, 19) }} )
+                {{ new Date(user.created_at).toString().split(" ")[4] }}
               </p>
             </td>
 
             <td
-              class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+              class="w-64 p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0"
             >
-              {{ user.Device.slice(0, 11) }}
+              {{ user.device }}
             </td>
           </tr>
         </tbody>
       </table>
+      <!-- Paginate -->
+      <VueTailwindPagination
+        :current="currentPage"
+        :total="total"
+        :per-page="perPage"
+        @page-changed="onPageClick($event)"
+      />
     </div>
   </div>
 </template>
@@ -97,22 +94,45 @@
 <script>
 //? API
 import http from "../../services/APIService";
+//? Package
+import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
 export default {
   data() {
     return {
-      products: [],
+      userLogin: null,
+
+      //? Paginate
+      total: 0,
+      perPage: 0,
+      currentPage: 0,
     };
   },
-  methods: {
-    async getProducts() {
-      let response = await http.get(`checklogin`);
-      let responseProduct = response.data;
-      this.products = responseProduct.data;
-      this.total = responseProduct.data.length;
-    },
-  },
+
+  components: { VueTailwindPagination },
+
   mounted() {
-    this.getProducts();
+    this.currentPage = 1;
+    this.getUsers(this.currentPage);
+  },
+
+  methods: {
+    //? Get users login history
+    async getUsers(pageNumber) {
+      let users = await http.get(`checksignin/users?page=${pageNumber}`);
+      if (users) {
+        let data = users.data;
+        this.userLogin = data.data;
+        this.total = data.total;
+        this.perPage = data.per_page;
+        this.currentPage = data.current_page;
+      }
+    },
+
+    //? Paginate
+    onPageClick(event) {
+      this.currentPage = event;
+      this.getUsers(this.currentPage);
+    },
   },
 };
 </script>

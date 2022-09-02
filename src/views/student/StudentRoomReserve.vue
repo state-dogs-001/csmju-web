@@ -238,6 +238,7 @@ export default {
         }
       });
     },
+
     Personnal() {
       let dateDropdown = document.getElementById("advisor");
       http.get(`personnel/teacher`).then((response) => {
@@ -251,6 +252,7 @@ export default {
         }
       });
     },
+
     getBooking() {
       http.get(`bookclassroom`).then((response) => {
         this.booking = response.data;
@@ -262,29 +264,7 @@ export default {
         }
       });
     },
-    getProfile() {
-      let local_user = JSON.parse(window.localStorage.getItem("user"));
-      let email_cut = local_user.email;
-      this.studentID = email_cut.slice(3, 13);
-      http.get(`student/${this.studentID}`).then((response) => {
-        this.profile = response.data.data[0];
-        this.fromCheck = response.data.from;
 
-        if (this.fromCheck != 1) {
-          const Swal = this.$swal.mixin({
-            position: "center",
-            showConfirmButton: false,
-            timer: 2500,
-            timerProgressBar: true,
-          });
-          Swal.fire({
-            icon: "warning",
-            title: `กรุณากรอกข้อมูลส่วนตัวของท่านก่อนใช้งานระบบ`,
-          });
-          this.$router.push({ name: "StudentProfile" });
-        }
-      });
-    },
     submit() {
       const swalWithBootstrapButtons = this.$swal.mixin({
         customClass: {
@@ -350,11 +330,11 @@ export default {
         });
     },
   },
+
   mounted() {
     this.Classroom();
     this.Personnal();
     this.getBooking();
-    this.getProfile();
   },
 };
 </script>

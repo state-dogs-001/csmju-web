@@ -22,118 +22,161 @@
             <br class="shadow-xl border-t" />
 
             <form @submit.prevent="onSubmit" enctype="multipart/form-data">
+              <!-- Student code and Citizen id-->
               <div class="flex flex-wrap mb-4">
+                <!-- Citizen id-->
+                <div class="w-full px-4 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >รหัสประจำตัวประชาชน</label
+                  >
+                  <input
+                    v-model="citizenId"
+                    class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
+                    type="text"
+                    maxlength="13"
+                    placeholder="Citizen id"
+                  />
+                  <div
+                    v-if="v$.citizenId.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.citizenId.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <!-- Student code -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
                     >รหัสนักศึกษา</label
                   >
                   <input
-                    v-model="code"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    v-model="studentCode"
+                    class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
                     type="text"
                     maxlength="10"
                     placeholder="Student Code"
                   />
-                  <div v-if="v$.code.$error" class="mt-2 text-sm text-red-500">
-                    {{ v$.code.$errors[0].$message }}
+                  <div
+                    v-if="v$.studentCode.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.studentCode.$errors[0].$message }}
                   </div>
                 </div>
               </div>
+
+              <!-- Name thai -->
               <div class="flex flex-wrap mb-4">
+                <!-- Frist name -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
                     >ชื่อ (ภาษาไทย)</label
                   >
                   <input
-                    v-model="first_nameTh"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    v-model="firstName"
+                    class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
                     type="text"
                     placeholder="Firstname (Thai)"
                   />
                   <div
-                    v-if="v$.first_nameTh.$error"
+                    v-if="v$.firstName.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.first_nameTh.$errors[0].$message }}
+                    {{ v$.firstName.$errors[0].$message }}
                   </div>
                 </div>
+
+                <!-- Last name -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
                     >นามสกุล (ภาษาไทย)</label
                   >
                   <input
-                    v-model="last_nameTh"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    v-model="lastName"
+                    class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
                     type="text"
                     placeholder="Lastname (Thai)"
                   />
                   <div
-                    v-if="v$.last_nameTh.$error"
+                    v-if="v$.lastName.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.last_nameTh.$errors[0].$message }}
+                    {{ v$.lastName.$errors[0].$message }}
                   </div>
                 </div>
               </div>
+
+              <!-- Name English -->
               <div class="flex flex-wrap mb-4">
+                <!-- First name -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
                     >ชื่อ (ภาษาอังกฤษ)</label
                   >
                   <input
-                    v-model="first_nameEn"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    v-model="firstNameEn"
+                    class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
                     type="text"
                     placeholder="Firstname (English)"
                   />
                   <div
-                    v-if="v$.first_nameEn.$error"
+                    v-if="v$.firstNameEn.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.first_nameEn.$errors[0].$message }}
+                    {{ v$.firstNameEn.$errors[0].$message }}
                   </div>
                 </div>
+
+                <!-- Last name -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
                     >นามสกุล (ภาษาอังกฤษ)</label
                   >
                   <input
-                    v-model="last_nameEn"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    v-model="lastNameEn"
+                    class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
                     type="text"
                     placeholder="Lastname (English)"
                   />
                   <div
-                    v-if="v$.last_nameEn.$error"
+                    v-if="v$.lastNameEn.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.last_nameEn.$errors[0].$message }}
+                    {{ v$.lastNameEn.$errors[0].$message }}
                   </div>
                 </div>
               </div>
+
+              <!-- Phone and email -->
               <div class="flex flex-wrap mb-4 mt-8">
+                <!-- Phone number -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >เบอร์ติดต่อ</label
+                    >เบอร์ติดต่อ
+                    <span class="text-sm text-red-500 italic"
+                      >**ไม่ต้องใส่ขีด (-)**</span
+                    ></label
                   >
                   <input
-                    v-model="phone"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    v-model="tel"
+                    class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
                     type="text"
                     maxlength="10"
                     placeholder="Cell Phone"
                   />
-                  <div v-if="v$.phone.$error" class="mt-2 text-sm text-red-500">
-                    {{ v$.phone.$errors[0].$message }}
+                  <div v-if="v$.tel.$error" class="mt-2 text-sm text-red-500">
+                    {{ v$.tel.$errors[0].$message }}
                   </div>
                 </div>
+
+                <!-- Email -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
                     >อีเมล (ส่วนตัว)</label
                   >
                   <input
                     v-model="email"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
                     type="text"
                     placeholder="Email"
                   />
@@ -143,6 +186,86 @@
                 </div>
               </div>
 
+              <!-- Location -->
+              <!-- Postcode and sub district -->
+              <div class="flex flex-wrap mb-4">
+                <div class="w-full px-2 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md" for="Title"
+                    >รหัสไปรษณีย์</label
+                  >
+                  <input
+                    v-model="postcode"
+                    class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
+                    type="text"
+                    placeholder="Postcode"
+                    maxlength="5"
+                  />
+                  <div
+                    v-if="v$.postcode.$error"
+                    class="mt-0 text-sm text-red-500"
+                  >
+                    {{ v$.postcode.$errors[0].$message }}
+                  </div>
+                </div>
+                <div class="w-full px-2 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md" for="Title"
+                    >ตำบล</label
+                  >
+                  <select
+                    v-model="subDistrict"
+                    class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight border"
+                    :class="
+                      subDistrict == '' ? 'text-gray-500' : 'text-gray-700'
+                    "
+                    :disabled="subDistricts == null"
+                  >
+                    <option value="" disabled selected>Sub District</option>
+                    <option
+                      v-for="item in subDistricts"
+                      :key="item.subDistrictId"
+                      :value="item.subDistrictName"
+                    >
+                      {{ item.subDistrictName }}
+                    </option>
+                  </select>
+                  <div
+                    v-if="v$.subDistrict.$error"
+                    class="mt-0 text-sm text-red-500"
+                  >
+                    {{ v$.subDistrict.$errors[0].$message }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- District and Province -->
+              <div class="flex flex-wrap mb-4">
+                <div class="w-full px-2 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md" for="Title"
+                    >อำเภอ</label
+                  >
+                  <input
+                    v-model="district"
+                    class="w-full px-3 placeholder-blueGray-300 bg-blueGray-100 py-2 leading-tight text-gray-700 border"
+                    type="text"
+                    placeholder="District"
+                    readonly
+                  />
+                </div>
+                <div class="w-full px-2 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md" for="Title"
+                    >จังหวัด</label
+                  >
+                  <input
+                    v-model="province"
+                    class="w-full px-3 py-2 placeholder-blueGray-300 bg-blueGray-100 leading-tight text-gray-700 border"
+                    type="text"
+                    placeholder="Province"
+                    readonly
+                  />
+                </div>
+              </div>
+
+              <!-- Address -->
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <label class="block my-3 text-gray-700 text-md"
@@ -154,15 +277,23 @@
                     rows="5"
                     placeholder="Address"
                   ></textarea>
+                  <div
+                    v-if="v$.address.$error"
+                    class="mt-0 text-sm text-red-500"
+                  >
+                    {{ v$.address.$errors[0].$message }}
+                  </div>
                 </div>
               </div>
+
+              <!-- Image profile -->
               <div class="flex flex-wrap mb-2">
                 <div class="w-full px-4 md:w-12/12">
                   <div class="mt-4">
                     <img
-                      v-if="imgUrl"
-                      :src="imgUrl"
-                      class="w-48 h-200-px center-img cropped"
+                      v-if="image"
+                      :src="image"
+                      class="w-1/2 h-auto rounded-md center-img cropped"
                     />
                   </div>
 
@@ -177,12 +308,21 @@
                   />
                 </div>
               </div>
+
+              <!-- Button -->
               <div class="py-6 text-center">
                 <button
-                  @click="submitFormAdd"
-                  class="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                  @click="onResetForm"
+                  class="px-6 py-4 mr-2 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow-lg outline-none bg-red-500 active:bg-red-600 hover:shadow-lg focus:outline-none"
                   type="button"
                 >
+                  <i class="fas fa-broom"></i> ล้าง
+                </button>
+                <button
+                  class="px-6 py-4 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow-lg outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                  type="submit"
+                >
+                  <i class="fas fa-save"></i>
                   บันทึกข้อมูล
                 </button>
               </div>
@@ -199,90 +339,210 @@
 import http from "../../services/APIService";
 //? Packages
 import useValidate from "@vuelidate/core";
-import { required, helpers } from "@vuelidate/validators";
+import {
+  required,
+  minLength,
+  email,
+  numeric,
+  helpers,
+} from "@vuelidate/validators";
+import thai from "thai-data";
 export default {
   data() {
     return {
       v$: useValidate(),
-
-      id: "",
-
-      code: "",
-      first_nameTh: "",
-      last_nameTh: "",
-      first_nameEn: "",
-      last_nameEn: "",
-      email: "",
-      phone: "",
-      address: "",
-
-      imgUrl: "",
+      citizenId: "",
+      studentCode: "",
+      firstName: "",
+      lastName: "",
+      firstNameEn: "",
+      lastNameEn: "",
       file: null,
+      image: "",
+      email: "",
+      tel: "",
+
+      province: "",
+      district: "",
+      subDistrict: "",
+      subDistricts: null,
+      postcode: "",
+      address: "",
     };
   },
-  methods: {
-    onFileChange(e) {
-      const file = e.target.files[0];
-      this.file = e.target.files[0];
-      this.imgUrl = URL.createObjectURL(file);
-    },
-    submitFormAdd() {
-      this.v$.$validate();
-      if (!this.v$.$error) {
-        let data = new FormData();
-        data.append("studentCode", this.code);
-        data.append("nameTh", this.first_nameTh);
-        data.append("surnameTh", this.last_nameTh);
-        data.append("nameEn", this.first_nameEn);
-        data.append("surnameEn", this.last_nameEn);
-        data.append("EmailStudent", this.email);
-        data.append("mobile", this.phone);
-        data.append("Address", this.address);
-        data.append("PictureProfile", this.file);
-        http.post(`student/create`, data).then(() => {
-          const Toast = this.$swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-          });
-          Toast.fire({
-            icon: "success",
-            title: "เพิ่มข้อมูลเรียบร้อย",
-          }).then(() => {
-            this.$router.push({ name: "StudentShow" });
-          });
-        });
+
+  watch: {
+    postcode(val) {
+      if (val) {
+        let lenStr = val.toString().length;
+        lenStr == 5 ? this.getSubDistrict() : null;
       }
     },
   },
+
+  methods: {
+    //? Upload image
+    onFileChange(e) {
+      const file = e.target.files[0];
+      this.file = e.target.files[0];
+      this.image = URL.createObjectURL(file);
+    },
+
+    //? Get address from postcode
+    getSubDistrict() {
+      const data = thai.allField(this.postcode);
+      this.subDistricts = data.subDistrictList;
+      this.district = data.districtList[0].districtName;
+      this.province = data.provinceList[0].provinceName;
+    },
+
+    //? Submit form
+    onSubmit() {
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        //? Setting data to FormData
+        let data = new FormData();
+        data.append("citizen_id", this.citizenId);
+        data.append("student_code", this.studentCode);
+        data.append("name_th", this.firstName + " " + this.lastName);
+        data.append(
+          "name_en",
+          this.firstNameEn.toLowerCase() + " " + this.lastNameEn.toLowerCase()
+        );
+        data.append("email", this.email.toLowerCase());
+        data.append("tel_number", this.tel);
+        data.append("province", this.province);
+        data.append("district", this.district);
+        data.append("sub_district", this.subDistrict);
+        data.append("postcode", this.postcode);
+        data.append("address", this.address);
+
+        //? Check file
+        if (this.file != null) {
+          data.append("image_profile", this.file);
+        }
+
+        //? Set default sweet alert
+        const Toast = this.$swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+        });
+
+        //? Send data to API
+        http
+          .post("student/new", data)
+          .then((res) => {
+            if (res.data.success) {
+              let msg = res.data.message;
+              Toast.fire({
+                icon: "success",
+                title: msg,
+              }).then(() => {
+                this.$router.push({ name: "StudentShow" });
+              });
+            }
+          })
+          .catch((err) => {
+            if (err) {
+              Toast.fire({
+                icon: "error",
+                title: "ขออภัย ทำรายการไม่สำเร็จ",
+              });
+            }
+          });
+      }
+    },
+
+    //? Reset form
+    onResetForm() {
+      this.v$.$reset();
+      this.citizenId = "";
+      this.studentCode = "";
+      this.firstName = "";
+      this.lastName = "";
+      this.firstNameEn = "";
+      this.lastNameEn = "";
+      this.file = null;
+      this.image = "";
+      this.email = "";
+      this.tel = "";
+      this.province = "";
+      this.district = "";
+      this.subDistrict = "";
+      this.subDistricts = null;
+      this.postcode = "";
+      this.address = "";
+      this.$refs.fileupload.value = null;
+    },
+  },
+
   validations() {
     return {
-      code: {
-        required: helpers.withMessage("ป้อนรหัสนักศึกษาก่อน", required),
+      citizenId: {
+        required: helpers.withMessage("ป้อนหมายเลขบัตรประชาชนก่อน", required),
+        minLength: helpers.withMessage(
+          ({ $params }) => `รหัสไปรษณีย์ต้องไม่น้อยกว่า ${$params.min} ตัว`,
+          minLength(13)
+        ),
+        numeric: helpers.withMessage(
+          "ป้อนหมายเลขบัตรประชาชนเป็นตัวเลขเท่านั้น",
+          numeric
+        ),
       },
-      first_nameTh: {
+      studentCode: {
+        required: helpers.withMessage("ป้อนรหัสนักศึกษาก่อน", required),
+        numeric: helpers.withMessage(
+          "ป้อนรหัสนักศึกษาเป็นตัวเลขเท่านั้น",
+          numeric
+        ),
+      },
+      firstName: {
         required: helpers.withMessage("ป้อนชื่อภาษาไทยก่อน", required),
       },
-      last_nameTh: {
+      lastName: {
         required: helpers.withMessage("ป้อนนามสกุลภาษาไทยก่อน", required),
       },
-      first_nameEn: {
+      firstNameEn: {
         required: helpers.withMessage("ป้อนชื่อภาษาอังกฤษก่อน", required),
       },
-      last_nameEn: {
+      lastNameEn: {
         required: helpers.withMessage("ป้อนนามสกุลภาษาอังกฤษก่อน", required),
       },
       email: {
         required: helpers.withMessage("ป้อนอีเมลส่วนตัวก่อน", required),
+        email: helpers.withMessage("อีเมลไม่ถูกต้อง", email),
       },
-      phone: {
+      tel: {
         required: helpers.withMessage("ป้อนเบอร์ติดต่อก่อน", required),
+        numeric: helpers.withMessage(
+          "ป้อนเบอร์ติดต่อเป็นตัวเลขเท่านั้น",
+          numeric
+        ),
+      },
+      postcode: {
+        required: helpers.withMessage("ป้อนรหัสไปรษณีย์ก่อน", required),
+        minLength: helpers.withMessage(
+          ({ $params }) => `รหัสไปรษณีย์ต้องไม่น้อยกว่า ${$params.min} ตัว`,
+          minLength(5)
+        ),
+        numeric: helpers.withMessage(
+          "ป้อนรหัสไปรษณีย์เป็นตัวเลขเท่านั้น",
+          numeric
+        ),
+      },
+      subDistrict: {
+        required: helpers.withMessage("ป้อนตำบลก่อน", required),
+      },
+      address: {
+        required: helpers.withMessage(
+          "ป้อนที่อยู่ที่สามารถติดต่อได้ก่อน",
+          required
+        ),
       },
     };
   },
-  components: {},
-  mounted() {},
 };
 </script>

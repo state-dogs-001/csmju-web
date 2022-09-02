@@ -211,9 +211,11 @@ export default {
       this.file = event.target.files[0];
       this.imgUrl = URL.createObjectURL(file);
     },
+
     listMenu() {
       this.$router.push({ name: "MaintainList" });
     },
+
     getEquipmentInfo() {
       http.get(`equipments/code/${this.equip_id}`).then((response) => {
         this.equip_arr_code = response.data.data[0];
@@ -222,6 +224,7 @@ export default {
         this.equip_price = this.equip_arr_code.Equipment_Price;
       });
     },
+
     clearForm() {
       this.equip_id = "";
       this.equip_name = "";
@@ -231,6 +234,7 @@ export default {
       this.imgUrl = "";
       this.file = null;
     },
+
     getProfile() {
       let local_user = JSON.parse(window.localStorage.getItem("user"));
       let email_cut = local_user.email;
@@ -253,6 +257,7 @@ export default {
         }
       });
     },
+
     submit() {
       this.v$.$validate();
       if (!this.v$.$error) {
@@ -342,10 +347,12 @@ export default {
       }
     },
   },
+
   mounted() {
     this.getEquipmentInfo();
     this.getProfile();
   },
+  
   validations() {
     return {
       equip_id: {

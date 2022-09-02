@@ -34,7 +34,13 @@
                     <div
                       class="relative flex flex-col w-full min-w-0 mb-6 break-words duration-150 ease-linear border rounded-lg shadow-lg max-h-news border-blueGray-300 hover:zoom-xs bg-blueGray-100"
                     >
-                      <router-link to="service/course">
+                      <button
+                        @click="
+                          profile != null
+                            ? goToPage('service/course')
+                            : popAlert()
+                        "
+                      >
                         <img
                           :src="cover1"
                           class="w-full cropped-service align-middle rounded-t-lg text-blueGray-500"
@@ -53,7 +59,7 @@
                             </h4>
                           </div>
                         </div>
-                      </router-link>
+                      </button>
                     </div>
                   </div>
                   <div
@@ -62,7 +68,13 @@
                     <div
                       class="relative flex flex-col w-full min-w-0 mb-6 break-words duration-150 ease-linear border rounded-lg shadow-lg max-h-news border-blueGray-300 hover:zoom-xs bg-blueGray-100"
                     >
-                      <router-link to="service/maintenance">
+                      <button
+                        @click="
+                          profile != null
+                            ? goToPage('service/maintenance')
+                            : popAlert()
+                        "
+                      >
                         <img
                           :src="cover2"
                           class="w-full cropped-service align-middle rounded-t-lg text-blueGray-500"
@@ -81,7 +93,7 @@
                             </h4>
                           </div>
                         </div>
-                      </router-link>
+                      </button>
                     </div>
                   </div>
                   <div
@@ -90,7 +102,13 @@
                     <div
                       class="relative flex flex-col w-full min-w-0 mb-6 break-words duration-150 ease-linear border rounded-lg shadow-lg max-h-news border-blueGray-300 hover:zoom-xs bg-blueGray-100"
                     >
-                      <router-link to="service/roomreserve">
+                      <button
+                        @click="
+                          profile != null
+                            ? goToPage('service/roomreserve')
+                            : popAlert()
+                        "
+                      >
                         <img
                           :src="cover3"
                           class="w-full cropped-service align-middle rounded-t-lg text-blueGray-500"
@@ -109,7 +127,7 @@
                             </h4>
                           </div>
                         </div>
-                      </router-link>
+                      </button>
                     </div>
                   </div>
                   <div
@@ -151,10 +169,13 @@
 </template>
 
 <script>
+//? Images
 import cover1 from "../../assets/images/enroll_class.png";
 import cover2 from "../../assets/images/repair.png";
 import cover3 from "../../assets/images/room_rent.png";
 import cover4 from "../../assets/images/activity.png";
+//? API
+import http from "../../services/WebpageService";
 export default {
   data() {
     return {
@@ -162,9 +183,51 @@ export default {
       cover2,
       cover3,
       cover4,
+
+      profile: null,
     };
   },
+
+  mounted() {
+    this.checkStudent();
+  },
+
   methods: {
+    checkStudent() {
+      let user = JSON.parse(localStorage.getItem("user"));
+      let citizenId = user.card_id;
+
+      http
+        .get(`student/search/citizen-id/${citizenId}`)
+        .then((res) => {
+          if (res.data.success) {
+            this.profile = res.data.data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
+    goToPage(page) {
+      this.$router.push(page);
+    },
+
+    popAlert() {
+      const Swal = this.$swal.mixin({
+        position: "center",
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
+      });
+      Swal.fire({
+        icon: "warning",
+        title: `กรุณากรอกข้อมูลส่วนตัวของท่านก่อนใช้งานระบบ`,
+      }).then(() => {
+        this.$router.push({ name: "StudentProfile" });
+      });
+    },
+
     dev() {
       const Swal = this.$swal.mixin({
         position: "center",

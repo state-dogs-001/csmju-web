@@ -1,12 +1,10 @@
 import axios from "axios";
 
-const authService = axios.create({
+const AuthService = axios.create({
   baseURL: import.meta.env.VITE_URL_API,
-  withCredentials: true,
   headers: {
-    "Content-type": "application/json",
     Accept: "application/json",
   },
 });
 
-export default authService;
+export default AuthService;

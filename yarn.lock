@@ -817,6 +817,11 @@
   dependencies:
     "utrie" "^1.0.2"
 
+"thai-data@^1.0.9":
+  "integrity" "sha512-vKTSV4utaYjY424PwJzYMCO9/bifXs1MJzISxms/m5MVRAs7FZbC8ScAO5m4KHY9pVbKiKQYhvjVu1pgXzOGGA=="
+  "resolved" "https://registry.npmjs.org/thai-data/-/thai-data-1.0.9.tgz"
+  "version" "1.0.9"
+
 "to-regex-range@^5.0.1":
   "integrity" "sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ=="
   "resolved" "https://registry.npmjs.org/to-regex-range/-/to-regex-range-5.0.1.tgz"

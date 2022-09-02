@@ -145,32 +145,35 @@
                           <label
                             class="block my-3 text-gray-700 text-md"
                             for="Dates"
-                            >อาจารย์ผู้รับผิดชอบ</label
+                            >บุคลากรผู้รับผิดชอบรายวิชา</label
                           >
                           <select
-                            v-if="showSelect"
                             v-model="advisor"
                             id="advisor"
                             class="w-full px-3 py-2 leading-tight text-gray-700"
+                            :class="s_type == '' ? 'bg-gray-200' : ''"
+                            :disabled="s_type == ''"
                           >
                             <option value="" selected disabled>
-                              รายชื่ออาจารย์ผู้รับผิดชอบ
+                              ผู้รับผิดชอบรายวิชา
                             </option>
-                            <option
-                              v-for="advisor in advisor_array"
-                              :key="advisor"
-                              :value="
-                                advisor.titlePosition +
-                                ' ' +
-                                advisor.name +
-                                ' ' +
-                                advisor.surname
-                              "
-                            >
-                              {{ advisor.titlePosition }}
-                              {{ advisor.firstName }}
-                              {{ advisor.lastName }}
-                            </option>
+                            <!-- วิชาใน -->
+                            <template v-if="teachers != null && s_type == 1">
+                              <option
+                                v-for="advisor in teachers"
+                                :key="advisor.id"
+                                :value="advisor.id"
+                              >
+                                {{ advisor.name_title }} {{ advisor.name_th }}
+                              </option>
+                            </template>
+
+                            <!-- วิชานอก -->
+                            <template v-if="staff != null && s_type == 2">
+                              <option :value="staff.id">
+                                {{ staff.name_title }} {{ staff.name_th }}
+                              </option>
+                            </template>
                           </select>
                           <div
                             v-if="v$.advisor.$error"
@@ -242,82 +245,71 @@ export default {
   data() {
     return {
       v$: useValidate(),
+
+      //? Image
       cover,
+
+      //? Form
       s_type: "",
       s_code: "",
       s_name: "",
       s_section: "",
       s_detail: "",
-      subject_arr: [],
-      advisor_array: [],
-
+      teachers: null,
+      staff: null,
       advisor: "",
-      profile: [],
 
-      showSelect: true,
-      showInput: false,
-
-      studentID: "",
-      fromCheck: null,
+      studentProfile: null,
     };
   },
 
   mounted() {
-    this.getPersonnals();
-    this.getProfile();
+    this.getStudent();
+    this.getTeacher();
+    this.getStaff();
   },
 
   methods: {
-    getSubject() {
-      console.log('test');
-      // if (this.s_type == "1") {
-      //   this.showSelect = true;
-      //   this.showInput = false;
-      //   http.get(`subject/code/${this.s_code}`).then((response) => {
-      //     console.log(response.data);
-      //     // this.subject_arr = response.data[0];
-      //     // if (this.s_code == "") {
-      //     //   this.s_name = "";
-      //     //   this.advisor = "";
-      //     // } else {
-      //     //   this.s_name =
-      //     //     this.subject_arr.Subject_NameTh +
-      //     //     ` (${this.subject_arr.Subject_NameEn})`;
-      //     // }
-      //   });
-      // } else if (this.s_type == "2") {
-      //   this.showSelect = false;
-      //   this.showInput = true;
-      // }
-    },
+    getStudent() {
+      let user = JSON.parse(localStorage.getItem("user"));
+      let citizenId = user.card_id;
 
-    getPersonnals() {
       http
-        .get(`personnel/teacher`)
-        .then((response) => {
-          this.advisor_array = response.data;
-        })
-        .catch((error) => {
-          if (error.response) {
-            if (error.response.status == 500) {
-              const Toast = this.$swal.mixin({
-                position: "center",
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true,
-              });
-
-              Toast.fire({
-                icon: "error",
-                title: "Connection Error",
-              });
-            }
+        .get(`student/search/citizen-id/${citizenId}`)
+        .then((res) => {
+          if (res.data.success) {
+            this.studentProfile = res.data.data;
           }
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
 
-    listMenu() {
-      this.$router.push({ name: "CourseAlertList" });
+    getTeacher() {
+      http
+        .get("personnel/filter/teacher")
+        .then((res) => {
+          if (res.data.success) {
+            this.teachers = res.data.data;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    getStaff() {
+      http
+        .get("/personnel/show/1")
+        .then((res) => {
+          if (res.data.success) {
+            this.staff = res.data.data;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
     clearForm() {
@@ -327,30 +319,6 @@ export default {
       this.s_section = "";
       this.s_detail = "";
       this.advisor = "";
-    },
-
-    getProfile() {
-      let local_user = JSON.parse(window.localStorage.getItem("user"));
-      let email_cut = local_user.email;
-      this.studentID = email_cut.slice(3, 13);
-      http.get(`student/${this.studentID}`).then((response) => {
-        this.profile = response.data.data[0];
-        this.fromCheck = response.data.from;
-
-        if (this.fromCheck != 1) {
-          const Swal = this.$swal.mixin({
-            position: "center",
-            showConfirmButton: false,
-            timer: 2500,
-            timerProgressBar: true,
-          });
-          Swal.fire({
-            icon: "warning",
-            title: `กรุณากรอกข้อมูลส่วนตัวของท่านก่อนใช้งานระบบ`,
-          });
-          this.$router.push({ name: "StudentProfile" });
-        }
-      });
     },
 
     handleSubmit() {
@@ -382,35 +350,17 @@ export default {
           })
           .then((result) => {
             if (result.isConfirmed) {
-              let mes = `${this.s_detail} \nรหัสวิชา : ${this.s_code} อาจารย์ผู้รับผิดชอบ : ${this.advisor}`;
               let data = new FormData();
-              data.append("Residaual_Detail", mes);
-              data.append("nameTh", this.profile.nameTh);
-              data.append("surnameTh", this.profile.surnameTh);
-              data.append("EmailStudent", this.profile.EmailStudent);
-              data.append("mobile", this.profile.mobile);
-              data.append("studentCode", this.studentID);
-              data.append("Subject60", this.s_code + " " + this.s_name);
-              let sec = "-";
-              if (this.s_type == "1") {
-                data.append("Sec_Internal", this.s_section);
-                data.append("Sec_Another", sec);
-                data.append(
-                  "Subject_Internal",
-                  `${this.s_name} (${this.s_code}) อาจารย์ผู้รับผิดชอบ : ${this.advisor}`
-                );
-                data.append("Subject_External", sec);
-              } else if (this.s_type == "2") {
-                data.append("Sec_Internal", sec);
-                data.append("Sec_Another", this.s_section);
-                data.append("Subject_Internal", sec);
-                data.append(
-                  "Subject_External",
-                  `${this.s_name} (${this.s_code}) อาจารย์ผู้รับผิดชอบ : ${this.advisor}`
-                );
-              }
+              let studentId = this.studentProfile.id;
+              data.append("subject_type", this.s_type);
+              data.append("subject_code", this.s_code);
+              data.append("subject_name", this.s_name);
+              data.append("section", this.s_section);
+              data.append("detail", this.s_detail);
+              data.append("student_id", studentId);
+              data.append("personnel_id", this.advisor);
               http
-                .post(`residaual/create`, data)
+                .post("/residual/new", data)
                 .then(() => {
                   swalWithBootstrapButtons
                     .fire(
@@ -463,7 +413,7 @@ export default {
         required: helpers.withMessage("ป้อนชื่อรายวิชาก่อน", required),
       },
       advisor: {
-        required: helpers.withMessage("ป้อนอาจารย์ผู้รับผิดชอบก่อน", required),
+        required: helpers.withMessage("เลือกผู้รับผิดชอบก่อน", required),
       },
       s_detail: {
         required: helpers.withMessage("ป้อนเหตุผลการยื่นคำร้องก่อน", required),

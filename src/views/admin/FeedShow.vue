@@ -12,41 +12,36 @@
             <br class="shadow-xl" />
             <div class="relative flex flex-col w-full min-w-0 mb-6 break-words">
               <!-- Header  -->
-              <div class="px-4 py-3 mb-0 border-0 rounded-t">
+              <div div class="px-4 py-3 mb-0 border-0 rounded-t">
                 <div class="flex flex-wrap items-center">
                   <div class="w-full px-4 font-bold text-md md:w-2/12">
-                    จำนวน {{ products.total }} รายการ
+                    จำนวน {{ total }} รายการ
                   </div>
 
+                  <!-- Search data -->
                   <div class="w-full px-4 py-4 md:w-6/12">
-                    <form @submit.prevent="onSubmit">
+                    <form @submit.stop.prevent="onSearch">
                       <input
                         v-model="keyword"
                         class="w-full py-2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-200 border-0 rounded-md"
                         type="text"
-                        placeholder="ป้อนประเภทข่าวที่ต้องการค้นหา เช่น ทั่วไป"
+                        placeholder="ป้อนคำที่ต้องการค้นหา เช่น หัวข้อข่าว เนื้อหาข่าว หรือประเภทข่าว"
                         aria-label="Search"
                       />
-                      <button
-                        @click="submitSearchForm"
-                        type="submit"
-                        class="hidden"
-                      >
-                        Submit
-                      </button>
                     </form>
                   </div>
 
+                  <!-- Buttons -->
                   <div class="w-full px-4 text-center md:w-4/12">
                     <button
-                      @click="submitSearchForm"
+                      @click="onSearch"
                       class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-lightBlue-500 active:bg-lightBlue-600 hover:shadow-md focus:outline-none"
                       type="button"
                     >
                       <i class="fas fa-search"></i> ค้นหา
                     </button>
                     <button
-                      @click="resetSearchForm"
+                      @click="resetSearch"
                       class="px-4 py-2 mb-1 mr-4 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
                       type="button"
                     >
@@ -92,7 +87,11 @@
                       >
                         ประเภท
                       </th>
-
+                      <th
+                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                      >
+                        สถานะการแสดง
+                      </th>
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
@@ -103,49 +102,69 @@
                   <tbody>
                     <tr
                       class="border-b"
-                      v-for="feed in products.data"
-                      :key="feed.newsId"
+                      v-for="(feed, index) in news"
+                      :key="index"
                     >
                       <td
                         class="p-4 px-6 text-sm align-middle whitespace-nowrap"
                       >
-                        {{ feed.newsId }}
+                        {{ (currentPage - 1) * perPage + index + 1 }}
                       </td>
+
                       <td
                         class="p-4 px-6 text-sm align-middle whitespace-nowrap"
                       >
                         <h5 class="w-48 font-semibold truncate text-md">
-                          {{ feed.News_Title }}
+                          {{ feed.title }}
                         </h5>
                         <p>
-                          เผยแพร่ : {{ feed.News_Date }} | {{ feed.News_Time }}
+                          เผยแพร่ :
+                          {{ new Date(feed.created_at).toDateString() }} | เวลา
+                          :
+                          {{
+                            new Date(feed.created_at).toString().split(" ")[4]
+                          }}
                         </p>
                       </td>
-                      <td class="p-4 px-2 text-sm align-middle">
+
+                      <td class="p-4 px-6 text-sm align-middle">
                         <div>
                           <p class="w-auto font-normal truncate-3">
-                            {{ feed.News_Detail }}
+                            {{ feed.detail }}
                           </p>
                         </div>
                       </td>
+
                       <td
                         class="p-4 px-6 text-sm align-middle whitespace-nowrap"
                       >
-                        {{ feed.News_Type }}
+                        {{ feed.type }}
+                      </td>
+
+                      <td
+                        class="p-4 px-6 text-sm text-center align-middle whitespace-nowrap"
+                      >
+                        <i
+                          :class="
+                            feed.is_show
+                              ? 'fas fa-eye text-emerald-500'
+                              : 'fas fa-eye-slash text-red-500'
+                          "
+                        ></i>
                       </td>
 
                       <td
                         class="p-4 px-6 text-xs align-middle whitespace-nowrap"
                       >
                         <button
-                          @click="Edit(feed.newsId)"
+                          @click="onUpdate(feed.id)"
                           class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
                           type="button"
                         >
                           <i class="fas fa-edit"></i>
                         </button>
                         <button
-                          @click="Delete(feed.newsId)"
+                          @click="onDelete(feed.id)"
                           class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
                           type="button"
                         >
@@ -156,7 +175,7 @@
                   </tbody>
                 </table>
 
-                <!-- แสดงผลตัวแบ่งหน้าเพจ-->
+                <!-- Paginate -->
                 <VueTailwindPagination
                   :current="currentPage"
                   :total="total"
@@ -180,62 +199,87 @@ import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
 export default {
   data() {
     return {
-      products: [],
+      //? Data
+      news: null,
+
+      //? Paginate
       currentPage: 0,
       perPage: 0,
       total: 0,
 
-      newsId: 0,
-      News_Detail: "",
-      News_Date: "",
-      News_Time: "",
-      News_Picture: "",
-      News_Title: "",
-      News_File: "",
-      News_links: "",
-      News_Type: "",
+      //? Search
+      keyword: "",
     };
   },
-  methods: {
-    Edit(id) {
-      this.$router.push({ name: "EditFeed" });
-      this.$store.state.newsEdit = id;
-    },
-    /***********************************************************************
-     * ส่วนของการอ่านข้อมูลจาก API และแสดงผลในตาราง
-     ************************************************************************/
-    // ฟังก์ชันสำหรับดึงรายการสินค้าจาก api ทั้งหมด
-    async getProducts(pageNumber) {
-      let response = await http.get(`news?page=${pageNumber}`);
-      let responseProduct = response.data;
-      this.products = responseProduct;
 
-      this.currentPage = responseProduct.current_page;
-      this.perPage = responseProduct.per_page;
-      this.total = responseProduct.total;
-      this.products.data.reverse();
-    },
-    // ฟังก์ชันสำหรับดึงรายการสินค้าจาก api เมื่อมีการค้นหา (search)
-    async getProductsSearch(pageNumber) {
-      let response = await http.get(`news/${this.keyword}?page=${pageNumber}`);
-      let responseProduct = response.data;
-      this.products = responseProduct;
-      this.currentPage = responseProduct.current_page;
-      this.perPage = responseProduct.per_page;
-      this.total = responseProduct.total;
-    },
-    // สร้างฟังก์ชันสำหรับการคลิ๊กเปลี่ยนหน้า
-    onPageClick(event) {
-      this.currentPage = event;
-      // เช็คว่ามีการค้นหาสินค้าอยู่หรือไม่
-      if (this.keyword == "") {
-        // ไม่ได้ค้นหา
-        this.getProducts(this.currentPage);
-      } else {
-        this.getProductsSearch(this.currentPage);
+  components: { VueTailwindPagination },
+
+  watch: {
+    keyword(val) {
+      if (!val) {
+        this.currentPage = 1;
+        this.getNews(this.currentPage);
       }
     },
-    Delete(id) {
+  },
+
+  mounted() {
+    this.currentPage = 1;
+    this.getNews(this.currentPage);
+  },
+
+  methods: {
+    //? Get news
+    async getNews(pageNumber) {
+      let news = await http.get(`news/private?page=${pageNumber}`);
+      if (news) {
+        let data = news.data;
+        this.news = data.data;
+        this.currentPage = data.current_page;
+        this.perPage = data.per_page;
+        this.total = data.total;
+      }
+    },
+
+    //? Search function
+    async onSearch(pageNumber) {
+      let news = await http.get(
+        `news/search/private/${this.keyword}?page=${pageNumber}`
+      );
+      if (news) {
+        let data = news.data;
+        this.news = data.data;
+        this.currentPage = data.current_page;
+        this.perPage = data.per_page;
+        this.total = data.total;
+      }
+    },
+
+    //? Reset search form
+    resetSearch() {
+      this.currentPage = 1;
+      this.getNews(this.currentPage);
+      this.keyword = "";
+    },
+
+    //? Paginate
+    onPageClick(event) {
+      this.currentPage = event;
+      if (this.keyword == "") {
+        this.getNews(this.currentPage);
+      } else {
+        this.onSearch(this.currentPage);
+      }
+    },
+
+    //? Update function
+    onUpdate(id) {
+      this.$router.push({ name: "EditFeed", params: { id: id } });
+    },
+
+    //? Delete function
+    onDelete(id) {
+      //? Set default sweet alert
       const swalWithBootstrapButtons = this.$swal.mixin({
         customClass: {
           title: "font-weight-bold",
@@ -246,6 +290,8 @@ export default {
         },
         buttonsStyling: false,
       });
+
+      //? Confirmation from user
       swalWithBootstrapButtons
         .fire({
           title: "ยืนยันการลบข้อมูล",
@@ -257,47 +303,33 @@ export default {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            http.delete(`news/delete/${id}`).then(() => {
-              swalWithBootstrapButtons
-                .fire("ลบข้อมูลเรียบร้อย!", "", "success")
-                .then(() => {
-                  window.location.reload();
-                });
-            });
+            //? Call API
+            http
+              .post(`news/delete/${id}`)
+              .then(() => {
+                swalWithBootstrapButtons
+                  .fire("ลบข้อมูลเรียบร้อย!", "", "success")
+                  .then(() => {
+                    window.location.reload();
+                  });
+              })
+              .catch((err) => {
+                if (err) {
+                  swalWithBootstrapButtons.fire({
+                    icon: "error",
+                    title: "ขออภัย ทำรายการไม่สำเร็จ",
+                  });
+                }
+              });
           } else if (result.dismiss === this.$swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire(
               "ยกเลิกการลบข้อมูลเรียบร้อย!",
               "",
               "error"
             );
-            window.location.reload();
           }
         });
     },
-    submitSearchForm() {
-      if (this.keyword != "") {
-        // เรียกค้นไปยัง api ของ laravel
-        http.get(`news/${this.keyword}`).then((response) => {
-          let responseProduct = response.data;
-          this.products = responseProduct;
-          this.currentPage = responseProduct.current_page;
-          this.perPage = responseProduct.per_page;
-          this.total = responseProduct.total;
-        });
-      } else {
-        this.$swal.fire("ป้อนข่าวที่ต้องการค้นหาก่อน");
-      }
-    },
-    resetSearchForm() {
-      this.currentPage = 1;
-      this.getProducts(this.currentPage);
-      this.keyword = "";
-    },
-  },
-  components: { VueTailwindPagination },
-  mounted() {
-    this.currentPage = 1;
-    this.getProducts(this.currentPage);
   },
 };
 </script>

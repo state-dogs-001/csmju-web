@@ -5,6 +5,7 @@ const store = createStore({
     newsShowAll: 0,
     albumShowAll: 0,
 
+    bannerEdit: 0,
     newsEdit: 0,
     alumnusEdit: 0,
     StudentEdit: 0,

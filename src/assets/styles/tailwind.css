@@ -783,6 +783,13 @@ select:focus {
   border-color: #2563eb;
 }
 
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none; 
+}
+
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
   color: #71717a;
@@ -1715,6 +1722,11 @@ select {
 .active\:bg-blueGray-50:active {
   --tw-bg-opacity: 1;
   background-color: rgba(248, 250, 252, var(--tw-bg-opacity));
+}
+
+.active\:bg-red-600:active {
+  --tw-bg-opacity: 1;
+  background-color: rgba(220, 38, 38, var(--tw-bg-opacity));
 }
 
 .rectangle {
@@ -3785,6 +3797,11 @@ select {
   color: rgba(24, 24, 27, var(--tw-text-opacity));
 }
 
+.text-placeholder {
+  --tw-text-opacity: 1;
+  color: rgba(113, 113, 122, var(--tw-text-opacity));
+}
+
 .text-blueGray-100 {
   --tw-text-opacity: 1;
   color: rgba(241, 245, 249, var(--tw-text-opacity));
@@ -3859,6 +3876,7 @@ select {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .truncate-3 {
   overflow: hidden;
 
@@ -4102,6 +4120,9 @@ select {
 }
 .w-48 {
   width: 12rem;
+}
+.w-56 {
+  width: 14rem;
 }
 .w-64 {
   width: 28rem;

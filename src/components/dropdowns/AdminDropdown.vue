@@ -5,7 +5,7 @@
         <h4 class="px-4 font-semibold leading-normal text-md text-blueGray-500">
           ผู้ดูแลระบบ |
           <span class="text-lg text-blueGray-700">
-            {{ this.introduction }} {{ this.firstname }} {{ this.lastname }}
+            {{ this.title }} {{ this.name }}
           </span>
         </h4>
       </div>
@@ -71,43 +71,27 @@ export default {
     return {
       dropdownPopoverShow: false,
 
-      personnel_array: [],
       image: "",
-      introduction: "",
-      firstname: "",
-      lastname: "",
+      title: "",
+      name: "",
     };
   },
 
   methods: {
-    getPersonnelData() {
+    getUser() {
+      let user = JSON.parse(localStorage.getItem("user"));
+      let citizenId = user.user.citizen_id;
       http
-        .get(`personnel/id/17`)
-        .then((response) => {
-          this.personnel_array = response.data;
-          //Get data from API
-          this.introduction = this.personnel_array.titlePosition;
-          this.firstname = this.personnel_array.firstName;
-          this.lastname = this.personnel_array.lastName;
-          this.image = this.personnel_array.personnelPhoto;
-        })
-        .catch((error) => {
-          if (error.response) {
-            if (error.response.status == 500) {
-              //Call Sweet Alert
-              const Toast = this.$swal.mixin({
-                position: "center",
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true,
-              });
-
-              Toast.fire({
-                icon: "error",
-                title: "Connection Error",
-              });
-            }
+        .get(`personnel/search/citizen-id/${citizenId}`)
+        .then((res) => {
+          if (res.data.success) {
+            this.image = res.data.data.image_profile;
+            this.title = res.data.data.name_title;
+            this.name = res.data.data.name_th;
           }
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
 
@@ -122,22 +106,52 @@ export default {
         });
       }
     },
+
     close(e) {
       if (!this.$el.contains(e.target)) {
         this.dropdownPopoverShow = false;
       }
     },
+
     onClickLogout() {
-      localStorage.removeItem("user");
-      localStorage.removeItem("permission");
-      this.$router.push({ name: "Login" });
+      http
+        .post("auth/signout")
+        .then((res) => {
+          let success = res.data.success;
+          let msg = res.data.message;
+          const Swal = this.$swal.mixin({
+            position: "center",
+            showConfirmButton: false,
+            timer: 800,
+            timerProgressBar: true,
+            customClass: {
+              title: "font-semibold custom text-blueGray-600",
+            },
+          });
+
+          if (success) {
+            Swal.fire({
+              icon: "success",
+              title: msg,
+            }).then(() => {
+              localStorage.removeItem("user");
+              localStorage.removeItem("permission");
+              this.$router.push({ name: "Login" });
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 
   mounted() {
+    this.getUser();
+
     document.addEventListener("click", this.close);
-    this.getPersonnelData();
   },
+
   beforeDestroy() {
     document.removeEventListener("click", this.close);
   },
