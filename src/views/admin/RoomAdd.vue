@@ -15,113 +15,198 @@
             </div>
             <div class="text-center">
               <h1 class="py-6 text-3xl font-bold border-b">
-                CSMJU | เพิ่มข้อมูลห้องเรียน
+                CSMJU | เพิ่มข้อมูลห้อง
               </h1>
             </div>
 
             <br class="shadow-xl border-t" />
 
-            <form @submit.prevent="onSubmit" enctype="multipart/form-data">
+            <form @submit.stop.prevent="onSubmit" enctype="multipart/form-data">
+              <!-- Room id -->
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-4/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >รหัสห้องเรียน</label
+                    >รหัสห้อง <span class="text-red-500">*</span></label
                   >
                   <input
-                    v-model="Classroom_Number"
+                    v-model="roomId"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="text"
-                    maxlength="8"
-                    placeholder="Classroom Code"
+                    placeholder="Room ID"
                   />
                   <div
-                    v-if="v$.Classroom_Number.$error"
+                    v-if="v$.roomId.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Classroom_Number.$errors[0].$message }}
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-wrap mb-4 mt-8">
-                <div class="w-full px-4 md:w-8/12">
-                  <label class="block my-3 text-gray-700 text-md"
-                    >ชื่อห้องเรียน</label
-                  >
-                  <input
-                    v-model="Classroom_Name"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
-                    type="text"
-                    placeholder="Classroom Name"
-                  />
-                  <div
-                    v-if="v$.Classroom_Name.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
-                    {{ v$.Classroom_Name.$errors[0].$message }}
-                  </div>
-                </div>
-                <div class="w-full px-4 md:w-4/12">
-                  <label class="block my-3 text-gray-700 text-md"
-                    >ประเภทห้องเรียน</label
-                  >
-                  <select
-                    v-model="Classroom_Type"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
-                  >
-                    <option value="ห้องบรรยาย">ห้องบรรยาย</option>
-                    <option value="ห้องปฏิบัติการ">ห้องปฏิบัติการ</option>
-                    <option value="ห้องประชุม">ห้องประชุม</option>
-                    <option value="อื่น ๆ">อื่น ๆ</option>
-                  </select>
-                  <div
-                    v-if="v$.Classroom_Type.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
-                    {{ v$.Classroom_Type.$errors[0].$message }}
+                    {{ v$.roomId.$errors[0].$message }}
                   </div>
                 </div>
               </div>
 
-              <div class="flex flex-wrap mb-4">
-                <div class="w-full px-4 md:w-2/12">
+              <!-- Room name -->
+              <div class="flex flex-wrap mb-4 mt-8">
+                <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >จำนวนที่นั่ง</label
+                    >ชื่อห้องภาษาไทย <span class="text-red-500">*</span></label
+                  >
+                  <input
+                    v-model="roomNameTh"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    type="text"
+                    placeholder="Room Name (Thai)"
+                  />
+                  <div
+                    v-if="v$.roomNameTh.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.roomNameTh.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <div class="w-full px-4 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >ชื่อห้องภาษาอังกฤษ</label
+                  >
+                  <input
+                    v-model="roomNameEn"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    type="text"
+                    placeholder="Room Name (English)"
+                  />
+                </div>
+              </div>
+
+              <!-- Detail -->
+              <div class="flex flex-wrap mb-4">
+                <!-- Room type -->
+                <div class="w-full px-4 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >ประเภทของห้อง <span class="text-red-500">*</span></label
                   >
                   <select
-                    v-model="Classroom_sit"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    v-model="roomType"
+                    class="w-full px-3 py-2 leading-tight"
+                    :class="
+                      roomType == '' ? 'text-placeholder' : 'text-gray-700'
+                    "
                   >
-                    <option v-for="i in 200" :key="i" :value="i">
-                      {{ i }}
+                    <option value="" disabled selected>Room type</option>
+                    <option
+                      class="text-gray-700"
+                      v-for="type in roomTypes"
+                      :key="type.id"
+                      :value="type.id"
+                    >
+                      {{ type.type_room }}
                     </option>
                   </select>
                   <div
-                    v-if="v$.Classroom_sit.$error"
+                    v-if="v$.roomType.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Classroom_sit.$errors[0].$message }}
+                    {{ v$.roomType.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <!-- Amount Seat -->
+                <div class="w-full px-4 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >จำนวนที่นั่ง</label
+                  >
+                  <input
+                    v-model="amountSeat"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    type="text"
+                    placeholder="Amount Seat"
+                  />
+                </div>
+              </div>
+
+              <!-- Location -->
+              <div class="flex flex-wrap mb-4">
+                <!-- Building -->
+                <div class="w-full px-4 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >ตำแหน่งที่ตั้ง / อาคาร
+                    <span class="text-red-500">*</span></label
+                  >
+                  <select
+                    v-model="building"
+                    class="w-full px-3 py-2 leading-tight"
+                    :class="
+                      building == '' ? 'text-placeholder' : 'text-gray-700'
+                    "
+                  >
+                    <option value="" selected disabled>Building</option>
+                    <option
+                      class="text-gray-700"
+                      v-for="building in buildings"
+                      :key="building.id"
+                      :value="building.id"
+                    >
+                      {{ building.building }}
+                    </option>
+                  </select>
+                  <div
+                    v-if="v$.building.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.building.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <!-- Floor -->
+                <div class="w-full px-4 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >ชั้นที่ <span class="text-red-500">*</span></label
+                  >
+                  <input
+                    v-model="floor"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    type="text"
+                    placeholder="Floor"
+                  />
+                  <div v-if="v$.floor.$error" class="mt-2 text-sm text-red-500">
+                    {{ v$.floor.$errors[0].$message }}
                   </div>
                 </div>
               </div>
+
+              <!-- Care taker -->
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >ตำแหน่งที่ตั้ง / อาคาร</label
+                    >ผู้รับผิดชอบ / ดูแลห้อง
+                    <span class="text-red-500">*</span></label
                   >
-                  <textarea
-                    v-model="Classroom_Detail"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
-                    rows="5"
-                    placeholder="Classroom Location"
-                  ></textarea>
+                  <select
+                    v-model="careTaker"
+                    class="w-full px-3 py-2 leading-tight"
+                    :class="
+                      careTaker == '' ? 'text-placeholder' : 'text-gray-700'
+                    "
+                  >
+                    <option value="" selected disabled>Care Taker</option>
+                    <option class="text-gray-500" value="58">-</option>
+                    <option
+                      class="text-gray-500"
+                      v-for="person in personnels"
+                      :key="person.id"
+                      :value="person.id"
+                    >
+                      {{ person.name_title }}{{ person.name_th }}
+                    </option>
+                  </select>
                   <div
-                    v-if="v$.Classroom_Detail.$error"
+                    v-if="v$.careTaker.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Classroom_Detail.$errors[0].$message }}
+                    {{ v$.careTaker.$errors[0].$message }}
                   </div>
                 </div>
               </div>
+
+              <!-- Image -->
               <div class="flex flex-wrap mb-2">
                 <div class="w-full px-4 md:w-12/12">
                   <div class="mt-4">
@@ -143,12 +228,21 @@
                   />
                 </div>
               </div>
+
+              <!-- Buttons -->
               <div class="py-6 text-center">
                 <button
-                  @click="submitFormAdd"
-                  class="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                  @click="onResetForm"
+                  class="px-6 py-4 mr-2 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow-lg outline-none bg-red-500 active:bg-red-600 hover:shadow-lg focus:outline-none"
                   type="button"
                 >
+                  <i class="fas fa-broom"></i> ล้าง
+                </button>
+                <button
+                  class="px-6 py-4 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow-lg outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                  type="submit"
+                >
+                  <i class="fas fa-save"></i>
                   บันทึกข้อมูล
                 </button>
               </div>
@@ -165,75 +259,176 @@
 import http from "../../services/APIService";
 //? Packages
 import useValidate from "@vuelidate/core";
-import { required, helpers } from "@vuelidate/validators";
+import { required, numeric, helpers } from "@vuelidate/validators";
 export default {
   data() {
     return {
       v$: useValidate(),
+      //? Data
+      roomTypes: null,
+      buildings: null,
+      personnels: null,
 
-      id: "",
-
-      Classroom_Name: "",
-      Classroom_Type: "",
-      Classroom_Number: "",
-      Classroom_sit: 0,
-      Classroom_Detail: "",
-      Classroom_Images: "",
-
-      imgUrl: "",
+      //? Form
+      roomId: "",
+      roomNameTh: "",
+      roomNameEn: "",
+      roomType: "",
+      floor: "",
+      building: "",
+      careTaker: "",
+      amountSeat: "",
       file: null,
+
+      //? Image
+      imgUrl: "",
     };
   },
+
+  mounted() {
+    this.getBuilding();
+    this.getRoomType();
+    this.getPersonnels();
+  },
+
   methods: {
+    //? Get Buliding
+    async getBuilding() {
+      let building = await http.get("room/building");
+      if (building) {
+        this.buildings = building.data.data;
+      }
+    },
+
+    //? Get Room Type
+    async getRoomType() {
+      let roomType = await http.get("room/type");
+      if (roomType) {
+        this.roomTypes = roomType.data.data;
+      }
+    },
+
+    //? Get Personnels
+    async getPersonnels() {
+      let personnels = await http.get("personnels/all");
+      if (personnels) {
+        this.personnels = personnels.data.data;
+      }
+    },
+
+    //? Upload Image
     onFileChange(e) {
       const file = e.target.files[0];
       this.file = e.target.files[0];
       this.imgUrl = URL.createObjectURL(file);
     },
-    submitFormAdd() {
+
+    //? Submit Form
+    onSubmit() {
       this.v$.$validate();
       if (!this.v$.$error) {
         let data = new FormData();
-        data.append("Classroom_Name", this.Classroom_Name);
-        data.append("Classroom_Type", this.Classroom_Type);
-        data.append("Classroom_Number", this.Classroom_Number);
-        data.append("Classroom_sit", this.Classroom_sit);
-        data.append("Classroom_Detail", this.Classroom_Detail);
-        data.append("Classroom_Images", this.file);
-        http.post(`classroom/create`, data).then(() => {
-          const Toast = this.$swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-          });
-          Toast.fire({
-            icon: "success",
-            title: "เพิ่มข้อมูลเรียบร้อย",
-          }).then(() => {
-            this.$router.push({ name: "RoomShow" });
-          });
+        data.append("room_id", this.roomId);
+        data.append("room_name_th", this.roomNameTh);
+        data.append("type_room_id", this.roomType);
+        data.append("building_id", this.building);
+        data.append("floor", this.floor);
+        data.append("personnel_id", this.careTaker);
+
+        if (this.roomNameEn !== "") {
+          data.append("room_name_en", this.roomNameEn);
+        } else {
+          data.append("room_name_en", "");
+        }
+
+        if (this.amountSeat !== "") {
+          data.append("amount_seat", this.amountSeat);
+        } else {
+          data.append("amount_seat", "");
+        }
+
+        if (this.file !== null) {
+          data.append("image", this.file);
+        } else {
+          data.append("image", "");
+        }
+
+        //? Set default sweet alert
+        const Toast = this.$swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
         });
+
+        //? Send data to API
+        http
+          .post("room/new", data)
+          .then((res) => {
+            if (res.data.success) {
+              let msg = res.data.message;
+              Toast.fire({
+                icon: "success",
+                title: msg,
+              }).then(() => {
+                this.$router.push({ name: "RoomShow" });
+              });
+            }
+          })
+          .catch((err) => {
+            if (err) {
+              Toast.fire({
+                icon: "error",
+                title: "ขออภัย ทำรายการไม่สำเร็จ",
+              });
+            }
+          });
       }
     },
+
+    //? Reset Form
+    onResetForm() {
+      this.v$.$reset();
+      this.roomId = "";
+      this.roomNameTh = "";
+      this.roomNameEn = "";
+      this.roomType = "";
+      this.floor = "";
+      this.building = "";
+      this.careTaker = "";
+      this.amountSeat = "";
+      this.file = null;
+      this.imgUrl = "";
+      this.$refs.fileupload.value = null;
+    },
   },
+
   validations() {
     return {
-      Classroom_Name: {
-        required: helpers.withMessage("ป้อนชื่อห้องเรียนก่อน", required),
+      roomId: {
+        required: helpers.withMessage("ป้อนรหัสห้องก่อน", required),
       },
-      Classroom_Type: {
-        required: helpers.withMessage("ป้อนประเภทห้องเรียนก่อน", required),
+
+      roomNameTh: {
+        required: helpers.withMessage("ป้อนชื่อห้องก่อน", required),
       },
-      Classroom_Number: {
-        required: helpers.withMessage("ป้อนรหัสห้องเรียนก่อน", required),
+
+      roomType: {
+        required: helpers.withMessage("เลือกประเภทห้องก่อน", required),
       },
-      Classroom_sit: {
-        required: helpers.withMessage("ป้อนจำนวนที่นั่งก่อน", required),
+
+      floor: {
+        required: helpers.withMessage("ป้อนชั้นก่อน", required),
+        numeric: helpers.withMessage("ป้อนตัวเลขเท่านั้น", numeric),
       },
-      Classroom_Detail: {
-        required: helpers.withMessage("ป้อนรายละเอียดห้องเรียนก่อน", required),
+
+      building: {
+        required: helpers.withMessage("เลือกอาคารก่อน", required),
+      },
+
+      careTaker: {
+        required: helpers.withMessage("เลือกผู้ดูแลก่อน", required),
       },
     };
   },

@@ -7,9 +7,7 @@
         <div class="container mx-auto">
           <div class="px-6">
             <div class="mt-6 text-center">
-              <h1 class="py-6 text-3xl font-bold">
-                CSMJU | การแสดงข้อมูลห้องเรียน
-              </h1>
+              <h1 class="py-6 text-3xl font-bold">CSMJU | การแสดงข้อมูลห้อง</h1>
             </div>
             <br class="shadow-xl" />
             <div class="relative flex flex-col w-full min-w-0 mb-6 break-words">
@@ -17,38 +15,31 @@
               <div class="px-4 py-3 mb-0 border-0 rounded-t">
                 <div class="flex flex-wrap items-center">
                   <div class="w-full px-4 font-semibold text-md md:w-2/12">
-                    จำนวน {{ this.total }} รายการ
+                    จำนวน {{ total }} รายการ
                   </div>
 
                   <div class="w-full px-4 py-4 md:w-6/12">
-                    <form @submit.prevent="onSubmit">
+                    <form @submit.stop.prevent="onSearch">
                       <input
                         v-model="keyword"
                         class="w-full py-2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-200 border-0 rounded-md"
                         type="text"
-                        placeholder="ป้อนประเภทห้องเรียนที่ต้องการค้นหา เช่น ห้องบรรยาย"
+                        placeholder="ป้อนคำที่ต้องการค้นหา เช่น รหัสห้อง ชื่อห้อง หรือประเภทของห้อง"
                         aria-label="Search"
                       />
-                      <button
-                        @click="submitSearchForm"
-                        type="submit"
-                        class="hidden"
-                      >
-                        Submit
-                      </button>
                     </form>
                   </div>
 
                   <div class="w-full px-4 text-center md:w-4/12">
                     <button
-                      @click="submitSearchForm"
+                      @click="onSearch"
                       class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-lightBlue-500 active:bg-lightBlue-600 hover:shadow-md focus:outline-none"
                       type="button"
                     >
                       <i class="fas fa-search"></i> ค้นหา
                     </button>
                     <button
-                      @click="resetSearchForm"
+                      @click="resetSearch"
                       class="px-4 py-2 mb-1 mr-4 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
                       type="button"
                     >
@@ -103,17 +94,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr
-                      v-for="room in products"
-                      :key="room.ClassroomId"
-                      class="border-b"
-                    >
+                    <tr v-for="room in rooms" :key="room.id" class="border-b">
                       <td
                         class="w-5 p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                       >
                         <div>
                           <p class="w-12 font-normal">
-                            {{ room.Classroom_Number }}
+                            {{ room.room_id }}
                           </p>
                         </div>
                       </td>
@@ -124,14 +111,16 @@
                           class="flex items-center text-xs text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                         >
                           <img
-                            :src="room.Classroom_Images"
-                            alt="..."
-                            class="w-20 h-20 rounded-lg shadow-lg border-2"
+                            :src="room.image == null ? imageNull : room.image"
+                            class="w-20 h-auto rounded-lg shadow-lg border-2"
                           />
                           <span class="ml-3 text-sm font-semibold">
-                            {{ room.Classroom_Name }}
-                            <div class="text-sm font-normal text-emerald-600">
-                              จำนวน {{ room.Classroom_sit }} ที่นั่ง
+                            {{ room.room_name_th }}
+                            <div
+                              class="text-sm font-normal text-emerald-600"
+                              v-if="room.amount_seat != null"
+                            >
+                              จำนวน {{ room.amount_seat }} ที่นั่ง
                             </div>
                           </span>
                         </div>
@@ -141,7 +130,7 @@
                       >
                         <div class="w-48">
                           <p class="font-normal truncate-3">
-                            {{ room.Classroom_Type }}
+                            {{ room.type_room }}
                           </p>
                         </div>
                       </td>
@@ -150,7 +139,7 @@
                       >
                         <div>
                           <p class="w-48 font-normal truncate-3">
-                            {{ room.Classroom_Detail }}
+                            ชั้น {{ room.floor }} {{ room.building }}
                           </p>
                         </div>
                       </td>
@@ -159,14 +148,14 @@
                         class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                       >
                         <button
-                          @click="Edit(room.ClassroomId)"
+                          @click="onUpdate(room.id)"
                           class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
                           type="button"
                         >
                           <i class="fas fa-edit"></i>
                         </button>
                         <button
-                          @click="onclickDelete(room.ClassroomId)"
+                          @click="onDelete(room.id)"
                           class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
                           type="button"
                         >
@@ -176,6 +165,14 @@
                     </tr>
                   </tbody>
                 </table>
+
+                <!-- Paginate -->
+                <VueTailwindPagination
+                  :current="currentPage"
+                  :total="total"
+                  :per-page="perPage"
+                  @page-changed="onPageClick($event)"
+                />
               </div>
             </div>
           </div>
@@ -188,96 +185,142 @@
 <script>
 //?  API
 import http from "../../services/APIService";
+//? Package
+import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
+//? Image
+import imageNull from "../../assets/images/logo.png";
 export default {
   data() {
     return {
-      products: [],
+      //? Image
+      imageNull,
+
+      //? Data
+      rooms: null,
+
+      //? Paginate
       total: 0,
+      perPage: 0,
+      currentPage: 0,
+
+      //? Search
+      keyword: "",
     };
   },
-  methods: {
-    Edit(id) {
-      this.$router.push({ name: "RoomEdit" });
-      this.$store.state.roomEdit = id;
-    },
-    async getProducts() {
-      let response = await http.get(`classroom`);
-      let responseProduct = response.data;
-      this.products = responseProduct;
-      this.total = responseProduct.length;
-    },
-    async getProductsSearch(pageNumber) {
-      let response = await http.get(
-        `classroom/${this.keyword}?page=${pageNumber}`
-      );
-      let responseProduct = response.data;
-      this.products = responseProduct;
-      this.currentPage = responseProduct.current_page;
-      this.perPage = responseProduct.per_page;
-      this.total = responseProduct.total;
-    },
-    onPageClick(event) {
-      this.currentPage = event;
-      if (this.keyword == "") {
-        this.getProducts(this.currentPage);
-      } else {
-        this.getProductsSearch(this.currentPage);
+
+  components: { VueTailwindPagination },
+
+  watch: {
+    keyword(val) {
+      if (!val) {
+        this.currentPage = 1;
+        this.getRooms(this.currentPage);
       }
-    },
-    onclickDelete(id) {
-      this.$swal
-        .fire({
-          title: "ยืนยันการลบรายการนี้",
-          showDenyButton: false,
-          showCancelButton: true,
-          confirmButtonText: `ยืนยัน`,
-          cancelButtonText: `ปิดหน้าต่าง`,
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            http
-              .delete(`classroom/delete/${id}`)
-              .then(() => {
-                this.$swal.fire("ลบรายการเรียบร้อย!", "", "success");
-                window.location.reload();
-                if (this.keyword == "") {
-                  this.getProducts(this.currentPage);
-                } else {
-                  this.getProductsSearch(this.currentPage);
-                }
-              })
-              .catch((error) => {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-              });
-          }
-        });
-    },
-    submitSearchForm() {
-      if (this.keyword != "") {
-        http.get(`classroom/${this.keyword}`).then((response) => {
-          let responseProduct = response.data;
-          this.products = responseProduct;
-          this.currentPage = responseProduct.current_page;
-          this.perPage = responseProduct.per_page;
-          this.total = responseProduct.total;
-        });
-      } else {
-        this.$swal.fire("ป้อนประเภทห้องเรียนที่ต้องการค้นหาก่อน");
-      }
-    },
-    resetSearchForm() {
-      this.currentPage = 1;
-      this.getProducts(this.currentPage);
-      this.keyword = "";
     },
   },
 
   mounted() {
     this.currentPage = 1;
+    this.getRooms(this.currentPage);
+  },
 
-    this.getProducts(this.currentPage);
+  methods: {
+    //? Get rooms
+    async getRooms(pageNumber) {
+      let rooms = await http.get(`rooms?page=${pageNumber}`);
+      if (rooms) {
+        let data = rooms.data;
+        this.rooms = data.data;
+        this.currentPage = data.current_page;
+        this.perPage = data.per_page;
+        this.total = data.total;
+      }
+    },
+
+    //? Search function
+    async onSearch(pageNumber) {
+      let rooms = await http.get(
+        `room/search/${this.keyword}?page=${pageNumber}`
+      );
+      if (rooms) {
+        let data = rooms.data;
+        this.rooms = data.data;
+        this.currentPage = data.current_page;
+        this.perPage = data.per_page;
+        this.total = data.total;
+      }
+    },
+
+    //? Reset search
+    resetSearch() {
+      this.keyword = "";
+      this.currentPage = 1;
+      this.getRooms(this.currentPage);
+    },
+
+    //? Paginate
+    onPageClick(event) {
+      this.currentPage = event;
+
+      if (this.keyword == "") {
+        this.getRooms(this.currentPage);
+      } else {
+        this.onSearch(this.currentPage);
+      }
+    },
+
+    //? Update function
+    onUpdate(id) {
+      this.$router.push({ name: "RoomEdit", params: { id: id } });
+    },
+
+    //? Delete function
+    onDelete(id) {
+      //? Set default sweet alert
+      const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          title: "font-weight-bold",
+          confirmButton:
+            "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+          cancelButton:
+            "px-6 py-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+        },
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons
+        .fire({
+          title: "ยืนยันการลบข้อมูล",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "ยืนยัน",
+          cancelButtonText: "ยกเลิก",
+          reverseButtons: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            http
+              .post(`room/delete/${id}`)
+              .then(() => {
+                swalWithBootstrapButtons
+                  .fire("ลบข้อมูลเรียบร้อย!", "", "success")
+                  .then(() => {
+                    window.location.reload();
+                  });
+              })
+              .catch((error) => {
+                if (error) {
+                  swalWithBootstrapButtons.fire({
+                    icon: "error",
+                    title: "ขออภัย ทำรายการไม่สำเร็จ",
+                  });
+                }
+              });
+          } else {
+            swalWithBootstrapButtons.fire("ยกเลิกการลบข้อมูล", "", "error");
+          }
+        });
+    },
   },
 };
 </script>

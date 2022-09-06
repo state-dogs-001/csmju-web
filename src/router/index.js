@@ -341,7 +341,7 @@ const routes = [
         component: RoomAdd,
       },
       {
-        path: "/admin/roomedit",
+        path: "/admin/roomedit/:id",
         name: "RoomEdit",
         component: RoomEdit,
       },

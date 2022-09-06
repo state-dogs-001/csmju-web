@@ -351,7 +351,6 @@ export default {
     return {
       v$: useValidate(),
 
-      //?  Get id form url
       studentId: this.$route.params.id,
 
       citizenId: "",

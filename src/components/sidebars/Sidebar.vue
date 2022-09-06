@@ -119,7 +119,7 @@
               </a>
             </router-link>
           </li>
-          <li class="items-center">
+          <!-- <li class="items-center">
             <router-link
               to="/admin/aboutmeshow"
               v-slot="{ href, navigate, isActive }"
@@ -141,7 +141,7 @@
                 การแสดงข้อมูลเกี่ยวกับเรา
               </a>
             </router-link>
-          </li>
+          </li> -->
           <li class="items-center">
             <router-link
               to="/admin/subjectshow"
@@ -184,7 +184,7 @@
                   class="mr-2 text-sm fas fa-building"
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
-                การแสดงข้อมูลห้องเรียน
+                การแสดงข้อมูลห้อง
               </a>
             </router-link>
           </li>
@@ -344,7 +344,7 @@
               </a>
             </router-link>
           </li>
-          <li class="items-center">
+          <!-- <li class="items-center">
             <router-link
               to="/admin/bookingshow"
               v-slot="{ href, navigate, isActive }"
@@ -366,7 +366,7 @@
                 ระบบจองห้องเรียน
               </a>
             </router-link>
-          </li>
+          </li> -->
           <li class="items-center">
             <router-link
               to="/admin/repairshow"
