@@ -26,16 +26,15 @@
 </template>
 
 <script>
+import { integer } from '@vuelidate/validators';
 export default {
   name: "card-stats",
   props: {
     statSubtitle: {
       type: String,
-      default: "Traffic",
     },
     statTitle: {
-      type: String,
-      default: "350,897",
+      type: Number,
     },
 
     // can be any of the text color utilities

@@ -238,7 +238,15 @@ export default {
     },
 
     //? Search function
-    async onSearch(pageNumber) {
+    onSearch() {
+      if (this.keyword != "") {
+        this.currentPage = 1;
+        this.getRoomsSearch(this.currentPage);
+      }
+    },
+
+    //? Get rooms by search
+    async getRoomsSearch(pageNumber) {
       let rooms = await http.get(
         `room/search/${this.keyword}?page=${pageNumber}`
       );
@@ -265,7 +273,7 @@ export default {
       if (this.keyword == "") {
         this.getRooms(this.currentPage);
       } else {
-        this.onSearch(this.currentPage);
+        this.getRoomsSearch(this.currentPage);
       }
     },
 

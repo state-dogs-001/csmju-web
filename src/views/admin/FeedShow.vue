@@ -242,7 +242,15 @@ export default {
     },
 
     //? Search function
-    async onSearch(pageNumber) {
+    onSearch(pageNumber) {
+      if (this.keyword != "") {
+        this.currentPage = 1;
+        this.getNewsSearch(this.currentPage);
+      }
+    },
+
+    //? Get news by search
+    async getNewsSearch(pageNumber) {
       let news = await http.get(
         `news/search/private/${this.keyword}?page=${pageNumber}`
       );

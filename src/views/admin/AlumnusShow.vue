@@ -251,7 +251,15 @@ export default {
     },
 
     //? Search
-    async onSearch(pageNumber) {
+    onSearch() {
+      if (this.keyword != "") {
+        this.currentPage = 1;
+        this.getAlumnusSearch(this.currentPage);
+      }
+    },
+
+    //? Get alumnus by search
+    async getAlumnusSearch(pageNumber) {
       let alumnus = await http.get(
         `alumni/search/${this.keyword}?page=${pageNumber}`
       );

@@ -22,274 +22,377 @@
             <br class="shadow-xl border-t" />
 
             <form @submit.prevent="onSubmit" enctype="multipart/form-data">
+              <!-- Line 1 -->
               <div class="flex flex-wrap mb-4">
-                <div class="w-full px-4 md:w-8/12">
-                  <label class="block my-3 text-gray-700 text-md">
-                    รหัสครุภัณฑ์</label
-                  >
-                  <input
-                    v-model="Equipment_Code"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
-                    type="text"
-                    maxlength="30"
-                    placeholder="Equipment Code (Ex. วท-xxxx)"
-                  />
-                  <div
-                    v-if="v$.Equipment_Code.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
-                    {{ v$.Equipment_Code.$errors[0].$message }}
-                  </div>
-                </div>
-                <div class="w-full px-4 md:w-2/12">
-                  <label class="block my-3 text-gray-700 text-md">จำนวน</label>
+                <!-- Main type -->
+                <div class="w-full px-4 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >ประเภทครุภัณฑ์
+                    <span class="text-red-500">*</span>
+                  </label>
                   <select
-                    v-model="Equipment_Quantity"
+                    v-model="equipMainType"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                   >
-                    <option v-for="i in 100" :key="i" :value="i">
-                      {{ i }}
+                    <option value="" selected disabled>Equipment type</option>
+                    <option value="ครุภัณฑ์ทางการ (วท.)">
+                      ครุภัณฑ์ทางการ (วท.)
+                    </option>
+                    <option value="ครุภัณฑ์ไม่เป็นทางการ (cs.)">
+                      ครุภัณฑ์ไม่เป็นทางการ (cs.)
+                    </option>
+                    <option value="ครุภัณฑ์ไม่เป็นทางการ (cs.)">
+                      ครุภัณฑ์ไม่เป็นทางการ (cs.)
                     </option>
                   </select>
                   <div
-                    v-if="v$.Equipment_Quantity.$error"
+                    v-if="v$.equipMainType.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Equipment_Quantity.$errors[0].$message }}
+                    {{ v$.equipMainType.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <!-- Sub type -->
+                <div
+                  class="w-full px-4 md:w-6/12"
+                  v-if="equipMainType == 'ครุภัณฑ์ทางการ (วท.)'"
+                >
+                  <label class="block my-3 text-gray-700 text-md"
+                    >ประเภทย่อย
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <select
+                    v-model="equipSubType"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                  >
+                    <option value="" selected disabled>
+                      Equipment sub type
+                    </option>
+                    <option value="ครุภัณฑ์ทั่วไป">ครุภัณฑ์ทั่วไป</option>
+                    <option value="ครุภัณฑ์ WB">ครุภัณฑ์ WB</option>
+                  </select>
+                  <div
+                    v-if="v$.equipSubType.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.equipSubType.$errors[0].$message }}
                   </div>
                 </div>
               </div>
+
+              <!-- Line 2 -->
               <div class="flex flex-wrap mb-4">
+                <!-- Equipment id -->
                 <div class="w-full px-4 md:w-6/12">
-                  <label class="block my-3 text-gray-700 text-md"
-                    >ชื่อครุภัณฑ์</label
-                  >
+                  <label class="block my-3 text-gray-700 text-md">
+                    รหัสครุภัณฑ์
+                    <span class="text-red-500">*</span>
+                  </label>
                   <input
-                    v-model="Equipment_Name"
+                    v-model="equipId"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="text"
-                    placeholder="Equipment Name"
+                    placeholder="Equipment id (Ex. วท-xxxx)"
                   />
                   <div
-                    v-if="v$.Equipment_Name.$error"
+                    v-if="v$.equipId.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Equipment_Name.$errors[0].$message }}
+                    {{ v$.equipId.$errors[0].$message }}
                   </div>
                 </div>
+
+                <!-- Serial number -->
+                <div class="w-full px-4 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >หมายเลขครุภัณฑ์
+                  </label>
+                  <input
+                    v-model="serialNumber"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    type="text"
+                    placeholder="Serial number"
+                  />
+                </div>
+              </div>
+
+              <!-- Line 3 -->
+              <div class="flex flex-wrap mb-4">
+                <!-- Name -->
+                <div class="w-full px-4 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >ชื่อครุภัณฑ์
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <input
+                    v-model="equipName"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    type="text"
+                    placeholder="Equipment name"
+                  />
+                  <div
+                    v-if="v$.equipName.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.equipName.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <!-- Model -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
                     >แบรนด์ / ยี่ห้อ</label
                   >
                   <input
-                    v-model="Equipment_Brand"
+                    v-model="equipModel"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="text"
-                    placeholder="Equipment Brand"
+                    placeholder="Equipment model"
                   />
-                  <div
-                    v-if="v$.Equipment_Brand.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
-                    {{ v$.Equipment_Brand.$errors[0].$message }}
-                  </div>
                 </div>
               </div>
+
+              <!-- Line 4 -->
               <div class="flex flex-wrap mb-4">
+                <!-- Price -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >หมายเลขครุภัณฑ์</label
-                  >
+                    >ราคา
+                    <span class="text-red-500">*</span>
+                  </label>
                   <input
-                    v-model="Equipment_Serialnumber"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
-                    type="text"
-                    placeholder="Serial Number"
-                  />
-                  <div
-                    v-if="v$.Equipment_Serialnumber.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
-                    {{ v$.Equipment_Serialnumber.$errors[0].$message }}
-                  </div>
-                </div>
-                <div class="w-full px-4 md:w-6/12">
-                  <label class="block my-3 text-gray-700 text-md">ราคา</label>
-                  <input
-                    v-model="Equipment_Price"
+                    v-model="price"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="text"
                     placeholder="Price (Baht)"
                   />
+                  <div v-if="v$.price.$error" class="mt-2 text-sm text-red-500">
+                    {{ v$.price.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <!-- Quantity -->
+                <div class="w-full px-4 md:w-2/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >จำนวน
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <input
+                    v-model="quantity"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    type="text"
+                    placeholder="Quantity"
+                  />
                   <div
-                    v-if="v$.Equipment_Price.$error"
+                    v-if="v$.quantity.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Equipment_Price.$errors[0].$message }}
+                    {{ v$.quantity.$errors[0].$message }}
                   </div>
                 </div>
               </div>
+
+              <!-- Line 5 -->
               <div class="flex flex-wrap mb-4">
+                <!-- Budget -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >ผู้จัดซื้อ / หน่วยงาน</label
-                  >
-                  <input
-                    v-model="Equipment_Users"
+                    >ที่มาของงบประมาณ
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <select
+                    v-model="budget"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
-                    type="text"
-                    placeholder="Users / Department"
-                  />
+                  >
+                    <option value="" selected disabled>Budget</option>
+                    <option value="งบประมาณรายได้">งบประมาณรายได้</option>
+                    <option value="งบประมาณแผ่นดิน">งบประมาณแผ่นดิน</option>
+                    <option value="งบประมาณบริจาค">งบประมาณบริจาค</option>
+                    <option value="งบประมาณ WB">งบประมาณ WB</option>
+                  </select>
                   <div
-                    v-if="v$.Equipment_Users.$error"
+                    v-if="v$.budget.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Equipment_Users.$errors[0].$message }}
+                    {{ v$.budget.$errors[0].$message }}
                   </div>
                 </div>
+
+                <!-- Purchase date -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >วันที่จัดซื้อ</label
-                  >
+                    >วันที่จัดซื้อ
+                    <span class="text-red-500">*</span>
+                  </label>
                   <div class="flex w-full mt-2">
-                    <v-date-picker v-model="Equipment_Date">
+                    <v-date-picker v-model="purchaseDate">
                       <template #default="{ inputValue, inputEvents }">
                         <input
                           class="px-3 py-1 border border-gray-500 text-gray-700 text-md focus:outline-none focus:border-blue-500"
                           :value="inputValue"
                           v-on="inputEvents"
+                          placeholder="Purchase date"
                         />
                       </template>
                     </v-date-picker>
                   </div>
                   <div
-                    v-if="v$.Equipment_Date.$error"
+                    v-if="v$.purchaseDate.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.Equipment_Date.$errors[0].$message }}
+                    {{ v$.purchaseDate.$errors[0].$message }}
                   </div>
                 </div>
               </div>
-              <div class="flex flex-wrap mb-4 mt-8">
-                <div class="w-full px-4 md:w-6/12">
-                  <label class="block my-3 text-gray-700 text-md"
-                    >ห้องเก็บ / ที่อยู่</label
-                  >
-                  <input
-                    v-model="Equipment_Room"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
-                    type="text"
-                    maxlength="10"
-                    placeholder="Room / Address"
-                  />
-                  <div
-                    v-if="v$.Equipment_Room.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
-                    {{ v$.Equipment_Room.$errors[0].$message }}
-                  </div>
-                </div>
-                <div class="w-full px-4 md:w-6/12">
-                  <label class="block my-3 text-gray-700 text-md"
-                    >ผู้รับผิดชอบ</label
-                  >
-                  <input
-                    v-model="Equipment_Caretaker"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
-                    type="text"
-                    placeholder="Caretaker"
-                  />
-                  <div
-                    v-if="v$.Equipment_Caretaker.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
-                    {{ v$.Equipment_Caretaker.$errors[0].$message }}
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-wrap mb-4 mt-8">
-                <div class="w-full px-4 md:w-6/12">
-                  <label class="block my-3 text-gray-700 text-md">ประเภท</label>
-                  <select
-                    v-model="Equipment_Type"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
-                  >
-                    <option value="ครุภัณฑ์เงินกู้">ครุภัณฑ์เงินกู้</option>
-                    <option value="ครุภัณฑ์ทั่วไป">ครุภัณฑ์ทั่วไป</option>
-                  </select>
-                  <div
-                    v-if="v$.Equipment_Type.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
-                    {{ v$.Equipment_Type.$errors[0].$message }}
-                  </div>
-                </div>
-                <div class="w-full px-4 md:w-6/12">
-                  <label class="block my-3 text-gray-700 text-md"
-                    >สภาพการใช้งาน</label
-                  >
-                  <select
-                    v-model="Equipment_Status"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
-                  >
-                    <option value="พร้อมใช้งาน">พร้อมใช้งาน</option>
-                    <option value="ซ่อมบำรุง">ซ่อมบำรุง</option>
-                    <option value="จำหน่าย">จำหน่าย</option>
-                    <option value="ศูนย์หาย">ศูนย์หาย</option>
-                  </select>
-                  <div
-                    v-if="v$.Equipment_Status.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
-                    {{ v$.Equipment_Status.$errors[0].$message }}
-                  </div>
-                </div>
-              </div>
+
+              <!-- Line 6 -->
               <div class="flex flex-wrap mb-4">
+                <!-- Room -->
+                <div class="w-full px-4 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >ห้องเก็บ / ที่อยู่
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <select
+                    v-model="room"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                  >
+                    <option value="" selected disabled>Room</option>
+                    <option
+                      v-for="room in rooms"
+                      :key="room.room_id"
+                      :value="room.room_id"
+                    >
+                      {{ room.room_name_th }}
+                    </option>
+                  </select>
+                  <div v-if="v$.room.$error" class="mt-2 text-sm text-red-500">
+                    {{ v$.room.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <!-- Care taker -->
+                <div class="w-full px-4 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >ผู้ใช้งาน / รับผิดชอบ
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <select
+                    v-model="careTaker"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                  >
+                    <option value="" selected disabled>Care taker</option>
+                    <option value="58">-</option>
+                    <option
+                      v-for="user in careTakers"
+                      :key="user.id"
+                      :value="user.id"
+                    >
+                      {{ user.name_title }}{{ user.name_th }}
+                    </option>
+                  </select>
+                  <div
+                    v-if="v$.careTaker.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.careTaker.$errors[0].$message }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Line 7 -->
+              <div class="flex flex-wrap mb-4">
+                <!-- Status -->
+                <div class="w-full px-4 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >สภาพการใช้งาน
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <select
+                    v-model="status"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                  >
+                    <option value="" selected disabled>Equipment status</option>
+                    <option
+                      v-for="status in equipStatus"
+                      :key="status.id"
+                      :value="status.id"
+                    >
+                      {{ status.status }}
+                    </option>
+                  </select>
+                  <div
+                    v-if="v$.status.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.status.$errors[0].$message }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Line 8 -->
+              <div class="flex flex-wrap mb-4">
+                <!-- Note -->
+                <div class="w-full px-4 md:w-12/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >รายละเอียดการซื้อครุภัณฑ์</label
+                  >
+                  <textarea
+                    v-model="purchaseFrom"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    rows="5"
+                    placeholder="Purchase detail"
+                  ></textarea>
+                </div>
+              </div>
+
+              <!-- Line 9 -->
+              <div class="flex flex-wrap mb-4">
+                <!-- Detail -->
                 <div class="w-full px-4 md:w-12/12">
                   <label class="block my-3 text-gray-700 text-md"
                     >รายละเอียดครุภัณฑ์</label
                   >
                   <textarea
-                    v-model="Equipment_Detail"
+                    v-model="detail"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     rows="5"
                     placeholder="Detail"
                   ></textarea>
-                  <div
-                    v-if="v$.Equipment_Detail.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
-                    {{ v$.Equipment_Detail.$errors[0].$message }}
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-wrap mb-4">
-                <div class="w-full px-4 md:w-12/12">
-                  <label class="block my-3 text-red-500 text-md"
-                    >* หมายเหตุ :</label
-                  >
-                  <textarea
-                    v-model="Equipment_Note"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
-                    rows="5"
-                    placeholder="* Note :"
-                  ></textarea>
-                  <div
-                    v-if="v$.Equipment_Note.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
-                    {{ v$.Equipment_Note.$errors[0].$message }}
-                  </div>
                 </div>
               </div>
 
+              <!-- Line 10 -->
+              <div class="flex flex-wrap mb-4">
+                <!-- Note -->
+                <div class="w-full px-4 md:w-12/12">
+                  <label class="block my-3 text-gray-700 text-md"
+                    >หมายเหตุ</label
+                  >
+                  <textarea
+                    v-model="note"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    rows="5"
+                    placeholder="Note"
+                  ></textarea>
+                </div>
+              </div>
+
+              <!-- Buttons -->
               <div class="py-6 text-center">
                 <button
-                  @click="submitForm()"
-                  class="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                  @click="onResetForm"
+                  class="px-6 py-4 mr-2 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow-lg outline-none bg-red-500 active:bg-red-600 hover:shadow-lg focus:outline-none"
                   type="button"
                 >
+                  <i class="fas fa-broom"></i> ล้าง
+                </button>
+                <button
+                  class="px-6 py-4 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow-lg outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                  type="submit"
+                >
+                  <i class="fas fa-save"></i>
                   บันทึกข้อมูล
                 </button>
               </div>
@@ -306,144 +409,248 @@
 import http from "../../services/APIService";
 //? Packages
 import useValidate from "@vuelidate/core";
-import { required, helpers } from "@vuelidate/validators";
+import { required, numeric, helpers } from "@vuelidate/validators";
 export default {
   data() {
     return {
       v$: useValidate(),
 
-      id: "",
+      id: this.$route.params.id,
 
-      Equipment_Code: "",
-      Equipment_Quantity: "",
-      Equipment_Name: "",
-      Equipment_Brand: "",
-      Equipment_Price: "",
-      Equipment_Date: "",
-      old_Dates: "",
-      Equipment_Room: "",
-      Equipment_Users: "",
-      Equipment_Caretaker: "",
-      Equipment_Status: "",
-      Equipment_Type: "",
-      Equipment_Detail: "",
+      //? Data
+      equipStatus: null,
+      careTakers: null,
+      rooms: null,
 
-      Equipment_Serialnumber: "",
-      Equipment_Note: "",
+      //? Form
+      equipMainType: "",
+      equipSubType: "",
+      equipId: "",
+      serialNumber: "",
+      equipName: "",
+      equipModel: "",
+      price: "",
+      quantity: "",
+      budget: "",
+      purchaseDate: "",
+      purchaseFrom: "",
+      room: "",
+      careTaker: "",
+      status: "",
+      detail: "",
+      note: "",
     };
   },
+
+  mounted() {
+    this.getEquipStatus();
+    this.getPersonnels();
+    this.getRooms();
+    this.getEquipment();
+  },
+
   methods: {
-    EditProduct() {
-      this.id = this.$store.state.equipmentEdit;
-      http.get(`equipment/id/${this.id}`).then((response) => {
-        this.Equipment_Code = response.data.Equipment_Code;
-        this.Equipment_Quantity = response.data.Equipment_Quantity;
-        this.Equipment_Name = response.data.Equipment_Name;
-        this.Equipment_Brand = response.data.Equipment_Brand;
-        this.Equipment_Price = response.data.Equipment_Price;
-        this.Equipment_Date = response.data.Equipment_Date;
-        this.old_Dates = response.data.Equipment_Date;
-        this.Equipment_Room = response.data.Equipment_Room;
-        this.Equipment_Users = response.data.Equipment_Users;
-        this.Equipment_Caretaker = response.data.Equipment_Caretaker;
-        this.Equipment_Status = response.data.Equipment_Status;
-        this.Equipment_Type = response.data.Equipment_Type;
-        this.Equipment_Detail = response.data.Equipment_Detail;
-        this.Equipment_Serialnumber = response.data.Equipment_Serialnumber;
-        this.Equipment_Note = response.data.Equipment_Note;
-      });
+    //? Get status
+    async getEquipStatus() {
+      let status = await http.get("equipment/status");
+      if (status) {
+        this.equipStatus = status.data.data;
+      }
     },
-    submitForm() {
+
+    //? Get personnels
+    async getPersonnels() {
+      let personnels = await http.get("personnels/all");
+      if (personnels) {
+        this.careTakers = personnels.data.data;
+      }
+    },
+
+    //? Get rooms
+    async getRooms() {
+      let rooms = await http.get("rooms/all");
+      if (rooms) {
+        this.rooms = rooms.data.data;
+      }
+    },
+
+    //? Get data
+    async getEquipment() {
+      let equipment = await http.get(`equipment/show/update/${this.id}`);
+      if (equipment) {
+        let data = equipment.data.data;
+        this.equipMainType = data.main_type;
+        this.equipSubType = data.sub_type;
+        this.equipId = data.equip_id;
+        this.serialNumber = data.serial_number;
+        this.equipName = data.name;
+        this.equipModel = data.model;
+        this.price = data.price;
+        this.quantity = data.quantity;
+        this.budget = data.budget;
+        this.purchaseDate = data.purchase_date;
+        this.purchaseFrom = data.purchase_from;
+        this.room = data.room_id;
+        this.careTaker = data.personnel_id;
+        this.status = data.status_id;
+        this.detail = data.detail;
+        this.note = data.note;
+      }
+    },
+
+    //? Reset form
+    onResetForm() {
+      this.v$.$reset();
+      this.equipMainType = "";
+      this.equipSubType = "";
+      this.equipId = "";
+      this.serialNumber = "";
+      this.equipName = "";
+      this.equipModel = "";
+      this.price = "";
+      this.quantity = "";
+      this.budget = "";
+      this.purchaseDate = "";
+      this.purchaseFrom = "";
+      this.room = "";
+      this.careTaker = "";
+      this.status = "";
+      this.detail = "";
+      this.note = "";
+    },
+
+    //? Submit form
+    onSubmit() {
       this.v$.$validate();
       if (!this.v$.$error) {
-        if (this.Equipment_Date != this.old_Dates) {
-          this.Equipment_Date = this.Equipment_Date.toISOString().slice(0, 10);
+        let data = new FormData();
+
+        if (this.serialNumber != null) {
+          data.append("serial_number", this.serialNumber);
+        } else {
+          data.append("serial_number", "");
         }
 
-        let data = new FormData();
-        data.append("Equipment_Code", this.Equipment_Code);
-        data.append("Equipment_Quantity", this.Equipment_Quantity);
-        data.append("Equipment_Name", this.Equipment_Name);
-        data.append("Equipment_Brand", this.Equipment_Brand);
-        data.append("Equipment_Price", this.Equipment_Price);
-        data.append("Equipment_Date", this.Equipment_Date);
-        data.append("Equipment_Room", this.Equipment_Room);
-        data.append("Equipment_Users", this.Equipment_Users);
-        data.append("Equipment_Caretaker", this.Equipment_Caretaker);
-        data.append("Equipment_Status", this.Equipment_Status);
-        data.append("Equipment_Type", this.Equipment_Type);
-        data.append("Equipment_Detail", this.Equipment_Detail);
-        data.append("Equipment_Serialnumber", this.Equipment_Serialnumber);
-        data.append("Equipment_Note", this.Equipment_Note);
-        data.append("_method", "PUT");
-        http.post(`equipment/update/${this.id}`, data).then(() => {
-          const Toast = this.$swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 1500,
+        if (this.equipModel != null) {
+          data.append("model", this.equipModel);
+        } else {
+          data.append("model", "");
+        }
 
-            timerProgressBar: true,
-          });
-          Toast.fire({
-            icon: "success",
-            title: "แก้ไขข้อมูลเรียบร้อย",
-          }).then(() => {
-            this.$router.push({ name: "EquipmentShow" });
-          });
+        if (this.detail != null) {
+          data.append("detail", this.detail);
+        } else {
+          data.append("detail", "");
+        }
+
+        if (this.equipSubType != null) {
+          data.append("sub_type", this.equipSubType);
+        } else {
+          data.append("sub_type", "");
+        }
+
+        if (this.purchaseFrom != null) {
+          data.append("purchase_from", this.purchaseFrom);
+        } else {
+          data.append("purchase_from", "");
+        }
+
+        if (this.note != null) {
+          data.append("note", this.note);
+        } else {
+          data.append("note", "");
+        }
+
+        data.append("equip_id", this.equipId);
+        data.append("name", this.equipName);
+        data.append("price", this.price);
+        data.append("quantity", this.quantity);
+        data.append("main_type", this.equipMainType);
+        //? Format date to Y-m-d
+        let date = new Date(this.purchaseDate);
+        data.append("purchase_date", date.toISOString().slice(0, 10));
+        data.append("budget", this.budget);
+        data.append("status_id", this.status);
+        data.append("personnel_id", this.careTaker);
+        data.append("room_id", this.room);
+
+        //? Set default sweet alert
+        const Toast = this.$swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
         });
+
+        http
+          .post(`equipment/update/${this.id}`, data)
+          .then(() => {
+            Toast.fire({
+              icon: "success",
+              title: "แก้ไขข้อมูลใหม่เรียบร้อย",
+            }).then(() => {
+              this.$router.push({ name: "EquipmentShow" });
+            });
+          })
+          .catch((error) => {
+            if (error) {
+              Toast.fire({
+                icon: "error",
+                title: "ขออภัย ทำรายการไม่สำเร็จ",
+              });
+            }
+          });
       }
     },
   },
+
   validations() {
     return {
-      Equipment_Code: {
-        required: helpers.withMessage("ป้อนรหัสครุภัณฑ์ก่อน", required),
+      equipMainType: {
+        required: helpers.withMessage("กรุณาเลือกประเภทครุภัณฑ์", required),
       },
-      Equipment_Quantity: {
-        required: helpers.withMessage("ป้อนจำนวนครุภัณฑ์ก่อน", required),
+      //? If equipMainType is "ครุภัณฑ์ทางการ (วท.)" required equipSubType
+      equipSubType: {
+        required: helpers.withMessage(
+          "กรุณาเลือกประเภทครุภัณฑ์",
+          () =>
+            this.equipMainType !== "ครุภัณฑ์ทางการ (วท.)" ||
+            this.equipSubType !== ""
+        ),
       },
-      Equipment_Name: {
-        required: helpers.withMessage("ป้อนชื่อครุภัณฑ์ก่อน", required),
+      equipId: {
+        required: helpers.withMessage("กรุณากรอกรหัสครุภัณฑ์", required),
       },
-      Equipment_Brand: {
-        required: helpers.withMessage("ป้อนยี่ห้อครุภัณฑ์ก่อน", required),
+      equipName: {
+        required: helpers.withMessage("กรุณากรอกชื่อครุภัณฑ์", required),
       },
-      Equipment_Price: {
-        required: helpers.withMessage("ป้อนราคาครุภัณฑ์ก่อน", required),
+      price: {
+        required: helpers.withMessage("กรุณากรอกราคา", required),
+        numeric: helpers.withMessage("ต้องกรอกเป็นตัวเลขเท่านั้น", numeric),
       },
-      Equipment_Date: {
-        required: helpers.withMessage("ป้อนวันที่ซื้อครุภัณฑ์ก่อน", required),
+      quantity: {
+        required: helpers.withMessage("กรุณากรอกจำนวนของครุภัณฑ์", required),
       },
-      Equipment_Room: {
-        required: helpers.withMessage("ป้อนที่จัดเก็บครุภัณฑ์ก่อน", required),
+      budget: {
+        required: helpers.withMessage(
+          "กรุณาเลือกงบประมาณที่ใช้ในการซื้อครุภัณฑ์",
+          required
+        ),
       },
-      Equipment_Users: {
-        required: helpers.withMessage("ป้อนผู้จัดซื้อครุภัณฑ์ก่อน", required),
+      purchaseDate: {
+        required: helpers.withMessage("กรุณาเลือกวันที่ซื้อครุภัณฑ์", required),
       },
-      Equipment_Caretaker: {
-        required: helpers.withMessage("ป้อนผู้รับผิดชอบครุภัณฑ์ก่อน", required),
+      room: {
+        required: helpers.withMessage("กรุณาเลือกห้อง", required),
       },
-      Equipment_Status: {
-        required: helpers.withMessage("ป้อนสถานะครุภัณฑ์ก่อน", required),
+      careTaker: {
+        required: helpers.withMessage("กรุณาเลือกผู้รับผิดชอบ", required),
       },
-      Equipment_Type: {
-        required: helpers.withMessage("ป้อนประเภทครุภัณฑ์ก่อน", required),
-      },
-      Equipment_Detail: {
-        required: helpers.withMessage("ป้อนรายละเอียดครุภัณฑ์ก่อน", required),
-      },
-      Equipment_Serialnumber: {
-        required: helpers.withMessage("ป้อนหมายเลขครุภัณฑ์ก่อน", required),
-      },
-      Equipment_Note: {
-        required: helpers.withMessage("ป้อนหมายเหตุครุภัณฑ์ก่อน", required),
+      status: {
+        required: helpers.withMessage("กรุณาเลือกสถานะ", required),
       },
     };
-  },
-  components: {},
-  mounted() {
-    this.EditProduct();
   },
 };
 </script>

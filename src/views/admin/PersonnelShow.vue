@@ -26,7 +26,7 @@
                         v-model="keyword"
                         class="w-full py-2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-200 border-0 rounded-md"
                         type="text"
-                        placeholder="ป้อนรหัสประชาชน 13 หลัก เช่น 3529XXXXXXXXX"
+                        placeholder="ป้อนคำที่ต้องการค้นหา เช่น ชื่อ หรือตำแหน่งของบุคลากร"
                         aria-label="Search"
                       />
                     </form>
@@ -121,7 +121,7 @@
                                 ? User
                                 : personnel.image_profile
                             "
-                            alt="..."
+                            alt="profile"
                             class="w-10 h-10 border-2 rounded-full shadow border-blueGray-50"
                           />
                           <span class="ml-3 text-sm font-semiBold">
@@ -268,7 +268,15 @@ export default {
     },
 
     //? Submit search form
-    async onSearch(pageNumber) {
+    onSearch() {
+      if (this.keyword != "") {
+        this.currentPage = 1;
+        this.getPersonnelsSearch(this.currentPage);
+      }
+    },
+
+    //? Get personnels by search
+    async getPersonnelsSearch(pageNumber) {
       let personnels = await http.get(
         `personnel/search/${this.keyword}?page=${pageNumber}`
       );
@@ -293,7 +301,7 @@ export default {
       this.currentPage = event;
       this.keyword == ""
         ? this.getPersonnels(this.currentPage)
-        : this.onSearch(this.currentPage);
+        : this.getPersonnelsSearch(this.currentPage);
     },
 
     //? Update function

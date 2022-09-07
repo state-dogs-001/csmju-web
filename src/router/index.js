@@ -416,7 +416,7 @@ const routes = [
         component: EquipmentAdd,
       },
       {
-        path: "/admin/equipmentedit",
+        path: "/admin/equipmentedit/:id",
         name: "EquipmentEdit",
         component: EquipmentEdit,
       },

@@ -26,7 +26,7 @@
                         v-model="keyword"
                         class="w-full py-2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-200 border-0 rounded-md"
                         type="text"
-                        placeholder="ป้อนคำที่ต้องการค้นหา เช่น ชื่อ หรือ รหัสนักศึกษา"
+                        placeholder="ป้อนคำที่ต้องการค้นหา เช่น ชื่อ หรือรหัสนักศึกษา"
                         aria-label="Search"
                       />
                     </form>
@@ -76,11 +76,6 @@
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
-                        โปรไฟล์
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
                         ชื่อ - นามสกุล
                       </th>
                       <th
@@ -117,25 +112,21 @@
                         </div>
                       </td>
                       <td
-                        class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        <img
-                          :src="
-                            student.image_profile == null
-                              ? User
-                              : student.image_profile
-                          "
-                          class="rounded"
-                          alt="profile"
-                        />
-                      </td>
-                      <td
-                        class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
                       >
                         <div
-                          class="flex items-center text-xs text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                          class="flex items-center text-xs text-left align-middle whitespace-nowrap"
                         >
-                          <span class="text-sm font-semiBold">
+                          <img
+                            :src="
+                              student.image_profile == null
+                                ? User
+                                : student.image_profile
+                            "
+                            alt="profile"
+                            class="w-10 h-10 border-2 rounded-full shadow border-blueGray-50"
+                          />
+                          <span class="ml-3 text-sm font-semiBold">
                             {{ student.name_th }}
                             <div class="text-xs font-normal">
                               {{ student.name_en }}
@@ -274,22 +265,28 @@ export default {
       if (this.keyword == "") {
         this.getStudents(this.currentPage);
       } else {
-        this.onSearch(this.currentPage);
+        this.getStudentsSearch(this.currentPage);
       }
     },
 
     //? Search function
-    async onSearch(pageNumber) {
+    onSearch() {
       if (this.keyword != "") {
-        let students = await http.get(
-          `student/search/${this.keyword}?page=${pageNumber}`
-        );
-        if (students) {
-          this.students = students.data.data;
-          this.currentPage = students.data.current_page;
-          this.total = students.data.total;
-          this.perPage = students.data.per_page;
-        }
+        this.currentPage = 1;
+        this.getStudentsSearch(this.currentPage);
+      }
+    },
+
+    //? Get students by search
+    async getStudentsSearch(pageNumber) {
+      let students = await http.get(
+        `student/search/${this.keyword}?page=${pageNumber}`
+      );
+      if (students) {
+        this.students = students.data.data;
+        this.currentPage = students.data.current_page;
+        this.total = students.data.total;
+        this.perPage = students.data.per_page;
       }
     },
 

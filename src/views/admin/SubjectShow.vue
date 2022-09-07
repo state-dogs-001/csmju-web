@@ -234,27 +234,32 @@ export default {
     //? Paginate
     onPageClick(event) {
       this.currentPage = event;
-
       //? If keyword is empty call getSubjects function else call onSearch function
       if (this.keyword == "") {
         this.getSubjects(this.currentPage);
       } else {
-        this.onSearch(this.currentPage);
+        this.getSubjectsSearch(this.currentPage);
       }
     },
 
     //? Search function
-    async onSearch(pageNumber) {
+    onSearch() {
       if (this.keyword != "") {
-        let subjects = await http.get(
-          `subject/search/${this.keyword}?page=${pageNumber}`
-        );
-        if (subjects) {
-          this.subjects = subjects.data.data;
-          this.currentPage = subjects.data.current_page;
-          this.perPage = subjects.data.per_page;
-          this.total = subjects.data.total;
-        }
+        this.currentPage = 1;
+        this.getSubjectsSearch(this.currentPage);
+      }
+    },
+
+    //? Get subjects by search
+    async getSubjectsSearch(pageNumber) {
+      let subjects = await http.get(
+        `subject/search/${this.keyword}?page=${pageNumber}`
+      );
+      if (subjects) {
+        this.subjects = subjects.data.data;
+        this.currentPage = subjects.data.current_page;
+        this.perPage = subjects.data.per_page;
+        this.total = subjects.data.total;
       }
     },
 

@@ -115,11 +115,6 @@ export default {
   },
   data() {
     return {
-      //? Paginate
-      currentPage: 0,
-      perPage: 0,
-      total: 0,
-
       studentTotal: 0,
       personnelTotal: 0,
       newsTotal: 0,
@@ -148,6 +143,10 @@ export default {
       //? News
       let news = await http.get("/news/private");
       this.newsTotal = news.data.total;
+
+      //? Equipment
+      let equipments = await http.get("/equipments");
+      this.equipmentTotal = equipments.data.total;
     },
   },
 };
