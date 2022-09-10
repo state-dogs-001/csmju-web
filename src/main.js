@@ -31,5 +31,4 @@ app.use(router);
 app.use(store);
 app.use(VueSweetalert2, options);
 app.use(VCalendar, {});
-
 app.mount("#app");

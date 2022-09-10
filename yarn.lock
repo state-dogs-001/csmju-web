@@ -555,7 +555,7 @@
   "resolved" "https://registry.npmjs.org/lilconfig/-/lilconfig-2.0.6.tgz"
   "version" "2.0.6"
 
-"lodash@^4.17.20":
+"lodash@^4.17.20", "lodash@^4.17.21":
   "integrity" "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
   "resolved" "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   "version" "4.17.21"
@@ -860,6 +860,19 @@
     "date-fns-tz" "^1.0.12"
     "lodash" "^4.17.20"
 
+"v-viewer@^3.0.10":
+  "integrity" "sha512-ZT5sYYS+Cy4z2TP/PuhqPyiK4NonaZzhkDPfiY9bwa5EjGyusO8R7/k/4c1ptvTzx2nBSV9MvQHl2X3XzhANqw=="
+  "resolved" "https://registry.npmjs.org/v-viewer/-/v-viewer-3.0.10.tgz"
+  "version" "3.0.10"
+  dependencies:
+    "lodash" "^4.17.21"
+    "viewerjs" "^1.9.0"
+
+"viewerjs@^1.9.0":
+  "integrity" "sha512-QwKrmXlSfKg5x4y74F/jicpHIRqBMMfHXyboOxHDi5n4XAaejjpalphPq4/HW6venQAoMiD57HpVwBk0JvqpSA=="
+  "resolved" "https://registry.npmjs.org/viewerjs/-/viewerjs-1.10.5.tgz"
+  "version" "1.10.5"
+
 "vite@^3.0.0":
   "integrity" "sha512-sDIpIcl3mv1NUaSzZwiXGEy1ZoWwwC2vkxUHY6yiDacR6zf//ZFuBJrozO62gedpE43pmxnLATNR5IYUdAEkMQ=="
   "resolved" "https://registry.npmjs.org/vite/-/vite-3.0.3.tgz"
@@ -891,7 +904,7 @@
   dependencies:
     "sweetalert2" "11.x"
 
-"vue@*", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.2", "vue@^3.0.5", "vue@^3.1.0", "vue@^3.2.0", "vue@^3.2.25", "vue@^3.2.37", "vue@3.2.37":
+"vue@*", "vue@^3.0.0", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.2", "vue@^3.0.5", "vue@^3.1.0", "vue@^3.2.0", "vue@^3.2.25", "vue@^3.2.37", "vue@3.2.37":
   "integrity" "sha512-bOKEZxrm8Eh+fveCqS1/NkG/n6aMidsI6hahas7pa0w/l7jkbssJVsRhVDs07IdDq7h9KHswZOgItnwJAgtVtQ=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-3.2.37.tgz"
   "version" "3.2.37"

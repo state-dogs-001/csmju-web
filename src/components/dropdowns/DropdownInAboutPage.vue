@@ -1,7 +1,7 @@
 <template>
   <div>
     <a href="#pablo" ref="btnDropdownRef" @click="toggleDropdown($event)">
-      เกี่ยวกับ
+      เกี่ยวกับ <i class="fa-sharp fa-solid fa-chevron-down"></i>
     </a>
     <div
       ref="popoverDropdownRef"
@@ -18,35 +18,23 @@
       </span>
       <router-link
         @click="close($event)"
-        to="/about"
+        v-for="about in aboutLink"
+        :key="about"
+        :to="about.link"
         class="block w-full px-4 py-2 text-sm font-normal bg-transparent whitespace-nowrap text-blueGray-700"
       >
-        ประวัติความเป็นมา
-      </router-link>
-      <router-link
-        v-for="about in about_arr"
-        :key="about.AboutId"
-        @click="getId(about.AboutId)"
-        to="/about"
-        class="block w-full px-4 py-2 text-sm font-normal bg-transparent whitespace-nowrap text-blueGray-700"
-      >
-        {{ about.Topic }}
-      </router-link>
-      <router-link
-        @click="close($event)"
-        to="/about"
-        class="block w-full px-4 py-2 text-sm font-normal bg-transparent whitespace-nowrap text-blueGray-700"
-      >
-        ผลการเรียนรู้ (PLO)
+        {{ about.name }}
       </router-link>
 
       <div class="h-0 mx-4 my-2 border border-solid border-blueGray-100" />
+
       <span
         class="block w-full px-4 pt-2 pb-0 text-sm font-bold bg-transparent whitespace-nowrap text-blueGray-400"
       >
         อาคารเรียน
       </span>
       <router-link
+        @click="close($event)"
         to="/classroom"
         class="block w-full px-4 py-2 text-sm font-normal bg-transparent hover:text-emerald-600 whitespace-nowrap text-blueGray-700"
       >
@@ -54,31 +42,36 @@
       </router-link>
 
       <div class="h-0 mx-4 my-2 border border-solid border-blueGray-100" />
+
       <span
         class="block w-full px-4 pt-2 pb-0 text-sm font-bold bg-transparent whitespace-nowrap text-blueGray-400"
       >
         บุคลากร
       </span>
       <router-link
+        @click="close($event)"
         to="/teacher"
         class="block w-full px-4 py-2 text-sm font-normal bg-transparent whitespace-nowrap text-blueGray-700"
       >
         คณาจารย์
       </router-link>
       <router-link
+        @click="close($event)"
         to="/staff"
         class="block w-full px-4 py-2 text-sm font-normal bg-transparent whitespace-nowrap text-blueGray-700"
       >
         เจ้าหน้าที่
       </router-link>
+
       <div class="h-0 mx-4 my-2 border border-solid border-blueGray-100" />
+
       <span
         class="block w-full px-4 pt-2 pb-0 text-sm font-bold bg-transparent whitespace-nowrap text-blueGray-400"
       >
         โครงการ
       </span>
-
       <router-link
+        @click="close($event)"
         to="/schedule"
         class="block w-full px-4 py-2 text-sm font-normal bg-transparent hover:text-emerald-600 whitespace-nowrap text-blueGray-700"
       >
@@ -90,17 +83,40 @@
 
 <script>
 import { createPopper } from "@popperjs/core";
-import http from "../../services/WebpageService";
 export default {
   data() {
     return {
       dropdownPopoverShow: false,
-      about_arr: [],
+
+      //? Data
+      aboutLink: [
+        {
+          link: "/about/history",
+          name: "ประวัติความเป็นมา",
+        },
+        {
+          link: "/about/philosophy",
+          name: "ปรัชญา",
+        },
+        {
+          link: "/about/importance",
+          name: "ความสำคัญ",
+        },
+        {
+          link: "/about/objectivity",
+          name: "วัตถุประสงค์",
+        },
+        {
+          link: "/about/plo",
+          name: "ผลการเรียนรู้ (PLO)",
+        },
+      ],
     };
   },
+  
   methods: {
-    toggleDropdown: function (event) {
-      event.preventDefault();
+    toggleDropdown(e) {
+      e.preventDefault();
       if (this.dropdownPopoverShow) {
         this.dropdownPopoverShow = false;
       } else {
@@ -110,23 +126,18 @@ export default {
         });
       }
     },
+
     close(e) {
       if (!this.$el.contains(e.target)) {
         this.dropdownPopoverShow = false;
       }
     },
-    async getAbout() {
-      let response = await http.get(`about`);
-      this.about_arr = response.data;
-    },
-    getId(id) {
-      this.$store.state.aboutid = id;
-    },
   },
+
   mounted() {
     document.addEventListener("click", this.close);
-    this.getAbout();
   },
+
   beforeDestroy() {
     document.removeEventListener("click", this.close);
   },

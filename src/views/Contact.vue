@@ -77,6 +77,7 @@
                 <a href="https://line.me/R/ti/p/%40053vfccm">CSMJU </a>
               </h3>
             </div>
+
             <div
               class="w-full border-blueGray-300 px-6 border-l mb-4 text-left lg:-mt-48 lg:w-6/12"
             >
@@ -85,81 +86,105 @@
               >
                 แจ้งปัญหาของท่านให้เราทราบ / ข้อเสนอแนะ
               </h3>
-              <div class="pt-0 mb-3 text-lg text-blueGray-500">
-                <p>หัวข้อเรื่อง</p>
-                <input
-                  v-model="Topic"
-                  class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
-                  type="text"
-                  placeholder="ชื่อโครงการ"
-                />
-                <div v-if="v$.Topic.$error" class="mt-2 text-sm text-red-500">
-                  {{ v$.Topic.$errors[0].$message }}
-                </div>
-              </div>
 
-              <div class="pt-2 mb-3 text-lg text-blueGray-500">
-                <p>รายละเอียด</p>
-                <textarea
-                  v-model="Detail"
-                  cols="30"
-                  placeholder="เนื้อหา / รายละเอียด"
-                  rows="5"
-                  class="relative w-full px-3 py-1 text-base bg-white borderoutline-none placeholder-blueGray-300 text-blueGray-600 border-blueGray-300 focus:outline-none focus:shadow-outline"
-                ></textarea>
-                <div v-if="v$.Detail.$error" class="mt-0 text-sm text-red-500">
-                  {{ v$.Detail.$errors[0].$message }}
-                </div>
-              </div>
-
-              <div class="mt-4">
-                <img
-                  v-if="imgUrl"
-                  :src="imgUrl"
-                  class="w-full cropped-card1 rounded-lg shadow-lg border-b"
-                />
-              </div>
-
-              <div class="mb-6 text-lg text-blueGray-500">
-                <span>แนบรูปภาพ</span>
-                <div
-                  class="relative flex items-center justify-center h-32 bg-gray-100 border-b border-blue-700"
-                >
+              <!-- Form contact -->
+              <form
+                @submit.stop.prevent="onSubmit"
+                enctype="multipart/form-data"
+              >
+                <!-- Title -->
+                <div class="pt-0 mb-3 text-lg text-blueGray-500">
+                  <p>หัวข้อเรื่อง</p>
                   <input
-                    ref="fileupload"
-                    type="file"
-                    @change="onFileSelected"
-                    class="w-full h-full opacity-0 p-3 bg-white"
+                    v-model="topic"
+                    class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
+                    type="text"
+                    placeholder="ชื่อโครงการ"
+                  />
+                  <div v-if="v$.topic.$error" class="mt-2 text-sm text-red-500">
+                    {{ v$.topic.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <!-- detail -->
+                <div class="pt-2 mb-3 text-lg text-blueGray-500">
+                  <p>รายละเอียด</p>
+                  <textarea
+                    v-model="detail"
+                    cols="30"
+                    placeholder="เนื้อหา / รายละเอียด"
+                    rows="5"
+                    class="relative w-full px-3 py-1 text-base bg-white borderoutline-none placeholder-blueGray-300 text-blueGray-600 border-blueGray-300 focus:outline-none focus:shadow-outline"
+                  ></textarea>
+                  <div
+                    v-if="v$.detail.$error"
+                    class="mt-0 text-sm text-red-500"
+                  >
+                    {{ v$.detail.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <!-- Image preview -->
+                <div class="mt-4">
+                  <img
+                    v-if="imgUrl"
+                    :src="imgUrl"
+                    class="w-full cropped-card1 rounded-lg shadow-lg border-b"
                   />
                 </div>
-              </div>
 
-              <div
-                class="center-img mb-3 w-full relative text-center items-center block overflow-x-auto"
-              >
-                <vue-recaptcha
-                  v-show="showRecaptcha"
-                  :sitekey="siteKey"
-                  size="normal"
-                  theme="light"
-                  data-size="compact"
-                  @verify="recaptchaVerified"
-                  @expire="recaptchaExpired"
-                  @fail="recaptchaFailed"
-                  ref="vueRecaptcha"
-                >
-                </vue-recaptcha>
-              </div>
+                <!-- Upload image -->
+                <div class="mb-6 text-lg text-blueGray-500">
+                  <span>แนบรูปภาพ</span>
+                  <div
+                    class="relative flex items-center justify-center h-32 bg-gray-100 border-b border-blue-700"
+                  >
+                    <input
+                      ref="fileupload"
+                      type="file"
+                      @change="onFileSelected"
+                      class="w-full h-full opacity-0 p-3 bg-white"
+                    />
+                  </div>
+                </div>
 
-              <div class="pt-2 mb-3 text-center">
-                <button
-                  @click="submit"
-                  class="px-6 py-3 mt-3 mb-1 mr-1 shadow-lg font-semibold text-sm text-white uppercase transition-all duration-150 ease-linear rounded-lg outline-none bg-emerald-500 active:bg-teal-600 hover:shadow-lg focus:outline-none"
-                  type="button"
-                >
-                  บันทึก
-                </button>
-              </div>
+                <!-- Recaptcha -->
+                <div class="w-full text-left">
+                  <vue-recaptcha
+                    :sitekey="siteKey"
+                    size="normal"
+                    theme="light"
+                    data-size="compact"
+                    @verify="recaptchaVerified"
+                    @expire="recaptchaExpired"
+                    ref="vueRecaptcha"
+                  >
+                  </vue-recaptcha>
+                  <div
+                    v-if="v$.verify.$error"
+                    class="mt-0 text-sm text-red-500"
+                  >
+                    {{ v$.verify.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <!-- Button -->
+                <div class="pt-2 mt-6 mb-3 text-center">
+                  <button
+                    @click="onCancel"
+                    class="px-6 py-3 mr-2 shadow-lg font-semibold text-sm text-white uppercase transition-all duration-150 ease-linear rounded-lg outline-none bg-red-500 active:bg-red-600 hover:shadow-lg focus:outline-none"
+                    type="button"
+                  >
+                    ยกเลิก
+                  </button>
+                  <button
+                    class="px-6 py-3 shadow-lg font-semibold text-sm text-white uppercase transition-all duration-150 ease-linear rounded-lg outline-none bg-emerald-500 active:bg-teal-600 hover:shadow-lg focus:outline-none"
+                    type="submit"
+                  >
+                    บันทึก
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -187,122 +212,131 @@ export default {
       icon,
       v$: useValidate(),
 
-      Topic: "",
-      Detail: "",
+      //? Form
+      topic: "",
+      detail: "",
+      imgUrl: "",
+      file: null,
 
-      showRecaptcha: true,
+      //? Recaptcha
       siteKey: import.meta.env.VITE_SITE_KEY,
       verify: null,
 
       date: new Date().toString(),
-
-      imgUrl: "",
-      file: null,
     };
   },
 
   methods: {
+    //? Upload image
     onFileSelected(event) {
       const file = event.target.files[0];
       this.file = event.target.files[0];
       this.imgUrl = URL.createObjectURL(file);
     },
 
-    submit() {
-      this.v$.$validate();
-      if (!this.v$.$error) {
-        if (this.verify != null) {
-          const swalWithBootstrapButtons = this.$swal.mixin({
-            customClass: {
-              title: "font-semibold custom",
-              confirmButton:
-                "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
-              cancelButton:
-                "px-6 py-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
-            },
-            buttonsStyling: false,
-          });
-
-          swalWithBootstrapButtons
-            .fire({
-              title: "ยืนยันการส่งข้อมูล",
-              icon: "warning",
-              showCancelButton: true,
-              confirmButtonText: "ยืนยัน",
-              cancelButtonText: "ยกเลิก",
-              reverseButtons: true,
-            })
-            .then((result) => {
-              if (result.isConfirmed) {
-                let data = new FormData();
-                data.append("Complain_Title", this.Topic);
-                data.append("Complain_Detail", this.Detail);
-                data.append("Complain_Picture", this.file);
-                data.append("Complain_Date", this.date);
-
-                http.post("complain/create", data).then(() => {
-                  this.Topic = null;
-                  this.Detail = null;
-                  this.file = null;
-                  this.date = null;
-                  this.imgUrl = null;
-                  this.$refs.fileupload.value = null;
-
-                  swalWithBootstrapButtons.fire(
-                    "บันทึกข้อมูลเรียบร้อย!",
-                    "",
-                    "success"
-                  );
-                });
-              } else if (result.dismiss === this.$swal.DismissReason.cancel) {
-                this.Topic = null;
-                this.Detail = null;
-                this.file = null;
-                this.date = null;
-                this.imgUrl = null;
-
-                this.$refs.fileupload.value = null;
-                swalWithBootstrapButtons.fire(
-                  "ยกเลิกการส่งข้อมูลเรียบร้อย!",
-                  "",
-                  "error"
-                );
-              }
-            });
-        } else {
-          const Swal = this.$swal.mixin({
-            position: "center",
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            customClass: {
-              title: "font-semibold custom text-blueGray-600",
-            },
-          });
-
-          Swal.fire({
-            icon: "info",
-            title: `กดยืนยัน "reCAPTCHA" ก่อน`,
-          });
-        }
-      }
-    },
+    //? Recaptcha verify
     recaptchaVerified(response) {
       this.verify = response;
     },
 
+    //? Recaptcha expire
     recaptchaExpired() {
       this.$refs.vueRecaptcha.reset();
     },
-    recaptchaFailed() {},
+
+    //? Recapcha failed
+    recaptchaFailed() {
+      this.$refs.vueRecaptcha.reset();
+    },
+
+    //? Reset form
+    onCancel(e) {
+      e.preventDefault();
+      this.v$.$reset();
+      this.topic = "";
+      this.detail = "";
+      this.imgUrl = "";
+      this.file = null;
+      this.$refs.fileupload.value = null;
+      this.verify = null;
+      this.$refs.vueRecaptcha.reset();
+    },
+
+    //? Submit form
+    onSubmit() {
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        //? Set default sweetalert
+        const swalWithBootstrapButtons = this.$swal.mixin({
+          customClass: {
+            title: "font-semibold custom",
+            confirmButton:
+              "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+            cancelButton:
+              "px-6 py-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+          },
+          buttonsStyling: false,
+        });
+
+        //? Confirmation submit form
+        swalWithBootstrapButtons
+          .fire({
+            title: "ยืนยันการส่งข้อมูล",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "ยืนยัน",
+            cancelButtonText: "ยกเลิก",
+            reverseButtons: true,
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              let data = new FormData();
+              data.append("title", this.topic);
+              data.append("detail", this.detail);
+              if (this.file != null) {
+                data.append("image", this.file);
+              }
+
+              //? Call API
+              http
+                .post("complain/new", data)
+                .then((res) => {
+                  if (res.data.success) {
+                    let msg = res.data.message;
+                    swalWithBootstrapButtons
+                      .fire(msg, "", "success")
+                      .then(() => {
+                        window.location.reload();
+                      });
+                  }
+                })
+                .catch((err) => {
+                  if (err) {
+                    swalWithBootstrapButtons.fire(
+                      "ทำรายการไม่สำเร็จ!",
+                      "",
+                      "error"
+                    );
+                  }
+                });
+            } else {
+              swalWithBootstrapButtons.fire("ยกเลิกการส่งข้อมูล!", "", "error");
+            }
+          });
+      }
+    },
   },
+
   validations() {
     return {
-      Topic: {
-        required: helpers.withMessage("ป้อนหัวข้อก่อน", required),
+      topic: {
+        required: helpers.withMessage("กรุณากรอกหัวข้อเรื่องก่อน", required),
       },
-      Detail: {
-        required: helpers.withMessage("ป้อนรายละเอียดก่อน", required),
+      detail: {
+        required: helpers.withMessage("กรุณากรอกรายละเอียดก่อน", required),
+      },
+      verify: {
+        required: helpers.withMessage("กรุณายืนยัน reCAPTCHA ก่อน", required),
       },
     };
   },

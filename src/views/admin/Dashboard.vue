@@ -71,7 +71,7 @@
           <div class="w-full px-4 lg:w-6/12 xl:w-3/12">
             <card-stats
               statSubtitle="ระบบติดต่อกลับ"
-              :statTitle="this.complaintTotal"
+              :statTitle="this.complainTotal"
               statArrow="down"
               statPercent="1.10"
               statIconName="fas fa-users"
@@ -121,7 +121,7 @@ export default {
       equipmentTotal: 0,
       courseTotal: 0,
       repairTotal: 0,
-      complaintTotal: 0,
+      complainTotal: 0,
       borrowTotal: 0,
     };
   },
@@ -133,20 +133,24 @@ export default {
   methods: {
     async getData() {
       //? Student
-      let students = await http.get("/students");
+      let students = await http.get("students");
       this.studentTotal = students.data.total;
 
       //? Personnel
-      let personnels = await http.get("/personnels");
+      let personnels = await http.get("personnels");
       this.personnelTotal = personnels.data.total;
 
       //? News
-      let news = await http.get("/news/private");
+      let news = await http.get("news/private");
       this.newsTotal = news.data.total;
 
       //? Equipment
-      let equipments = await http.get("/equipments");
+      let equipments = await http.get("equipments");
       this.equipmentTotal = equipments.data.total;
+
+      //? Complains
+      let complains = await http.get("complains");
+      this.complainTotal = complains.data.total;
     },
   },
 };

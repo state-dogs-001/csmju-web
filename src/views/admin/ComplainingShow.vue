@@ -97,40 +97,62 @@
                   <tbody>
                     <tr
                       class="border-b"
-                      v-for="feed in products"
-                      :key="feed.complainId"
+                      v-for="(report, index) in complains"
+                      :key="index"
                     >
                       <td
                         class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                       >
-                        {{ feed.complainId }}
+                        {{ (currentPage - 1) * perPage + index + 1 }}
                       </td>
                       <td
                         class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0"
                       >
-                        <h5 class="w-48 font-semibold truncate text-md">
-                          {{ feed.Complain_Title }}
+                        <h5
+                          class="w-48 flex flex-col font-semibold truncate text-md text-green-400"
+                        >
+                          {{ report.title }}
+                          <span class="font-normal text-xs text-black">
+                            วันที่ :
+                            {{ new Date(report.created_at).toDateString() }}
+                          </span>
+                          <span class="font-normal text-xs text-black">
+                            เวลา :
+                            {{
+                              new Date(report.created_at).toLocaleTimeString()
+                            }}
+                          </span>
                         </h5>
-                        <p class="w-48 font-normal">
-                          วันที่ : {{ feed.Complain_Date }}
-                        </p>
                       </td>
                       <td
                         class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0"
                       >
-                        <div>
-                          <p class="w-48 font-normal :truncate">
-                            {{ feed.Complain_Detail }}
-                          </p>
-                        </div>
+                        <p class="w-48 font-normal truncate-3">
+                          {{ report.detail }}
+                        </p>
                       </td>
                       <td
                         class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                       >
+                        <!-- Image not null -->
+                        <a
+                          :href="report.image"
+                          target="_blank"
+                          v-if="report.image != null"
+                        >
+                          <img
+                            class="w-48 h-auto hover:zoom shadow-lg rounded overflow-hidden"
+                            :src="report.image"
+                            alt="report image"
+                          />
+                        </a>
+
+                        <!-- Image null -->
                         <img
-                          class="w-24 h-24 bg-gray-200 shadow-lg border"
-                          :src="feed.Complain_Picture"
-                          alt=""
+                          :src="image"
+                          class="w-48 h-auto hover:zoom shadow-lg rounded overflow-hidden"
+                          alt="image null"
+                          v-else
                         />
                       </td>
 
@@ -138,12 +160,18 @@
                         class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                       >
                         <button
-                          @click="Delete(feed.complainId)"
+                          @click="onRead(report.id)"
+                          class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                          type="button"
+                        >
+                          <i class="fa-sharp fa-solid fa-book"></i>
+                        </button>
+                        <button
+                          @click="onDelete(report.id)"
                           class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
                           type="button"
                         >
-                          <i class="mr-1 fas fa-trash"></i>
-                          <span>ลบรายการนี้</span>
+                          <i class="fas fa-trash-alt"></i>
                         </button>
                       </td>
                     </tr>
@@ -171,104 +199,109 @@
 import http from "../../services/APIService";
 //? Package
 import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
+//? Image
+import image from "../../assets/images/logo.png";
 export default {
   data() {
     return {
-      products: [],
+      //? Image
+      image,
+
+      //? Data
+      complains: null,
+
+      //? Paginate
       currentPage: 0,
       perPage: 0,
       total: 0,
     };
   },
+
+  components: {
+    VueTailwindPagination,
+  },
+
+  mounted() {
+    this.currentPage = 1;
+    this.getComplains(this.currentPage);
+  },
+
   methods: {
-    async getProducts(pageNumber) {
-      let response = await http.get(`complain?page=${pageNumber}`);
-      let responseProduct = response.data.reverse();
-      this.products = responseProduct;
-      this.currentPage = responseProduct.current_page;
-      this.perPage = responseProduct.per_page;
-      this.total = responseProduct.length;
-    },
-    // ฟังก์ชันสำหรับดึงรายการสินค้าจาก api เมื่อมีการค้นหา (search)
-    async getProductsSearch(pageNumber) {
-      let response = await http.get(
-        `complain/${this.keyword}?page=${pageNumber}`
-      );
-      let responseProduct = response.data;
-      this.products = responseProduct;
-      this.currentPage = responseProduct.current_page;
-      this.perPage = responseProduct.per_page;
-      this.total = responseProduct.total;
-    },
-    // สร้างฟังก์ชันสำหรับการคลิ๊กเปลี่ยนหน้า
-    onPageClick(event) {
-      this.currentPage = event;
-      // เช็คว่ามีการค้นหาสินค้าอยู่หรือไม่
-      if (this.keyword == "") {
-        // ไม่ได้ค้นหา
-        this.getProducts(this.currentPage);
-      } else {
-        this.getProductsSearch(this.currentPage);
+    //? Get data
+    async getComplains(pageNumber) {
+      let res = await http.get(`complains?page=${pageNumber}`);
+      if (res) {
+        let data = res.data;
+        this.complains = data.data;
+        this.currentPage = data.current_page;
+        this.perPage = data.per_page;
+        this.total = data.total;
       }
     },
 
-    submitSearchForm() {
-      if (this.keyword != "") {
-        // เรียกค้นไปยัง api ของ laravel
-        http.get(`complain/${this.keyword}`).then((response) => {
-          let responseProduct = response.data;
-          this.products = responseProduct;
-          this.currentPage = responseProduct.current_page;
-          this.perPage = responseProduct.per_page;
-          this.total = responseProduct.total;
-        });
-      } else {
-        this.$swal.fire("ป้อนชื่อสินค้าที่ต้องการค้นหาก่อน");
-      }
+    //? Read more
+    onRead(id) {
+      this.$router.push({ name: "ComplainingRead", params: { id: id } });
     },
-    Delete(id) {
-      this.$swal
+
+    //? Delete function
+    onDelete(id) {
+      //? Set default sweet alert
+      const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          title: "font-weight-bold",
+          confirmButton:
+            "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+          cancelButton:
+            "px-6 py-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+        },
+        buttonsStyling: false,
+      });
+
+      //? Confirmation from user
+      swalWithBootstrapButtons
         .fire({
-          title: "ยืนยันการลบรายการนี้",
-          showDenyButton: false,
+          title: "ยืนยันการลบข้อมูล",
+          icon: "warning",
           showCancelButton: true,
-          confirmButtonText: `ยืนยัน`,
-          cancelButtonText: `ยกเลิก`,
+          confirmButtonText: "ยืนยัน",
+          cancelButtonText: "ยกเลิก",
+          reverseButtons: true,
         })
         .then((result) => {
           if (result.isConfirmed) {
             http
-              .delete(`complain/delete/${id}`)
+              .post(`complain/delete/${id}`)
               .then(() => {
-                this.$swal.fire("ลบรายการเรียบร้อย!", "", "success");
-                window.location.reload();
-                if (this.keyword == "") {
-                  this.getProducts(this.currentPage);
-                } else {
-                  this.getProductsSearch(this.currentPage);
-                }
+                swalWithBootstrapButtons
+                  .fire("ลบข้อมูลเรียบร้อย!", "", "success")
+                  .then(() => {
+                    window.location.reload();
+                  });
               })
-              .catch((error) => {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
+              .catch((err) => {
+                if (err) {
+                  swalWithBootstrapButtons.fire({
+                    icon: "error",
+                    title: "ขออภัย ทำรายการไม่สำเร็จ",
+                  });
+                }
               });
+          } else if (result.dismiss === this.$swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+              "ยกเลิกการลบข้อมูลเรียบร้อย!",
+              "",
+              "error"
+            );
           }
         });
     },
-    // สร้างฟังก์ชันสำหรับเคลียร์ข้อมูลการค้นหา
-    resetSearchForm() {
-      this.currentPage = 1;
-      this.getProducts(this.currentPage);
-      this.keyword = "";
-    },
-  },
 
-  components: { VueTailwindPagination },
-  mounted() {
-    this.currentPage = 1;
-    // อ่านสินค้าจาก API
-    this.getProducts(this.currentPage);
+    //? Paginate
+    onPageClick(event) {
+      this.currentPage = event;
+      this.getComplains(this.currentPage);
+    },
   },
 };
 </script>

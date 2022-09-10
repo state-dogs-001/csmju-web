@@ -24,6 +24,13 @@ import Alumnus from "../views/Alumnus.vue";
 import Download from "../views/Download.vue";
 import Contact from "../views/Contact.vue";
 
+//? About
+import History from "../views/about/History.vue";
+import Importance from "../views/about/Importance.vue";
+import Objectivity from "../views/about/Objectivity.vue";
+import Philosophy from "../views/about/Philosophy.vue";
+import PLO from "../views/about/PLO.vue";
+
 //? Auth view
 import Login from "../views/auth/Login.vue";
 
@@ -83,6 +90,7 @@ import RepairAdd from "../views/admin/RepairAdd.vue";
 import RepairEdit from "../views/admin/RepairEdit.vue";
 import CourseAlertShow from "../views/admin/CourseAlertShow.vue";
 import ComplainingShow from "../views/admin/ComplainingShow.vue";
+import ComplainingRead from "../views/admin/ComplainingRead.vue";
 
 //? Page 404
 import Page404 from "../views/Page404.vue";
@@ -129,6 +137,33 @@ const routes = [
         path: "/about",
         name: "About",
         component: About,
+        children: [
+          {
+            path: "/about/history",
+            name: "History",
+            component: History,
+          },
+          {
+            path: "/about/importance",
+            name: "Importance",
+            component: Importance,
+          },
+          {
+            path: "/about/objectivity",
+            name: "Objectivity",
+            component: Objectivity,
+          },
+          {
+            path: "/about/philosophy",
+            name: "Philosophy",
+            component: Philosophy,
+          },
+          {
+            path: "/about/plo",
+            name: "PLO",
+            component: PLO,
+          },
+        ],
       },
       {
         path: "/classroom",
@@ -474,6 +509,11 @@ const routes = [
         path: "/admin/complaining",
         name: "Complaining",
         component: ComplainingShow,
+      },
+      {
+        path: "/admin/complainingread/:id",
+        name: "ComplainingRead",
+        component: ComplainingRead,
       },
     ],
   },
