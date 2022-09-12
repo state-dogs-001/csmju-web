@@ -249,7 +249,7 @@ export default {
 
             Toast.fire({
               icon: "error",
-              title: "ชื่อผู้ใช้ / รหัสผ่านไม่ถูกต้อง",
+              title: "เข้าสู่ระบบไม่สำเร็จ",
             }).then(() => {
               //? Reset password
               this.password = "";
@@ -308,7 +308,7 @@ export default {
             });
             Toast.fire({
               icon: "error",
-              title: "เกิดข้อผิดพลาด",
+              title: "เข้าสู่ระบบไม่สำเร็จ",
             });
           }
         });
@@ -323,7 +323,7 @@ export default {
         .post("auth/signin", data)
         .then((res) => {
           localStorage.setItem("user", JSON.stringify(res.data));
-          if (res.data.user.role == "admin") {
+          if (res.data.success && res.data.user.role == "admin") {
             const Toast = this.$swal.mixin({
               toast: true,
               position: "top-end",
@@ -336,6 +336,19 @@ export default {
               title: "กำลังเข้าสู่ระบบ",
             }).then(() => {
               this.$router.push({ name: "Dashboard" });
+            });
+          } else {
+            let msg = res.data.message;
+            const Toast = this.$swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 1000,
+              timerProgressBar: true,
+            });
+            Toast.fire({
+              icon: "error",
+              title: msg,
             });
           }
         })
@@ -351,7 +364,7 @@ export default {
 
             Toast.fire({
               icon: "error",
-              title: "ชื่อผู้ใช้ / รหัสผ่านไม่ถูกต้อง",
+              title: "เข้าสู่ระบบไม่สำเร็จ",
             }).then(() => {
               //? Reset password
               this.password = "";

@@ -344,9 +344,9 @@
               </a>
             </router-link>
           </li>
-          <!-- <li class="items-center">
+          <li class="items-center">
             <router-link
-              to="/admin/bookingshow"
+              to="/admin/projectshow"
               v-slot="{ href, navigate, isActive }"
             >
               <a
@@ -363,10 +363,10 @@
                   class="mr-2 text-sm fas fa-check-circle"
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
-                ระบบจองห้องเรียน
+                ระบบสืบค้นโครงงาน
               </a>
             </router-link>
-          </li> -->
+          </li>
           <li class="items-center">
             <router-link
               to="/admin/repairshow"

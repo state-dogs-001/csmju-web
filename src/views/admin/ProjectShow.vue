@@ -7,9 +7,7 @@
         <div class="container mx-auto">
           <div class="px-6">
             <div class="mt-6 text-center">
-              <h1 class="py-6 text-3xl font-bold">
-                CSMJU | ระบบจัดการข้อมูลบุคลากร
-              </h1>
+              <h1 class="py-6 text-3xl font-bold">CSMJU | ระบบสืบค้นโครงงาน</h1>
             </div>
             <br class="shadow-xl" />
             <div class="relative flex flex-col w-full min-w-0 mb-6 break-words">
@@ -26,7 +24,7 @@
                         v-model="keyword"
                         class="w-full py-2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-200 border-0 rounded-md"
                         type="text"
-                        placeholder="ป้อนคำที่ต้องการค้นหา เช่น ชื่อ หรือตำแหน่งของบุคลากร"
+                        placeholder="ป้อนคำที่ต้องการค้นหา เช่น ชื่อ รหัสโครงงาน หรือชื่ออาจารย์ที่ปรึกษา"
                         aria-label="Search"
                       />
                     </form>
@@ -35,37 +33,34 @@
                   <div class="w-full px-4 text-center md:w-4/12">
                     <button
                       @click="onSearch"
-                      class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-lightBlue-500 active:bg-lightBlue-600 hover:shadow-md focus:outline-none"
+                      class="px-4 py-2 mb-1 mr-2 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-lightBlue-500 active:bg-lightBlue-600 hover:shadow-md focus:outline-none"
                       type="button"
                     >
                       <i class="fas fa-search"></i> ค้นหา
                     </button>
                     <button
                       @click="resetSearchForm"
-                      class="px-4 py-2 mb-1 mr-4 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
+                      class="px-4 py-2 mb-1 mr-2 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
                       type="button"
                     >
                       <i class="fas fa-broom"></i> ล้าง
                     </button>
-                    <router-link to="personneladd">
-                      <button
-                        @click="openModalAddProduct"
-                        class="px-4 py-2 mb-1 ml-2 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                        type="button"
-                      >
-                        <i class="fas fa-plus"></i> เพิ่ม
-                      </button>
+                    <router-link
+                      to="projectadd"
+                      class="px-4 py-2 mb-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                    >
+                      <i class="fas fa-plus"></i> เพิ่ม
                     </router-link>
                   </div>
                 </div>
               </div>
 
-              <!-- News Feeds table -->
+              <!-- Table -->
               <div class="block w-full overflow-x-auto">
-                <!-- Projects table -->
                 <table
                   class="items-center w-full bg-transparent border-collapse"
                 >
+                  <!-- thead -->
                   <thead>
                     <tr
                       class="text-blueGray-500 border-b-2 border-blueGray-500"
@@ -73,28 +68,27 @@
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
-                        ชื่อ - นามสกุล
+                        ลำดับ
                       </th>
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
-                        ประเภท
+                        รหัสโครงงาน
                       </th>
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
-                        การศึกษา
-                      </th>
-
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ติดต่อ
+                        ชื่อโครงงาน (ลิงค์ไฟล์)
                       </th>
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
-                        สถานะการทำงาน
+                        ชื่อผู้ทำโครงงาน
+                      </th>
+                      <th
+                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                      >
+                        ชื่ออาจารย์ที่ปรึกษา
                       </th>
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
@@ -103,87 +97,90 @@
                       </th>
                     </tr>
                   </thead>
+
+                  <!-- Body -->
                   <tbody>
-                    <tr
-                      v-for="personnel in personnels"
-                      :key="personnel.id"
-                      class="border-b"
-                    >
+                    <tr v-for="(project, index) in projects" :key="index">
+                      <td
+                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                      >
+                        {{ (currentPage - 1) * perPage + index + 1 }}
+                      </td>
+                      <td
+                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                      >
+                        {{ project.project_code }}
+                      </td>
+                      <td
+                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                      >
+                        <a
+                          :href="project.file"
+                          target="_blank"
+                          class="hover:text-emerald-600"
+                        >
+                          {{ project.name }}
+                        </a>
+                      </td>
+                      <td
+                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                      >
+                        <p>{{ project.editor_1 }}</p>
+                        <p v-if="project.editor_2 != null">
+                          {{ project.editor_2 }}
+                        </p>
+                        <p v-if="project.editor_3 != null">
+                          {{ project.editor_3 }}
+                        </p>
+                      </td>
+                      <td
+                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                      >
+                        <p class="text-xs font-bold">ประธาน</p>
+                        <p>
+                          {{ project.chairman_name_title
+                          }}{{ project.chairman_name }}
+                        </p>
+
+                        <div
+                          v-if="
+                            project.director_1_name_title != null &&
+                            project.director_1_name != null
+                          "
+                        >
+                          <p class="text-xs font-bold">กรรมการ</p>
+                          <p>
+                            {{ project.director_1_name_title
+                            }}{{ project.director_1_name }}
+                          </p>
+                        </div>
+
+                        <div
+                          v-if="
+                            project.director_2_name_title != null &&
+                            project.director_2_name != null
+                          "
+                        >
+                          <p class="text-xs font-bold">กรรมการ</p>
+                          <p>
+                            {{ project.director_2_name_title
+                            }}{{ project.director_2_name }}
+                          </p>
+                        </div>
+                      </td>
+                      <!-- Edit -->
                       <td
                         class="p-4 px-6 text-xs align-middle whitespace-nowrap"
                       >
-                        <div
-                          class="flex items-center text-xs text-left align-middle whitespace-nowrap"
-                        >
-                          <img
-                            :src="
-                              personnel.image_profile == null
-                                ? User
-                                : personnel.image_profile
-                            "
-                            alt="profile"
-                            class="w-10 h-10 border-2 rounded-full shadow border-blueGray-50"
-                          />
-                          <span class="ml-3 text-sm font-semiBold">
-                            {{ personnel.name_title }}{{ personnel.name_th }}
-                            <div class="text-xs font-normal">
-                              {{ personnel.name_en }}
-                            </div>
-                          </span>
-                        </div>
-                      </td>
-                      <td
-                        class="w-5 p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        <div>
-                          <p class="w-20 font-normal">
-                            {{ personnel.personnel_type }}
-                          </p>
-                        </div>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-wrap"
-                      >
-                        <div>
-                          <p class="w-20 font-normal truncate-3">
-                            {{ personnel.education }}
-                          </p>
-                        </div>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        <div class="w-48">
-                          <p class="font-normal truncate-3">
-                            อีเมล : {{ personnel.email }}
-                          </p>
-                          <p class="font-normal truncate-3">
-                            โทร. : {{ personnel.tel_number }}
-                          </p>
-                        </div>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-wrap"
-                      >
-                        <div>
-                          <p class="w-20 font-normal truncate-3">
-                            {{ personnel.status }}
-                          </p>
-                        </div>
-                      </td>
-
-                      <td
-                        class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
                         <button
-                          @click="onUpdate(personnel.id)"
+                          @click="onUpdate(project.id)"
                           class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
                           type="button"
                         >
                           <i class="fas fa-edit"></i>
                         </button>
                         <button
-                          @click="onDelete(personnel.id)"
+                          @click="onDelete(project.id)"
                           class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
                           type="button"
                         >
@@ -193,7 +190,6 @@
                     </tr>
                   </tbody>
                 </table>
-
                 <!-- Paginate -->
                 <VueTailwindPagination
                   :current="currentPage"
@@ -215,16 +211,11 @@
 import http from "../../services/APIService";
 //? Package
 import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
-//? Image
-import User from "../../assets/images/user_null.svg";
 export default {
   data() {
     return {
-      //? Image
-      User,
-
       //? Data
-      personnels: null,
+      projects: null,
 
       //? Pagination
       currentPage: 0,
@@ -236,80 +227,80 @@ export default {
     };
   },
 
-  components: {
-    VueTailwindPagination,
-  },
+  components: { VueTailwindPagination },
 
   watch: {
     keyword(val) {
       if (!val) {
         this.currentPage = 1;
-        this.getPersonnels(this.currentPage);
+        this.getProjects(this.currentPage);
       }
     },
   },
 
   mounted() {
     this.currentPage = 1;
-    this.getPersonnels(this.currentPage);
+    this.getProjects(this.currentPage);
   },
 
   methods: {
     //? Get data
-    async getPersonnels(pageNumber) {
-      let personnels = await http.get(`personnels?page=${pageNumber}`);
-      if (personnels) {
-        let data = personnels.data;
-        this.personnels = data.data;
+    async getProjects(pageNumber) {
+      let res = await http.get(`projects?page=${pageNumber}`);
+      if (res) {
+        let data = res.data;
+        this.projects = data.data;
+        this.currentPage = data.current_page;
         this.perPage = data.per_page;
         this.total = data.total;
-        this.currentPage = data.current_page;
       }
-    },
-
-    //? Submit search form
-    onSearch() {
-      if (this.keyword != "") {
-        this.currentPage = 1;
-        this.getPersonnelsSearch(this.currentPage);
-      }
-    },
-
-    //? Get personnels by search
-    async getPersonnelsSearch(pageNumber) {
-      let personnels = await http.get(
-        `personnel/search/${this.keyword}?page=${pageNumber}`
-      );
-      if (personnels) {
-        let data = personnels.data;
-        this.personnels = data.data;
-        this.perPage = data.per_page;
-        this.total = data.total;
-        this.currentPage = data.current_page;
-      }
-    },
-
-    //? Reset search form
-    resetSearchForm() {
-      this.currentPage = 1;
-      this.getPersonnels(this.currentPage);
-      this.keyword = "";
     },
 
     //? Paginate
-    onPageClick(event) {
-      this.currentPage = event;
-      this.keyword == ""
-        ? this.getPersonnels(this.currentPage)
-        : this.getPersonnelsSearch(this.currentPage);
+    onPageClick(pageNumber) {
+      this.currentPage = pageNumber;
+
+      if (this.keyword == "") {
+        this.getProjects(this.currentPage);
+      } else {
+        this.searchProjects(this.currentPage);
+      }
     },
 
-    //? Update function
+    //? Search
+    onSearch() {
+      this.currentPage = 1;
+      this.getProjectsSearch(this.currentPage);
+    },
+
+    //? Reset Search
+    resetSearchForm() {
+      this.keyword = "";
+      this.currentPage = 1;
+      this.getProjects(this.currentPage);
+    },
+
+    //? Get data filter by keyword
+    async getProjectsSearch(pageNumber) {
+      let data = new FormData();
+      data.append("keyword", this.keyword);
+
+      let res = await http.post(`project/search?page=${pageNumber}`, data);
+      if (res) {
+        let data = res.data;
+        this.projects = data.data;
+        this.currentPage = data.current_page;
+        this.perPage = data.per_page;
+        this.total = data.total;
+      }
+    },
+
+    //? Update
     onUpdate(id) {
-      this.$router.push({ name: "PersonnelEdit", params: { id: id } });
+      this.$router.push({ name: "ProjectEdit", params: { id: id } });
     },
 
-    //? Delete function
+    //? Delete
     onDelete(id) {
       //? Set default sweet alert
       const swalWithBootstrapButtons = this.$swal.mixin({
@@ -323,6 +314,7 @@ export default {
         buttonsStyling: false,
       });
 
+      //? Confirmation from user
       swalWithBootstrapButtons
         .fire({
           title: "ยืนยันการลบข้อมูล",
@@ -334,8 +326,9 @@ export default {
         })
         .then((result) => {
           if (result.isConfirmed) {
+            //? Call API
             http
-              .post(`personnel/delete/${id}`)
+              .post(`project/delete/${id}`)
               .then(() => {
                 swalWithBootstrapButtons
                   .fire("ลบข้อมูลเรียบร้อย!", "", "success")
@@ -343,16 +336,20 @@ export default {
                     window.location.reload();
                   });
               })
-              .catch((error) => {
-                if (error) {
+              .catch((err) => {
+                if (err) {
                   swalWithBootstrapButtons.fire({
                     icon: "error",
                     title: "ขออภัย ทำรายการไม่สำเร็จ",
                   });
                 }
               });
-          } else {
-            swalWithBootstrapButtons.fire("ยกเลิกการลบข้อมูล", "", "error");
+          } else if (result.dismiss === this.$swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+              "ยกเลิกการลบข้อมูลเรียบร้อย!",
+              "",
+              "error"
+            );
           }
         });
     },

@@ -91,6 +91,9 @@ import RepairEdit from "../views/admin/RepairEdit.vue";
 import CourseAlertShow from "../views/admin/CourseAlertShow.vue";
 import ComplainingShow from "../views/admin/ComplainingShow.vue";
 import ComplainingRead from "../views/admin/ComplainingRead.vue";
+import ProjectShow from "../views/admin/ProjectShow.vue";
+import ProjectAdd from "../views/admin/ProjectAdd.vue";
+import ProjectEdit from "../views/admin/ProjectEdit.vue";
 
 //? Page 404
 import Page404 from "../views/Page404.vue";
@@ -514,6 +517,21 @@ const routes = [
         path: "/admin/complainingread/:id",
         name: "ComplainingRead",
         component: ComplainingRead,
+      },
+      {
+        path: "/admin/projectshow",
+        name: "ProjectShow",
+        component: ProjectShow,
+      },
+      {
+        path: "/admin/projectadd",
+        name: "ProjectAdd",
+        component: ProjectAdd,
+      },
+      {
+        path: "/admin/projectedit/:id",
+        name: "ProjectEdit",
+        component: ProjectEdit,
       },
     ],
   },

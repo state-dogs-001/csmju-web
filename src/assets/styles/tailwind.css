@@ -3841,6 +3841,7 @@ select {
   --tw-text-opacity: 1;
   color: rgba(30, 41, 59, var(--tw-text-opacity));
 }
+
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
@@ -3879,7 +3880,6 @@ select {
 
 .truncate-3 {
   overflow: hidden;
-
   max-height: 3.1rem;
   -webkit-box-orient: vertical;
   display: hidden;
@@ -3887,6 +3887,28 @@ select {
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
+}
+
+.truncate-4 {
+  overflow: hidden;
+  max-height: 4.1rem;
+  -webkit-box-orient: vertical;
+  display: hidden;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+}
+
+.truncate-5 {
+  overflow: hidden;
+  max-height: 5.1rem;
+  -webkit-box-orient: vertical;
+  display: hidden;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 4;
 }
 
 .overflow-ellipsis {
