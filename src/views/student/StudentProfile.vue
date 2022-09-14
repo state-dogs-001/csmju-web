@@ -64,8 +64,15 @@
                               ref="fileupload"
                               type="file"
                               @change="onFileSelected"
+                              accept="image/*"
                               class="px-3 py-2 leading-tight text-gray-700 border-b w-full"
                             />
+                          </div>
+                          <div
+                            v-if="v$.file.$error"
+                            class="mt-2 text-left text-sm text-red-500"
+                          >
+                            {{ v$.file.$errors[0].$message }}
                           </div>
                         </div>
                       </div>
@@ -427,9 +434,8 @@ export default {
 
   methods: {
     onFileSelected(event) {
-      const file = event.target.files[0];
       this.file = event.target.files[0];
-      this.image = URL.createObjectURL(file);
+      this.image = URL.createObjectURL(this.file);
     },
 
     getSubDistrict() {
@@ -458,6 +464,8 @@ export default {
               this.studentCode = user.email.slice(3, 13);
               this.firstName = user.name;
               this.lastName = user.surname;
+              this.email = user.email;
+              this.tel = user.mobile;
             }
           })
           .catch((err) => {
@@ -643,6 +651,27 @@ export default {
         required: helpers.withMessage(
           "ป้อนที่อยู่ที่สามารถติดต่อได้ก่อน",
           required
+        ),
+      },
+      file: {
+        required: helpers.withMessage(
+          "ไฟล์ที่อัปโหลดต้องเป็นไฟล์ .jpeg .jpg หรือ .png เท่านั้น",
+          () => {
+            if (this.file != null) {
+              //? Check file type
+              if (
+                this.file.type == "image/jpeg" ||
+                this.file.type == "image/jpg" ||
+                this.file.type == "image/png"
+              ) {
+                return true;
+              } else {
+                return false;
+              }
+            } else {
+              return true;
+            }
+          }
         ),
       },
     };

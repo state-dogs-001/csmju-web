@@ -37,7 +37,7 @@
                       <button
                         @click="
                           profile != null
-                            ? goToPage('service/course')
+                            ? goToPage('/student/service/course')
                             : popAlert()
                         "
                       >
@@ -71,7 +71,7 @@
                       <button
                         @click="
                           profile != null
-                            ? goToPage('service/maintenance')
+                            ? goToPage('/student/service/maintenance')
                             : popAlert()
                         "
                       >
@@ -105,7 +105,7 @@
                       <button
                         @click="
                           profile != null
-                            ? goToPage('service/roomreserve')
+                            ? goToPage('/student/service/roomreserve')
                             : popAlert()
                         "
                       >

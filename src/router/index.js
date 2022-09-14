@@ -55,9 +55,9 @@ import ChangePassword from "../views/admin/ChangePassword.vue";
 import Banner from "../views/admin/Banner.vue";
 import BannerAdd from "../views/admin/BannerAdd.vue";
 import BannerEdit from "../views/admin/BannerEdit.vue";
-import AboutMeShow from "../views/admin/AboutMeShow.vue";
-import AboutMeAdd from "../views/admin/AboutMeAdd.vue";
-import AboutMeEdit from "../views/admin/AboutMeEdit.vue";
+// import AboutMeShow from "../views/admin/AboutMeShow.vue";
+// import AboutMeAdd from "../views/admin/AboutMeAdd.vue";
+// import AboutMeEdit from "../views/admin/AboutMeEdit.vue";
 import SubjectShow from "../views/admin/SubjectShow.vue";
 import SubjectAdd from "../views/admin/SubjectAdd.vue";
 import SubjectEdit from "../views/admin/SubjectEdit.vue";
@@ -82,9 +82,9 @@ import EquipmentEdit from "../views/admin/EquipmentEdit.vue";
 import ActivityShow from "../views/admin/ActivityShow.vue";
 import ActivityAdd from "../views/admin/ActivityAdd.vue";
 import ActivityEdit from "../views/admin/ActivityEdit.vue";
-import BookingShow from "../views/admin/BookingShow.vue";
-import BookingAdd from "../views/admin/BookingAdd.vue";
-import BookingEdit from "../views/admin/BookingEdit.vue";
+// import BookingShow from "../views/admin/BookingShow.vue";
+// import BookingAdd from "../views/admin/BookingAdd.vue";
+// import BookingEdit from "../views/admin/BookingEdit.vue";
 import RepairShow from "../views/admin/RepairShow.vue";
 import RepairAdd from "../views/admin/RepairAdd.vue";
 import RepairEdit from "../views/admin/RepairEdit.vue";
@@ -94,6 +94,9 @@ import ComplainingRead from "../views/admin/ComplainingRead.vue";
 import ProjectShow from "../views/admin/ProjectShow.vue";
 import ProjectAdd from "../views/admin/ProjectAdd.vue";
 import ProjectEdit from "../views/admin/ProjectEdit.vue";
+import DocumentShow from "../views/admin/DocumentShow.vue";
+import DocumentAdd from "../views/admin/DocumentAdd.vue";
+import DocumentEdit from "../views/admin/DocumentEdit.vue";
 
 //? Page 404
 import Page404 from "../views/Page404.vue";
@@ -338,21 +341,21 @@ const routes = [
         name: "BannerEdit",
         component: BannerEdit,
       },
-      {
-        path: "/admin/aboutmeshow",
-        name: "AboutMeShow",
-        component: AboutMeShow,
-      },
-      {
-        path: "/admin/aboutmeadd",
-        name: "AboutMeAdd",
-        component: AboutMeAdd,
-      },
-      {
-        path: "/admin/aboutmeedit",
-        name: "AboutMeEdit",
-        component: AboutMeEdit,
-      },
+      // {
+      //   path: "/admin/aboutmeshow",
+      //   name: "AboutMeShow",
+      //   component: AboutMeShow,
+      // },
+      // {
+      //   path: "/admin/aboutmeadd",
+      //   name: "AboutMeAdd",
+      //   component: AboutMeAdd,
+      // },
+      // {
+      //   path: "/admin/aboutmeedit",
+      //   name: "AboutMeEdit",
+      //   component: AboutMeEdit,
+      // },
       {
         path: "/admin/subjectshow",
         name: "SubjectShow",
@@ -473,21 +476,21 @@ const routes = [
         name: "ActivityEdit",
         component: ActivityEdit,
       },
-      {
-        path: "/admin/bookingshow",
-        name: "BookingShow",
-        component: BookingShow,
-      },
-      {
-        path: "/admin/bookingadd",
-        name: "BookingAdd",
-        component: BookingAdd,
-      },
-      {
-        path: "/admin/bookingedit",
-        name: "BookingEdit",
-        component: BookingEdit,
-      },
+      // {
+      //   path: "/admin/bookingshow",
+      //   name: "BookingShow",
+      //   component: BookingShow,
+      // },
+      // {
+      //   path: "/admin/bookingadd",
+      //   name: "BookingAdd",
+      //   component: BookingAdd,
+      // },
+      // {
+      //   path: "/admin/bookingedit",
+      //   name: "BookingEdit",
+      //   component: BookingEdit,
+      // },
       {
         path: "/admin/repairshow",
         name: "RepairShow",
@@ -532,6 +535,21 @@ const routes = [
         path: "/admin/projectedit/:id",
         name: "ProjectEdit",
         component: ProjectEdit,
+      },
+      {
+        path: "/admin/documentshow",
+        name: "DocumentShow",
+        component: DocumentShow,
+      },
+      {
+        path: "/admin/documentadd",
+        name: "DocumentAdd",
+        component: DocumentAdd,
+      },
+      {
+        path: "/admin/documentedit/:id",
+        name: "DocumentEdit",
+        component: DocumentEdit,
       },
     ],
   },

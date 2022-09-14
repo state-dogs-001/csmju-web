@@ -417,8 +417,6 @@ export default {
 
       //? PDF Preview
       pdf: null,
-      page: 1,
-      pageCount: 0,
     };
   },
 
@@ -441,23 +439,6 @@ export default {
       this.pdf = URL.createObjectURL(this.file);
     },
 
-    //? Pdf preview get page count
-    handleDocumentRender() {
-      this.pageCount = this.$refs.pdfRef.pageCount;
-    },
-
-    //? Pdf preview previous page
-    previousClick(e) {
-      e.preventDefault();
-      this.page > 1 ? this.page-- : (this.page = 1);
-    },
-
-    //? Pdf preview next page
-    nextClick(e) {
-      e.preventDefault();
-      this.page < this.pageCount ? this.page++ : (this.page = this.pageCount);
-    },
-
     //? Reset form
     onResetForm() {
       this.v$.$reset();
@@ -476,8 +457,6 @@ export default {
       this.detail = "";
       this.file = null;
       this.pdf = null;
-      this.page = 1;
-      this.pageCount = 0;
       this.$refs.fileupload.value = null;
     },
 
@@ -596,7 +575,16 @@ export default {
         required: helpers.withMessage("กรุณากรอกรายละเอียด", required),
       },
       file: {
-        required: helpers.withMessage("กรุณาอัพโหลดไฟล์โครงงาน", required),
+        required: helpers.withMessage(
+          "กรุณาอัพโหลดไฟล์โครงงาน ต้องเป็นไฟล์ .pdf เท่านั้น",
+          () => {
+            if (this.file != null) {
+              return this.file.type == "application/pdf" ? true : false;
+            } else {
+              return false;
+            }
+          }
+        ),
       },
     };
   },

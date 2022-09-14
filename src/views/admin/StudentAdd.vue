@@ -27,8 +27,9 @@
                 <!-- Citizen id-->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >รหัสประจำตัวประชาชน</label
-                  >
+                    >รหัสประจำตัวประชาชน
+                    <span class="text-ms text-red-500">*</span>
+                  </label>
                   <input
                     v-model="citizenId"
                     class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
@@ -47,8 +48,9 @@
                 <!-- Student code -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >รหัสนักศึกษา</label
-                  >
+                    >รหัสนักศึกษา
+                    <span class="text-ms text-red-500">*</span>
+                  </label>
                   <input
                     v-model="studentCode"
                     class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
@@ -70,8 +72,9 @@
                 <!-- Frist name -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >ชื่อ (ภาษาไทย)</label
-                  >
+                    >ชื่อ (ภาษาไทย)
+                    <span class="text-ms text-red-500">*</span>
+                  </label>
                   <input
                     v-model="firstName"
                     class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
@@ -89,8 +92,9 @@
                 <!-- Last name -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >นามสกุล (ภาษาไทย)</label
-                  >
+                    >นามสกุล (ภาษาไทย)
+                    <span class="text-ms text-red-500">*</span>
+                  </label>
                   <input
                     v-model="lastName"
                     class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
@@ -111,8 +115,9 @@
                 <!-- First name -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >ชื่อ (ภาษาอังกฤษ)</label
-                  >
+                    >ชื่อ (ภาษาอังกฤษ)
+                    <span class="text-ms text-red-500">*</span>
+                  </label>
                   <input
                     v-model="firstNameEn"
                     class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
@@ -130,8 +135,9 @@
                 <!-- Last name -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >นามสกุล (ภาษาอังกฤษ)</label
-                  >
+                    >นามสกุล (ภาษาอังกฤษ)
+                    <span class="text-ms text-red-500">*</span>
+                  </label>
                   <input
                     v-model="lastNameEn"
                     class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
@@ -153,16 +159,14 @@
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
                     >เบอร์ติดต่อ
-                    <span class="text-sm text-red-500 italic"
-                      >**ไม่ต้องใส่ขีด (-)**</span
-                    ></label
-                  >
+                    <span class="text-ms text-red-500">*</span>
+                  </label>
                   <input
                     v-model="tel"
                     class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
                     type="text"
                     maxlength="10"
-                    placeholder="Cell Phone"
+                    placeholder="Cell Phone without (-)"
                   />
                   <div v-if="v$.tel.$error" class="mt-2 text-sm text-red-500">
                     {{ v$.tel.$errors[0].$message }}
@@ -172,8 +176,9 @@
                 <!-- Email -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >อีเมล (ส่วนตัว)</label
-                  >
+                    >อีเมล (ส่วนตัว)
+                    <span class="text-ms text-red-500">*</span>
+                  </label>
                   <input
                     v-model="email"
                     class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
@@ -191,8 +196,9 @@
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-2 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md" for="Title"
-                    >รหัสไปรษณีย์</label
-                  >
+                    >รหัสไปรษณีย์
+                    <span class="text-ms text-red-500">*</span>
+                  </label>
                   <input
                     v-model="postcode"
                     class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
@@ -202,15 +208,16 @@
                   />
                   <div
                     v-if="v$.postcode.$error"
-                    class="mt-0 text-sm text-red-500"
+                    class="mt-2 text-sm text-red-500"
                   >
                     {{ v$.postcode.$errors[0].$message }}
                   </div>
                 </div>
                 <div class="w-full px-2 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md" for="Title"
-                    >ตำบล</label
-                  >
+                    >ตำบล
+                    <span class="text-ms text-red-500">*</span>
+                  </label>
                   <select
                     v-model="subDistrict"
                     class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight border"
@@ -230,7 +237,7 @@
                   </select>
                   <div
                     v-if="v$.subDistrict.$error"
-                    class="mt-0 text-sm text-red-500"
+                    class="mt-2 text-sm text-red-500"
                   >
                     {{ v$.subDistrict.$errors[0].$message }}
                   </div>
@@ -269,8 +276,9 @@
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >ที่อยู่ (สามารถติดต่อได้)</label
-                  >
+                    >ที่อยู่ (สามารถติดต่อได้)
+                    <span class="text-ms text-red-500">*</span>
+                  </label>
                   <textarea
                     v-model="address"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
@@ -303,9 +311,13 @@
                   <input
                     ref="fileupload"
                     @change="onFileChange"
+                    accept="image/*"
                     class="w-full px-3 py-2 leading-tight text-gray-700 border-b"
                     type="file"
                   />
+                  <div v-if="v$.file.$error" class="mt-2 text-sm text-red-500">
+                    {{ v$.file.$errors[0].$message }}
+                  </div>
                 </div>
               </div>
 
@@ -540,6 +552,27 @@ export default {
         required: helpers.withMessage(
           "ป้อนที่อยู่ที่สามารถติดต่อได้ก่อน",
           required
+        ),
+      },
+      file: {
+        required: helpers.withMessage(
+          "ไฟล์ที่อัปโหลดต้องเป็นไฟล์ .jpeg .jpg หรือ .png เท่านั้น",
+          () => {
+            if (this.file != null) {
+              //? Check file type
+              if (
+                this.file.type == "image/jpeg" ||
+                this.file.type == "image/jpg" ||
+                this.file.type == "image/png"
+              ) {
+                return true;
+              } else {
+                return false;
+              }
+            } else {
+              return true;
+            }
+          }
         ),
       },
     };

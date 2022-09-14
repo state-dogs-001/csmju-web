@@ -160,8 +160,12 @@
                       ref="fileupload"
                       type="file"
                       @change="onFileChange"
+                      accept="image/*"
                       class="w-full h-50-px opacity-0 p-3 bg-white"
                     />
+                  </div>
+                  <div v-if="v$.file.$error" class="mt-2 text-sm text-red-500">
+                    {{ v$.file.$errors[0].$message }}
                   </div>
                 </div>
               </div>
@@ -331,6 +335,27 @@ export default {
       },
       type: {
         required: helpers.withMessage("ป้อนประเภทข่าวก่อน", required),
+      },
+      file: {
+        required: helpers.withMessage(
+          "ไฟล์ที่อัปโหลดต้องเป็นไฟล์ .jpeg .jpg หรือ .png เท่านั้น",
+          () => {
+            if (this.file != null) {
+              //? Check file type
+              if (
+                this.file.type == "image/jpeg" ||
+                this.file.type == "image/jpg" ||
+                this.file.type == "image/png"
+              ) {
+                return true;
+              } else {
+                return false;
+              }
+            } else {
+              return true;
+            }
+          }
+        ),
       },
       link: {
         required: helpers.withMessage(

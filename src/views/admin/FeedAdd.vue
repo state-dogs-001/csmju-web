@@ -160,6 +160,7 @@
                       ref="fileupload"
                       type="file"
                       @change="onFileChange"
+                      accept="image/*"
                       class="w-full h-50-px opacity-0 p-3 bg-white"
                     />
                   </div>
@@ -302,7 +303,25 @@ export default {
         required: helpers.withMessage("ป้อนประเภทข่าวก่อน", required),
       },
       file: {
-        required: helpers.withMessage("ป้อนรูปภาพข่าวก่อน", required),
+        required: helpers.withMessage(
+          "อัปโหลดรูปภาพก่อนและไฟล์ที่อัปโหลดต้องเป็นไฟล์ .jpeg .jpg หรือ .png เท่านั้น",
+          () => {
+            if (this.file != null) {
+              //? Check file type
+              if (
+                this.file.type == "image/jpeg" ||
+                this.file.type == "image/jpg" ||
+                this.file.type == "image/png"
+              ) {
+                return true;
+              } else {
+                return false;
+              }
+            } else {
+              return false;
+            }
+          }
+        ),
       },
       link: {
         required: helpers.withMessage(

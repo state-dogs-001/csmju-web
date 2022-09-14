@@ -15,7 +15,7 @@
 
         <div class="py-5 mt-10 text-center border-t border-blueGray-200">
           <div class="flex flex-wrap">
-            <div class="flex flex-auto mt-4 block w-full overflow-x-auto">
+            <div class="flex flex-auto mt-4 w-full overflow-x-auto">
               <div class="block w-full overflow-x-auto lg:w-12/12">
                 <!-- Projects table -->
                 <table

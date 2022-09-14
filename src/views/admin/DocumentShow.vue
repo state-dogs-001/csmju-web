@@ -7,7 +7,9 @@
         <div class="container mx-auto">
           <div class="px-6">
             <div class="mt-6 text-center">
-              <h1 class="py-6 text-3xl font-bold">CSMJU | ระบบสืบค้นโครงงาน</h1>
+              <h1 class="py-6 text-3xl font-bold">
+                CSMJU | การแสดงเอกสารราชการ
+              </h1>
             </div>
             <br class="shadow-xl" />
             <div class="relative flex flex-col w-full min-w-0 mb-6 break-words">
@@ -24,7 +26,7 @@
                         v-model="keyword"
                         class="w-full py-2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-200 border-0 rounded-md"
                         type="text"
-                        placeholder="ป้อนคำที่ต้องการค้นหา เช่น ชื่อ รหัสโครงงาน หรือชื่ออาจารย์ที่ปรึกษา"
+                        placeholder="ป้อนชื่อเอกสารที่ต้องการค้นหา"
                         aria-label="Search"
                       />
                     </form>
@@ -46,7 +48,7 @@
                       <i class="fas fa-broom"></i> ล้าง
                     </button>
                     <router-link
-                      to="projectadd"
+                      to="documentadd"
                       class="px-4 py-2 mb-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-md focus:outline-none"
                     >
                       <i class="fas fa-plus"></i> เพิ่ม
@@ -73,22 +75,12 @@
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
-                        รหัสโครงงาน
+                        ชื่อเอกสาร (ลิงค์ไฟล์)
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-6 py-3 text-sm font-semibold text-center uppercase align-middle whitespace-nowrap"
                       >
-                        ชื่อโครงงาน (ลิงค์ไฟล์)
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ชื่อผู้ทำโครงงาน
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ชื่ออาจารย์ที่ปรึกษา
+                        สถานะการแสดง
                       </th>
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
@@ -97,10 +89,9 @@
                       </th>
                     </tr>
                   </thead>
-
                   <!-- Body -->
                   <tbody>
-                    <tr v-for="(project, index) in projects" :key="index">
+                    <tr v-for="(doc, index) in documents" :key="index">
                       <td
                         class="p-4 px-6 text-sm align-middle whitespace-nowrap"
                       >
@@ -109,78 +100,38 @@
                       <td
                         class="p-4 px-6 text-sm align-middle whitespace-nowrap"
                       >
-                        {{ project.project_code }}
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
                         <a
-                          :href="project.file"
+                          :href="doc.file"
                           target="_blank"
                           class="hover:text-emerald-600"
                         >
-                          {{ project.name }}
+                          {{ doc.name }}
                         </a>
                       </td>
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="p-4 px-6 text-sm align-middle whitespace-nowrap text-center"
                       >
-                        <p>{{ project.editor_1 }}</p>
-                        <p v-if="project.editor_2 != null">
-                          {{ project.editor_2 }}
-                        </p>
-                        <p v-if="project.editor_3 != null">
-                          {{ project.editor_3 }}
-                        </p>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        <p class="text-xs font-bold">ประธาน</p>
-                        <p>
-                          {{ project.chairman_name_title
-                          }}{{ project.chairman_name }}
-                        </p>
-
-                        <div
-                          v-if="
-                            project.director_1_name_title != null &&
-                            project.director_1_name != null
+                        <i
+                          :class="
+                            doc.is_show
+                              ? 'fas fa-eye text-emerald-500'
+                              : 'fas fa-eye-slash text-red-500'
                           "
-                        >
-                          <p class="text-xs font-bold">กรรมการ</p>
-                          <p>
-                            {{ project.director_1_name_title
-                            }}{{ project.director_1_name }}
-                          </p>
-                        </div>
-
-                        <div
-                          v-if="
-                            project.director_2_name_title != null &&
-                            project.director_2_name != null
-                          "
-                        >
-                          <p class="text-xs font-bold">กรรมการ</p>
-                          <p>
-                            {{ project.director_2_name_title
-                            }}{{ project.director_2_name }}
-                          </p>
-                        </div>
+                        ></i>
                       </td>
                       <!-- Edit -->
                       <td
                         class="p-4 px-6 text-xs align-middle whitespace-nowrap"
                       >
                         <button
-                          @click="onUpdate(project.id)"
+                          @click="onUpdate(doc.id)"
                           class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
                           type="button"
                         >
                           <i class="fas fa-edit"></i>
                         </button>
                         <button
-                          @click="onDelete(project.id)"
+                          @click="onDelete(doc.id)"
                           class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
                           type="button"
                         >
@@ -215,7 +166,7 @@ export default {
   data() {
     return {
       //? Data
-      projects: null,
+      documents: null,
 
       //? Pagination
       currentPage: 0,
@@ -233,26 +184,30 @@ export default {
     keyword(val) {
       if (!val) {
         this.currentPage = 1;
-        this.getProjects(this.currentPage);
+        this.getDocuments(this.currentPage);
       }
     },
   },
 
   mounted() {
     this.currentPage = 1;
-    this.getProjects(this.currentPage);
+    this.getDocuments(this.currentPage);
   },
 
   methods: {
     //? Get data
-    async getProjects(pageNumber) {
-      let res = await http.get(`projects?page=${pageNumber}`);
-      if (res) {
-        let data = res.data;
-        this.projects = data.data;
-        this.currentPage = data.current_page;
-        this.perPage = data.per_page;
-        this.total = data.total;
+    async getDocuments(pageNumber) {
+      try {
+        let res = await http.get(`documents/private?page=${pageNumber}`);
+        if (res) {
+          let data = res.data;
+          this.documents = data.data;
+          this.currentPage = data.current_page;
+          this.perPage = data.per_page;
+          this.total = data.total;
+        }
+      } catch (err) {
+        console.log(err);
       }
     },
 
@@ -261,9 +216,9 @@ export default {
       this.currentPage = pageNumber;
 
       if (this.keyword == "") {
-        this.getProjects(this.currentPage);
+        this.getDocuments(this.currentPage);
       } else {
-        this.getProjectsSearch(this.currentPage);
+        this.getDocumentsSearch(this.currentPage);
       }
     },
 
@@ -271,35 +226,41 @@ export default {
     onSearch() {
       if (this.keyword != "") {
         this.currentPage = 1;
-        this.getProjectsSearch(this.currentPage);
+        this.getDocumentsSearch(this.currentPage);
       }
     },
 
-    //? Reset Search
+    //? Reset search
     resetSearchForm() {
-      this.keyword = "";
       this.currentPage = 1;
-      this.getProjects(this.currentPage);
+      this.keyword = "";
+      this.getDocuments(this.currentPage);
     },
 
-    //? Get data filter by keyword
-    async getProjectsSearch(pageNumber) {
-      let data = new FormData();
-      data.append("keyword", this.keyword);
-
-      let res = await http.post(`project/search?page=${pageNumber}`, data);
-      if (res) {
-        let data = res.data;
-        this.projects = data.data;
-        this.currentPage = data.current_page;
-        this.perPage = data.per_page;
-        this.total = data.total;
+    //? Get data search
+    async getDocumentsSearch(pageNumber) {
+      try {
+        let data = new FormData();
+        data.append("keyword", this.keyword);
+        let res = await http.post(
+          `document/search/private/${this.keyword}?page=${pageNumber}`,
+          data
+        );
+        if (res) {
+          let data = res.data;
+          this.documents = data.data;
+          this.currentPage = data.current_page;
+          this.perPage = data.per_page;
+          this.total = data.total;
+        }
+      } catch (err) {
+        console.log(err);
       }
     },
 
     //? Update
     onUpdate(id) {
-      this.$router.push({ name: "ProjectEdit", params: { id: id } });
+      this.$router.push({ name: "DocumentEdit", params: { id: id } });
     },
 
     //? Delete
@@ -330,7 +291,7 @@ export default {
           if (result.isConfirmed) {
             //? Call API
             http
-              .post(`project/delete/${id}`)
+              .post(`document/delete/${id}`)
               .then(() => {
                 swalWithBootstrapButtons
                   .fire("ลบข้อมูลเรียบร้อย!", "", "success")

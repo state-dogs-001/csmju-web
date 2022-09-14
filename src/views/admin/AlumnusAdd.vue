@@ -178,9 +178,16 @@
                   <input
                     ref="fileupload"
                     @change="onFileChange"
+                    accept="image/*"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="file"
                   />
+                  <div
+                    v-if="v$.file.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.file.$errors[0].$message }}
+                  </div>
                 </div>
               </div>
 
@@ -319,6 +326,27 @@ export default {
       },
       position: {
         required: helpers.withMessage("ป้อนตำแหน่งก่อน", required),
+      },
+      file: {
+        required: helpers.withMessage(
+          "ไฟล์ที่อัปโหลดต้องเป็นไฟล์ .jpeg .jpg หรือ .png เท่านั้น",
+          () => {
+            if (this.file != null) {
+              //? Check file type
+              if (
+                this.file.type == "image/jpeg" ||
+                this.file.type == "image/jpg" ||
+                this.file.type == "image/png"
+              ) {
+                return true;
+              } else {
+                return false;
+              }
+            } else {
+              return true;
+            }
+          }
+        ),
       },
     };
   },

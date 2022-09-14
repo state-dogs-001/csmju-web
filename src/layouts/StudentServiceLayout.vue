@@ -49,7 +49,7 @@
                       >
                         <div class="relative text-center">
                           <img
-                            alt="..."
+                            alt="image profile"
                             v-if="imgUrl"
                             :src="imgUrl"
                             class="-mt-20 bg-white cropped-profile border-2 rounded-full shadow-lg h-200-px center-img max-w-200-px"
@@ -57,7 +57,7 @@
                         </div>
                         <div class="relative px-3 py-6 mt-2 text-center">
                           <router-link
-                            to="service/profile"
+                            to="/student/service/profile"
                             class="px-4 py-2 mb-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-600 active:bg-emerald-600 hover:shadow-md focus:outline-none"
                           >
                             แก้ไขโปรไฟล์
@@ -180,10 +180,10 @@ export default {
 
         //? Check Student ID => ComSci 410
         if (csStudent == "410") {
-          let student = await http.get(
-            `student/search/citizen-id/${citizenId}`
-          );
-          if (student) {
+          try {
+            let student = await http.get(
+              `student/search/citizen-id/${citizenId}`
+            );
             if (student.data.success) {
               let data = student.data.data;
               this.studentID = data.student_code;
@@ -208,7 +208,11 @@ export default {
                 phone.substring(7, 10);
               this.phone = phone_format;
 
-              this.imgUrl = data.image_profile;
+              if (data.image_profile != null) {
+                this.imgUrl = data.image_profile;
+              } else {
+                this.imgUrl = this.team;
+              }
             } else {
               //! Not found user
               this.studentID = studentID;
@@ -225,9 +229,10 @@ export default {
                 "-" +
                 phone.substring(6, 10);
               this.phone = phone_format;
-
               this.imgUrl = this.team;
             }
+          } catch (err) {
+            console.log(err);
           }
         } else {
           const Toast = this.$swal.mixin({

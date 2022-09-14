@@ -72,7 +72,7 @@
                   />
                 </div>
               </div>
-              <div v-if="v$.link.$error" class="mt-2 text-sm text-red-500">
+              <div v-if="v$.link.$error" class="px-4 my-2 text-sm text-red-500">
                 {{ v$.link.$errors[0].$message }}
               </div>
 
@@ -85,6 +85,7 @@
                   <input
                     ref="fileupload"
                     @change="onFileChange"
+                    accept="image/*"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="file"
                   />
@@ -94,6 +95,9 @@
                     class="mt-2 rounded-lg shadow-lg center-img w-1/2 h-auto cropped bg-emerald-500"
                   />
                 </div>
+              </div>
+              <div v-if="v$.file.$error" class="px-4 my-2 text-sm text-red-500">
+                {{ v$.file.$errors[0].$message }}
               </div>
 
               <!-- Button -->
@@ -125,7 +129,7 @@
 import http from "../../services/APIService";
 //? Packages
 import useValidate from "@vuelidate/core";
-import { required, helpers } from "@vuelidate/validators";
+import { helpers } from "@vuelidate/validators";
 export default {
   data() {
     return {
@@ -246,6 +250,27 @@ export default {
         required: helpers.withMessage(
           "กรุณากรอกลิงค์ก่อน",
           () => !this.isLink || this.link != ""
+        ),
+      },
+      file: {
+        required: helpers.withMessage(
+          "ไฟล์ที่อัปโหลดต้องเป็นไฟล์ .jpeg .jpg หรือ .png เท่านั้น",
+          () => {
+            if (this.file != null) {
+              //? Check file type
+              if (
+                this.file.type == "image/jpeg" ||
+                this.file.type == "image/jpg" ||
+                this.file.type == "image/png"
+              ) {
+                return true;
+              } else {
+                return false;
+              }
+            } else {
+              return true;
+            }
+          }
         ),
       },
     };
