@@ -48,7 +48,7 @@
                       >
                         <div class="relative text-center">
                           <img
-                            alt="..."
+                            alt="image profile"
                             :src="image"
                             class="-mt-20 rounded-full shadow-lg h-200-px center-img max-w-200-px bg-emerald-500 border-2"
                           />
@@ -70,19 +70,17 @@
                             <h3
                               class="ml-3 mb-1 text-3xl font-semibold leading-normal text-blueGray-100"
                             >
-                              {{ this.introduction }} {{ this.firstname }}
-                              {{ this.lastname }}
+                              {{ nameTitle }}{{ nameTh }}
                             </h3>
                             <h3
                               class="ml-3 mb-2 text-2xl font-normal leading-normal text-blueGray-100"
                             >
-                              {{ this.titleEn }} {{ this.firstnameEn }}
-                              {{ this.lastnameEn }}
+                              {{ nameEn }}
                             </h3>
                             <h3
                               class="ml-3 mb-2 text-md font-normal leading-normal text-blueGray-100"
                             >
-                              ตำแหน่ง : {{ this.position }}
+                              ตำแหน่ง : {{ position }}
                             </h3>
                           </div>
                         </div>
@@ -105,12 +103,12 @@
                             <p
                               class="mb-2 font-normal leading-normal text-md text-blueGray-700"
                             >
-                              เบอร์โทร : {{ this.tel }}
+                              เบอร์โทร : {{ tel }}
                             </p>
                             <p
                               class="mb-2 font-normal leading-normal text-md text-blueGray-700"
                             >
-                              E-mail : {{ this.email }}
+                              E-mail : {{ email }}
                             </p>
                           </div>
                         </div>
@@ -149,108 +147,63 @@ export default {
 
   data() {
     return {
+      //? Image
       bgupdate,
-      personnel_array: [],
 
-      introduction: "",
-      firstname: "",
-      lastname: "",
-
-      titleEn: "",
-      firstnameEn: "",
-      lastnameEn: "",
-
+      //? Data
+      nameTitle: "",
+      nameTh: "",
+      nameEn: "",
       email: "",
       tel: "",
-
       position: "",
       image: "",
     };
   },
 
   mounted() {
-    this.getPersonnelData();
+    // this.getPersonnelData();
+    this.getPersonnel();
   },
 
   methods: {
-    getPersonnelData() {
-      let local_user = JSON.parse(window.localStorage.getItem("user"));
+    async getPersonnel() {
+      //? Set default sweet alert
+      const Toast = this.$swal.mixin({
+        position: "center",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+      });
 
-      if (local_user) {
-        http
-          .get(`personnel/cardid/${local_user.card_id}`)
-          .then((response) => {
-            if (response.data.length == 0) {
-              //Call Sweet Alert
-              const Toast = this.$swal.mixin({
-                position: "center",
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true,
-              });
-              Toast.fire({
-                icon: "error",
-                title: "Your account is not found.",
-              }).then(() => {
-                localStorage.removeItem("user");
-                localStorage.removeItem("permission");
-                this.$router.push({ name: "Login" });
-              });
-            } else if (response.data.length == 1) {
-              this.personnel_array = response.data[0];
-              //Get data from API
-              this.introduction = this.personnel_array.titlePosition;
-              this.firstname = this.personnel_array.firstName;
-              this.lastname = this.personnel_array.lastName;
-
-              this.titleEn = this.personnel_array.titleNameEn;
-              this.firstnameEn = this.personnel_array.fistNameEn;
-              this.lastnameEn = this.personnel_array.lastNameEn;
-
-              this.email = this.personnel_array.e_mail;
-              this.tel = this.personnel_array.phoneNumber;
-
-              this.position = this.personnel_array.adminPosition;
-              this.image = this.personnel_array.personnelPhoto;
-            } else {
-              //Call Sweet Alert
-              const Toast = this.$swal.mixin({
-                position: "center",
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true,
-              });
-              Toast.fire({
-                icon: "error",
-                title: "Your account is not found.",
-              }).then(() => {
-                localStorage.removeItem("user");
-                localStorage.removeItem("permission");
-                this.$router.push({ name: "Login" });
-                this.$router.push({
-                  name: "Login",
-                });
-              });
-            }
-          })
-          .catch((error) => {
-            if (error.response) {
-              if (error.response.status == 405) {
-                //Call Sweet Alert
-                const Toast = this.$swal.mixin({
-                  position: "center",
-                  showConfirmButton: false,
-                  timer: 2000,
-                  timerProgressBar: true,
-                });
-
-                Toast.fire({
-                  icon: "error",
-                  title: "Connection Error",
-                });
-              }
-            }
-          });
+      //? Get data from local storage
+      const localUser = JSON.parse(localStorage.getItem("user"));
+      if (localUser) {
+        const citizenId = localUser.card_id;
+        try {
+          let res = await http.get(`personnel/search/citizen-id/${citizenId}`);
+          if (res.data.success) {
+            let data = res.data.data;
+            this.nameTitle = data.name_title;
+            this.nameTh = data.name_th;
+            this.nameEn = data.name_en;
+            this.email = data.email;
+            this.tel = data.tel_number;
+            this.position = data.position_academic;
+            this.image = data.image_profile;
+          } else {
+            Toast.fire({
+              icon: "error",
+              title: "ไม่พบข้อมูลบุคลากร",
+            }).then(() => {
+              localStorage.removeItem("user");
+              localStorage.removeItem("permission");
+              this.$router.push({ name: "Login" });
+            });
+          }
+        } catch (err) {
+          console.log(err);
+        }
       }
     },
   },

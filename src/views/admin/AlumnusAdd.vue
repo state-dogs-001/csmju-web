@@ -27,57 +27,15 @@
               @submit.prevent="onSubmit"
               enctype="multipart/form-data"
             >
-              <!-- Name -->
-              <div class="flex flex-wrap mb-4">
-                <!-- First name -->
-                <div class="w-full px-4 md:w-6/12">
-                  <label
-                    class="block my-3 text-gray-700 text-md"
-                    for="firstname"
-                    >ชื่อ</label
-                  >
-                  <input
-                    v-model="firstname"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
-                    type="text"
-                    placeholder="Firstname"
-                  />
-                  <div
-                    v-if="v$.firstname.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
-                    {{ v$.firstname.$errors[0].$message }}
-                  </div>
-                </div>
-
-                <!-- Last name -->
-                <div class="w-full px-4 md:w-6/12">
-                  <label class="block my-3 text-gray-700 text-md" for="lastname"
-                    >นามสกุล</label
-                  >
-                  <input
-                    v-model="lastname"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
-                    type="text"
-                    placeholder="Lastname"
-                  />
-                  <div
-                    v-if="v$.lastname.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
-                    {{ v$.lastname.$errors[0].$message }}
-                  </div>
-                </div>
-              </div>
-
               <!-- Generation -->
               <div class="flex flex-wrap mb-4">
-                <div class="w-full px-4 md:w-6/12">
+                <div class="w-full px-4 md:w-4/12">
                   <label
                     class="block my-3 text-gray-700 text-md"
                     for="generation"
-                    >ศิษย์เก่ารุ่นที่</label
-                  >
+                    >ศิษย์เก่ารุ่นที่
+                    <span class="text-red-500">*</span>
+                  </label>
                   <select
                     v-model="generation"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
@@ -103,6 +61,51 @@
                 </div>
               </div>
 
+              <!-- Name -->
+              <div class="flex flex-wrap mb-4">
+                <!-- First name -->
+                <div class="w-full px-4 md:w-6/12">
+                  <label
+                    class="block my-3 text-gray-700 text-md"
+                    for="firstname"
+                    >ชื่อ
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <input
+                    v-model="firstname"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    type="text"
+                    placeholder="Firstname"
+                  />
+                  <div
+                    v-if="v$.firstname.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.firstname.$errors[0].$message }}
+                  </div>
+                </div>
+
+                <!-- Last name -->
+                <div class="w-full px-4 md:w-6/12">
+                  <label class="block my-3 text-gray-700 text-md" for="lastname"
+                    >นามสกุล
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <input
+                    v-model="lastname"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    type="text"
+                    placeholder="Lastname"
+                  />
+                  <div
+                    v-if="v$.lastname.$error"
+                    class="mt-2 text-sm text-red-500"
+                  >
+                    {{ v$.lastname.$errors[0].$message }}
+                  </div>
+                </div>
+              </div>
+
               <!-- Work -->
               <div class="flex flex-wrap mb-4">
                 <!-- Walk place -->
@@ -110,8 +113,9 @@
                   <label
                     class="block my-3 text-gray-700 text-md"
                     for="workplace"
-                    >สังกัดหน่วยงาน / บริษัท</label
-                  >
+                    >สังกัดหน่วยงาน / บริษัท
+                    <span class="text-red-500">*</span>
+                  </label>
                   <input
                     v-model="workplace"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
@@ -129,8 +133,9 @@
                 <!-- Work position -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md" for="position"
-                    >ตำแหน่งงาน</label
-                  >
+                    >ตำแหน่งงาน
+                    <span class="text-red-500">*</span>
+                  </label>
                   <input
                     v-model="position"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
@@ -182,10 +187,7 @@
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="file"
                   />
-                  <div
-                    v-if="v$.file.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
+                  <div v-if="v$.file.$error" class="mt-2 text-sm text-red-500">
                     {{ v$.file.$errors[0].$message }}
                   </div>
                 </div>
@@ -275,8 +277,16 @@ export default {
         data.append("generation", this.generation);
         data.append("work_place", this.workplace);
         data.append("job_title", this.position);
-        data.append("caption", this.caption);
-        data.append("image_profile", this.file);
+
+        if (this.caption != null) {
+          data.append("caption", this.caption);
+        } else {
+          data.append("caption", "");
+        }
+
+        if (this.file != null) {
+          data.append("image", this.file);
+        }
 
         //? Set default sweet alert
         const Toast = this.$swal.mixin({

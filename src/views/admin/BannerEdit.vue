@@ -60,8 +60,9 @@
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >ลิงค์ที่เกี่ยวข้อง</label
-                  >
+                    >ลิงค์ที่เกี่ยวข้อง
+                    <span v-if="isLink" class="text-red-500">*</span>
+                  </label>
                   <input
                     v-model="link"
                     class="w-full px-3 py-2 leading-tight text-gray-700"

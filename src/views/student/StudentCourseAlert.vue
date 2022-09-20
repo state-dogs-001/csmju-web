@@ -59,7 +59,7 @@
                             >กลุ่มรายวิชาเฉพาะ
                           </label>
                           <select
-                            v-model="s_type"
+                            v-model="subjectType"
                             @keyup="getSubject"
                             class="w-full px-3 py-2 leading-tight text-gray-700"
                           >
@@ -70,10 +70,10 @@
                             <option value="2">กลุ่มรายวิชาภายนอกสาขา</option>
                           </select>
                           <div
-                            v-if="v$.s_type.$error"
+                            v-if="v$.subjectType.$error"
                             class="mt-2 text-sm text-red-500"
                           >
-                            {{ v$.s_type.$errors[0].$message }}
+                            {{ v$.subjectType.$errors[0].$message }}
                           </div>
                         </div>
                       </div>
@@ -85,7 +85,7 @@
                             >รหัสรายวิชา</label
                           >
                           <input
-                            v-model="s_code"
+                            v-model="subjectCode"
                             @keyup="getSubject"
                             class="w-full px-3 py-2 leading-tight text-gray-700"
                             type="text"
@@ -93,10 +93,10 @@
                             placeholder="กรอกรหัสรายวิชา"
                           />
                           <div
-                            v-if="v$.s_code.$error"
+                            v-if="v$.subjectCode.$error"
                             class="mt-2 text-sm text-red-500"
                           >
-                            {{ v$.s_code.$errors[0].$message }}
+                            {{ v$.subjectCode.$errors[0].$message }}
                           </div>
                         </div>
                         <div class="w-full px-4 md:w-4/12">
@@ -104,16 +104,16 @@
                             >กลุ่มเรียน</label
                           >
                           <input
-                            v-model="s_section"
+                            v-model="subjectSec"
                             class="w-full px-3 py-2 leading-tight text-gray-700"
                             type="number"
                             placeholder="กลุ่มเรียน"
                           />
                           <div
-                            v-if="v$.s_section.$error"
+                            v-if="v$.subjectSec.$error"
                             class="mt-2 text-sm text-red-500"
                           >
-                            {{ v$.s_section.$errors[0].$message }}
+                            {{ v$.subjectSec.$errors[0].$message }}
                           </div>
                         </div>
                       </div>
@@ -125,16 +125,16 @@
                             >ชื่อรายวิชา</label
                           >
                           <input
-                            v-model="s_name"
+                            v-model="subjectName"
                             class="w-full px-3 py-2 leading-tight text-gray-700"
                             type="text"
                             placeholder="กรอกชื่อรายวิชา"
                           />
                           <div
-                            v-if="v$.s_name.$error"
+                            v-if="v$.subjectName.$error"
                             class="mt-2 text-sm text-red-500"
                           >
-                            {{ v$.s_name.$errors[0].$message }}
+                            {{ v$.subjectName.$errors[0].$message }}
                           </div>
                         </div>
                       </div>
@@ -151,14 +151,16 @@
                             v-model="advisor"
                             id="advisor"
                             class="w-full px-3 py-2 leading-tight text-gray-700"
-                            :class="s_type == '' ? 'bg-gray-200' : ''"
-                            :disabled="s_type == ''"
+                            :class="subjectType == '' ? 'bg-gray-200' : ''"
+                            :disabled="subjectType == ''"
                           >
                             <option value="" selected disabled>
                               ผู้รับผิดชอบรายวิชา
                             </option>
                             <!-- วิชาใน -->
-                            <template v-if="teachers != null && s_type == 1">
+                            <template
+                              v-if="teachers != null && subjectType == 1"
+                            >
                               <option
                                 v-for="advisor in teachers"
                                 :key="advisor.id"
@@ -169,7 +171,7 @@
                             </template>
 
                             <!-- วิชานอก -->
-                            <template v-if="staff != null && s_type == 2">
+                            <template v-if="staff != null && subjectType == 2">
                               <option :value="staff.id">
                                 {{ staff.name_title }} {{ staff.name_th }}
                               </option>
@@ -191,16 +193,16 @@
                             >เหตุผลในการยืนคำร้องแจ้งตก-ค้างรายวิชา</label
                           >
                           <textarea
-                            v-model="s_detail"
+                            v-model="subjectDetail"
                             class="w-full px-3 py-2 leading-tight text-gray-700"
                             rows="5"
                             placeholder="ระบุเหตุผลในการยืนคำร้องแจ้งตก-ค้างรายวิชา"
                           ></textarea>
                           <div
-                            v-if="v$.s_detail.$error"
+                            v-if="v$.subjectDetail.$error"
                             class="mt-2 text-sm text-red-500"
                           >
-                            {{ v$.s_detail.$errors[0].$message }}
+                            {{ v$.subjectDetail.$errors[0].$message }}
                           </div>
                         </div>
                       </div>
@@ -246,17 +248,19 @@ export default {
     return {
       v$: useValidate(),
 
+      //? Data
+      teachers: null,
+      staff: null,
+
       //? Image
       cover,
 
       //? Form
-      s_type: "",
-      s_code: "",
-      s_name: "",
-      s_section: "",
-      s_detail: "",
-      teachers: null,
-      staff: null,
+      subjectType: "",
+      subjectCode: "",
+      subjectName: "",
+      subjectSec: "",
+      subjectDetail: "",
       advisor: "",
 
       studentProfile: null,
@@ -301,7 +305,7 @@ export default {
 
     getStaff() {
       http
-        .get("/personnel/show/1")
+        .get("/personnel/show/20")
         .then((res) => {
           if (res.data.success) {
             this.staff = res.data.data;
@@ -313,17 +317,19 @@ export default {
     },
 
     clearForm() {
-      this.s_type = "";
-      this.s_code = "";
-      this.s_name = "";
-      this.s_section = "";
-      this.s_detail = "";
+      this.v$.$reset();
+      this.subjectType = "";
+      this.subjectCode = "";
+      this.subjectName = "";
+      this.subjectSec = "";
+      this.subjectDetail = "";
       this.advisor = "";
     },
 
     handleSubmit() {
       this.v$.$validate();
       if (!this.v$.$error) {
+        //? Set default sweet alert
         const swalWithBootstrapButtons = this.$swal.mixin({
           customClass: {
             title: "font-weight-bold",
@@ -334,14 +340,15 @@ export default {
           },
           buttonsStyling: false,
         });
+        
         swalWithBootstrapButtons
           .fire({
             title: "ตรวจสอบข้อมูลการแจ้งตก-ค้างรายวิชา",
             html:
-              ` <p class="custom text-left font-normal text-sm"> <b>รหัสรายวิชา :</b> ${this.s_code} <b>กลุ่มเรียน :</b>  ${this.s_section}</p>` +
-              ` <p class="custom text-left font-normal text-sm"> <b>ห้องเรียน :</b> ${this.s_name}</p>` +
+              ` <p class="custom text-left font-normal text-sm"> <b>รหัสรายวิชา :</b> ${this.subjectCode} <b>กลุ่มเรียน :</b>  ${this.subjectSec}</p>` +
+              ` <p class="custom text-left font-normal text-sm"> <b>ห้องเรียน :</b> ${this.subjectName}</p>` +
               ` <p class="custom text-left font-normal text-sm">  <b>อาจารย์ผู้รับผิดชอบ :</b> ${this.advisor} </p>` +
-              ` <p class="custom text-left font-normal text-sm"> <b>รายละเอียด :</b> ${this.s_detail}</p>`,
+              ` <p class="custom text-left font-normal text-sm"> <b>รายละเอียด :</b> ${this.subjectDetail}</p>`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "ยืนยัน",
@@ -352,11 +359,11 @@ export default {
             if (result.isConfirmed) {
               let data = new FormData();
               let studentId = this.studentProfile.id;
-              data.append("subject_type", this.s_type);
-              data.append("subject_code", this.s_code);
-              data.append("subject_name", this.s_name);
-              data.append("section", this.s_section);
-              data.append("detail", this.s_detail);
+              data.append("subject_type", this.subjectType);
+              data.append("subject_code", this.subjectCode);
+              data.append("subject_name", this.subjectName);
+              data.append("section", this.subjectSec);
+              data.append("detail", this.subjectDetail);
               data.append("student_id", studentId);
               data.append("personnel_id", this.advisor);
               http
@@ -396,26 +403,26 @@ export default {
 
   validations() {
     return {
-      s_code: {
+      subjectCode: {
         required: helpers.withMessage("ป้อนรหัสรายวิชาก่อน", required),
         minLength: helpers.withMessage(
           ({ $params }) => `รหัสรายวิชาต้องไม่น้อยกว่า ${$params.min} ตัว`,
           minLength(5)
         ),
       },
-      s_section: {
+      subjectSec: {
         required: helpers.withMessage("ป้อนกลุ่มเรียนก่อน", required),
       },
-      s_type: {
+      subjectType: {
         required: helpers.withMessage("เลือกกลุ่มรายวิชาก่อน", required),
       },
-      s_name: {
+      subjectName: {
         required: helpers.withMessage("ป้อนชื่อรายวิชาก่อน", required),
       },
       advisor: {
         required: helpers.withMessage("เลือกผู้รับผิดชอบก่อน", required),
       },
-      s_detail: {
+      subjectDetail: {
         required: helpers.withMessage("ป้อนเหตุผลการยื่นคำร้องก่อน", required),
       },
     };

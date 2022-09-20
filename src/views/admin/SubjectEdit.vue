@@ -26,8 +26,9 @@
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-4/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >รหัสรายวิชา</label
-                  >
+                    >รหัสรายวิชา
+                    <span class="text-red-500">*</span>
+                  </label>
                   <input
                     v-model="code"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
@@ -45,8 +46,9 @@
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >ชื่อรายวิชา (ภาษาไทย)</label
-                  >
+                    >ชื่อรายวิชา (ภาษาไทย)
+                    <span class="text-red-500">*</span>
+                  </label>
                   <input
                     v-model="nameTh"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
@@ -66,8 +68,9 @@
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >ชื่อรายวิชา (ภาษาอังกฤษ)</label
-                  >
+                    >ชื่อรายวิชา (ภาษาอังกฤษ)
+                    <span class="text-red-500">*</span>
+                  </label>
                   <input
                     v-model="nameEn"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
@@ -87,8 +90,9 @@
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >กลุ่มรายวิชา</label
-                  >
+                    >กลุ่มรายวิชา
+                    <span class="text-red-500">*</span>
+                  </label>
                   <select
                     v-model="detail"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
@@ -117,8 +121,9 @@
                 <!-- Credit -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >หน่วยกิต</label
-                  >
+                    >หน่วยกิต
+                    <span class="text-red-500">*</span>
+                  </label>
                   <input
                     v-model="credit"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
@@ -137,8 +142,9 @@
                 <!-- Theory Hour -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >ชั่วโมงเรียนบรรยาย</label
-                  >
+                    >ชั่วโมงเรียนบรรยาย
+                    <span class="text-red-500">*</span>
+                  </label>
                   <input
                     v-model="theoryHour"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
@@ -159,8 +165,9 @@
                 <!-- Practical hour -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >ชั่วโมงเรียนปฏิบัติ</label
-                  >
+                    >ชั่วโมงเรียนปฏิบัติ
+                    <span class="text-red-500">*</span>
+                  </label>
                   <input
                     v-model="practicalHour"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
@@ -178,8 +185,9 @@
                 <!-- Self Hour -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md"
-                    >ชั่วโมงเรียนรู้ด้วยตนเอง</label
-                  >
+                    >ชั่วโมงเรียนรู้ด้วยตนเอง
+                    <span class="text-red-500">*</span>
+                  </label>
                   <input
                     v-model="selfHour"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
@@ -196,7 +204,7 @@
               </div>
 
               <div class="flex flex-wrap mb-4">
-                <div class="w-full px-4 md:w-2/12">
+                <div class="w-full px-4 md:w-4/12">
                   <label class="block my-3 text-gray-700 text-md"
                     >แสดงรายวิชาในเทอม</label
                   >

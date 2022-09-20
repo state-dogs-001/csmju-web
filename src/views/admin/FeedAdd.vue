@@ -46,8 +46,9 @@
                 <!-- Head -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md" for="Title"
-                    >หัวข้อข่าว</label
-                  >
+                    >หัวข้อข่าว
+                    <span class="text-red-500">*</span>
+                  </label>
                   <input
                     v-model="title"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
@@ -62,8 +63,9 @@
                 <!-- Type -->
                 <div class="w-full px-4 md:w-6/12">
                   <label class="block my-3 text-gray-700 text-md" for="Type"
-                    >ประเภทข่าว</label
-                  >
+                    >ประเภทข่าว
+                    <span class="text-red-500">*</span>
+                  </label>
                   <select
                     v-model="type"
                     class="w-full px-3 py-2 leading-tight"
@@ -88,8 +90,9 @@
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <label class="block my-3 text-gray-700 text-md" for="Detail"
-                    >รายละเอียด</label
-                  >
+                    >รายละเอียด
+                    <span class="text-red-500">*</span>
+                  </label>
                   <textarea
                     v-model="detail"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
@@ -123,8 +126,9 @@
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <label class="block my-3 text-gray-700 text-md" for="links"
-                    >ลิงค์ที่เกี่ยวข้อง</label
-                  >
+                    >ลิงค์ที่เกี่ยวข้อง
+                    <span v-if="isLink" class="text-red-500">*</span>
+                  </label>
                   <input
                     v-model="link"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
@@ -151,8 +155,9 @@
                   </div>
 
                   <label class="block my-3 text-gray-700 text-md" for="image"
-                    >รูปภาพ</label
-                  >
+                    >รูปภาพ
+                    <span class="text-red-500">*</span>
+                  </label>
                   <div
                     class="relative flex items-center justify-center h-32 bg-gray-100 border-b border-blue-700"
                   >
@@ -281,7 +286,7 @@ export default {
       this.v$.$reset();
       this.title = "";
       this.detail = "";
-      this.links = "";
+      this.link = "";
       this.type = "";
       this.imgUrl = "";
       this.file = null;

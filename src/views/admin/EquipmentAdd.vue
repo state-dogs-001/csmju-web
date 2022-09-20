@@ -32,16 +32,25 @@
                   </label>
                   <select
                     v-model="equipMainType"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    class="w-full px-3 py-2 leading-tight"
+                    :class="
+                      equipMainType == '' ? 'text-placeholder' : 'text-gray-700'
+                    "
                   >
                     <option value="" selected disabled>Equipment type</option>
-                    <option value="ครุภัณฑ์ทางการ (วท.)">
+                    <option class="text-gray-700" value="ครุภัณฑ์ทางการ (วท.)">
                       ครุภัณฑ์ทางการ (วท.)
                     </option>
-                    <option value="ครุภัณฑ์ไม่เป็นทางการ (cs.)">
+                    <option
+                      class="text-gray-700"
+                      value="ครุภัณฑ์ไม่เป็นทางการ (cs.)"
+                    >
                       ครุภัณฑ์ไม่เป็นทางการ (cs.)
                     </option>
-                    <option value="ครุภัณฑ์ไม่เป็นทางการ (cs.)">
+                    <option
+                      class="text-gray-700"
+                      value="ครุภัณฑ์ไม่เป็นทางการ (cs.)"
+                    >
                       ครุภัณฑ์ไม่เป็นทางการ (cs.)
                     </option>
                   </select>
@@ -64,13 +73,20 @@
                   </label>
                   <select
                     v-model="equipSubType"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    class="w-full px-3 py-2 leading-tight"
+                    :class="
+                      equipSubType == '' ? 'text-placeholder' : 'text-gray-700'
+                    "
                   >
                     <option value="" selected disabled>
                       Equipment sub type
                     </option>
-                    <option value="ครุภัณฑ์ทั่วไป">ครุภัณฑ์ทั่วไป</option>
-                    <option value="ครุภัณฑ์ WB">ครุภัณฑ์ WB</option>
+                    <option class="text-gray-700" value="ครุภัณฑ์ทั่วไป">
+                      ครุภัณฑ์ทั่วไป
+                    </option>
+                    <option class="text-gray-700" value="ครุภัณฑ์ WB">
+                      ครุภัณฑ์ WB
+                    </option>
                   </select>
                   <div
                     v-if="v$.equipSubType.$error"
@@ -203,13 +219,24 @@
                   </label>
                   <select
                     v-model="budget"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    class="w-full px-3 py-2 leading-tight"
+                    :class="budget == '' ? 'text-placeholder' : 'text-gray-700'"
                   >
-                    <option value="" selected disabled>Budget</option>
-                    <option value="งบประมาณรายได้">งบประมาณรายได้</option>
-                    <option value="งบประมาณแผ่นดิน">งบประมาณแผ่นดิน</option>
-                    <option value="งบประมาณบริจาค">งบประมาณบริจาค</option>
-                    <option value="งบประมาณ WB">งบประมาณ WB</option>
+                    <option class="text-gray-700" value="" selected disabled>
+                      Budget
+                    </option>
+                    <option class="text-gray-700" value="งบประมาณรายได้">
+                      งบประมาณรายได้
+                    </option>
+                    <option class="text-gray-700" value="งบประมาณแผ่นดิน">
+                      งบประมาณแผ่นดิน
+                    </option>
+                    <option class="text-gray-700" value="งบประมาณบริจาค">
+                      งบประมาณบริจาค
+                    </option>
+                    <option class="text-gray-700" value="งบประมาณ WB">
+                      งบประมาณ WB
+                    </option>
                   </select>
                   <div
                     v-if="v$.budget.$error"
@@ -256,10 +283,12 @@
                   </label>
                   <select
                     v-model="room"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    class="w-full px-3 py-2 leading-tight"
+                    :class="room == '' ? 'text-placeholder' : 'text-gray-700'"
                   >
                     <option value="" selected disabled>Room</option>
                     <option
+                      class="text-gray-700"
                       v-for="room in rooms"
                       :key="room.room_id"
                       :value="room.room_id"
@@ -280,11 +309,15 @@
                   </label>
                   <select
                     v-model="careTaker"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    class="w-full px-3 py-2 leading-tight"
+                    :class="
+                      careTaker == '' ? 'text-placeholder' : 'text-gray-700'
+                    "
                   >
                     <option value="" selected disabled>Care taker</option>
-                    <option value="58">-</option>
+                    <option class="text-gray-700" value="58">-</option>
                     <option
+                      class="text-gray-700"
                       v-for="user in careTakers"
                       :key="user.id"
                       :value="user.id"
@@ -311,10 +344,12 @@
                   </label>
                   <select
                     v-model="status"
-                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    class="w-full px-3 py-2 leading-tight"
+                    :class="status == '' ? 'text-placeholder' : 'text-gray-700'"
                   >
                     <option value="" selected disabled>Equipment status</option>
                     <option
+                      class="text-gray-700"
                       v-for="status in equipStatus"
                       :key="status.id"
                       :value="status.id"

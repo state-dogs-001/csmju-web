@@ -97,6 +97,9 @@ import ProjectEdit from "../views/admin/ProjectEdit.vue";
 import DocumentShow from "../views/admin/DocumentShow.vue";
 import DocumentAdd from "../views/admin/DocumentAdd.vue";
 import DocumentEdit from "../views/admin/DocumentEdit.vue";
+import MaterialShow from "../views/admin/MaterialShow.vue";
+import MaterialAdd from "../views/admin/MaterialAdd.vue";
+import MaterialEdit from "../views/admin/MaterialEdit.vue";
 
 //? Page 404
 import Page404 from "../views/Page404.vue";
@@ -550,6 +553,21 @@ const routes = [
         path: "/admin/documentedit/:id",
         name: "DocumentEdit",
         component: DocumentEdit,
+      },
+      {
+        path: "/admin/materialshow",
+        name: "MaterialShow",
+        component: MaterialShow,
+      },
+      {
+        path: "/admin/materialadd",
+        name: "MaterialAdd",
+        component: MaterialAdd,
+      },
+      {
+        path: "/admin/materialedit/:id",
+        name: "MaterialEdit",
+        component: MaterialEdit,
       },
     ],
   },

@@ -7,9 +7,7 @@
         <div class="container mx-auto">
           <div class="px-6">
             <div class="mt-6 text-center">
-              <h1 class="py-6 text-3xl font-bold">
-                CSMJU | ระบบจัดการข้อมูลศิษย์เก่า
-              </h1>
+              <h1 class="py-6 text-3xl font-bold">CSMJU | ระบบวัสดุอุปกรณ์</h1>
             </div>
             <br class="shadow-xl" />
             <div class="relative flex flex-col w-full min-w-0 mb-6 break-words">
@@ -26,7 +24,7 @@
                         v-model="keyword"
                         class="w-full py-2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-200 border-0 rounded-md"
                         type="text"
-                        placeholder="ป้อนคำที่ต้องการค้นหา เช่น ชื่อ สถานที่ทำงาน หรือรุ่นของศิษย์เก่า"
+                        placeholder="ป้อนชื่อวัสดุอุปกรณ์ที่ต้องการค้นหา"
                         aria-label="Search"
                       />
                     </form>
@@ -35,37 +33,34 @@
                   <div class="w-full px-4 text-center md:w-4/12">
                     <button
                       @click="onSearch"
-                      class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-lightBlue-500 active:bg-lightBlue-600 hover:shadow-md focus:outline-none"
+                      class="px-4 py-2 mb-1 mr-2 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-lightBlue-500 active:bg-lightBlue-600 hover:shadow-md focus:outline-none"
                       type="button"
                     >
                       <i class="fas fa-search"></i> ค้นหา
                     </button>
                     <button
-                      @click="resetSearch"
-                      class="px-4 py-2 mb-1 mr-4 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
+                      @click="resetSearchForm"
+                      class="px-4 py-2 mb-1 mr-2 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
                       type="button"
                     >
                       <i class="fas fa-broom"></i> ล้าง
                     </button>
-                    <router-link to="/admin/alumnusadd">
-                      <button
-                        @click="openModalAddProduct"
-                        class="px-4 py-2 mb-1 ml-2 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                        type="button"
-                      >
-                        <i class="fas fa-plus"></i> เพิ่ม
-                      </button>
+                    <router-link
+                      to="materialadd"
+                      class="px-4 py-2 mb-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                    >
+                      <i class="fas fa-plus"></i> เพิ่ม
                     </router-link>
                   </div>
                 </div>
               </div>
 
-              <!-- News Feeds table -->
+              <!-- Table -->
               <div class="block w-full overflow-x-auto">
-                <!-- Projects table -->
                 <table
                   class="items-center w-full bg-transparent border-collapse"
                 >
+                  <!-- thead -->
                   <thead>
                     <tr
                       class="text-blueGray-500 border-b-2 border-blueGray-500"
@@ -78,94 +73,82 @@
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
-                        ชื่อ - นามสกุล
+                        รูปภาพวัสดุอุปกรณ์
                       </th>
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
-                        ศิษย์เก่า (รุ่นที่)
+                        ชื่อวัสดุอุปกรณ์
+                      </th>
+                      <th
+                        class="px-6 py-3 text-sm font-semibold text-center uppercase align-middle whitespace-nowrap"
+                      >
+                        จำนวนวัสดุอุปกรณ์
                       </th>
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
-                        สังกัด / องค์กร
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ตำแหน่ง / หน้าที่
+                        สถานะ
                       </th>
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         การจัดการ
                       </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      ></th>
                     </tr>
                   </thead>
+
+                  <!-- Body -->
                   <tbody>
-                    <tr
-                      class="border-b"
-                      v-for="(alumni, index) in alumnus"
-                      :key="index"
-                    >
+                    <tr v-for="(material, index) in materials" :key="index">
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="p-4 px-6 w-auto text-sm align-middle whitespace-nowrap"
                       >
                         {{ (currentPage - 1) * perPage + index + 1 }}
                       </td>
-                      <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
-                      >
-                        <div
-                          class="flex items-center text-xs text-left align-middle whitespace-nowrap"
-                        >
-                          <img
-                            :src="
-                              alumni.image_profile == null
-                                ? User
-                                : alumni.image_profile
-                            "
-                            class="w-10 h-10 rounded-full shadow-lg"
-                          />
-                          <span class="ml-3 text-sm font-semiBold">
-                            {{ alumni.name.split(" ")[0] }}
-                            <div class="text-xs font-normal">
-                              {{ alumni.name.split(" ")[1] }}
-                            </div>
-                          </span>
-                        </div>
+                      <td class="p-4 px-6 w-48 h-auto">
+                        <img
+                          :src="material.image != null ? material.image : image"
+                          alt="material image"
+                          class="rounded"
+                        />
                       </td>
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="p-4 px-6 w-auto text-sm align-middle whitespace-nowrap"
                       >
-                        {{ alumni.generation }}
+                        {{ material.name }}
                       </td>
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="p-4 px-6 w-auto text-sm text-center align-middle whitespace-nowrap"
                       >
-                        {{ alumni.work_place }}
+                        {{ material.quantity }}
                       </td>
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="p-4 px-6 w-auto text-sm align-middle whitespace-nowrap"
                       >
-                        {{ alumni.job_title }}
+                        <i class="fa-solid"></i>
+                        <span v-if="material.status" class="text-green-400">
+                          <i class="fa-solid fa-boxes-stacked text-xl mr-2"></i>
+                          in stock
+                        </span>
+                        <span v-else class="text-red-500">
+                          <i class="fa-solid fa-pallet text-xl mr-2"></i>
+                          out stock
+                        </span>
                       </td>
-
+                      <!-- Edit -->
                       <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
+                        class="p-4 px-6 w-auto text-xs align-middle whitespace-nowrap"
                       >
                         <button
-                          @click="onUpdate(alumni.id)"
+                          @click="onUpdate(material.id)"
                           class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
                           type="button"
                         >
                           <i class="fas fa-edit"></i>
                         </button>
                         <button
-                          @click="onDelete(alumni.id)"
+                          @click="onDelete(material.id)"
                           class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
                           type="button"
                         >
@@ -175,7 +158,6 @@
                     </tr>
                   </tbody>
                 </table>
-
                 <!-- Paginate -->
                 <VueTailwindPagination
                   :current="currentPage"
@@ -197,17 +179,18 @@
 import http from "../../services/APIService";
 //? Package
 import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
-//? Image null
-import User from "../../assets/images/user_null.svg";
+//? Image
+import image from "../../assets/images/logo.png";
 export default {
   data() {
     return {
-      User,
+      //? Image
+      image,
 
       //? Data
-      alumnus: null,
+      materials: null,
 
-      //? Paginate
+      //? Pagination
       currentPage: 0,
       perPage: 0,
       total: 0,
@@ -223,71 +206,79 @@ export default {
     keyword(val) {
       if (!val) {
         this.currentPage = 1;
-        this.getAlumnus(this.currentPage);
+        this.getMaterials(this.currentPage);
       }
     },
   },
 
   mounted() {
     this.currentPage = 1;
-    this.getAlumnus(this.currentPage);
+    this.getMaterials(this.currentPage);
   },
 
   methods: {
-    //? Get alumnus
-    async getAlumnus(pageNumber) {
-      let alumnus = await http.get(`alumnus?page=${pageNumber}`);
-      if (alumnus) {
-        let data = alumnus.data;
-        this.alumnus = data.data;
-        this.total = data.total;
-        this.perPage = data.per_page;
-        this.currentPage = data.current_page;
+    //? Get data
+    async getMaterials(page) {
+      try {
+        let res = await http.get(`materials/private?page=${page}`);
+        if (res) {
+          let data = res.data;
+          this.materials = data.data;
+          this.currentPage = data.current_page;
+          this.perPage = data.per_page;
+          this.total = data.total;
+        }
+      } catch (err) {
+        console.log(err);
       }
     },
 
-    //? Search
+    //? Get data by search
+    async getMaterialsSearch(page) {
+      try {
+        let res = await http.get(
+          `material/search/private/${this.keyword}?page=${page}`
+        );
+        if (res) {
+          let data = res.data;
+          this.materials = data.data;
+          this.currentPage = data.current_page;
+          this.perPage = data.per_page;
+          this.total = data.total;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    //? Pagination
+    onPageClick(page) {
+      this.currentPage = page;
+      if (this.keyword != "") {
+        this.getMaterialsSearch(this.currentPage);
+      } else {
+        this.getMaterials(this.currentPage);
+      }
+    },
+
+    //? Search handle
     onSearch() {
       if (this.keyword != "") {
         this.currentPage = 1;
-        this.getAlumnusSearch(this.currentPage);
-      }
-    },
-
-    //? Get alumnus by search
-    async getAlumnusSearch(pageNumber) {
-      let alumnus = await http.get(
-        `alumni/search/${this.keyword}?page=${pageNumber}`
-      );
-      if (alumnus) {
-        let data = alumnus.data;
-        this.alumnus = data.data;
-        this.total = data.total;
-        this.perPage = data.per_page;
-        this.currentPage = data.current_page;
+        this.getMaterialsSearch(this.currentPage);
       }
     },
 
     //? Reset search
-    resetSearch() {
-      this.currentPage = 1;
-      this.getAlumnus(this.currentPage);
+    resetSearchForm() {
       this.keyword = "";
-    },
-
-    //? Paginate
-    onPageClick(event) {
-      this.currentPage = event;
-      if (this.keyword == "") {
-        this.getAlumnus(this.currentPage);
-      } else {
-        this.onSearch(this.currentPage);
-      }
+      this.currentPage = 1;
+      this.getMaterials(this.currentPage);
     },
 
     //? Update
     onUpdate(id) {
-      this.$router.push({ name: "AlumnusEdit", params: { id: id } });
+      this.$router.push({ name: "MaterialEdit", params: { id: id } });
     },
 
     //? Delete
@@ -304,6 +295,7 @@ export default {
         buttonsStyling: false,
       });
 
+      //? Confirmation from user
       swalWithBootstrapButtons
         .fire({
           title: "ยืนยันการลบข้อมูล",
@@ -315,8 +307,9 @@ export default {
         })
         .then((result) => {
           if (result.isConfirmed) {
+            //? Call API
             http
-              .post(`alumni/delete/${id}`)
+              .post(`material/delete/${id}`)
               .then(() => {
                 swalWithBootstrapButtons
                   .fire("ลบข้อมูลเรียบร้อย!", "", "success")
@@ -324,16 +317,20 @@ export default {
                     window.location.reload();
                   });
               })
-              .catch((error) => {
-                if (error) {
+              .catch((err) => {
+                if (err) {
                   swalWithBootstrapButtons.fire({
                     icon: "error",
                     title: "ขออภัย ทำรายการไม่สำเร็จ",
                   });
                 }
               });
-          } else {
-            swalWithBootstrapButtons.fire("ยกเลิกการลบข้อมูล", "", "error");
+          } else if (result.dismiss === this.$swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+              "ยกเลิกการลบข้อมูลเรียบร้อย!",
+              "",
+              "error"
+            );
           }
         });
     },
