@@ -1,955 +1,731 @@
 <template>
-  <div class="">
-    <main class="profile-page custom">
-      <section class="relative pb-16 bg-blueGray-200">
-        <div class="container mx-auto">
-          <div class="flex flex-wrap">
-            <div
-              class="relative flex flex-col w-full min-w-0 mb-6 break-words bg-white rounded-lg shadow-xl lg:w-12/12"
-            >
-              <div class="px-6 mt-6">
-                <div class="flex flex-wrap rounded-lg bg-blueGray-100">
-                  <div class="w-full lg:w-3/12">
-                    <div class="mr-4 text-center rounded-lg bg-emerald-500">
-                      <h3
-                        class="text-6xl font-semibold leading-normal text-white"
-                      >
-                        MIS
-                      </h3>
-                    </div>
-                  </div>
-                  <div class="w-full lg:w-6/12">
-                    <h3 class="mt-1 text-2xl font-semibold">ประวัติโดยย่อ</h3>
-
-                    <h3 class="text-xl font-normal">| Curiculum Vitae</h3>
-                  </div>
-                  <div class="w-full lg:w-3/12">
-                    <div class="mt-4 text-right">
-                      <router-link
-                        to="/personnel/service"
-                        class="px-6 py-3 mb-1 mr-4 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-blueGray-600 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
-                      >
-                        ย้อนกลับ
-                      </router-link>
-                    </div>
+  <main class="profile-page custom">
+    <section class="relative pb-16 bg-blueGray-200">
+      <div class="container mx-auto">
+        <div class="flex flex-wrap">
+          <div
+            class="relative flex flex-col w-full min-w-0 mb-6 break-words bg-white rounded-lg shadow-xl lg:w-12/12"
+          >
+            <div class="px-6 mt-6">
+              <div class="flex flex-wrap rounded-lg bg-blueGray-100">
+                <div class="w-full lg:w-3/12">
+                  <div class="mr-4 text-center rounded-lg bg-emerald-500">
+                    <h3
+                      class="text-6xl font-semibold leading-normal text-white"
+                    >
+                      MIS
+                    </h3>
                   </div>
                 </div>
+                <div class="w-full lg:w-6/12">
+                  <h3 class="mt-1 text-2xl font-semibold">ประวัติโดยย่อ</h3>
+                  <h3 class="text-xl font-normal">| Curiculum Vitae</h3>
+                </div>
+                <div class="w-full lg:w-3/12">
+                  <div class="mt-4 text-right">
+                    <router-link
+                      to="/personnel/service"
+                      class="px-6 py-3 mb-1 mr-4 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-blueGray-600 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                    >
+                      ย้อนกลับ
+                    </router-link>
+                  </div>
+                </div>
+              </div>
 
-                <div class="py-6 mt-2 text-left border-t border-blueGray-200">
-                  <div class="flex flex-wrap">
-                    <!-- from input -->
-                    <div class="w-full lg:w-6/12 pr-4">
-                      <form ref="addProductForm">
-                        <div class="flex flex-wrap mb-4">
-                          <div class="w-full px-2 md:w-12/12">
-                            <label
-                              class="block my-3 text-gray-700 text-md"
-                              for="Title"
-                              >ตำแหน่ง</label
-                            >
-                            <input
-                              v-model="position"
-                              class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
-                              type="text"
-                              placeholder="Position"
-                            />
-                          </div>
-                        </div>
-                        <div class="flex flex-wrap mb-4">
-                          <div class="w-full px-2 md:w-6/12">
-                            <label
-                              class="block my-3 text-gray-700 text-md"
-                              for="Title"
-                              >ชื่อ</label
-                            >
-                            <input
-                              v-model="first_name"
-                              class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
-                              type="text"
-                              placeholder="Firstname"
-                            />
-                          </div>
-                          <div class="w-full px-2 md:w-6/12">
-                            <label
-                              class="block my-3 text-gray-700 text-md"
-                              for="Title"
-                              >นามสกุล</label
-                            >
-                            <input
-                              v-model="last_name"
-                              class="w-full px-3 py-2 placeholder-blueGray-300 leading-tight text-gray-700 border"
-                              type="text"
-                              placeholder="Lastname"
-                            />
-                          </div>
-                        </div>
-                        <div class="flex flex-wrap mb-4">
-                          <div class="w-full px-2 md:w-6/12">
-                            <label
-                              class="block my-3 text-gray-700 text-md"
-                              for="Title"
-                              >ชื่อ (ภาษาอังกฤษ)</label
-                            >
-                            <input
-                              v-model="first_nameEn"
-                              class="w-full px-3 py-2 placeholder-blueGray-300 leading-tight text-gray-700 border"
-                              type="text"
-                              placeholder="Firstname"
-                            />
-                          </div>
-                          <div class="w-full px-2 md:w-6/12">
-                            <label
-                              class="block my-3 text-gray-700 text-md"
-                              for="Title"
-                              >นามสกุล (ภาษาอังกฤษ)</label
-                            >
-                            <input
-                              v-model="last_nameEn"
-                              class="w-full px-3 py-2 placeholder-blueGray-300 leading-tight text-gray-700 border"
-                              type="text"
-                              placeholder="Lastname"
-                            />
-                          </div>
-                        </div>
-                        <div class="flex flex-wrap mb-4">
-                          <div class="w-full px-2 mb-2 md:w-12/12">
-                            <label
-                              class="block my-3 text-gray-700 text-md"
-                              for="Title"
-                              >ที่อยู่ / สถานที่ติดต่อ</label
-                            >
-                            <input
-                              v-model="address"
-                              class="w-full px-3 py-2 placeholder-blueGray-300 leading-tight text-gray-700 border"
-                              type="text"
-                              placeholder="Address"
-                            />
-                          </div>
-                          <div class="w-full px-2 mb-4 md:w-6/12">
-                            <label
-                              class="block my-3 text-gray-700 text-md"
-                              for="Title"
-                              >โทรศัพท์</label
-                            >
-                            <input
-                              v-model="phone"
-                              class="w-full px-3 py-2 placeholder-blueGray-300 leading-tight text-gray-700 border"
-                              type="text"
-                              placeholder="Phone Number"
-                            />
-                          </div>
-                          <div class="w-full px-2 mb-4 md:w-6/12">
-                            <label
-                              class="block my-3 text-gray-700 text-md"
-                              for="Title"
-                              >อีเมล</label
-                            >
-                            <input
-                              v-model="email"
-                              class="w-full px-3 placeholder-blueGray-300 py-2 leading-tight text-gray-700 border"
-                              type="text"
-                              placeholder="email"
-                            />
-                          </div>
-                        </div>
-                        <div class="flex flex-wrap mb-4">
-                          <div class="w-full px-2 md:w-12/12">
-                            <label
-                              class="block my-3 text-gray-700 text-md"
-                              for="Title"
-                              >ประวัติโดยย่อ</label
-                            >
-                            <textarea
-                              v-model="bio"
-                              cols="30"
-                              placeholder="Bio"
-                              rows="5"
-                              class="relative w-full px-3 py-1 border text-base bg-white outline-none placeholder-blueGray-300 text-blueGray-600 border-blueGray-300 focus:outline-none focus:shadow-outline"
-                            ></textarea>
-                          </div>
-                        </div>
-                        <label
-                          class="block px-2 my-3 text-gray-700 text-md"
-                          for="Title"
-                          >การศึกษา
-                        </label>
-                        <div class="flex flex-wrap mb-4">
-                          <div class="w-full px-2 md:w-2/12">
-                            <select
-                              v-model="year1"
-                              id="date-dropdown1"
-                              class="w-full px-3 py-2 leading-tight text-gray-700 border"
-                            ></select>
-                          </div>
-
-                          <div class="w-full px-2 md:w-2/12">
-                            <input
-                              v-model="graduate1"
-                              class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
-                              type="text"
-                              placeholder="Graduate"
-                            />
-                          </div>
-                          <div class="w-full px-2 md:w-8/12">
-                            <input
-                              v-model="institution1"
-                              class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
-                              type="text"
-                              placeholder="Institution"
-                            />
-                          </div>
-                        </div>
-                        <div class="flex flex-wrap mb-4">
-                          <div class="w-full px-2 md:w-2/12">
-                            <select
-                              v-model="year2"
-                              id="date-dropdown2"
-                              class="w-full px-3 py-2 leading-tight text-gray-700 border"
-                            ></select>
-                          </div>
-
-                          <div class="w-full px-2 md:w-2/12">
-                            <input
-                              v-model="graduate2"
-                              class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
-                              type="text"
-                              placeholder="Graduate"
-                            />
-                          </div>
-                          <div class="w-full px-2 md:w-8/12">
-                            <input
-                              v-model="institution2"
-                              class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
-                              type="text"
-                              placeholder="Institution"
-                            />
-                          </div>
-                        </div>
-                        <div class="flex flex-wrap mb-4">
-                          <div class="w-full px-2 md:w-2/12">
-                            <select
-                              v-model="year3"
-                              id="date-dropdown3"
-                              class="w-full px-3 py-2 leading-tight text-gray-700 border"
-                            ></select>
-                          </div>
-
-                          <div class="w-full px-2 md:w-2/12">
-                            <input
-                              v-model="graduate3"
-                              class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
-                              type="text"
-                              placeholder="Graduate"
-                            />
-                          </div>
-                          <div class="w-full px-2 md:w-8/12">
-                            <input
-                              v-model="institution3"
-                              class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
-                              type="text"
-                              placeholder="Institution"
-                            />
-                          </div>
-                        </div>
-
-                        <div class="flex flex-wrap mb-4">
-                          <div class="w-full px-2 md:w-12/12">
-                            <label
-                              class="block my-3 text-gray-700 text-md"
-                              for="Title"
-                              >ประสบการณ์การทำงาน</label
-                            >
-                            <div
-                              v-for="(input, index) in experience_array"
-                              :key="`expInput-${index}`"
-                              class="flex text-center mt-2"
-                            >
-                              <div class="w-full md:w-8/12">
-                                <input
-                                  v-model="input.exp"
-                                  class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
-                                  type="text"
-                                  placeholder="Exeperience"
-                                />
-                              </div>
-                              <div class="text-right md:w-4/12">
-                                <button
-                                  @click="addField_exp(input, experience_array)"
-                                  class="mr-2 px-6 py-3 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
-                                  type="button"
-                                >
-                                  เพิ่ม
-                                </button>
-
-                                <button
-                                  v-show="experience_array.length > 1"
-                                  @click="
-                                    removeField_exp(index, experience_array)
-                                  "
-                                  class="px-6 py-3 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-600 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
-                                  type="button"
-                                >
-                                  ลบ
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flex flex-wrap mb-4">
-                          <div class="w-full px-2 md:w-12/12">
-                            <label
-                              class="block my-3 text-gray-700 text-md"
-                              for="Title"
-                              >ทักษะ</label
-                            >
-                            <div
-                              v-for="(input, index) in skill_array"
-                              :key="`skillInput-${index}`"
-                              class="flex text-center mt-2"
-                            >
-                              <div class="w-full md:w-8/12">
-                                <input
-                                  v-model="input.skill"
-                                  class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
-                                  type="text"
-                                  placeholder="Skills"
-                                />
-                              </div>
-                              <div class="text-right md:w-4/12">
-                                <button
-                                  @click="addField_skill(input, skill_array)"
-                                  class="mr-2 px-6 py-3 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
-                                  type="button"
-                                >
-                                  เพิ่ม
-                                </button>
-
-                                <button
-                                  v-show="skill_array.length > 1"
-                                  @click="removeField_skill(index, skill_array)"
-                                  class="px-6 py-3 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-600 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
-                                  type="button"
-                                >
-                                  ลบ
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flex flex-wrap mb-4">
-                          <div class="w-full px-2 md:w-12/12">
-                            <label
-                              class="block my-3 text-gray-700 text-md"
-                              for="Title"
-                              >ความเชี่ยวชาญ</label
-                            >
-                            <div
-                              v-for="(input, index) in expert_array"
-                              :key="`expertInput-${index}`"
-                              class="flex text-center mt-2"
-                            >
-                              <div class="w-full md:w-8/12">
-                                <input
-                                  v-model="input.expert"
-                                  class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
-                                  type="text"
-                                  placeholder="Expertise"
-                                />
-                              </div>
-                              <div class="text-right md:w-4/12">
-                                <button
-                                  @click="addField_expert(input, expert_array)"
-                                  class="mr-2 px-6 py-3 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
-                                  type="button"
-                                >
-                                  เพิ่ม
-                                </button>
-
-                                <button
-                                  v-show="expert_array.length > 1"
-                                  @click="
-                                    removeField_expert(index, expert_array)
-                                  "
-                                  class="px-6 py-3 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-600 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
-                                  type="button"
-                                >
-                                  ลบ
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flex flex-wrap mb-4">
-                          <div class="w-full px-2 md:w-12/12">
-                            <label
-                              class="block my-3 text-gray-700 text-md"
-                              for="Title"
-                              >ผลงาน</label
-                            >
-                            <div
-                              v-for="(input, index) in portfolio_array"
-                              :key="`portInput-${index}`"
-                              class="flex text-center mt-2"
-                            >
-                              <div class="w-full md:w-8/12">
-                                <input
-                                  v-model="input.port"
-                                  class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
-                                  type="text"
-                                  placeholder="Awards / Honors"
-                                />
-                              </div>
-                              <div class="text-right md:w-4/12">
-                                <button
-                                  @click="addField_port(input, portfolio_array)"
-                                  class="mr-2 px-6 py-3 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
-                                  type="button"
-                                >
-                                  เพิ่ม
-                                </button>
-
-                                <button
-                                  v-show="portfolio_array.length > 1"
-                                  @click="
-                                    removeField_port(index, portfolio_array)
-                                  "
-                                  class="px-6 py-3 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-600 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
-                                  type="button"
-                                >
-                                  ลบ
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="py-6 text-center">
-                          <button
-                            @click="printCV"
-                            class="px-6 py-3 mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
-                            type="button"
+              <div class="py-6 mt-2 text-left border-t border-blueGray-200">
+                <div class="flex flex-wrap">
+                  <!-- from input -->
+                  <div class="w-full lg:w-6/12">
+                    <form @submit.stop.prevent="handleSubmit">
+                      <!-- Workplace checkbox edit -->
+                      <div class="flex flex-wrap mb-2">
+                        <div class="w-full px-4">
+                          <label
+                            class="inline-flex items-center cursor-pointer"
                           >
-                            นำออกเอกสาร
-                          </button>
+                            <input
+                              v-model="isEditWorkplace"
+                              type="checkbox"
+                              class="w-5 h-5 ml-1 rounded bg-blueGray-200 text-blueGray-700"
+                            />
+                            <span class="ml-2 text-blueGray-700">
+                              แก้ไขข้อมูลสถานที่ทำงาน
+                            </span>
+                          </label>
                         </div>
-                      </form>
-                    </div>
-                    <!-- Simulator  -->
-                    <div class="w-full lg:w-6/12">
-                      <div class="p-4 bg-emerald-300 rounded-lg">
-                        <div
-                          id="GFG"
-                          class="bg-white border border-blueGray-300 shadow-lg"
-                        >
-                          <div class="bg-blueGray-100 px-0 pt-2 pb-4">
-                            <div class="flex flex-warp">
-                              <div class="ml-0 px-0 w-full lg:w-3/12">
-                                <img
-                                  alt="..."
-                                  :src="image"
-                                  class="mt-2 rounded-full shadow-lg max-w-100-px h-100-px center-img bg-emerald-500"
-                                />
-                              </div>
-                              <div class="ml-0 px-0 w-full lg:w-6/12">
-                                <h1
-                                  class="mt-4 font-normal text-xl text-blueGray-800"
-                                >
-                                  {{ this.position }} {{ this.first_name }}
-                                  {{ this.last_name }}
-                                </h1>
-                                <h1
-                                  class="mt-2 font-semibold text-lg text-blueGray-800"
-                                >
-                                  {{ this.titleEn }} {{ this.first_nameEn }}
-                                  {{ this.last_nameEn }}
-                                </h1>
-                              </div>
-                              <div
-                                class="text-right mt-5 mr-2 w-full lg:w-4/12 border-l border-blueGray-300"
+                      </div>
+
+                      <!-- Workplace -->
+                      <div class="flex flex-wrap mb-4">
+                        <div class="w-full px-4">
+                          <label class="block text-gray-700 text-md"
+                            >สถานที่ทำงาน</label
+                          >
+                          <textarea
+                            v-model="workplace"
+                            type="text"
+                            placeholder="Workplace"
+                            class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700"
+                            :class="{ 'bg-gray-200': !isEditWorkplace }"
+                            :disabled="!isEditWorkplace"
+                          ></textarea>
+                        </div>
+                      </div>
+
+                      <!-- Bio -->
+                      <div class="flex flex-wrap mb-4">
+                        <div class="w-full px-4">
+                          <label class="block text-gray-700 text-md"
+                            >ประวัติโดยย่อ</label
+                          >
+                          <textarea
+                            v-model="bio"
+                            type="text"
+                            placeholder="Biological"
+                            class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700"
+                          ></textarea>
+                        </div>
+                      </div>
+
+                      <!-- Experience -->
+                      <div class="flex flex-wrap mb-4">
+                        <div class="w-full px-4">
+                          <label class="block text-gray-700 text-md"
+                            >ประสบการณ์การทำงาน</label
+                          >
+                          <div
+                            v-for="(input, index) in experiences"
+                            :key="index"
+                            class="flex text-center mt-2"
+                          >
+                            <div class="w-8/12">
+                              <textarea
+                                v-model="input.exp"
+                                class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
+                                type="text"
+                                placeholder="Exeperience"
+                              />
+                            </div>
+                            <div class="md:text-right w-4/12">
+                              <button
+                                @click="addFieldExp(input, experiences)"
+                                class="mr-2 px-6 py-2 text-sm font-bold text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                                type="button"
                               >
-                                <div class="text-sm text-blueGray-400">
-                                  <span>{{ this.address }}&nbsp;</span>
-                                  <i class="fas fa-home text-emerald-500"></i>
-                                </div>
-                                <div class="text-sm mt-2 text-blueGray-400">
-                                  <span>{{ this.phone }}&nbsp;</span>
-                                  <i
-                                    class="fas fa-phone-alt text-emerald-500"
-                                  ></i>
-                                </div>
-                                <div class="text-sm mt-2 text-blueGray-400">
-                                  <span>{{ this.email }}&nbsp;</span>
-                                  <i
-                                    class="fas fa-envelope text-emerald-500"
-                                  ></i>
-                                </div>
+                                <i class="fas fa-plus" /> เพิ่ม
+                              </button>
+
+                              <button
+                                v-show="experiences.length > 1"
+                                @click="removeFieldExp(index, experiences)"
+                                class="px-6 py-2 mt-2 md:mt-0 text-sm font-bold text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-red-500 active:bg-red-600 hover:shadow-lg focus:outline-none"
+                                type="button"
+                              >
+                                <i class="fas fa-trash" /> ลบ
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Skills -->
+                      <div class="flex flex-wrap mb-4">
+                        <div class="w-full px-4">
+                          <label class="block text-gray-700 text-md"
+                            >ทักษะ</label
+                          >
+                          <div
+                            v-for="(input, index) in skills"
+                            :key="index"
+                            class="flex text-center mt-2"
+                          >
+                            <div class="w-8/12">
+                              <textarea
+                                v-model="input.skill"
+                                class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
+                                type="text"
+                                placeholder="Skill"
+                              />
+                            </div>
+                            <div class="md:text-right w-4/12">
+                              <button
+                                @click="addFieldSkill(input, skills)"
+                                class="mr-2 px-6 py-2 text-sm font-bold text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                                type="button"
+                              >
+                                <i class="fas fa-plus" /> เพิ่ม
+                              </button>
+
+                              <button
+                                v-show="skills.length > 1"
+                                @click="removeFieldSkill(index, skills)"
+                                class="px-6 py-2 mt-2 md:mt-0 text-sm font-bold text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-red-500 active:bg-red-600 hover:shadow-lg focus:outline-none"
+                                type="button"
+                              >
+                                <i class="fas fa-trash" /> ลบ
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Expertise -->
+                      <div class="flex flex-wrap mb-4">
+                        <div class="w-full px-4">
+                          <label class="block text-gray-700 text-md"
+                            >ความเชี่ยวชาญ</label
+                          >
+                          <div
+                            v-for="(input, index) in experts"
+                            :key="index"
+                            class="flex text-center mt-2"
+                          >
+                            <div class="w-8/12">
+                              <textarea
+                                v-model="input.expert"
+                                class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
+                                type="text"
+                                placeholder="Expertise"
+                              />
+                            </div>
+                            <div class="md:text-right w-4/12">
+                              <button
+                                @click="addFieldExpert(input, experts)"
+                                class="mr-2 px-6 py-2 text-sm font-bold text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                                type="button"
+                              >
+                                <i class="fas fa-plus" /> เพิ่ม
+                              </button>
+
+                              <button
+                                v-show="experts.length > 1"
+                                @click="removeFieldExpert(index, experts)"
+                                class="px-6 py-2 mt-2 md:mt-0 text-sm font-bold text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-red-500 active:bg-red-600 hover:shadow-lg focus:outline-none"
+                                type="button"
+                              >
+                                <i class="fas fa-trash" /> ลบ
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Research -->
+                      <div class="flex flex-wrap mb-4">
+                        <div class="w-full px-4">
+                          <label class="block text-gray-700 text-md"
+                            >ความเชี่ยวชาญ</label
+                          >
+                          <div
+                            v-for="(input, index) in researches"
+                            :key="index"
+                            class="flex text-center mt-2"
+                          >
+                            <div class="w-8/12">
+                              <textarea
+                                v-model="input.research"
+                                class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
+                                type="text"
+                                placeholder="Research"
+                              />
+                            </div>
+                            <div class="md:text-right w-4/12">
+                              <button
+                                @click="addFieldResearch(input, researches)"
+                                class="mr-2 px-6 py-2 text-sm font-bold text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                                type="button"
+                              >
+                                <i class="fas fa-plus" /> เพิ่ม
+                              </button>
+
+                              <button
+                                v-show="researches.length > 1"
+                                @click="removeFieldResearch(index, researches)"
+                                class="px-6 py-2 mt-2 md:mt-0 text-sm font-bold text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-red-500 active:bg-red-600 hover:shadow-lg focus:outline-none"
+                                type="button"
+                              >
+                                <i class="fas fa-trash" /> ลบ
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Buttons -->
+                      <div class="py-6 text-center">
+                        <button
+                          class="px-6 py-3 mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
+                          type="submit"
+                        >
+                          บันทึกข้อมูล <i class="fas fa-save" />
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+
+                  <!-- Simulator  -->
+                  <div class="w-full lg:w-6/12">
+                    <div class="p-4 bg-emerald-300 rounded-lg">
+                      <div
+                        class="bg-white border border-blueGray-300 shadow-lg"
+                      >
+                        <div class="bg-blueGray-100 px-0 pt-2 pb-4">
+                          <div class="flex flex-warp">
+                            <div class="ml-0 px-0 w-full lg:w-3/12">
+                              <img
+                                alt="Image profile"
+                                :src="image"
+                                class="mt-2 rounded-full shadow-lg max-w-100-px h-100-px center-img bg-emerald-500"
+                              />
+                            </div>
+                            <div class="ml-0 px-0 w-full lg:w-6/12">
+                              <h1
+                                class="mt-4 font-normal text-xl text-blueGray-800"
+                              >
+                                {{ nameTitle }}{{ nameTh }} {{ lastNameTh }}
+                              </h1>
+                              <h1
+                                class="mt-2 font-semibold text-lg text-blueGray-800"
+                              >
+                                {{ nameEn }} {{ lastNameEn }}
+                              </h1>
+                            </div>
+                            <div
+                              class="text-right mt-5 mr-2 w-full lg:w-4/12 border-l border-blueGray-300"
+                            >
+                              <div class="text-sm text-blueGray-400">
+                                <span>{{ workplace }}&nbsp;</span>
+                                <i
+                                  class="fa-solid fa-briefcase text-emerald-500"
+                                ></i>
+                              </div>
+                              <div class="text-sm mt-2 text-blueGray-400">
+                                <span>{{ tel }}&nbsp;</span>
+                                <i
+                                  class="fas fa-phone-alt text-emerald-500"
+                                ></i>
+                              </div>
+                              <div class="text-sm mt-2 text-blueGray-400">
+                                <span>{{ email }}&nbsp;</span>
+                                <i class="fas fa-envelope text-emerald-500"></i>
                               </div>
                             </div>
                           </div>
-                          <div class="bg-white px-4 pt-4 pb-6">
-                            <div class="flex flex-warp">
-                              <div class="ml-3 px-4 w-full lg:w-12/12">
-                                <div class="px-0">
-                                  <h1
-                                    class="mt-6 font-semibold text-lg text-blueGray-700"
-                                  >
-                                    <i class="fas fa-user text-emerald-500"></i>
-                                    ประวัติโดยย่อ / Biological
-                                  </h1>
-                                  <div class="pt-1 border-t"></div>
+                        </div>
+
+                        <div class="bg-white px-4 pt-4 pb-6">
+                          <div class="flex flex-warp">
+                            <div class="ml-3 px-4 w-full lg:w-12/12">
+                              <div class="px-0">
+                                <h1
+                                  class="mt-6 font-semibold text-lg text-blueGray-700"
+                                >
+                                  <i class="fas fa-user text-emerald-500"></i>
+                                  ประวัติโดยย่อ / Biological
+                                </h1>
+                                <div class="pt-1 border-t"></div>
+                                <p
+                                  class="ml-5 font-normal text-sm min-h-50-px leading-normal break-words text-blueGray-500"
+                                >
+                                  {{ bio }}
+                                </p>
+                              </div>
+                              <div class="px-0">
+                                <h1
+                                  class="mt-6 font-semibold text-lg text-blueGray-700"
+                                >
+                                  <i
+                                    class="fas fa-user-graduate text-emerald-500"
+                                  ></i>
+                                  การศึกษา / Education
+                                </h1>
+                                <div class="pt-1 border-t"></div>
+                                <p
+                                  class="ml-5 font-normal text-sm leading-normal break-normal text-blueGray-500"
+                                >
+                                  {{ education }}
+                                </p>
+                              </div>
+                              <div class="px-0">
+                                <h1
+                                  class="mt-6 font-semibold text-lg text-blueGray-700"
+                                >
+                                  <i
+                                    class="fas fa-briefcase text-emerald-500"
+                                  ></i>
+                                  ประสบการณ์การทำงาน / Experience
+                                </h1>
+                                <div class="pt-1 border-t"></div>
+                                <div v-for="exp in experiences" :key="exp.exp">
                                   <p
-                                    class="ml-5 font-normal text-sm min-h-50-px leading-normal break-words text-blueGray-500"
-                                  >
-                                    {{ this.bio }}
-                                  </p>
-                                </div>
-                                <div class="px-0">
-                                  <h1
-                                    class="mt-6 font-semibold text-lg text-blueGray-700"
-                                  >
-                                    <i
-                                      class="fas fa-user-graduate text-emerald-500"
-                                    ></i>
-                                    การศึกษา / Education
-                                  </h1>
-                                  <div class="pt-1 border-t"></div>
-                                  <p
+                                    v-if="exp.exp"
                                     class="ml-5 font-normal text-sm leading-normal break-normal text-blueGray-500"
                                   >
-                                    <b>{{ this.year1 }} </b>
-                                    {{ this.graduate1 }}
-                                    {{ this.institution1 }}
+                                    • {{ exp.exp }}
                                   </p>
+                                </div>
+                              </div>
+                              <div class="px-0">
+                                <h1
+                                  class="mt-6 font-semibold text-lg text-blueGray-700"
+                                >
+                                  <i class="fas fa-tools text-emerald-500"></i>
+                                  ทักษะ / Skills
+                                </h1>
+                                <div class="pt-1 border-t"></div>
+                                <div v-for="skill in skills" :key="skill.skill">
                                   <p
+                                    v-if="skill.skill"
                                     class="ml-5 font-normal text-sm leading-normal break-normal text-blueGray-500"
                                   >
-                                    <b>{{ this.year2 }} </b>
-                                    {{ this.graduate2 }}
-                                    {{ this.institution2 }}
+                                    • {{ skill.skill }}
                                   </p>
+                                </div>
+                              </div>
+                              <div class="px-0">
+                                <h1
+                                  class="mt-6 font-semibold text-lg text-blueGray-700"
+                                >
+                                  <i class="fas fa-star text-emerald-500"></i>
+                                  ความเชี่ยวชาญ / Expertise
+                                </h1>
+                                <div class="pt-1 border-t"></div>
+                                <div
+                                  v-for="expert in experts"
+                                  :key="expert.expert"
+                                >
                                   <p
+                                    v-if="expert.expert"
                                     class="ml-5 font-normal text-sm leading-normal break-normal text-blueGray-500"
                                   >
-                                    <b>{{ this.year3 }} </b>
-                                    {{ this.graduate3 }}
-                                    {{ this.institution3 }}
+                                    • {{ expert.expert }}
                                   </p>
                                 </div>
-                                <div class="px-0">
-                                  <h1
-                                    class="mt-6 font-semibold text-lg text-blueGray-700"
+                              </div>
+                              <div class="px-0">
+                                <h1
+                                  class="mt-6 font-semibold text-lg text-blueGray-700"
+                                >
+                                  <i class="fas fa-award text-emerald-500"></i>
+                                  ผลงาน / Research
+                                </h1>
+                                <div class="pt-1 border-t"></div>
+                                <div
+                                  v-for="research in researches"
+                                  :key="research"
+                                >
+                                  <p
+                                    v-if="research.research"
+                                    class="ml-5 font-normal text-sm leading-normal break-normal text-blueGray-500"
                                   >
-                                    <i
-                                      class="fas fa-briefcase text-emerald-500"
-                                    ></i>
-                                    ประสบการณ์การทำงาน / Experience
-                                  </h1>
-                                  <div class="pt-1 border-t"></div>
-                                  <div
-                                    v-for="exp_loop in experience_array"
-                                    :key="exp_loop.exp"
-                                  >
-                                    <p
-                                      class="ml-5 font-normal text-sm leading-normal break-normal text-blueGray-500"
-                                    >
-                                      {{ exp_loop.exp }}
-                                    </p>
-                                  </div>
-                                </div>
-                                <div class="px-0">
-                                  <h1
-                                    class="mt-6 font-semibold text-lg text-blueGray-700"
-                                  >
-                                    <i
-                                      class="fas fa-tools text-emerald-500"
-                                    ></i>
-                                    ทักษะ / Skills
-                                  </h1>
-                                  <div class="pt-1 border-t"></div>
-                                  <div
-                                    v-for="skill_loop in skill_array"
-                                    :key="skill_loop.skill"
-                                  >
-                                    <p
-                                      class="ml-5 font-normal text-sm leading-normal break-normal text-blueGray-500"
-                                    >
-                                      {{ skill_loop.skill }}
-                                    </p>
-                                  </div>
-                                </div>
-                                <div class="px-0">
-                                  <h1
-                                    class="mt-6 font-semibold text-lg text-blueGray-700"
-                                  >
-                                    <i class="fas fa-star text-emerald-500"></i>
-                                    ความเชี่ยวชาญ / Expertise
-                                  </h1>
-                                  <div class="pt-1 border-t"></div>
-                                  <div
-                                    v-for="expert_loop in expert_array"
-                                    :key="expert_loop.expert"
-                                  >
-                                    <p
-                                      class="ml-5 font-normal text-sm leading-normal break-normal text-blueGray-500"
-                                    >
-                                      {{ expert_loop.expert }}
-                                    </p>
-                                  </div>
-                                </div>
-                                <div class="px-0">
-                                  <h1
-                                    class="mt-6 font-semibold text-lg text-blueGray-700"
-                                  >
-                                    <i
-                                      class="fas fa-award text-emerald-500"
-                                    ></i>
-                                    ผลงาน / Portfolio
-                                  </h1>
-                                  <div class="pt-1 border-t"></div>
-                                  <div
-                                    v-for="port_loop in portfolio_array"
-                                    :key="port_loop.port"
-                                  >
-                                    <p
-                                      class="ml-5 font-normal text-sm leading-normal break-normal text-blueGray-500"
-                                    >
-                                      • {{ port_loop.port }}
-                                    </p>
-                                  </div>
+                                    • {{ research.research }}
+                                  </p>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
+
+                      <!-- Buttons -->
+                      <div class="py-6 text-center">
+                        <button
+                          @click="sendToPreview"
+                          class="px-6 py-3 mb-1 text-sm font-bold rounded shadow outline-none focus:outline-none"
+                          :class="
+                            cv === null
+                              ? 'cursor-not-allowed bg-gray-200 text-blueGray-700'
+                              : 'text-emerald-500 active:text-white bg-white active:bg-emerald-500 hover:shadow-lg'
+                          "
+                        >
+                          นำออกเอกสาร <i class="fas fa-file-export" />
+                        </button>
+                      </div>
                     </div>
                   </div>
+                  <!-- Simulator -->
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </main>
-  </div>
+      </div>
+    </section>
+  </main>
 </template>
 
 <script>
 //? API
 import http from "../../services/WebpageService";
-// import html2pdf from "html2pdf.js";
-// import html2canvas from "html2canvas";
-// import jsPDF from "jspdf";
 export default {
   data() {
     return {
-      cvId: 0,
-      personnel_array: [],
-      cv_array: [],
+      //? Data
+      cv: null,
+      id: "",
+      nameTitle: "",
+      nameTh: "",
+      lastNameTh: "",
+      nameEn: "",
+      lastNameEn: "",
       position: "",
-      first_name: "",
-      last_name: "",
-      titleEn: "",
-      first_nameEn: "",
-      last_nameEn: "",
-      address: "มหาวิทยาลัยแม่โจ้",
-      phone: "",
+      education: "",
+      image: "",
+      tel: "",
       email: "",
 
+      //? Boolean
+      isEditWorkplace: false,
+
+      //? Form
+      workplace:
+        "สาขาวิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยแม่โจ้ จ.เชียงใหม่",
       bio: "",
-
-      experience_array: [{ exp: "" }],
-      skill_array: [{ skill: "" }],
-      portfolio_array: [{ port: "" }],
-      expert_array: [{ expert: "" }],
-
-      year1: "",
-      graduate1: "",
-      institution1: "",
-      year2: "",
-      graduate2: "",
-      institution2: "",
-      year3: "",
-      graduate3: "",
-      institution3: "",
+      experiences: [{ exp: "" }],
+      skills: [{ skill: "" }],
+      experts: [{ expert: "" }],
+      researches: [{ research: "" }],
     };
   },
+
   mounted() {
-    this.getCvData();
-    this.getPersonnelData();
-    this.dateDropdown1();
-    this.dateDropdown2();
-    this.dateDropdown3();
+    this.getPersonnelCV();
   },
 
   methods: {
-    dateDropdown1() {
-      let dateDropdown = document.getElementById("date-dropdown1");
-
-      let currentYear = new Date().getFullYear();
-      let earliestYear = 1970;
-      while (currentYear >= earliestYear) {
-        let dateOption = document.createElement("option");
-        dateOption.text = currentYear;
-        dateOption.value = `• ${currentYear}`;
-        dateDropdown.add(dateOption);
-        currentYear -= 1;
+    //? Get personnel cv
+    async getPersonnelCV() {
+      try {
+        const local = JSON.parse(localStorage.getItem("user"));
+        const citizenId = local.card_id;
+        const res = await http.get(`cv/search/citizen-id/${citizenId}`);
+        if (res.data.success) {
+          //? Find data
+          this.cv = res.data.data;
+          this.id = this.cv.id;
+          this.nameTitle = this.cv.name_title;
+          let nameTh = this.cv.name_th.split(" ");
+          this.nameTh = nameTh[0];
+          this.lastNameTh = nameTh[1];
+          let nameEn = this.cv.name_en.split(" ");
+          this.nameEn = nameEn[0];
+          this.lastNameEn = nameEn[1];
+          this.position = this.cv.position_academic;
+          this.education = this.cv.education;
+          this.image = this.cv.image_profile;
+          this.tel = this.cv.tel_number;
+          this.email = this.cv.email;
+          this.workplace = this.cv.workplace;
+          this.bio = this.cv.bio;
+          this.experiences = this.cv.experiences;
+          this.skills = this.cv.skills;
+          this.experts = this.cv.experts;
+          this.researches = this.cv.researches;
+        } else {
+          //? If not find data call getPersonnel function
+          this.getPersonnel(citizenId);
+        }
+      } catch (err) {
+        console.log(err);
       }
     },
-    dateDropdown2() {
-      let dateDropdown = document.getElementById("date-dropdown2");
 
-      let currentYear = new Date().getFullYear();
-      let earliestYear = 1970;
-      while (currentYear >= earliestYear) {
-        let dateOption = document.createElement("option");
-        dateOption.text = currentYear;
-        dateOption.value = `• ${currentYear}`;
-        dateDropdown.add(dateOption);
-        currentYear -= 1;
+    //? Get personnel data
+    async getPersonnel(citizenId) {
+      try {
+        const res = await http.get(`personnel/search/citizen-id/${citizenId}`);
+        if (res.data.success) {
+          const personnel = res.data.data;
+          console.log(personnel);
+          this.nameTitle = personnel.name_title;
+          let nameTh = personnel.name_th.split(" ");
+          this.nameTh = nameTh[0];
+          this.lastNameTh = nameTh[1];
+          let nameEn = personnel.name_en.split(" ");
+          this.nameEn = nameEn[0];
+          this.lastNameEn = nameEn[1];
+          this.position = personnel.position_academic;
+          this.education = personnel.education;
+          this.tel = personnel.tel_number;
+          this.email = personnel.email;
+          this.image = personnel.image_profile;
+        }
+      } catch (err) {
+        console.log(err);
       }
     },
-    dateDropdown3() {
-      let dateDropdown = document.getElementById("date-dropdown3");
 
-      let currentYear = new Date().getFullYear();
-      let earliestYear = 1970;
-      while (currentYear >= earliestYear) {
-        let dateOption = document.createElement("option");
-        dateOption.text = currentYear;
-        dateOption.value = `• ${currentYear}`;
-        dateDropdown.add(dateOption);
-        currentYear -= 1;
+    //? Add Experience
+    addFieldExp(input, array) {
+      if (input.exp) {
+        let obj = {};
+        for (const [key] of Object.entries(input)) {
+          obj[key] = "";
+        }
+        array.push(obj);
       }
     },
-    getPersonnelData() {
-      let local_user = JSON.parse(window.localStorage.getItem("user"));
 
-      if (local_user != null) {
-        http
-          .get(`personnel/cardid/${local_user.card_id}`)
-          .then((response) => {
-            this.personnel_array = response.data[0];
-            //Get data from API
-            this.position = this.personnel_array.titlePosition;
-            this.first_name = this.personnel_array.firstName;
-            this.last_name = this.personnel_array.lastName;
+    //? Remove Experience
+    removeFieldExp(index, array) {
+      array.splice(index, 1);
+    },
 
-            this.titleEn = this.personnel_array.titleNameEn;
-            this.first_nameEn = this.personnel_array.fistNameEn;
-            this.last_nameEn = this.personnel_array.lastNameEn;
-
-            this.email = this.personnel_array.e_mail;
-            this.phone = this.personnel_array.phoneNumber;
-
-            this.image = this.personnel_array.personnelPhoto;
-          })
-          .catch((error) => {
-            if (error.response) {
-              if (error.response.status == 500) {
-                //Call Sweet Alert
-                const Toast = this.$swal.mixin({
-                  position: "center",
-                  showConfirmButton: false,
-                  timer: 2000,
-                  timerProgressBar: true,
-                });
-
-                Toast.fire({
-                  icon: "error",
-                  title: "Connection Error",
-                });
-              }
-            }
-          });
+    //? Add Skill
+    addFieldSkill(input, array) {
+      if (input.skill) {
+        let obj = {};
+        for (const [key] of Object.entries(input)) {
+          obj[key] = "";
+        }
+        array.push(obj);
       }
     },
-    getCvData() {
-      let local_user = JSON.parse(window.localStorage.getItem("user"));
 
-      if (local_user != null) {
-        http
-          .get(`cv/${local_user.card_id}`)
-          .then((response) => {
-            this.cv_array = response.data[0];
-            this.cvId = this.cv_array.cvId;
-            if (this.cv_array) {
-              http.delete(`cv/delete/${this.cvId}`).then(() => {});
-            }
-          })
-          .catch((error) => {
-            if (error.response) {
-              if (error.response.status == 500) {
-                //Call Sweet Alert
-                const Toast = this.$swal.mixin({
-                  position: "center",
-                  showConfirmButton: false,
-                  timer: 2000,
-                  timerProgressBar: true,
-                });
+    //? Remove Skill
+    removeFieldSkill(index, array) {
+      array.splice(index, 1);
+    },
 
-                Toast.fire({
-                  icon: "error",
-                  title: "Connection Error",
-                });
-              }
-            }
-          });
+    //? Add Expert
+    addFieldExpert(input, array) {
+      if (input.expert) {
+        let obj = {};
+        for (const [key] of Object.entries(input)) {
+          obj[key] = "";
+        }
+        array.push(obj);
       }
     },
-    deleteData() {
-      http.delete(`cv/delete/${this.cvId}`).then(() => {});
+
+    //? Remove Expert
+    removeFieldExpert(index, array) {
+      array.splice(index, 1);
     },
-    printCV() {
-      const swalWithBootstrapButtons = this.$swal.mixin({
+
+    //? Add Research
+    addFieldResearch(input, array) {
+      if (input.research) {
+        let obj = {};
+        for (const [key] of Object.entries(input)) {
+          obj[key] = "";
+        }
+        array.push(obj);
+      }
+    },
+
+    //? Remove Research
+    removeFieldResearch(index, array) {
+      array.splice(index, 1);
+    },
+
+    //? Handle submit
+    handleSubmit() {
+      //? Validate
+      if (true) {
+        let local = JSON.parse(localStorage.getItem("user"));
+        let citizenId = local.card_id;
+        let data = {
+          citizen_id: citizenId,
+          workplace: this.workplace,
+          bio: this.bio,
+          experiences: this.experiences,
+          skills: this.skills,
+          experts: this.experts,
+          researches: this.researches,
+        };
+
+        //? If cv database has data of this user call update function
+        //? else call create function
+        this.cv !== null ? this.onUpdate(data) : this.onCreate(data);
+      }
+    },
+
+    //? Create function
+    async onCreate(data) {
+      //? Set sweet alert default settings
+      const Swal = this.$swal.mixin({
+        position: "center",
+        showConfirmButton: true,
         customClass: {
           title: "font-weight-bold",
           confirmButton:
-            "px-6 py-3 mx-4 mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+            "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
           cancelButton:
-            "px-6 py-3 mx-4 mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+            "px-6 py-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
         },
         buttonsStyling: false,
       });
 
-      swalWithBootstrapButtons
-        .fire({
-          title: "ยืนยันการนำออกเอกสาร",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "ยืนยัน",
-          cancelButtonText: "ยกเลิก",
-          reverseButtons: true,
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            let local_user = JSON.parse(window.localStorage.getItem("user"));
-
-            let skills = [];
-            let exps = [];
-            let ports = [];
-            let expert = [];
-            this.skill_array.forEach((element) => {
-              skills.push(element.skill);
-            });
-            this.experience_array.forEach((element) => {
-              exps.push(element.exp);
-            });
-            this.portfolio_array.forEach((element) => {
-              ports.push(element.port);
-            });
-            this.expert_array.forEach((element) => {
-              expert.push(element.expert);
-            });
-
-            let data = new FormData();
-            data.append("Bio_Personnel", this.bio);
-            data.append("Experience", exps);
-            data.append("Skill", skills);
-            data.append("Portfolio", ports);
-            data.append("expertise", expert);
-            data.append(
-              "BachelorDegree",
-              this.year1 + " " + this.graduate1 + " " + this.institution1
-            );
-            data.append(
-              "MastersDegree",
-              this.year2 + " " + this.graduate2 + " " + this.institution2
-            );
-            data.append(
-              "DoctoralDegree",
-              this.year3 + " " + this.graduate3 + " " + this.institution3
-            );
-            data.append("Bachelor Degree", null);
-
-            if (local_user != null) {
-              data.append("card_id", local_user.card_id);
-            }
-            if (this.cv_array == null) {
-              http.post("cv/create", data).then(() => {
-                swalWithBootstrapButtons
-                  .fire(
-                    "นำออกเอกสารเรียบร้อย!",
-                    "ระบบกำลังพิมพ์เอกสาร",
-                    "success"
-                  )
-                  .then(() => {
-                    let routeData = this.$router.resolve({
-                      name: "CVPrint",
-                    });
-                    window.open(routeData.href, "_blank");
-                  });
-              });
-            } else if (this.cv_array != null) {
-              http.post(`cv/update/${this.cvId}`, data).then(() => {
-                swalWithBootstrapButtons
-                  .fire(
-                    "นำออกเอกสารเรียบร้อย!",
-                    "ระบบกำลังพิมพ์เอกสาร",
-                    "success"
-                  )
-                  .then(() => {
-                    let routeData = this.$router.resolve({
-                      name: "CVPrint",
-                    });
-                    window.open(routeData.href, "_blank");
-                  });
-              });
-            }
-          } else if (result.dismiss === this.$swal.DismissReason.cancel) {
-            swalWithBootstrapButtons.fire(
-              "ยกเลิกเรียบร้อย!",
-              "คุณได้ยกเลิกการนำออกเอกสาร",
-              "error"
-            );
-          }
-        });
-    },
-    addField_exp(object, fieldType) {
-      let newObject = {};
-      for (const [key] of Object.entries(object)) {
-        newObject[key] = "";
+      try {
+        const res = await http.post("cv/new", data);
+        if (res.data.success) {
+          //? Success
+          let msg = res.data.message;
+          Swal.fire({
+            icon: "success",
+            title: msg,
+          }).then(() => {
+            window.location.reload();
+          });
+        }
+      } catch (err) {
+        //! Error create
+        if (err) {
+          Swal.fire({
+            icon: "error",
+            title: "ขออภัย ทำรายการไม่สำเร็จ",
+          });
+        }
       }
-      fieldType.push(newObject);
-    },
-    removeField_exp(index, fieldType) {
-      fieldType.splice(index, 1);
     },
 
-    addField_skill(object, fieldType) {
-      let newObject = {};
-      for (const [key] of Object.entries(object)) {
-        newObject[key] = "";
+    //? Update function
+    async onUpdate(data) {
+      //? Set sweet alert default settings
+      const Swal = this.$swal.mixin({
+        position: "center",
+        showConfirmButton: true,
+        customClass: {
+          title: "font-weight-bold",
+          confirmButton:
+            "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+          cancelButton:
+            "px-6 py-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+        },
+        buttonsStyling: false,
+      });
+
+      try {
+        const res = await http.post(`cv/update/${this.id}`, data);
+        if (res.data.success) {
+          //? Success
+          let msg = res.data.message;
+          Swal.fire({
+            icon: "success",
+            title: msg,
+          }).then(() => {
+            window.location.reload();
+          });
+        }
+      } catch (err) {
+        //! Error update
+        if (err) {
+          Swal.fire({
+            icon: "error",
+            title: "ขออภัย ทำรายการไม่สำเร็จ",
+          });
+        }
       }
-      fieldType.push(newObject);
-    },
-    removeField_skill(index, fieldType) {
-      fieldType.splice(index, 1);
     },
 
-    addField_expert(object, fieldType) {
-      let newObject = {};
-      for (const [key] of Object.entries(object)) {
-        newObject[key] = "";
-      }
-      fieldType.push(newObject);
-    },
-    removeField_expert(index, fieldType) {
-      fieldType.splice(index, 1);
-    },
-
-    addField_port(object, fieldType) {
-      let newObject = {};
-      for (const [key] of Object.entries(object)) {
-        newObject[key] = "";
-      }
-      fieldType.push(newObject);
-    },
-    removeField_port(index, fieldType) {
-      fieldType.splice(index, 1);
-    },
-    back() {
-      this.$router.push({ name: "PersonnelService" });
+    //? Send doc to preview page
+    sendToPreview() {
+      let routeData = this.$router.resolve({
+        name: "CVPrint",
+      });
+      window.open(routeData.href, "_blank");
     },
   },
 };

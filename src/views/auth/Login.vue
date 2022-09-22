@@ -127,10 +127,19 @@
 import vueRecaptcha from "vue3-recaptcha2";
 import useValidate from "@vuelidate/core";
 import { required, minLength, helpers } from "@vuelidate/validators";
+import Swal from "sweetalert2";
 //? APIs
+import mju from "../../services/MJUService";
+import auth from "../../services/AuthService";
 import http from "../../services/WebpageService";
-import httpAuth from "../../services/AuthService";
-import httpMJU from "../../services/MJUService";
+//? Set default sweetalert
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 1000,
+  timerProgressBar: true,
+});
 export default {
   components: {
     vueRecaptcha,
@@ -171,25 +180,17 @@ export default {
       }
     },
 
+    //? Handle submit
     handleSubmit() {
       this.v$.$validate();
       //! Validate's error
       if (this.v$.$error) {
-        const Toast = this.$swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 2000,
-          timerProgressBar: true,
-        });
-
         Toast.fire({
           icon: "error",
           title: "กรุณากรอกข้อมูลให้ครบถ้วน",
         });
       } else {
         /**
-         * ? Everything is fine
          * ? Check username type is email or not
          * ? If email, it mean user is admin or personnels then call personnelLogin function
          * ? If not, it mean user is student then call studentLogin function
@@ -204,188 +205,142 @@ export default {
       }
     },
 
-    studentLogin() {
-      const form = {
-        username: "mju" + this.username,
-        password: this.password,
-      };
-
-      httpMJU
-        .post("login/mju/ad", form)
-        .then((res) => {
-          if (res.data.status === "success" && res.data.type[0] == "student") {
-            let permission = { role: 2 };
-            localStorage.setItem("user", JSON.stringify(res.data));
-            localStorage.setItem("permission", JSON.stringify(permission));
-
-            //? Call sweet alert
-            const Toast = this.$swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 1000,
-              timerProgressBar: true,
-            });
-            Toast.fire({
-              icon: "success",
-              title: "กำลังเข้าสู่ระบบ",
-            }).then(() => {
-              //? Call LoginCheck function to save user login history
-              //? then redirect to student service page
-              this.loginCheck();
-              this.$router.push({ name: "StudentService" });
-            });
-          }
-        })
-        .catch((err) => {
-          if (error) {
-            const Toast = this.$swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 1000,
-              timerProgressBar: true,
-            });
-
-            Toast.fire({
-              icon: "error",
-              title: "เข้าสู่ระบบไม่สำเร็จ",
-            }).then(() => {
-              //? Reset password
-              this.password = "";
-            });
-          }
-        });
-    },
-
-    personnelLogin() {
-      const form = {
-        username: this.username,
-        password: this.password,
-      };
-
-      httpMJU
-        .post("login/mju/ad", form)
-        .then((res) => {
-          if (
-            res.data.status === "success" &&
-            res.data.type[0] == "personnel"
-          ) {
-            let permission = { role: 1 };
-            localStorage.setItem("user", JSON.stringify(res.data));
-            localStorage.setItem("permission", JSON.stringify(permission));
-
-            //? Call sweet alert
-            const Toast = this.$swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 1000,
-              timerProgressBar: true,
-            });
-            Toast.fire({
-              icon: "success",
-              title: "กำลังเข้าสู่ระบบ",
-            }).then(() => {
-              //? Call LoginCheck function to save user login history
-              //? then redirect to personnel service page
-              this.loginCheck();
-              this.$router.push({ name: "PersonnelService" });
-            });
-          } else {
-            //? Call AdminLogin function
-            this.adminLogin();
-          }
-        })
-        .catch((err) => {
-          if (err) {
-            const Toast = this.$swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 1000,
-              timerProgressBar: true,
-            });
-            Toast.fire({
-              icon: "error",
-              title: "เข้าสู่ระบบไม่สำเร็จ",
-            });
-          }
-        });
-    },
-
-    adminLogin() {
-      let data = new FormData();
-      data.append("email", this.username);
-      data.append("password", this.password);
-
-      httpAuth
-        .post("auth/signin", data)
-        .then((res) => {
+    //? Personnel login
+    async personnelLogin() {
+      try {
+        const form = {
+          username: this.username,
+          password: this.password,
+        };
+        const res = await mju.post("login/mju/ad", form);
+        if (res.data.status === "success" && res.data.type[0] == "personnel") {
+          //? Login success save data to local storage
+          let permission = { role: 1 };
           localStorage.setItem("user", JSON.stringify(res.data));
-          if (res.data.success && res.data.user.role == "admin") {
-            const Toast = this.$swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 1000,
-              timerProgressBar: true,
-            });
-            Toast.fire({
-              icon: "success",
-              title: "กำลังเข้าสู่ระบบ",
-            }).then(() => {
-              this.$router.push({ name: "Dashboard" });
-            });
-          } else {
-            let msg = res.data.message;
-            const Toast = this.$swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 1000,
-              timerProgressBar: true,
-            });
-            Toast.fire({
-              icon: "error",
-              title: msg,
-            });
-          }
-        })
-        .catch((error) => {
-          if (error) {
-            const Toast = this.$swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 1000,
-              timerProgressBar: true,
-            });
+          localStorage.setItem("permission", JSON.stringify(permission));
 
-            Toast.fire({
-              icon: "error",
-              title: "เข้าสู่ระบบไม่สำเร็จ",
-            }).then(() => {
-              //? Reset password
-              this.password = "";
-            });
-          }
-        });
+          //? Alert
+          Toast.fire({
+            icon: "success",
+            title: "กำลังเข้าสู่ระบบ",
+          }).then(() => {
+            //? Call LoginCheck function to save user login history
+            //? then redirect to personnel service page
+            this.loginCheck();
+            this.$router.push({ name: "PersonnelService" });
+          });
+        } else {
+          //? Call adminLogin function to check user is admin or not
+          this.adminLogin();
+        }
+      } catch (err) {
+        if (err) {
+          Toast.fire({
+            icon: "error",
+            title: "เข้าสู่ระบบไม่สำเร็จ",
+          }).then(() => {
+            //? Reset password
+            this.password = "";
+          });
+        }
+      }
     },
 
-    loginCheck() {
-      let user = JSON.parse(window.localStorage.getItem("user"));
-      let email = user.email;
-      let type = user.type[0];
-      let device = navigator.userAgent;
+    //? Student login
+    async studentLogin() {
+      try {
+        const form = {
+          username: "mju" + this.username,
+          password: this.password,
+        };
+        const res = await mju.post("login/mju/ad", form);
+        if (res.data.status === "success" && res.data.type[0] == "student") {
+          //? Login success save data to local storage
+          let permission = { role: 2 };
+          localStorage.setItem("user", JSON.stringify(res.data));
+          localStorage.setItem("permission", JSON.stringify(permission));
 
-      let data = new FormData();
-      data.append("email", email);
-      data.append("user_type", type);
-      data.append("device", device);
+          //? Alert
+          Toast.fire({
+            icon: "success",
+            title: "กำลังเข้าสู่ระบบ",
+          }).then(() => {
+            //? Call LoginCheck function to save user login history
+            //? then redirect to student service page
+            this.loginCheck();
+            this.$router.push({ name: "StudentService" });
+          });
+        } else {
+          throw new Error("Login failed");
+        }
+      } catch (err) {
+        if (err) {
+          Toast.fire({
+            icon: "error",
+            title: "เข้าสู่ระบบไม่สำเร็จ",
+          }).then(() => {
+            //? Reset password
+            this.password = "";
+          });
+        }
+      }
+    },
 
-      //? Save user login history to db
-      http.post("checksignin/new", data);
+    //? Admin login
+    async adminLogin() {
+      try {
+        let data = new FormData();
+        data.append("email", this.username);
+        data.append("password", this.password);
+        const res = await auth.post("auth/signin", data);
+        if (res.data.success && res.data.user.role == "admin") {
+          //? Login success save data to local storage
+          localStorage.setItem("user", JSON.stringify(res.data));
+
+          //? Alert
+          Toast.fire({
+            icon: "success",
+            title: "กำลังเข้าสู่ระบบ",
+          }).then(() => {
+            this.$router.push({ name: "Dashboard" });
+          });
+        } else {
+          let msg = res.data.message;
+          throw new Error(msg);
+        }
+      } catch (err) {
+        if (err) {
+          Toast.fire({
+            icon: "error",
+            title: "เข้าสู่ระบบไม่สำเร็จ",
+          }).then(() => {
+            //? Reset password
+            this.password = "";
+          });
+        }
+      }
+    },
+
+    //? Save user login history
+    async loginCheck() {
+      try {
+        let user = JSON.parse(window.localStorage.getItem("user"));
+        let email = user.email;
+        let type = user.type[0];
+        let device = navigator.userAgent;
+
+        let data = new FormData();
+        data.append("email", email);
+        data.append("user_type", type);
+        data.append("device", device);
+
+        //? Call api to save user login history
+        await http.post("checksignin/new", data);
+      } catch (err) {
+        if (err) {
+          console.log(err);
+        }
+      }
     },
   },
 
@@ -409,17 +364,12 @@ export default {
         required: helpers.withMessage("ป้อนรหัสผ่านก่อน", required),
         minLength: helpers.withMessage(
           ({ $params }) => `รหัสผ่านต้องไม่น้อยกว่า ${$params.min} ตัวอักษร`,
-          minLength(5)
+          minLength(6)
         ),
       },
 
       username: {
         required: helpers.withMessage("ป้อนชื่อผู้ใช้ก่อน", required),
-        minLength: helpers.withMessage(
-          ({ $params }) =>
-            `ชื่อผู้ใช้ต้องไม่น้อยกว่า ${$params.min} ตัวอักษรและตัวเลข`,
-          minLength(10)
-        ),
       },
     };
   },
