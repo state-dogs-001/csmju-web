@@ -55,16 +55,16 @@
             <div class="w-full text-left lg:w-6/12">
               <div class="top-0 w-full h-full bg-center bg-cover">
                 <Carousel
-                  v-if="banner_array.length > 0"
+                  v-if="banners.length > 0"
                   :autoplay="this.speed"
                   :wrap-around="true"
                 >
-                  <Slide v-for="image in banner_array" :key="image.Banner_ID">
+                  <Slide v-for="banner in banners" :key="banner.id">
                     <div
                       class="cssanimation sequence fadeInBottom relative mx-0 shadow-lg bg-emerald-500 carousel__item cropped-bg round-lg"
                     >
-                      <a :href="image.Link" target="_blank">
-                        <img class="cropped-bg" :src="image.Banner_File" />
+                      <a :href="banner.link" target="_blank">
+                        <img class="cropped-bg" :src="banner.banner" />
                       </a>
                     </div>
                   </Slide>
@@ -146,8 +146,8 @@
           </h1>
           <div class="flex flex-wrap mt-12 mb-12">
             <div
-              v-for="n in 3"
-              :key="n"
+              v-for="news in newsLimit"
+              :key="news"
               class="w-full px-4 text-center md:w-4/12"
             >
               <router-link to="news" target="_blank">
@@ -156,16 +156,16 @@
                 >
                   <div class="flex-auto p-4">
                     <img
-                      alt="..."
-                      :src="News_Picture[n - 1]"
+                      alt="news"
+                      :src="news.image"
                       class="relative row-end-auto mx-0 shadow-lg cropped-card2"
                     />
                   </div>
                   <h3 class="px-4 mb-2 text-lg font-semibold truncate">
-                    {{ News_Title[n - 1] }}
+                    {{ news.title }}
                   </h3>
                   <p class="px-4 pb-4 text-left truncate-3">
-                    {{ News_Detail[n - 1] }}
+                    {{ news.detail }}
                   </p>
                 </div>
               </router-link>
@@ -184,7 +184,6 @@
           <h1 class="px-6 pt-20 mt-12 mb-4 text-3xl" id="section2">
             <b>Introduction </b> | วีดีโอแนะนำสาขา
           </h1>
-
           <div class="flex flex-wrap mt-12 mb-12">
             <div class="w-full px-4 text-center md:w-12/12">
               <div
@@ -231,6 +230,7 @@ import Menu5 from "../assets/images/menu5.png";
 import http from "../services/WebpageService";
 //? Package
 import { Carousel, Navigation, Pagination, Slide } from "vue3-carousel";
+import { mapActions, mapGetters } from "vuex";
 export default {
   components: {
     MainNavbar,
@@ -243,6 +243,11 @@ export default {
     Navigation,
     Pagination,
   },
+
+  computed: {
+    ...mapGetters("home", ["banners", 'newsLimit']),
+  },
+
   data() {
     return {
       //?  Carousel
@@ -270,12 +275,7 @@ export default {
         },
       ],
 
-      day: new Date().getDate(),
-      month: new Date().getMonth() + 1,
-      year: new Date().getFullYear(),
-
       news_array: [],
-      banner_array: [],
 
       News_Title: [],
       News_Detail: [],
@@ -284,8 +284,8 @@ export default {
   },
 
   mounted() {
-    this.getNewsData();
-    this.getBannerData();
+    this.getBanners();
+    this.getNewsLimit();
   },
 
   methods: {
@@ -322,33 +322,7 @@ export default {
     },
 
     //? Get banner
-    getBannerData() {
-      http
-        .get(`banner`)
-        .then((response) => {
-          this.banner_array = response.data;
-          this.banner_array.reverse();
-        })
-        .catch((error) => {
-          if (error.response) {
-            if (error.response.status == 500) {
-              const Toast = this.$swal.mixin({
-                position: "center",
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true,
-              });
-
-              Toast.fire({
-                icon: "error",
-                title: "Connection Error",
-              });
-            }
-          }
-        });
-    },
+    ...mapActions("home", ["getBanners", "getNewsLimit"]),
   },
 };
 </script>
-
-<style></style>
