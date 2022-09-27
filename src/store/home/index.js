@@ -31,7 +31,6 @@ const actions = {
       const res = await http.get("news/limit/3"); //? News limit 3
       if (res.data.success) {
         const data = res.data.data;
-        console.log(data);
         commit("setNewsLimit", data);
       }
     } catch (err) {
