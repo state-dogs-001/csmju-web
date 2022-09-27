@@ -61,6 +61,12 @@
                               @change="onFileSelected"
                               class="px-3 py-2 leading-tight text-gray-700 border w-full"
                             />
+                            <div
+                              v-if="v$.file.$error"
+                              class="mt-2 text-sm text-red-500"
+                            >
+                              {{ v$.file.$errors[0].$message }}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -83,6 +89,12 @@
                             placeholder="ID"
                             readonly
                           />
+                          <div
+                            v-if="v$.citizenId.$error"
+                            class="mt-0 text-sm text-red-500"
+                          >
+                            {{ v$.citizenId.$errors[0].$message }}
+                          </div>
                         </div>
                       </div>
 
@@ -98,6 +110,12 @@
                             type="text"
                             placeholder="Name title"
                           />
+                          <div
+                            v-if="v$.nameTitle.$error"
+                            class="mt-0 text-sm text-red-500"
+                          >
+                            {{ v$.nameTitle.$errors[0].$message }}
+                          </div>
                         </div>
                       </div>
 
@@ -115,12 +133,12 @@
                             type="text"
                             placeholder="Firstname"
                           />
-                          <!-- <div
-                              v-if="v$.firstName.$error"
-                              class="mt-0 text-sm text-red-500"
-                            >
-                              {{ v$.firstName.$errors[0].$message }}
-                            </div> -->
+                          <div
+                            v-if="v$.firstName.$error"
+                            class="mt-0 text-sm text-red-500"
+                          >
+                            {{ v$.firstName.$errors[0].$message }}
+                          </div>
                         </div>
                         <div class="w-full px-2 md:w-6/12">
                           <label
@@ -134,12 +152,12 @@
                             type="text"
                             placeholder="Lastname"
                           />
-                          <!-- <div
-                              v-if="v$.lastName.$error"
-                              class="mt-0 text-sm text-red-500"
-                            >
-                              {{ v$.lastName.$errors[0].$message }}
-                            </div> -->
+                          <div
+                            v-if="v$.lastName.$error"
+                            class="mt-0 text-sm text-red-500"
+                          >
+                            {{ v$.lastName.$errors[0].$message }}
+                          </div>
                         </div>
                       </div>
 
@@ -157,12 +175,12 @@
                             type="text"
                             placeholder="Firstname (English)"
                           />
-                          <!-- <div
-                              v-if="v$.firstNameEn.$error"
-                              class="mt-0 text-sm text-red-500"
-                            >
-                              {{ v$.firstNameEn.$errors[0].$message }}
-                            </div> -->
+                          <div
+                            v-if="v$.firstNameEn.$error"
+                            class="mt-0 text-sm text-red-500"
+                          >
+                            {{ v$.firstNameEn.$errors[0].$message }}
+                          </div>
                         </div>
                         <div class="w-full px-2 md:w-6/12">
                           <label
@@ -176,12 +194,12 @@
                             type="text"
                             placeholder="Lastname (English)"
                           />
-                          <!-- <div
-                              v-if="v$.lastNameEn.$error"
-                              class="mt-0 text-sm text-red-500"
-                            >
-                              {{ v$.lastNameEn.$errors[0].$message }}
-                            </div> -->
+                          <div
+                            v-if="v$.lastNameEn.$error"
+                            class="mt-0 text-sm text-red-500"
+                          >
+                            {{ v$.lastNameEn.$errors[0].$message }}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -210,6 +228,12 @@
                               type="text"
                               placeholder="Position of Education"
                             />
+                            <div
+                              v-if="v$.positionAcademic.$error"
+                              class="mt-2 text-sm text-red-500"
+                            >
+                              {{ v$.positionAcademic.$errors[0].$message }}
+                            </div>
                           </div>
                         </div>
 
@@ -249,12 +273,12 @@
                               rows="5"
                               placeholder="Education"
                             />
-                            <!-- <div
-                            v-if="v$.education.$error"
-                            class="mt-2 text-sm text-red-500"
-                          >
-                            {{ v$.education.$errors[0].$message }}
-                          </div> -->
+                            <div
+                              v-if="v$.education.$error"
+                              class="mt-2 text-sm text-red-500"
+                            >
+                              {{ v$.education.$errors[0].$message }}
+                            </div>
                           </div>
                         </div>
 
@@ -279,6 +303,12 @@
                               type="text"
                               placeholder="Tel."
                             />
+                            <div
+                              v-if="v$.phone.$error"
+                              class="mt-0 text-sm text-red-500"
+                            >
+                              {{ v$.phone.$errors[0].$message }}
+                            </div>
                           </div>
 
                           <!-- Email -->
@@ -294,12 +324,12 @@
                               type="text"
                               placeholder="Email"
                             />
-                            <!-- <div
+                            <div
                               v-if="v$.email.$error"
                               class="mt-0 text-sm text-red-500"
                             >
                               {{ v$.email.$errors[0].$message }}
-                            </div> -->
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -334,7 +364,13 @@
 import http from "../../services/WebpageService";
 //? Package
 import useValidate from "@vuelidate/core";
-//import { required, email, minLength, helpers } from "@vuelidate/validators";
+import {
+  required,
+  email,
+  minLength,
+  numeric,
+  helpers,
+} from "@vuelidate/validators";
 export default {
   data() {
     return {
@@ -406,56 +442,124 @@ export default {
 
     //? Update profile
     EditProfile() {
-      let data = new FormData();
-      data.append("citizen_id", this.citizenId);
-      data.append("name_title", this.nameTitle);
-      let nameTh = this.firstName + " " + this.lastName;
-      data.append("name_th", nameTh);
-      let nameEn = this.firstNameEn + " " + this.lastNameEn;
-      data.append("name_en", nameEn);
-      data.append("position_academic", this.positionAcademic);
-      data.append("education", this.education);
-      data.append("email", this.email);
-      data.append("tel_number", this.phone);
-      data.append("work_status", this.workStatus);
-      data.append("personnel_type", this.personnelType);
-      data.append("academic_type", this.academicType);
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        let data = new FormData();
+        data.append("citizen_id", this.citizenId);
+        data.append("name_title", this.nameTitle);
+        let nameTh = this.firstName + " " + this.lastName;
+        data.append("name_th", nameTh);
+        let nameEn = this.firstNameEn + " " + this.lastNameEn;
+        data.append("name_en", nameEn);
+        data.append("position_academic", this.positionAcademic);
+        data.append("education", this.education);
+        data.append("email", this.email);
+        data.append("tel_number", this.phone);
+        data.append("work_status", this.workStatus);
+        data.append("personnel_type", this.personnelType);
+        data.append("academic_type", this.academicType);
 
-      this.positionManager
-        ? data.append("position_manager", this.positionManager)
-        : data.append("position_manager", "");
+        this.positionManager
+          ? data.append("position_manager", this.positionManager)
+          : data.append("position_manager", "");
 
-      if (this.file !== null) {
-        data.append("image_profile", this.file);
+        if (this.file !== null) {
+          data.append("image_profile", this.file);
+        }
+
+        //? Update Profile
+        http
+          .post(`personnel/update/${this.id}`, data)
+          .then(() => {
+            const Swal = this.$swal.mixin({
+              position: "center",
+              showConfirmButton: true,
+              customClass: {
+                title: "font-weight-bold",
+                confirmButton:
+                  "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+                cancelButton:
+                  "px-6 py-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+              },
+              buttonsStyling: false,
+            });
+            Swal.fire({
+              icon: "success",
+              title: `แก้ไขข้อมูลเรียบร้อย`,
+            }).then(() => {
+              window.location.reload();
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
-
-      //? Update Profile
-      http
-        .post(`personnel/update/${this.id}`, data)
-        .then(() => {
-          const Swal = this.$swal.mixin({
-            position: "center",
-            showConfirmButton: true,
-            customClass: {
-              title: "font-weight-bold",
-              confirmButton:
-                "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
-              cancelButton:
-                "px-6 py-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
-            },
-            buttonsStyling: false,
-          });
-          Swal.fire({
-            icon: "success",
-            title: `แก้ไขข้อมูลเรียบร้อย`,
-          }).then(() => {
-            window.location.reload();
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     },
+  },
+
+  validations() {
+    return {
+      citizenId: {
+        required: helpers.withMessage("กรุณากรอกเลขบัตรประชาชน", required),
+        minLength: helpers.withMessage(
+          "กรุณากรอกเลขบัตรประชาชนให้ครบ 13 หลัก",
+          minLength(13)
+        ),
+        numeric: helpers.withMessage(
+          "กรุณากรอกเลขบัตรประชาชนเป็นตัวเลขเท่านั้น",
+          numeric
+        ),
+      },
+      nameTitle: {
+        required: helpers.withMessage("กรุณากรอกคำนำหน้าชื่อ", required),
+      },
+      firstName: {
+        required: helpers.withMessage("กรุณากรอกชื่อภาษาไทย", required),
+      },
+      lastName: {
+        required: helpers.withMessage("กรุณากรอกนามสกุลภาษาไทย", required),
+      },
+      firstNameEn: {
+        required: helpers.withMessage("กรุณากรอกชื่อภาษาอังกฤษ", required),
+      },
+      lastNameEn: {
+        required: helpers.withMessage("กรุณากรอกนามสกุลภาษาอังกฤษ", required),
+      },
+      positionAcademic: {
+        required: helpers.withMessage("กรุณากรอกตำแหน่งวิชาการ", required),
+      },
+      education: {
+        required: helpers.withMessage("กรุณากรอกวุฒิการศึกษา", required),
+      },
+      email: {
+        required: helpers.withMessage("กรุณากรอกอีเมล", required),
+        email: helpers.withMessage("กรุณากรอกอีเมลให้ถูกต้อง", email),
+      },
+      phone: {
+        required: helpers.withMessage("กรุณากรอกเบอร์โทรศัพท์", required),
+      },
+      file: {
+        required: helpers.withMessage(
+          "ไฟล์ที่อัปโหลดต้องเป็นไฟล์ .jpeg .jpg หรือ .png เท่านั้น",
+          () => {
+            if (this.file != null) {
+              //? Check file type
+              if (
+                this.file.type == "image/jpeg" ||
+                this.file.type == "image/jpg" ||
+                this.file.type == "image/png"
+              ) {
+                return true;
+              } else {
+                return false;
+              }
+            } else {
+              return true;
+            }
+          }
+        ),
+      },
+    };
   },
 };
 </script>

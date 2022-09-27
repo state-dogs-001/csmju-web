@@ -59,17 +59,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr
-                      v-for="term in term_1"
-                      v-bind:key="term.subjectId"
-                      class="border-b"
-                    >
+                    <tr v-for="term in term_1" :key="term.id" class="border-b">
                       <td
                         class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                       >
                         <div>
                           <p class="w-12 font-normal">
-                            {{ term.Subject_Code }}
+                            {{ term.subject_code }}
                           </p>
                         </div>
                       </td>
@@ -80,7 +76,7 @@
                           class="flex items-center text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                         >
                           <span class="font-normal">
-                            {{ term.Subject_NameTh }}
+                            {{ term.name_th }}
                             <div class="text-sm font-normal"></div>
                           </span>
                         </div>
@@ -90,7 +86,9 @@
                       >
                         <div class="w-48">
                           <p class="font-normal">
-                            {{ term.Subject_Credit }}
+                            {{ term.credit }} ({{ term.theory_hour }}-{{
+                              term.practical_hour
+                            }}-{{ term.self_hour }})
                           </p>
                         </div>
                       </td>
@@ -247,17 +245,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr
-                      v-for="term in term_2"
-                      v-bind:key="term.subjectId"
-                      class="border-b"
-                    >
+                    <tr v-for="term in term_2" :key="term.id" class="border-b">
                       <td
                         class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                       >
                         <div>
                           <p class="w-12 font-normal">
-                            {{ term.Subject_Code }}
+                            {{ term.subject_code }}
                           </p>
                         </div>
                       </td>
@@ -268,7 +262,7 @@
                           class="flex items-center text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                         >
                           <span class="font-normal">
-                            {{ term.Subject_NameTh }}
+                            {{ term.name_th }}
                             <div class="text-sm font-normal"></div>
                           </span>
                         </div>
@@ -278,7 +272,9 @@
                       >
                         <div class="w-48">
                           <p class="font-normal">
-                            {{ term.Subject_Credit }}
+                            {{ term.credit }} ({{ term.theory_hour }}-{{
+                              term.practical_hour
+                            }}-{{ term.self_hour }})
                           </p>
                         </div>
                       </td>
@@ -407,17 +403,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr
-                      v-for="term in term_3"
-                      v-bind:key="term.subjectId"
-                      class="border-b"
-                    >
+                    <tr v-for="term in term_3" :key="term.id" class="border-b">
                       <td
                         class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                       >
                         <div>
                           <p class="w-12 font-normal">
-                            {{ term.Subject_Code }}
+                            {{ term.subject_code }}
                           </p>
                         </div>
                       </td>
@@ -428,7 +420,7 @@
                           class="flex items-center text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                         >
                           <span class="font-normal">
-                            {{ term.Subject_NameTh }}
+                            {{ term.name_th }}
                             <div class="text-sm font-normal"></div>
                           </span>
                         </div>
@@ -438,7 +430,9 @@
                       >
                         <div class="w-48">
                           <p class="font-normal">
-                            {{ term.Subject_Credit }}
+                            {{ term.credit }} ({{ term.theory_hour }}-{{
+                              term.practical_hour
+                            }}-{{ term.self_hour }})
                           </p>
                         </div>
                       </td>
@@ -511,17 +505,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr
-                      v-for="term in term_4"
-                      v-bind:key="term.subjectId"
-                      class="border-b"
-                    >
+                    <tr v-for="term in term_4" :key="term.id" class="border-b">
                       <td
                         class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                       >
                         <div>
                           <p class="w-12 font-normal">
-                            {{ term.Subject_Code }}
+                            {{ term.subject_code }}
                           </p>
                         </div>
                       </td>
@@ -532,7 +522,7 @@
                           class="flex items-center text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                         >
                           <span class="font-normal">
-                            {{ term.Subject_NameTh }}
+                            {{ term.name_th }}
                             <div class="text-sm font-normal"></div>
                           </span>
                         </div>
@@ -542,7 +532,9 @@
                       >
                         <div class="w-48">
                           <p class="font-normal">
-                            {{ term.Subject_Credit }}
+                            {{ term.credit }} ({{ term.theory_hour }}-{{
+                              term.practical_hour
+                            }}-{{ term.self_hour }})
                           </p>
                         </div>
                       </td>
@@ -643,17 +635,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr
-                      v-for="term in term_5"
-                      v-bind:key="term.subjectId"
-                      class="border-b"
-                    >
+                    <tr v-for="term in term_5" :key="term.id" class="border-b">
                       <td
                         class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                       >
                         <div>
                           <p class="w-12 font-normal">
-                            {{ term.Subject_Code }}
+                            {{ term.subject_code }}
                           </p>
                         </div>
                       </td>
@@ -664,7 +652,7 @@
                           class="flex items-center text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                         >
                           <span class="font-normal">
-                            {{ term.Subject_NameTh }}
+                            {{ term.name_th }}
                             <div class="text-sm font-normal"></div>
                           </span>
                         </div>
@@ -674,7 +662,9 @@
                       >
                         <div class="w-48">
                           <p class="font-normal">
-                            {{ term.Subject_Credit }}
+                            {{ term.credit }} ({{ term.theory_hour }}-{{
+                              term.practical_hour
+                            }}-{{ term.self_hour }})
                           </p>
                         </div>
                       </td>
@@ -803,17 +793,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr
-                      v-for="term in term_6"
-                      v-bind:key="term.subjectId"
-                      class="border-b"
-                    >
+                    <tr v-for="term in term_6" :key="term.id" class="border-b">
                       <td
                         class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                       >
                         <div>
                           <p class="w-12 font-normal">
-                            {{ term.Subject_Code }}
+                            {{ term.subject_code }}
                           </p>
                         </div>
                       </td>
@@ -824,7 +810,7 @@
                           class="flex items-center text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                         >
                           <span class="font-normal">
-                            {{ term.Subject_NameTh }}
+                            {{ term.name_th }}
                             <div class="text-sm font-normal"></div>
                           </span>
                         </div>
@@ -834,7 +820,9 @@
                       >
                         <div class="w-48">
                           <p class="font-normal">
-                            {{ term.Subject_Credit }}
+                            {{ term.credit }} ({{ term.theory_hour }}-{{
+                              term.practical_hour
+                            }}-{{ term.self_hour }})
                           </p>
                         </div>
                       </td>
@@ -963,17 +951,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr
-                      v-for="term in term_7"
-                      v-bind:key="term.subjectId"
-                      class="border-b"
-                    >
+                    <tr v-for="term in term_7" :key="term.id" class="border-b">
                       <td
                         class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                       >
                         <div>
                           <p class="w-12 font-normal">
-                            {{ term.Subject_Code }}
+                            {{ term.subject_code }}
                           </p>
                         </div>
                       </td>
@@ -984,7 +968,7 @@
                           class="flex items-center text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                         >
                           <span class="font-normal">
-                            {{ term.Subject_NameTh }}
+                            {{ term.name_th }}
                             <div class="text-sm font-normal"></div>
                           </span>
                         </div>
@@ -994,7 +978,9 @@
                       >
                         <div class="w-48">
                           <p class="font-normal">
-                            {{ term.Subject_Credit }}
+                            {{ term.credit }} ({{ term.theory_hour }}-{{
+                              term.practical_hour
+                            }}-{{ term.self_hour }})
                           </p>
                         </div>
                       </td>
@@ -1107,6 +1093,8 @@
             </div>
           </div>
         </div>
+
+        <!-- 4th term 2 -->
         <div class="flex flex-wrap">
           <div class="w-full p-2 lg:w-12/12">
             <div
@@ -1141,17 +1129,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr
-                      v-for="term in term_8"
-                      v-bind:key="term.subjectId"
-                      class="border-b"
-                    >
+                    <tr v-for="term in term_8" :key="term.id" class="border-b">
                       <td
                         class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                       >
                         <div>
                           <p class="w-12 font-normal">
-                            {{ term.Subject_Code }}
+                            {{ term.subject_code }}
                           </p>
                         </div>
                       </td>
@@ -1162,7 +1146,7 @@
                           class="flex items-center text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                         >
                           <span class="font-normal">
-                            {{ term.Subject_NameTh }}
+                            {{ term.name_th }}
                             <div class="text-sm font-normal"></div>
                           </span>
                         </div>
@@ -1172,7 +1156,9 @@
                       >
                         <div class="w-48">
                           <p class="font-normal">
-                            {{ term.Subject_Credit }}
+                            {{ term.credit }} ({{ term.theory_hour }}-{{
+                              term.practical_hour
+                            }}-{{ term.self_hour }})
                           </p>
                         </div>
                       </td>
@@ -1216,17 +1202,20 @@
           สามารถปรับเปลี่ยนสลับกันได้ ตามความเหมาะสม /
           ตามความเห็นชอบของอาจารย์ผู้รับผิดชอบหลักสูตร
         </p>
+
+        <!-- Subject groups -->
         <h3
           class="text-center lg:text-left mb-2 mt-10 text-2xl font-semibold leading-normal text-blueGray-700"
         >
           กระบวนวิชาของหลักสูตรทั้งหมด
         </h3>
         <div class="flex flex-wrap">
+          <!-- Group 1 -->
           <div class="w-full p-2 lg:w-6/12">
             <div
               class="relative flex flex-col w-full min-w-0 px-4 pt-6 mb-6 break-words border rounded-lg shadow-lg max-h-news border-blueGray-300 bg-blueGray-100 h-full"
             >
-              <div class="relative flex mb-4 block w-full overflow-x-auto">
+              <div class="relative flex mb-4 w-full overflow-x-auto">
                 <div class="relative w-auto">
                   <h5
                     class="-mt-5 font-bold text-55 text-blueGray-700 text-shadow"
@@ -1249,7 +1238,7 @@
               <div class="flex flex-wrap">
                 <div
                   v-for="subject in group_1"
-                  v-bind:key="subject.subjectId"
+                  :key="subject.id"
                   class="w-full px-2 lg:w-4/12 text-center"
                 >
                   <div
@@ -1259,32 +1248,33 @@
                       <h5
                         class="top-auto bottom-auto text-shadow font-semibold leading-normal text-md"
                       >
-                        {{ subject.Subject_NameTh }}
+                        {{ subject.name_th }}
                       </h5>
                     </div>
                   </div>
                   <div
-                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 :-mt-5 w-96 bg-blueGray-700 contentshow"
+                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 w-96 bg-blueGray-700 contentshow"
                   >
                     <div class="relative py-4 text-blueGray-800">
                       <div
                         class="py-2 rounded-lg bg-blueGray-100 text-blueGray-700"
                       >
                         <p class="mb-1 text-xl font-bold text-center">
-                          {{ subject.Subject_NameTh }}
+                          {{ subject.name_th }}
                         </p>
                         <p class="text-lg font-semibold text-center">
-                          {{ subject.Subject_NameEn }}
+                          {{ subject.name_en }}
                         </p>
                       </div>
                       <div class="my-2 border-b border-blueGray-100"></div>
 
                       <h4 class="font-bold text-left text-md text-white">
-                        รหัสวิชา : {{ subject.Subject_Code }}
-                        {{ subject.Subject_Credit }}
+                        รหัสวิชา : {{ subject.subject_code }}
                       </h4>
                       <h4 class="font-bold text-left text-md text-white">
-                        หน่วยกิต : {{ subject.Subject_Credit }}
+                        หน่วยกิต : {{ subject.credit }} ({{
+                          subject.theory_hour
+                        }}-{{ subject.practical_hour }}-{{ subject.self_hour }})
                       </h4>
                     </div>
                   </div>
@@ -1292,11 +1282,13 @@
               </div>
             </div>
           </div>
+
+          <!-- Group 2 -->
           <div class="w-full p-2 lg:w-6/12">
             <div
               class="relative flex flex-col w-full min-w-0 px-4 pt-6 mb-6 break-words border rounded-lg shadow-lg max-h-news border-blueGray-300 bg-blueGray-100 h-full"
             >
-              <div class="relative flex mb-4 block w-full overflow-x-auto">
+              <div class="relative flex mb-4 w-full overflow-x-auto">
                 <div class="relative w-auto">
                   <h5
                     class="-mt-5 font-bold text-55 text-blueGray-700 text-shadow"
@@ -1317,7 +1309,7 @@
               <div class="flex flex-wrap">
                 <div
                   v-for="subject in group_2"
-                  v-bind:key="subject.subjectId"
+                  :key="subject.id"
                   class="w-full px-2 lg:w-4/12 text-center"
                 >
                   <div
@@ -1327,32 +1319,33 @@
                       <h5
                         class="top-auto bottom-auto text-shadow font-semibold leading-normal text-md"
                       >
-                        {{ subject.Subject_NameTh }}
+                        {{ subject.name_th }}
                       </h5>
                     </div>
                   </div>
                   <div
-                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 :-mt-5 w-96 bg-blueGray-700 contentshow"
+                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 w-96 bg-blueGray-700 contentshow"
                   >
                     <div class="relative py-4 text-blueGray-800">
                       <div
                         class="py-2 rounded-lg bg-blueGray-100 text-blueGray-700"
                       >
                         <p class="mb-1 text-xl font-bold text-center">
-                          {{ subject.Subject_NameTh }}
+                          {{ subject.name_th }}
                         </p>
                         <p class="text-lg font-semibold text-center">
-                          {{ subject.Subject_NameEn }}
+                          {{ subject.name_en }}
                         </p>
                       </div>
                       <div class="my-2 border-b border-blueGray-100"></div>
 
                       <h4 class="font-bold text-left text-md text-white">
-                        รหัสวิชา : {{ subject.Subject_Code }}
-                        {{ subject.Subject_Credit }}
+                        รหัสวิชา : {{ subject.subject_code }}
                       </h4>
                       <h4 class="font-bold text-left text-md text-white">
-                        หน่วยกิต : {{ subject.Subject_Credit }}
+                        หน่วยกิต : {{ subject.credit }} ({{
+                          subject.theory_hour
+                        }}-{{ subject.practical_hour }}-{{ subject.self_hour }})
                       </h4>
                     </div>
                   </div>
@@ -1360,11 +1353,13 @@
               </div>
             </div>
           </div>
+
+          <!-- Group 3 -->
           <div class="w-full p-2 lg:w-6/12">
             <div
               class="relative flex flex-col w-full min-w-0 px-4 pt-6 mb-6 break-words border rounded-lg shadow-lg max-h-news border-blueGray-300 h-full bg-blueGray-100"
             >
-              <div class="relative flex mb-4 block w-full overflow-x-auto">
+              <div class="relative flex mb-4 w-full overflow-x-auto">
                 <div class="relative w-auto">
                   <h5
                     class="-mt-5 font-bold text-55 text-blueGray-700 text-shadow"
@@ -1385,7 +1380,7 @@
               <div class="flex flex-wrap">
                 <div
                   v-for="subject in group_3"
-                  v-bind:key="subject.subjectId"
+                  :key="subject.id"
                   class="w-full px-2 lg:w-4/12 text-center"
                 >
                   <div
@@ -1395,32 +1390,33 @@
                       <h5
                         class="top-auto bottom-auto font-semibold leading-normal text-md"
                       >
-                        {{ subject.Subject_NameTh }}
+                        {{ subject.name_th }}
                       </h5>
                     </div>
                   </div>
                   <div
-                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 :-mt-5 w-96 bg-blueGray-700 contentshow"
+                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 w-96 bg-blueGray-700 contentshow"
                   >
                     <div class="relative py-4 text-blueGray-800">
                       <div
                         class="py-2 rounded-lg bg-blueGray-100 text-blueGray-700"
                       >
                         <p class="mb-1 text-xl font-bold text-center">
-                          {{ subject.Subject_NameTh }}
+                          {{ subject.name_th }}
                         </p>
                         <p class="text-lg font-semibold text-center">
-                          {{ subject.Subject_NameEn }}
+                          {{ subject.name_en }}
                         </p>
                       </div>
                       <div class="my-2 border-b border-blueGray-100"></div>
 
                       <h4 class="font-bold text-left text-md text-white">
-                        รหัสวิชา : {{ subject.Subject_Code }}
-                        {{ subject.Subject_Credit }}
+                        รหัสวิชา : {{ subject.subject_code }}
                       </h4>
                       <h4 class="font-bold text-left text-md text-white">
-                        หน่วยกิต : {{ subject.Subject_Credit }}
+                        หน่วยกิต : {{ subject.credit }} ({{
+                          subject.theory_hour
+                        }}-{{ subject.practical_hour }}-{{ subject.self_hour }})
                       </h4>
                     </div>
                   </div>
@@ -1428,11 +1424,13 @@
               </div>
             </div>
           </div>
+
+          <!-- Group 4 -->
           <div class="w-full p-2 lg:w-6/12">
             <div
               class="relative flex flex-col w-full min-w-0 px-4 pt-6 mb-6 break-words border rounded-lg shadow-lg max-h-news border-blueGray-300 bg-blueGray-100 h-full"
             >
-              <div class="relative flex mb-4 block w-full overflow-x-auto">
+              <div class="relative flex mb-4 w-full overflow-x-auto">
                 <div class="relative w-auto">
                   <h5
                     class="-mt-5 font-bold text-55 text-blueGray-700 text-shadow"
@@ -1453,7 +1451,7 @@
               <div class="flex flex-wrap">
                 <div
                   v-for="subject in group_4"
-                  v-bind:key="subject.subjectId"
+                  :key="subject.id"
                   class="w-full px-2 lg:w-4/12 text-center"
                 >
                   <div
@@ -1463,32 +1461,33 @@
                       <h5
                         class="top-auto bottom-auto font-semibold leading-normal text-md"
                       >
-                        {{ subject.Subject_NameTh }}
+                        {{ subject.name_th }}
                       </h5>
                     </div>
                   </div>
                   <div
-                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 :-mt-5 w-96 bg-blueGray-700 contentshow"
+                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 w-96 bg-blueGray-700 contentshow"
                   >
                     <div class="relative py-4 text-blueGray-800">
                       <div
                         class="py-2 rounded-lg bg-blueGray-100 text-blueGray-700"
                       >
                         <p class="mb-1 text-xl font-bold text-center">
-                          {{ subject.Subject_NameTh }}
+                          {{ subject.name_th }}
                         </p>
                         <p class="text-lg font-semibold text-center">
-                          {{ subject.Subject_NameEn }}
+                          {{ subject.name_en }}
                         </p>
                       </div>
                       <div class="my-2 border-b border-blueGray-100"></div>
 
                       <h4 class="font-bold text-left text-md text-white">
-                        รหัสวิชา : {{ subject.Subject_Code }}
-                        {{ subject.Subject_Credit }}
+                        รหัสวิชา : {{ subject.subject_code }}
                       </h4>
                       <h4 class="font-bold text-left text-md text-white">
-                        หน่วยกิต : {{ subject.Subject_Credit }}
+                        หน่วยกิต : {{ subject.credit }} ({{
+                          subject.theory_hour
+                        }}-{{ subject.practical_hour }}-{{ subject.self_hour }})
                       </h4>
                     </div>
                   </div>
@@ -1496,11 +1495,13 @@
               </div>
             </div>
           </div>
+
+          <!-- Group 5 -->
           <div class="w-full p-2 lg:w-6/12">
             <div
               class="relative flex flex-col w-full min-w-0 px-4 pt-6 mb-6 break-words border rounded-lg shadow-lg max-h-news border-blueGray-300 bg-blueGray-100 h-full"
             >
-              <div class="relative flex mb-4 block w-full overflow-x-auto">
+              <div class="relative flex mb-4 w-full overflow-x-auto">
                 <div class="relative w-auto">
                   <h5
                     class="-mt-5 font-bold text-55 text-blueGray-700 text-shadow"
@@ -1521,7 +1522,7 @@
               <div class="flex flex-wrap">
                 <div
                   v-for="subject in group_5"
-                  v-bind:key="subject.subjectId"
+                  :key="subject.id"
                   class="w-full px-2 lg:w-4/12 text-shadow text-center"
                 >
                   <div
@@ -1531,32 +1532,33 @@
                       <h5
                         class="top-auto bottom-auto font-semibold leading-normal text-md"
                       >
-                        {{ subject.Subject_NameTh }}
+                        {{ subject.name_th }}
                       </h5>
                     </div>
                   </div>
                   <div
-                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 :-mt-5 w-96 bg-blueGray-700 contentshow"
+                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 w-96 bg-blueGray-700 contentshow"
                   >
                     <div class="relative py-4 text-blueGray-800">
                       <div
                         class="py-2 rounded-lg bg-blueGray-100 text-blueGray-700"
                       >
                         <p class="mb-1 text-xl font-bold text-center">
-                          {{ subject.Subject_NameTh }}
+                          {{ subject.name_th }}
                         </p>
                         <p class="text-lg font-semibold text-center">
-                          {{ subject.Subject_NameEn }}
+                          {{ subject.name_en }}
                         </p>
                       </div>
                       <div class="my-2 border-b border-blueGray-100"></div>
 
                       <h4 class="font-bold text-left text-md text-white">
-                        รหัสวิชา : {{ subject.Subject_Code }}
-                        {{ subject.Subject_Credit }}
+                        รหัสวิชา : {{ subject.subject_code }}
                       </h4>
                       <h4 class="font-bold text-left text-md text-white">
-                        หน่วยกิต : {{ subject.Subject_Credit }}
+                        หน่วยกิต : {{ subject.credit }} ({{
+                          subject.theory_hour
+                        }}-{{ subject.practical_hour }}-{{ subject.self_hour }})
                       </h4>
                     </div>
                   </div>
@@ -1564,11 +1566,13 @@
               </div>
             </div>
           </div>
+
+          <!-- Group 6 -->
           <div class="w-full p-2 lg:w-6/12">
             <div
               class="relative flex flex-col w-full min-w-0 px-4 pt-6 mb-6 break-words border rounded-lg shadow-lg max-h-news border-blueGray-300 bg-blueGray-100 h-full"
             >
-              <div class="relative flex mb-4 block w-full overflow-x-auto">
+              <div class="relative flex mb-4 w-full overflow-x-auto">
                 <div class="relative w-auto">
                   <h5
                     class="-mt-5 font-bold text-55 text-blueGray-700 text-shadow"
@@ -1589,7 +1593,7 @@
               <div class="flex flex-wrap">
                 <div
                   v-for="subject in group_6"
-                  v-bind:key="subject.subjectId"
+                  :key="subject.id"
                   class="w-full px-2 lg:w-4/12 text-shadow text-center"
                 >
                   <div
@@ -1599,32 +1603,33 @@
                       <h5
                         class="top-auto bottom-auto font-semibold leading-normal text-md"
                       >
-                        {{ subject.Subject_NameTh }}
+                        {{ subject.name_th }}
                       </h5>
                     </div>
                   </div>
                   <div
-                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 :-mt-5 w-96 bg-blueGray-700 contentshow"
+                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 w-96 bg-blueGray-700 contentshow"
                   >
                     <div class="relative py-4 text-blueGray-800">
                       <div
                         class="py-2 rounded-lg bg-blueGray-100 text-blueGray-700"
                       >
                         <p class="mb-1 text-xl font-bold text-center">
-                          {{ subject.Subject_NameTh }}
+                          {{ subject.name_th }}
                         </p>
                         <p class="text-lg font-semibold text-center">
-                          {{ subject.Subject_NameEn }}
+                          {{ subject.name_en }}
                         </p>
                       </div>
                       <div class="my-2 border-b border-blueGray-100"></div>
 
                       <h4 class="font-bold text-left text-md text-white">
-                        รหัสวิชา : {{ subject.Subject_Code }}
-                        {{ subject.Subject_Credit }}
+                        รหัสวิชา : {{ subject.subject_code }}
                       </h4>
                       <h4 class="font-bold text-left text-md text-white">
-                        หน่วยกิต : {{ subject.Subject_Credit }}
+                        หน่วยกิต : {{ subject.credit }} ({{
+                          subject.theory_hour
+                        }}-{{ subject.practical_hour }}-{{ subject.self_hour }})
                       </h4>
                     </div>
                   </div>
@@ -1632,11 +1637,13 @@
               </div>
             </div>
           </div>
+
+          <!-- Group 7 -->
           <div class="w-full p-2 lg:w-6/12">
             <div
               class="relative flex flex-col w-full min-w-0 px-4 pt-6 mb-6 break-words border rounded-lg shadow-lg max-h-news h-full border-blueGray-300 bg-blueGray-100"
             >
-              <div class="relative flex mb-4 block w-full overflow-x-auto">
+              <div class="relative flex mb-4 w-full overflow-x-auto">
                 <div class="relative w-auto">
                   <h5
                     class="-mt-5 font-bold text-55 text-blueGray-700 text-shadow"
@@ -1657,7 +1664,7 @@
               <div class="flex flex-wrap">
                 <div
                   v-for="subject in group_7"
-                  v-bind:key="subject.subjectId"
+                  :key="subject.id"
                   class="w-full px-2 lg:w-4/12 text-shadow text-center"
                 >
                   <div
@@ -1667,32 +1674,33 @@
                       <h5
                         class="top-auto bottom-auto font-semibold leading-normal text-md"
                       >
-                        {{ subject.Subject_NameTh }}
+                        {{ subject.name_th }}
                       </h5>
                     </div>
                   </div>
                   <div
-                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 :-mt-5 w-96 bg-blueGray-700 contentshow"
+                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 w-96 bg-blueGray-700 contentshow"
                   >
                     <div class="relative py-4 text-blueGray-800">
                       <div
                         class="py-2 rounded-lg bg-blueGray-100 text-blueGray-700"
                       >
                         <p class="mb-1 text-xl font-bold text-center">
-                          {{ subject.Subject_NameTh }}
+                          {{ subject.name_th }}
                         </p>
                         <p class="text-lg font-semibold text-center">
-                          {{ subject.Subject_NameEn }}
+                          {{ subject.name_en }}
                         </p>
                       </div>
                       <div class="my-2 border-b border-blueGray-100"></div>
 
                       <h4 class="font-bold text-left text-md text-white">
-                        รหัสวิชา : {{ subject.Subject_Code }}
-                        {{ subject.Subject_Credit }}
+                        รหัสวิชา : {{ subject.subject_code }}
                       </h4>
                       <h4 class="font-bold text-left text-md text-white">
-                        หน่วยกิต : {{ subject.Subject_Credit }}
+                        หน่วยกิต : {{ subject.credit }} ({{
+                          subject.theory_hour
+                        }}-{{ subject.practical_hour }}-{{ subject.self_hour }})
                       </h4>
                     </div>
                   </div>
@@ -1700,11 +1708,13 @@
               </div>
             </div>
           </div>
+
+          <!-- Group 8 -->
           <div class="w-full p-2 lg:w-6/12">
             <div
               class="relative flex flex-col w-full min-w-0 px-4 pt-6 mb-6 break-words border rounded-lg shadow-lg max-h-news border-blueGray-300 bg-blueGray-100 h-full"
             >
-              <div class="relative flex mb-4 block w-full overflow-x-auto">
+              <div class="relative flex mb-4 w-full overflow-x-auto">
                 <div class="relative w-auto">
                   <h5
                     class="-mt-5 font-bold text-55 text-blueGray-700 text-shadow"
@@ -1725,7 +1735,7 @@
               <div class="flex flex-wrap">
                 <div
                   v-for="subject in group_8"
-                  v-bind:key="subject.subjectId"
+                  :key="subject.id"
                   class="w-full px-2 lg:w-4/12 text-shadow text-center"
                 >
                   <div
@@ -1735,32 +1745,33 @@
                       <h5
                         class="top-auto bottom-auto font-semibold leading-normal text-md"
                       >
-                        {{ subject.Subject_NameTh }}
+                        {{ subject.name_th }}
                       </h5>
                     </div>
                   </div>
                   <div
-                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 :-mt-5 w-96 bg-blueGray-700 contentshow"
+                    class="z-2 absolute px-4 -ml-20 duration-150 ease-linear rounded-lg shadow-lg -mt-72 w-96 bg-blueGray-700 contentshow"
                   >
                     <div class="relative py-4 text-blueGray-800">
                       <div
                         class="py-2 rounded-lg bg-blueGray-100 text-blueGray-700"
                       >
                         <p class="mb-1 text-xl font-bold text-center">
-                          {{ subject.Subject_NameTh }}
+                          {{ subject.name_th }}
                         </p>
                         <p class="text-lg font-semibold text-center">
-                          {{ subject.Subject_NameEn }}
+                          {{ subject.name_en }}
                         </p>
                       </div>
                       <div class="my-2 border-b border-blueGray-100"></div>
 
                       <h4 class="font-bold text-left text-md text-white">
-                        รหัสวิชา : {{ subject.Subject_Code }}
-                        {{ subject.Subject_Credit }}
+                        รหัสวิชา : {{ subject.subject_code }}
                       </h4>
                       <h4 class="font-bold text-left text-md text-white">
-                        หน่วยกิต : {{ subject.Subject_Credit }}
+                        หน่วยกิต : {{ subject.credit }} ({{
+                          subject.theory_hour
+                        }}-{{ subject.practical_hour }}-{{ subject.self_hour }})
                       </h4>
                     </div>
                   </div>
@@ -1768,11 +1779,13 @@
               </div>
             </div>
           </div>
+
+          <!-- Group 9 -->
           <div class="w-full p-2 lg:w-6/12">
             <div
               class="relative flex flex-col w-full min-w-0 px-4 pt-6 mb-6 break-words border rounded-lg shadow-lg max-h-news border-blueGray-300 bg-blueGray-100 h-full"
             >
-              <div class="relative flex mb-4 block w-full overflow-x-auto">
+              <div class="relative flex mb-4 w-full overflow-x-auto">
                 <div class="relative w-auto">
                   <h5
                     class="-mt-5 font-bold text-55 text-blueGray-700 text-shadow"
@@ -1793,7 +1806,7 @@
               <div class="flex flex-wrap">
                 <div
                   v-for="subject in group_9"
-                  v-bind:key="subject.subjectId"
+                  :key="subject.id"
                   class="w-full px-2 lg:w-4/12 text-shadow text-center"
                 >
                   <div
@@ -1803,7 +1816,7 @@
                       <h5
                         class="top-auto bottom-auto font-semibold leading-normal text-md"
                       >
-                        {{ subject.Subject_NameTh }}
+                        {{ subject.name_th }}
                       </h5>
                     </div>
                   </div>
@@ -1815,20 +1828,21 @@
                         class="py-2 rounded-lg bg-blueGray-100 text-blueGray-700"
                       >
                         <p class="mb-1 text-xl font-bold text-center">
-                          {{ subject.Subject_NameTh }}
+                          {{ subject.name_th }}
                         </p>
                         <p class="text-lg font-semibold text-center">
-                          {{ subject.Subject_NameEn }}
+                          {{ subject.name_en }}
                         </p>
                       </div>
                       <div class="my-2 border-b border-blueGray-100"></div>
 
                       <h4 class="font-bold text-left text-md text-white">
-                        รหัสวิชา : {{ subject.Subject_Code }}
-                        {{ subject.Subject_Credit }}
+                        รหัสวิชา : {{ subject.subject_code }}
                       </h4>
                       <h4 class="font-bold text-left text-md text-white">
-                        หน่วยกิต : {{ subject.Subject_Credit }}
+                        หน่วยกิต : {{ subject.credit }} ({{
+                          subject.theory_hour
+                        }}-{{ subject.practical_hour }}-{{ subject.self_hour }})
                       </h4>
                     </div>
                   </div>
@@ -1847,12 +1861,6 @@ import http from "../services/WebpageService";
 export default {
   data() {
     return {
-      subject: {
-        subjectId: 0,
-        Subject_Code: "",
-        Subject_NameTh: "",
-        Subject_Credit: 0,
-      },
       group_1: [],
       group_2: [],
       group_3: [],
@@ -1873,66 +1881,103 @@ export default {
       term_8: [],
     };
   },
+
   mounted() {
     this.getSubjectGruop();
   },
-  methods: {
-    getSubjectGruop() {
-      http.get(`subject/Fundamental`).then((response) => {
-        this.group_1 = response.data;
-      });
-      http.get(`subject/Analysis`).then((response) => {
-        this.group_2 = response.data;
-      });
-      http.get(`subject/Analysis`).then((response) => {
-        this.group_2 = response.data;
-      });
-      http.get(`subject/Application`).then((response) => {
-        this.group_3 = response.data;
-      });
-      http.get(`subject/Network`).then((response) => {
-        this.group_4 = response.data;
-      });
-      http.get(`subject/Data`).then((response) => {
-        this.group_5 = response.data;
-      });
-      http.get(`subject/internet`).then((response) => {
-        this.group_6 = response.data;
-      });
-      http.get(`subject/Artificial`).then((response) => {
-        this.group_7 = response.data;
-      });
-      http.get(`subject/Computer`).then((response) => {
-        this.group_8 = response.data;
-      });
-      http.get(`subject/Special`).then((response) => {
-        this.group_9 = response.data;
-      });
 
-      http.get(`subject/term/1`).then((response) => {
-        this.term_1 = response.data;
-      });
-      http.get(`subject/term/2`).then((response) => {
-        this.term_2 = response.data;
-      });
-      http.get(`subject/term/3`).then((response) => {
-        this.term_3 = response.data;
-      });
-      http.get(`subject/term/4`).then((response) => {
-        this.term_4 = response.data;
-      });
-      http.get(`subject/term/5`).then((response) => {
-        this.term_5 = response.data;
-      });
-      http.get(`subject/term/6`).then((response) => {
-        this.term_6 = response.data;
-      });
-      http.get(`subject/term/7`).then((response) => {
-        this.term_7 = response.data;
-      });
-      http.get(`subject/term/8`).then((response) => {
-        this.term_8 = response.data;
-      });
+  methods: {
+    async getSubjectGruop() {
+      try {
+        //? Search Subject Groups
+        const res_group_1 = await http.get(`subject/filter/detail/Fundamental`);
+        if (res_group_1.data.success) {
+          this.group_1 = res_group_1.data.data;
+        }
+
+        const res_group_2 = await http.get(`subject/filter/detail/Analysis`);
+        if (res_group_2.data.success) {
+          this.group_2 = res_group_2.data.data;
+        }
+
+        const res_group_3 = await http.get(`subject/filter/detail/Application`);
+        if (res_group_3.data.success) {
+          this.group_3 = res_group_3.data.data;
+        }
+
+        const res_group_4 = await http.get(`subject/filter/detail/Network`);
+        if (res_group_4.data.success) {
+          this.group_4 = res_group_4.data.data;
+        }
+
+        const res_group_5 = await http.get(`subject/filter/detail/Data`);
+        if (res_group_5.data.success) {
+          this.group_5 = res_group_5.data.data;
+        }
+
+        const res_group_6 = await http.get(`subject/filter/detail/internet`);
+        if (res_group_6.data.success) {
+          this.group_6 = res_group_6.data.data;
+        }
+
+        const res_group_7 = await http.get(`subject/filter/detail/Artificial`);
+        if (res_group_7.data.success) {
+          this.group_7 = res_group_7.data.data;
+        }
+
+        const res_group_8 = await http.get(`subject/filter/detail/Computer`);
+        if (res_group_8.data.success) {
+          this.group_8 = res_group_8.data.data;
+        }
+
+        const res_group_9 = await http.get(`subject/filter/detail/Special`);
+        if (res_group_9.data.success) {
+          this.group_9 = res_group_9.data.data;
+        }
+
+        //? Subject Terms
+        const res_term_1 = await http.get(`subject/filter/term/1`);
+        if (res_term_1.data.success) {
+          this.term_1 = res_term_1.data.data;
+        }
+
+        const res_term_2 = await http.get(`subject/filter/term/2`);
+        if (res_term_2.data.success) {
+          this.term_2 = res_term_2.data.data;
+        }
+
+        const res_term_3 = await http.get(`subject/filter/term/3`);
+        if (res_term_3.data.success) {
+          this.term_3 = res_term_3.data.data;
+        }
+
+        const res_term_4 = await http.get(`subject/filter/term/4`);
+        if (res_term_4.data.success) {
+          this.term_4 = res_term_4.data.data;
+        }
+
+        const res_term_5 = await http.get(`subject/filter/term/5`);
+        if (res_term_5.data.success) {
+          this.term_5 = res_term_5.data.data;
+        }
+
+        const res_term_6 = await http.get(`subject/filter/term/6`);
+        if (res_term_6.data.success) {
+          this.term_6 = res_term_6.data.data;
+        }
+
+        const res_term_7 = await http.get(`subject/filter/term/7`);
+        if (res_term_7.data.success) {
+          this.term_7 = res_term_7.data.data;
+        }
+
+        const res_term_8 = await http.get(`subject/filter/term/8`);
+        if (res_term_8.data.success) {
+          this.term_8 = res_term_8.data.data;
+        }
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };

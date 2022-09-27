@@ -70,6 +70,12 @@
                             :class="{ 'bg-gray-200': !isEditWorkplace }"
                             :disabled="!isEditWorkplace"
                           ></textarea>
+                          <div
+                            v-if="v$.workplace.$error"
+                            class="mt-2 text-sm text-red-500 text-left"
+                          >
+                            {{ v$.workplace.$errors[0].$message }}
+                          </div>
                         </div>
                       </div>
 
@@ -85,6 +91,12 @@
                             placeholder="Biological"
                             class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700"
                           ></textarea>
+                          <div
+                            v-if="v$.bio.$error"
+                            class="mt-2 text-sm text-red-500 text-left"
+                          >
+                            {{ v$.bio.$errors[0].$message }}
+                          </div>
                         </div>
                       </div>
 
@@ -106,6 +118,12 @@
                                 type="text"
                                 placeholder="Exeperience"
                               />
+                              <div
+                                v-if="v$.experiences.$error"
+                                class="mt-2 text-sm text-red-500 text-left"
+                              >
+                                {{ v$.experiences.$errors[0].$message }}
+                              </div>
                             </div>
                             <div class="md:text-right w-4/12">
                               <button
@@ -147,6 +165,12 @@
                                 type="text"
                                 placeholder="Skill"
                               />
+                              <div
+                                v-if="v$.skills.$error"
+                                class="mt-2 text-sm text-red-500 text-left"
+                              >
+                                {{ v$.skills.$errors[0].$message }}
+                              </div>
                             </div>
                             <div class="md:text-right w-4/12">
                               <button
@@ -188,6 +212,12 @@
                                 type="text"
                                 placeholder="Expertise"
                               />
+                              <div
+                                v-if="v$.experts.$error"
+                                class="mt-2 text-sm text-red-500 text-left"
+                              >
+                                {{ v$.experts.$errors[0].$message }}
+                              </div>
                             </div>
                             <div class="md:text-right w-4/12">
                               <button
@@ -229,6 +259,12 @@
                                 type="text"
                                 placeholder="Research"
                               />
+                              <div
+                                v-if="v$.researches.$error"
+                                class="mt-2 text-sm text-red-500 text-left"
+                              >
+                                {{ v$.researches.$errors[0].$message }}
+                              </div>
                             </div>
                             <div class="md:text-right w-4/12">
                               <button
@@ -458,9 +494,14 @@
 <script>
 //? API
 import http from "../../services/WebpageService";
+//? Package
+import useValidate from "@vuelidate/core";
+import { required, helpers } from "@vuelidate/validators";
 export default {
   data() {
     return {
+      v$: useValidate(),
+
       //? Data
       cv: null,
       id: "",
@@ -623,7 +664,8 @@ export default {
     //? Handle submit
     handleSubmit() {
       //? Validate
-      if (true) {
+      this.v$.$validate();
+      if (!this.v$.$error) {
         let local = JSON.parse(localStorage.getItem("user"));
         let citizenId = local.card_id;
         let data = {
@@ -727,6 +769,37 @@ export default {
       });
       window.open(routeData.href, "_blank");
     },
+  },
+
+  validations() {
+    return {
+      workplace: {
+        required: helpers.withMessage("ป้อนสถานที่ทำงานก่อน", required),
+      },
+      bio: {
+        required: helpers.withMessage("ป้อนประวัติส่วนตัวก่อน", required),
+      },
+      experiences: {
+        required: helpers.withMessage("ป้อนประสบการณ์ทำงานก่อน", () => {
+          return this.experiences[0].exp !== "";
+        }),
+      },
+      skills: {
+        required: helpers.withMessage("ป้อนทักษะที่มีก่อน", () => {
+          return this.skills[0].skill !== "";
+        }),
+      },
+      experts: {
+        required: helpers.withMessage("ป้อนความเชี่ยวชาญก่อน", () => {
+          return this.experts[0].expert !== "";
+        }),
+      },
+      researches: {
+        required: helpers.withMessage("ป้อนงานวิจัยก่อน", () => {
+          return this.researches[0].research !== "";
+        }),
+      },
+    };
   },
 };
 </script>
