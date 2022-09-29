@@ -150,7 +150,7 @@
               :key="news"
               class="w-full px-4 text-center md:w-4/12"
             >
-              <router-link to="news" target="_blank">
+              <router-link to="news">
                 <div
                   class="relative flex flex-col w-full min-w-0 mb-8 break-words duration-150 ease-linear bg-white shadow-lg hover:zoom"
                 >
@@ -245,7 +245,8 @@ export default {
   },
 
   computed: {
-    ...mapGetters("home", ["banners", 'newsLimit']),
+    ...mapGetters("banner", ["banners"]),
+    ...mapGetters("news", ["newsLimit"]),
   },
 
   data() {
@@ -274,12 +275,6 @@ export default {
           alt: "Contact",
         },
       ],
-
-      news_array: [],
-
-      News_Title: [],
-      News_Detail: [],
-      News_Picture: [],
     };
   },
 
@@ -289,40 +284,9 @@ export default {
   },
 
   methods: {
-    //? Get news
-    getNewsData() {
-      http
-        .get(`newsapp`)
-        .then((response) => {
-          this.news_array = response.data;
-          this.news_array.reverse();
-          for (let i = 0; i < 3; i++) {
-            this.News_Title.push(this.news_array[i].News_Title);
-            this.News_Detail.push(this.news_array[i].News_Detail);
-            this.News_Picture.push(this.news_array[i].News_Picture);
-          }
-        })
-        .catch((error) => {
-          if (error.response) {
-            if (error.response.status == 500) {
-              const Toast = this.$swal.mixin({
-                position: "center",
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true,
-              });
-
-              Toast.fire({
-                icon: "error",
-                title: "Connection Error",
-              });
-            }
-          }
-        });
-    },
-
     //? Get banner
-    ...mapActions("home", ["getBanners", "getNewsLimit"]),
+    ...mapActions("banner", ["getBanners"]),
+    ...mapActions("news", ["getNewsLimit"]),
   },
 };
 </script>

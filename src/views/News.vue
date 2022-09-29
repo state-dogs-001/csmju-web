@@ -24,8 +24,8 @@
         <!-- News -->
         <div class="flex flex-wrap">
           <div
-            v-for="news in newsArray"
-            :key="news.newsId"
+            v-for="news in newsData"
+            :key="news.id"
             class="w-full px-2 py-2 pb-4 lg:w-4/12"
           >
             <div
@@ -34,7 +34,7 @@
             >
               <img
                 alt="..."
-                :src="news.News_Picture"
+                :src="news.image"
                 class="w-full align-middle rounded-t-lg cropped-news text-blueGray-500"
               />
               <blockquote class="relative">
@@ -52,14 +52,14 @@
               </blockquote>
               <div class="relative p-4">
                 <h4 class="h-24 text-xl font-bold truncate-3">
-                  {{ news.News_Title }}
+                  {{ news.title }}
                 </h4>
                 <p class="mt-2 font-light truncate-3 text-md">
-                  {{ news.News_Detail }}
+                  {{ news.detail }}
                 </p>
                 <div class="mt-2 text-center border-t border-blueGray-200">
                   <button
-                    @click="readMore(news.newsId)"
+                    @click="readMore(news.id)"
                     class="px-4 py-2 mt-2 mb-1 mr-1 text-xs font-semibold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-md focus:outline-none"
                     type="button"
                   >
@@ -74,7 +74,7 @@
           :current="currentPage"
           :total="total"
           :per-page="perPage"
-          @page-changed="currentPage = $event"
+          @page-changed="onPageChanged($event)"
           class="my-6"
         />
       </div>
@@ -83,51 +83,58 @@
 </template>
 
 <script>
-import http from "../services/WebpageService";
+//? Packages
 import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
+import { mapActions, mapGetters } from "vuex";
 export default {
+  computed: {
+    ...mapGetters("news", ["newsArray"]),
+    newsData() {
+      return this.newsArray.data;
+    },
+  },
+
   components: {
     VueTailwindPagination,
   },
 
   data() {
     return {
-      newsArray: [],
       currentPage: 0,
       perPage: 0,
       total: 0,
     };
   },
 
-  watch: {
-    currentPage(newPage) {
-      //? Watch page change
-      this.getNews();
-    },
-  },
-
   mounted() {
-    //? Setting default current page equal 1
+    //? Setting default current page when page loaded
     this.currentPage = 1;
     //? Call function get data
-    this.getNews();
+    this.getNewsStore(this.currentPage);
+  },
+
+  updated() {
+    this.currentPage = this.newsArray.current_page;
+    this.perPage = this.newsArray.per_page;
+    this.total = this.newsArray.total;
   },
 
   methods: {
-    //? Handle router to detail news
-    readMore(newsId) {
-      this.$router.push({ name: "NewsExplain" });
-      this.$store.state.newsShowAll = newsId;
+    //? Get data
+    ...mapActions("news", ["getNewsArray"]),
+    async getNewsStore() {
+      await this.getNewsArray(this.currentPage);
     },
 
-    //? Get data
-    async getNews() {
-      let response = await http.get(`news?page=${this.currentPage}`);
-      let data = response.data;
-      this.newsArray = data.data.reverse();
-      this.currentPage = data.current_page;
-      this.perPage = data.per_page;
-      this.total = data.total;
+    //? Handle router to detail news
+    readMore(id) {
+      this.$router.push({ name: "NewsExplain", params: { id: id } });
+    },
+
+    //? Paginate
+    async onPageChanged(page) {
+      this.currentPage = page;
+      await this.getNewsStore(this.currentPage);
     },
   },
 };

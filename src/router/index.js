@@ -205,7 +205,7 @@ const routes = [
         component: News,
       },
       {
-        path: "/newsexplain",
+        path: "/newsexplain/:id",
         name: "NewsExplain",
         component: NewsExplain,
       },

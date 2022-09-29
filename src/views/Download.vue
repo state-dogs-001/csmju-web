@@ -43,17 +43,21 @@
                     </tr>
                   </thead>
                   <tbody class="text-left w-full">
-                    <tr class="border-b">
+                    <tr
+                      class="border-b"
+                      v-for="(doc, index) in documentsData"
+                      :key="index"
+                    >
                       <td
                         class="p-4 px-6 text-sm align-middle whitespace-nowrap"
                       >
-                        1
+                        {{ (currentPage - 1) * perPage + index + 1 }}
                       </td>
 
-                      <td class="p-4 px-2 text-sm align-middle">
+                      <td class="p-4 px-6 text-sm align-middle">
                         <div>
                           <p class="w-full font-normal truncate-3">
-                            แบบฟอร์มใบลาสำหรับคณาจารย์ และบุคลากร
+                            {{ doc.name }}
                           </p>
                         </div>
                       </td>
@@ -67,135 +71,7 @@
                         >
                           <i class="fas fa-arrow-down"></i>
                           <a
-                            href="https://drive.google.com/file/d/19cz3sKjsIsrt6VHfBIsRcaJykbo6eIOv/view?usp=sharing"
-                            class="ml-1 text-md font-bold"
-                            target="_blank"
-                            >Download</a
-                          >
-                        </button>
-                      </td>
-                    </tr>
-                    <tr class="border-b">
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        2
-                      </td>
-
-                      <td class="p-4 px-2 text-sm align-middle">
-                        <div>
-                          <p class="font-normal truncate-3">
-                            แบบฟอร์มใบลาสำหรับนักศึกษา
-                          </p>
-                        </div>
-                      </td>
-
-                      <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
-                      >
-                        <button
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-emerald-500 rounded-lg shadow-md outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
-                        >
-                          <i class="fas fa-arrow-down"></i>
-                          <a
-                            href="https://drive.google.com/file/d/1yzmD-6t3a8kXi6efQLpFgYwjfhqQa3_Q/view?usp=sharing"
-                            class="ml-1 text-md font-bold"
-                            target="_blank"
-                            >Download</a
-                          >
-                        </button>
-                      </td>
-                    </tr>
-                    <tr class="border-b">
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        3
-                      </td>
-
-                      <td class="p-4 px-2 text-sm align-middle">
-                        <div>
-                          <p class="w-full font-normal truncate-3">
-                            แบบฟอร์มใบเบิกค่ารักษาพยาบาล
-                          </p>
-                        </div>
-                      </td>
-
-                      <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
-                      >
-                        <button
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-emerald-500 rounded-lg shadow-md outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
-                        >
-                          <i class="fas fa-arrow-down"></i>
-                          <a
-                            href="https://drive.google.com/file/d/1negMVCZX3aBSZpFTTVZCRUxGXNMmKx3s/view?usp=sharing"
-                            class="ml-1 text-md font-bold"
-                            target="_blank"
-                            >Download</a
-                          >
-                        </button>
-                      </td>
-                    </tr>
-                    <tr class="border-b">
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        4
-                      </td>
-
-                      <td class="p-4 px-2 text-sm align-middle">
-                        <div>
-                          <p class="w-full font-normal truncate-3">
-                            ใบรับรองเวลาปฏิบัติงาน
-                          </p>
-                        </div>
-                      </td>
-
-                      <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
-                      >
-                        <button
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-emerald-500 rounded-lg shadow-md outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
-                        >
-                          <i class="fas fa-arrow-down"></i>
-                          <a
-                            href="https://docs.google.com/document/d/1w1ZzmKxLJxg8IBXo5YK69op7JBQVP82v/edit?usp=sharing&ouid=107917108546787483081&rtpof=true&sd=true"
-                            class="ml-1 text-md font-bold"
-                            target="_blank"
-                            >Download</a
-                          >
-                        </button>
-                      </td>
-                    </tr>
-                    <tr class="border-b">
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        5
-                      </td>
-
-                      <td class="p-4 px-2 text-sm align-middle">
-                        <div>
-                          <p class="w-full font-normal truncate-3">
-                            แบบแสดงความจำนงบริจาคเงิน
-                          </p>
-                        </div>
-                      </td>
-
-                      <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
-                      >
-                        <button
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-emerald-500 rounded-lg shadow-md outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
-                        >
-                          <i class="fas fa-arrow-down"></i>
-                          <a
-                            href="https://docs.google.com/document/d/1lFwYXipcuarGpltNROL45hilltLgK1FH/edit?usp=sharing&ouid=107917108546787483081&rtpof=true&sd=true"
+                            :href="doc.file"
                             class="ml-1 text-md font-bold"
                             target="_blank"
                             >Download</a
@@ -205,6 +81,13 @@
                     </tr>
                   </tbody>
                 </table>
+                <VueTailwindPagination
+                  :current="currentPage"
+                  :total="total"
+                  :per-page="perPage"
+                  @page-changed="onPageChanged($event)"
+                  class="my-6"
+                />
               </div>
             </div>
           </div>
@@ -215,135 +98,51 @@
 </template>
 
 <script>
-//? Image
-import icon from "../assets/images/paper.png";
-//? API
-import http from "../services/WebpageService";
 //? Packages
-import useValidate from "@vuelidate/core";
-import { required, helpers } from "@vuelidate/validators";
+import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
+import { mapActions, mapGetters } from "vuex";
 export default {
+  components: {
+    VueTailwindPagination,
+  },
+
+  computed: {
+    ...mapGetters("document", ["documentsArray"]),
+    documentsData() {
+      return this.documentsArray.data;
+    },
+  },
+
   data() {
     return {
-      icon,
-      v$: useValidate(),
-
-      Topic: "",
-      Detail: "",
-
-      showRecaptcha: true,
-      date: new Date().toString(),
-
-      imgUrl: "",
-      file: null,
-
-      verify: null,
+      currentPage: 0,
+      perPage: 0,
+      total: 0,
     };
   },
+
+  mounted() {
+    let page = 1;
+    this.getDocumentStore(page);
+  },
+
+  updated() {
+    this.currentPage = this.documentsArray.current_page;
+    this.perPage = this.documentsArray.per_page;
+    this.total = this.documentsArray.total;
+  },
+
   methods: {
-    onFileSelected(event) {
-      const file = event.target.files[0];
-      this.file = event.target.files[0];
-      this.imgUrl = URL.createObjectURL(file);
+    ...mapActions("document", ["getDocuments"]),
+    async getDocumentStore(page) {
+      await this.getDocuments(page);
     },
 
-    submit() {
-      this.v$.$validate();
-      if (!this.v$.$error) {
-        if (this.verify != null) {
-          const swalWithBootstrapButtons = this.$swal.mixin({
-            customClass: {
-              title: "font-semibold custom",
-              confirmButton:
-                "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
-              cancelButton:
-                "px-6 py-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
-            },
-            buttonsStyling: false,
-          });
-
-          swalWithBootstrapButtons
-            .fire({
-              title: "ยืนยันการส่งข้อมูล",
-              icon: "warning",
-              showCancelButton: true,
-              confirmButtonText: "ยืนยัน",
-              cancelButtonText: "ยกเลิก",
-              reverseButtons: true,
-            })
-            .then((result) => {
-              if (result.isConfirmed) {
-                let data = new FormData();
-                data.append("Complain_Title", this.Topic);
-                data.append("Complain_Detail", this.Detail);
-                data.append("Complain_Picture", this.file);
-                data.append("Complain_Date", this.date);
-
-                http.post("complain/create", data).then(() => {
-                  this.Topic = null;
-                  this.Detail = null;
-                  this.file = null;
-                  this.date = null;
-                  this.imgUrl = null;
-                  this.$refs.fileupload.value = null;
-
-                  swalWithBootstrapButtons.fire(
-                    "บันทึกข้อมูลเรียบร้อย!",
-                    "",
-                    "success"
-                  );
-                });
-              } else if (result.dismiss === this.$swal.DismissReason.cancel) {
-                this.Topic = null;
-                this.Detail = null;
-                this.file = null;
-                this.date = null;
-                this.imgUrl = null;
-
-                this.$refs.fileupload.value = null;
-                swalWithBootstrapButtons.fire(
-                  "ยกเลิกการส่งข้อมูลเรียบร้อย!",
-                  "",
-                  "error"
-                );
-              }
-            });
-        } else {
-          const Swal = this.$swal.mixin({
-            position: "center",
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            customClass: {
-              title: "font-semibold custom text-blueGray-600",
-            },
-          });
-
-          Swal.fire({
-            icon: "info",
-            title: `กดยืนยัน "reCAPTCHA" ก่อน`,
-          });
-        }
-      }
+    //? Pagination
+    onPageChanged(page) {
+      this.currentPage = page;
+      this.getDocumentStore(this.currentPage);
     },
-    recaptchaVerified(response) {
-      this.verify = response;
-    },
-
-    recaptchaExpired() {
-      this.$refs.vueRecaptcha.reset();
-    },
-    recaptchaFailed() {},
-  },
-  validations() {
-    return {
-      Topic: {
-        required: helpers.withMessage("ป้อนหัวข้อก่อน", required),
-      },
-      Detail: {
-        required: helpers.withMessage("ป้อนรายละเอียดก่อน", required),
-      },
-    };
   },
 };
 </script>
