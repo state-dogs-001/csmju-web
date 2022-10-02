@@ -1,108 +1,109 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 //? Layouts
-import HomeLayout from "../layouts/HomeLayout.vue";
-import MainLayout from "../layouts/MainLayout.vue";
-import AuthLayout from "../layouts/AuthLayout.vue";
-import StudentServiceLayout from "../layouts/StudentServiceLayout.vue";
-import PersonnelServiceLayout from "../layouts/PersonnelServiceLayout.vue";
-import AdminLayout from "../layouts/AdminLayout.vue";
+import HomeLayout from "@/layouts/HomeLayout.vue";
+import MainLayout from "@/layouts/MainLayout.vue";
+import AuthLayout from "@/layouts/AuthLayout.vue";
+import StudentServiceLayout from "@/layouts/StudentServiceLayout.vue";
+import PersonnelServiceLayout from "@/layouts/PersonnelServiceLayout.vue";
+import AdminLayout from "@/layouts/AdminLayout.vue";
 
 //? Views without protected route
-import Welcome from "../views/Welcome.vue";
-import Home from "../views/Home.vue";
-import QRCode from "../views/QRCode.vue";
-import About from "../views/About.vue";
-import Classroom from "../views/Classroom.vue";
-import Teacher from "../views/Teacher.vue";
-import Staff from "../views/Staff.vue";
-import Schedule from "../views/Schedule.vue";
-import Program from "../views/Program.vue";
-import News from "../views/News.vue";
-import NewsExplain from "../views/NewsExplain.vue";
-import Alumnus from "../views/Alumnus.vue";
-import Download from "../views/Download.vue";
-import Contact from "../views/Contact.vue";
+import Welcome from "@/views/Welcome.vue";
+import Home from "@/views/Home.vue";
+import QRCode from "@/views/QRCode.vue";
+import About from "@/views/About.vue";
+import Classroom from "@/views/Classroom.vue";
+import Teacher from "@/views/Teacher.vue";
+import Staff from "@/views/Staff.vue";
+import Schedule from "@/views/Schedule.vue";
+import Program from "@/views/Program.vue";
+import News from "@/views/News.vue";
+import NewsExplain from "@/views/NewsExplain.vue";
+import Alumnus from "@/views/Alumnus.vue";
+import Download from "@/views/Download.vue";
+import Contact from "@/views/Contact.vue";
 
 //? About
-import History from "../views/about/History.vue";
-import Importance from "../views/about/Importance.vue";
-import Objectivity from "../views/about/Objectivity.vue";
-import Philosophy from "../views/about/Philosophy.vue";
-import PLO from "../views/about/PLO.vue";
+import History from "@/views/about/History.vue";
+import Importance from "@/views/about/Importance.vue";
+import Objectivity from "@/views/about/Objectivity.vue";
+import Philosophy from "@/views/about/Philosophy.vue";
+import PLO from "@/views/about/PLO.vue";
 
 //? Auth view
-import Login from "../views/auth/Login.vue";
+import Login from "@/views/auth/Login.vue";
 
 //? Student
-import StudentService from "../views/student/StudentService.vue";
-import StudentProfile from "../views/student/StudentProfile.vue";
-import StudentCourseAlert from "../views/student/StudentCourseAlert.vue";
-import StudentMaintenance from "../views/student/StudentMaintenance.vue";
-import StudentRoomReserve from "../views/student/StudentRoomReserve.vue";
+import StudentService from "@/views/student/StudentService.vue";
+import StudentProfile from "@/views/student/StudentProfile.vue";
+import StudentCourseAlert from "@/views/student/StudentCourseAlert.vue";
+import StudentMaintenance from "@/views/student/StudentMaintenance.vue";
+import StudentRoomReserve from "@/views/student/StudentRoomReserve.vue";
 
 //? Personnel
-import PersonnelService from "../views/personnel/PersonnelService.vue";
-import PersonnelProfile from "../views/personnel/PersonnelProfile.vue";
-import PersonnelCV from "../views/personnel/PersonnelCV.vue";
-import PersonnelCVPrint from "../views/personnel/PersonnelCVPrint.vue";
-import PersonnelMaintain from "../views/personnel/PersonnelMaintain.vue";
-import PersonnelRoomReserve from "../views/personnel/PersonnelRoomReserve.vue";
+import PersonnelService from "@/views/personnel/PersonnelService.vue";
+import PersonnelProfile from "@/views/personnel/PersonnelProfile.vue";
+import PersonnelCV from "@/views/personnel/PersonnelCV.vue";
+import PersonnelCVPrint from "@/views/personnel/PersonnelCVPrint.vue";
+import PersonnelMaintain from "@/views/personnel/PersonnelMaintain.vue";
+import PersonnelRoomReserve from "@/views/personnel/PersonnelRoomReserve.vue";
+import PersonnelCourseAlert from '@/views/personnel/PersonnelCourseAlert.vue'
 
 //? Admin
-import Dashboard from "../views/admin/Dashboard.vue";
-import ChangePassword from "../views/admin/ChangePassword.vue";
-import Banner from "../views/admin/Banner.vue";
-import BannerAdd from "../views/admin/BannerAdd.vue";
-import BannerEdit from "../views/admin/BannerEdit.vue";
-// import AboutMeShow from "../views/admin/AboutMeShow.vue";
-// import AboutMeAdd from "../views/admin/AboutMeAdd.vue";
-// import AboutMeEdit from "../views/admin/AboutMeEdit.vue";
-import SubjectShow from "../views/admin/SubjectShow.vue";
-import SubjectAdd from "../views/admin/SubjectAdd.vue";
-import SubjectEdit from "../views/admin/SubjectEdit.vue";
-import RoomShow from "../views/admin/RoomShow.vue";
-import RoomAdd from "../views/admin/RoomAdd.vue";
-import RoomEdit from "../views/admin/RoomEdit.vue";
-import StudentShow from "../views/admin/StudentShow.vue";
-import StudentAdd from "../views/admin/StudentAdd.vue";
-import StudentEdit from "../views/admin/StudentEdit.vue";
-import PersonnelShow from "../views/admin/PersonnelShow.vue";
-import PersonnelAdd from "../views/admin/PersonnelAdd.vue";
-import PersonnelEdit from "../views/admin/PersonnelEdit.vue";
-import FeedShow from "../views/admin/FeedShow.vue";
-import FeedAdd from "../views/admin/FeedAdd.vue";
-import FeedEdit from "../views/admin/FeedEdit.vue";
-import AlumnusShow from "../views/admin/AlumnusShow.vue";
-import AlumnusAdd from "../views/admin/AlumnusAdd.vue";
-import AlumnusEdit from "../views/admin/AlumnusEdit.vue";
-import EquipmentShow from "../views/admin/EquipmentShow.vue";
-import EquipmentAdd from "../views/admin/EquipmentAdd.vue";
-import EquipmentEdit from "../views/admin/EquipmentEdit.vue";
-import ActivityShow from "../views/admin/ActivityShow.vue";
-import ActivityAdd from "../views/admin/ActivityAdd.vue";
-import ActivityEdit from "../views/admin/ActivityEdit.vue";
-// import BookingShow from "../views/admin/BookingShow.vue";
-// import BookingAdd from "../views/admin/BookingAdd.vue";
-// import BookingEdit from "../views/admin/BookingEdit.vue";
-import RepairShow from "../views/admin/RepairShow.vue";
-import RepairAdd from "../views/admin/RepairAdd.vue";
-import RepairEdit from "../views/admin/RepairEdit.vue";
-import CourseAlertShow from "../views/admin/CourseAlertShow.vue";
-import ComplainingShow from "../views/admin/ComplainingShow.vue";
-import ComplainingRead from "../views/admin/ComplainingRead.vue";
-import ProjectShow from "../views/admin/ProjectShow.vue";
-import ProjectAdd from "../views/admin/ProjectAdd.vue";
-import ProjectEdit from "../views/admin/ProjectEdit.vue";
-import DocumentShow from "../views/admin/DocumentShow.vue";
-import DocumentAdd from "../views/admin/DocumentAdd.vue";
-import DocumentEdit from "../views/admin/DocumentEdit.vue";
-import MaterialShow from "../views/admin/MaterialShow.vue";
-import MaterialAdd from "../views/admin/MaterialAdd.vue";
-import MaterialEdit from "../views/admin/MaterialEdit.vue";
+import Dashboard from "@/views/admin/Dashboard.vue";
+import ChangePassword from "@/views/admin/ChangePassword.vue";
+import Banner from "@/views/admin/Banner.vue";
+import BannerAdd from "@/views/admin/BannerAdd.vue";
+import BannerEdit from "@/views/admin/BannerEdit.vue";
+// import AboutMeShow from "@/views/admin/AboutMeShow.vue";
+// import AboutMeAdd from "@/views/admin/AboutMeAdd.vue";
+// import AboutMeEdit from "@/views/admin/AboutMeEdit.vue";
+import SubjectShow from "@/views/admin/SubjectShow.vue";
+import SubjectAdd from "@/views/admin/SubjectAdd.vue";
+import SubjectEdit from "@/views/admin/SubjectEdit.vue";
+import RoomShow from "@/views/admin/RoomShow.vue";
+import RoomAdd from "@/views/admin/RoomAdd.vue";
+import RoomEdit from "@/views/admin/RoomEdit.vue";
+import StudentShow from "@/views/admin/StudentShow.vue";
+import StudentAdd from "@/views/admin/StudentAdd.vue";
+import StudentEdit from "@/views/admin/StudentEdit.vue";
+import PersonnelShow from "@/views/admin/PersonnelShow.vue";
+import PersonnelAdd from "@/views/admin/PersonnelAdd.vue";
+import PersonnelEdit from "@/views/admin/PersonnelEdit.vue";
+import FeedShow from "@/views/admin/FeedShow.vue";
+import FeedAdd from "@/views/admin/FeedAdd.vue";
+import FeedEdit from "@/views/admin/FeedEdit.vue";
+import AlumnusShow from "@/views/admin/AlumnusShow.vue";
+import AlumnusAdd from "@/views/admin/AlumnusAdd.vue";
+import AlumnusEdit from "@/views/admin/AlumnusEdit.vue";
+import EquipmentShow from "@/views/admin/EquipmentShow.vue";
+import EquipmentAdd from "@/views/admin/EquipmentAdd.vue";
+import EquipmentEdit from "@/views/admin/EquipmentEdit.vue";
+import ActivityShow from "@/views/admin/ActivityShow.vue";
+import ActivityAdd from "@/views/admin/ActivityAdd.vue";
+import ActivityEdit from "@/views/admin/ActivityEdit.vue";
+// import BookingShow from "@/views/admin/BookingShow.vue";
+// import BookingAdd from "@/views/admin/BookingAdd.vue";
+// import BookingEdit from "@/views/admin/BookingEdit.vue";
+import RepairShow from "@/views/admin/RepairShow.vue";
+import RepairAdd from "@/views/admin/RepairAdd.vue";
+import RepairEdit from "@/views/admin/RepairEdit.vue";
+import CourseAlertShow from "@/views/admin/CourseAlertShow.vue";
+import ComplainingShow from "@/views/admin/ComplainingShow.vue";
+import ComplainingRead from "@/views/admin/ComplainingRead.vue";
+import ProjectShow from "@/views/admin/ProjectShow.vue";
+import ProjectAdd from "@/views/admin/ProjectAdd.vue";
+import ProjectEdit from "@/views/admin/ProjectEdit.vue";
+import DocumentShow from "@/views/admin/DocumentShow.vue";
+import DocumentAdd from "@/views/admin/DocumentAdd.vue";
+import DocumentEdit from "@/views/admin/DocumentEdit.vue";
+import MaterialShow from "@/views/admin/MaterialShow.vue";
+import MaterialAdd from "@/views/admin/MaterialAdd.vue";
+import MaterialEdit from "@/views/admin/MaterialEdit.vue";
 
 //? Page 404
-import Page404 from "../views/Page404.vue";
+import Page404 from "@/views/Page404.vue";
 
 const routes = [
   //? Home layout
@@ -309,6 +310,11 @@ const routes = [
         name: "PersonnelRoomReserve",
         component: PersonnelRoomReserve,
       },
+      {
+        path: '/personnel/service/coursealert',
+        name: 'PersonnelCourseAlert',
+        component: PersonnelCourseAlert,
+      }
     ],
   },
 

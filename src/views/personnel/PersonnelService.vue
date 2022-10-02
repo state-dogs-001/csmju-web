@@ -26,6 +26,7 @@
 
               <div class="py-6 mt-2 text-left border-t border-blueGray-200">
                 <div class="flex flex-wrap">
+                  <!-- Curriculum Vitae (CV) -->
                   <div
                     class="w-full px-2 lg:w-3/12 cssanimation sequence fadeInBottom"
                   >
@@ -54,15 +55,15 @@
                       </router-link>
                     </div>
                   </div>
+
+                  <!-- Maintenance System -->
                   <div
                     class="w-full px-2 lg:w-3/12 cssanimation sequence fadeInBottom"
                   >
                     <div
                       class="relative flex flex-col w-full min-w-0 mb-6 break-words duration-150 ease-linear border rounded-lg shadow-lg max-h-news border-blueGray-300 hover:zoom-xs bg-blueGray-100"
                     >
-                      <router-link
-                        to="service/maintenance"
-                      >
+                      <router-link to="service/maintenance">
                         <img
                           :src="cover2"
                           class="w-full cropped-service align-middle rounded-t-lg text-blueGray-500"
@@ -84,6 +85,8 @@
                       </router-link>
                     </div>
                   </div>
+
+                  <!-- Reservation System -->
                   <div
                     class="w-full px-2 lg:w-3/12 cssanimation sequence fadeInBottom"
                   >
@@ -112,6 +115,8 @@
                       </router-link>
                     </div>
                   </div>
+
+                  <!-- Equipment Inventory System -->
                   <div
                     class="w-full px-2 lg:w-3/12 cssanimation sequence fadeInBottom"
                   >
@@ -139,6 +144,8 @@
                       </a>
                     </div>
                   </div>
+
+                  <!-- Material Disbursement System -->
                   <div
                     class="w-full px-2 lg:w-3/12 cssanimation sequence fadeInBottom"
                   >
@@ -166,6 +173,37 @@
                       </a>
                     </div>
                   </div>
+
+                  <!-- Course Alert System -->
+                  <div
+                    v-if="subjectResiduals !== null"
+                    class="w-full px-2 lg:w-3/12 cssanimation sequence fadeInBottom"
+                  >
+                    <div
+                      class="relative flex flex-col w-full min-w-0 mb-6 break-words duration-150 ease-linear border rounded-lg shadow-lg max-h-news border-blueGray-300 hover:zoom-xs bg-blueGray-100"
+                    >
+                      <router-link to="service/coursealert">
+                        <img
+                          :src="cover6"
+                          class="w-full cropped-service align-middle rounded-t-lg text-blueGray-500"
+                        />
+
+                        <div class="relative p-4">
+                          <h4 class="text-xl font-bold text-left">
+                            ระบบแจ้งเตือนตกค้างรายวิชา
+                          </h4>
+
+                          <div
+                            class="mt-2 text-center border-t border-blueGray-200"
+                          >
+                            <h4 class="mt-2 font-normal text-left text-md">
+                              Course Alert System
+                            </h4>
+                          </div>
+                        </div>
+                      </router-link>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -177,11 +215,15 @@
 </template>
 
 <script>
+//? Images
 import cover1 from "../../assets/images/cv.png";
 import cover2 from "../../assets/images/repair.png";
 import cover3 from "../../assets/images/room_rent.png";
 import cover4 from "../../assets/images/equipment.png";
 import cover5 from "../../assets/images/material.png";
+import cover6 from "../../assets/images/enroll_class.png";
+//? API
+import http from "../../services/WebpageService";
 export default {
   data() {
     return {
@@ -190,9 +232,33 @@ export default {
       cover3,
       cover4,
       cover5,
+      cover6,
+
+      subjectResiduals: null,
     };
   },
+
+  mounted() {
+    this.getSubjectResiduals();
+  },
+
   methods: {
+    //? Get subject residuals
+    async getSubjectResiduals() {
+      try {
+        const local = JSON.parse(localStorage.getItem("user"));
+        const citizenId = local.card_id;
+        const res = await http.get(`residual/personnel/${citizenId}`);
+        if (res.data.data.length > 0) {
+          const data = res.data.data;
+          this.subjectResiduals = data;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    //! System not yet
     dev() {
       const Swal = this.$swal.mixin({
         position: "center",

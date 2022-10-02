@@ -49,6 +49,7 @@
                         <div class="relative text-center">
                           <img
                             alt="image profile"
+                            v-if="image"
                             :src="image"
                             class="-mt-20 rounded-full shadow-lg h-200-px center-img max-w-200-px bg-emerald-500 border-2"
                           />
