@@ -18,10 +18,10 @@
 
 <script>
 //? Components
-import AdminNavbar from "../components/navbars/AdminNavbar.vue";
-import Sidebar from "../components/sidebars/Sidebar.vue";
-import HeaderStats from "../components/headers/HeaderStats.vue";
-import AdminFooter from "../components/footers/AdminFooter.vue";
+import AdminNavbar from "@/components/navbars/AdminNavbar.vue";
+import Sidebar from "@/components/sidebars/Sidebar.vue";
+import HeaderStats from "@/components/headers/HeaderStats.vue";
+import AdminFooter from "@/components/footers/AdminFooter.vue";
 export default {
   name: "admin-layout",
   components: {

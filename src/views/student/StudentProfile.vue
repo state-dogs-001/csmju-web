@@ -388,7 +388,7 @@
 
 <script>
 //? API
-import http from "../../services/WebpageService";
+import http from "@/services/WebpageService";
 //? Packages
 import useValidate from "@vuelidate/core";
 import { required, email, minLength, helpers } from "@vuelidate/validators";

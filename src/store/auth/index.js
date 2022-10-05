@@ -1,10 +1,10 @@
 //? API Service
-import mju from "../../services/MJUService";
-import auth from "../../services/AuthService";
-import http from "../../services/WebpageService";
+import mju from "@/services/MJUService";
+import auth from "@/services/AuthService";
+import http from "@/services/WebpageService";
 
 //? Router
-import router from "../../router";
+import router from "@/router";
 
 //? Sweetalert2
 import Swal from "sweetalert2";

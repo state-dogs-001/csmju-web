@@ -130,7 +130,7 @@
 //? Package
 import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
 //? API
-import http from "../../services/APIService";
+import http from "@/services/APIService";
 export default {
   data() {
     return {

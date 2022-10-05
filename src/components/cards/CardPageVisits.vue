@@ -93,7 +93,7 @@
 
 <script>
 //? API
-import http from "../../services/APIService";
+import http from "@/services/APIService";
 //? Package
 import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
 export default {

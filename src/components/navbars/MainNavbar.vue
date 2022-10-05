@@ -10,7 +10,7 @@
       >
         <router-link to="/home">
           <img
-            src="../../assets/images/logo.png"
+            src="@/assets/images/logo.png"
             alt=""
             class="h-12 reletive"
           />

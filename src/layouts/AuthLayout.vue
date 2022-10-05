@@ -20,10 +20,10 @@
 
 <script>
 //? Components
-import AuthNavbar from "../components/navbars/AuthNavbar.vue";
-import AuthFooter from "../components/footers/AuthFooter.vue";
+import AuthNavbar from "@/components/navbars/AuthNavbar.vue";
+import AuthFooter from "@/components/footers/AuthFooter.vue";
 //? Image
-import backgroundLogin from "../assets/images/bg-login.png";
+import backgroundLogin from "@/assets/images/bg-login.png";
 export default {
   components: {
     AuthNavbar,

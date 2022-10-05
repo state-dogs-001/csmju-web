@@ -6,7 +6,7 @@
       <div
         class="cssanimation sequence fadeInBottom flex flex-col items-center py-10 overflow-y-auto custom md:flex-col"
       >
-        <img class="h-48" src="../assets/images/logo.png" alt="404 not found" />
+        <img class="h-48" src="@/assets/images/logo.png" alt="404 not found" />
         <!-- <img class="" src="@/assets/img/404.gif" alt="404 not found" /> -->
 
         <p

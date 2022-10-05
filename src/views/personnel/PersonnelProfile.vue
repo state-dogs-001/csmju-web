@@ -361,7 +361,7 @@
 
 <script>
 //? API
-import http from "../../services/WebpageService";
+import http from "@/services/WebpageService";
 //? Package
 import useValidate from "@vuelidate/core";
 import {

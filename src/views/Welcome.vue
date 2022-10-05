@@ -36,7 +36,7 @@
 
 <script>
 //? Import image
-import CSMJULogo from "../assets/images/logo.png";
+import CSMJULogo from "@/assets/images/logo.png";
 
 export default {
   data() {
@@ -56,7 +56,7 @@ export default {
 
 <style>
 .countdown-col {
-  background: url("../assets/images/Bg-welcome.svg") no-repeat center fixed;
+  background: url("@/assets/images/Bg-welcome.svg") no-repeat center fixed;
   background-size: cover;
 }
 

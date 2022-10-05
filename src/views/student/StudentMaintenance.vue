@@ -178,9 +178,9 @@
 
 <script>
 //? Images
-import cover from "../../assets/images/repair.png";
+import cover from "@/assets/images/repair.png";
 //? API
-import http from "../../services/WebpageService";
+import http from "@/services/WebpageService";
 //? Packages
 import useValidate from "@vuelidate/core";
 import { required, minLength, helpers } from "@vuelidate/validators";

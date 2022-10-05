@@ -65,7 +65,7 @@
 //? Package
 import { createPopper } from "@popperjs/core";
 //? API
-import http from "../../services/APIService";
+import http from "@/services/APIService";
 export default {
   data() {
     return {

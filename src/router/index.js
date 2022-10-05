@@ -38,6 +38,7 @@ import Login from "@/views/auth/Login.vue";
 import StudentService from "@/views/student/StudentService.vue";
 import StudentProfile from "@/views/student/StudentProfile.vue";
 import StudentCourseAlert from "@/views/student/StudentCourseAlert.vue";
+import StudentCourseAlertHistory from "@/views/student/StudentCourseAlertHistory.vue";
 import StudentMaintenance from "@/views/student/StudentMaintenance.vue";
 import StudentRoomReserve from "@/views/student/StudentRoomReserve.vue";
 
@@ -48,7 +49,7 @@ import PersonnelCV from "@/views/personnel/PersonnelCV.vue";
 import PersonnelCVPrint from "@/views/personnel/PersonnelCVPrint.vue";
 import PersonnelMaintain from "@/views/personnel/PersonnelMaintain.vue";
 import PersonnelRoomReserve from "@/views/personnel/PersonnelRoomReserve.vue";
-import PersonnelCourseAlert from '@/views/personnel/PersonnelCourseAlert.vue'
+import PersonnelCourseAlert from "@/views/personnel/PersonnelCourseAlert.vue";
 
 //? Admin
 import Dashboard from "@/views/admin/Dashboard.vue";
@@ -266,6 +267,11 @@ const routes = [
         component: StudentCourseAlert,
       },
       {
+        path: "/student/service/course/history",
+        name: "CourseHistory",
+        component: StudentCourseAlertHistory,
+      },
+      {
         path: "/student/service/maintenance",
         name: "StudentMaintenance",
         component: StudentMaintenance,
@@ -311,10 +317,10 @@ const routes = [
         component: PersonnelRoomReserve,
       },
       {
-        path: '/personnel/service/coursealert',
-        name: 'PersonnelCourseAlert',
+        path: "/personnel/service/coursealert",
+        name: "PersonnelCourseAlert",
         component: PersonnelCourseAlert,
-      }
+      },
     ],
   },
 

@@ -13,7 +13,7 @@
     </p>
     <img
       class="py-2 w-1/2 center-img shadow-md border"
-      src="../../assets/images/his2.jpg"
+      src="@/assets/images/his2.jpg"
     />
     <p class="my-6 rem2">
       <b>ปีการศึกษา 2536 </b>หมวดวิชาวิทยาศาสตร์และคณิตศาสตร์ ภาควิชาศึกษาทั่วไป

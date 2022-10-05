@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import http from "../../services/APIService";
+import http from "@/services/APIService";
 export default {
   data() {
     return {

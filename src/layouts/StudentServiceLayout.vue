@@ -137,13 +137,13 @@
 
 <script>
 //? Component
-import AuthFooter from "../components/footers/AuthFooter.vue";
-import ServiceNavbar from "../components/navbars/ServiceNavbar.vue";
+import AuthFooter from "@/components/footers/AuthFooter.vue";
+import ServiceNavbar from "@/components/navbars/ServiceNavbar.vue";
 //? Images
-import team from "../assets/images/user_null.svg";
-import bgupdate from "../assets/images/bg-update.jpg";
+import team from "@/assets/images/user_null.svg";
+import bgupdate from "@/assets/images/bg-update.jpg";
 //? API
-import http from "../services/WebpageService";
+import http from "@/services/WebpageService";
 export default {
   components: {
     AuthFooter,

@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import http from "../services/WebpageService";
+import http from "@/services/WebpageService";
 //? Packages
 import { mapActions, mapGetters } from "vuex";
 export default {

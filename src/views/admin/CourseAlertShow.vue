@@ -21,40 +21,87 @@
                   </div>
 
                   <div class="w-full px-4 py-4 md:w-6/12">
-                    <!-- <form @submit.prevent="onSubmit">
+                    <form @submit.prevent="onSearch">
                       <input
                         v-model="keyword"
                         class="w-full py-2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-200 border-0 rounded-md"
                         type="text"
-                        placeholder="ป้อนชื่อที่ต้องการค้นหา"
+                        placeholder="ป้อนคำที่ต้องการค้นหา เช่น ชื่อ สถานที่ทำงาน หรือรุ่นของศิษย์เก่า"
                         aria-label="Search"
                       />
-                      <button
-                        @click="submitSearchForm"
-                        type="submit"
-                        class="hidden"
-                      >
-                        Submit
-                      </button>
-                    </form> -->
+                    </form>
                   </div>
 
-                  <div class="w-full px-4 text-center md:w-4/12">
-                    <!-- <button
-                      @click="submitSearchForm"
+                  <div class="w-full px-4 md:w-4/12">
+                    <button
+                      @click="onSearch"
                       class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-lightBlue-500 active:bg-lightBlue-600 hover:shadow-md focus:outline-none"
                       type="button"
                     >
                       <i class="fas fa-search"></i> ค้นหา
                     </button>
                     <button
-                      @click="resetSearchForm"
+                      @click="resetData"
                       class="px-4 py-2 mb-1 mr-4 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
                       type="button"
                     >
-                      <i class="fas fa-broom"></i> ล้าง
-                    </button> -->
+                      <i class="fas fa-broom"></i> กลับไปค่าเริ่มต้น
+                    </button>
                   </div>
+                </div>
+
+                <!-- Sort data by dates -->
+                <div class="flex flex-wrap items-center">
+                  <div class="w-full px-4 font-semibold text-md md:w-2/12">
+                    กรองข้อมูลผ่านวันที่
+                  </div>
+
+                  <div class="w-full px-4 py-4 md:w-3/12">
+                    <v-date-picker v-model="dateStart" mode="date">
+                      <template #default="{ inputValue, inputEvents }">
+                        <input
+                          class="w-full py-2 px-4 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-200 border-0 rounded-md"
+                          :class="{ 'bg-gray-200': dateStart == null }"
+                          :value="inputValue"
+                          v-on="inputEvents"
+                          placeholder="Date start"
+                          readonly
+                          :disabled="dateEnd != null"
+                        />
+                      </template>
+                    </v-date-picker>
+                  </div>
+
+                  <div class="w-full px-4 py-4 md:w-3/12">
+                    <v-date-picker
+                      v-model="dateEnd"
+                      mode="date"
+                      :min-date="dateStart"
+                    >
+                      <template #default="{ inputValue, inputEvents }">
+                        <input
+                          class="w-full py-2 px-4 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-200 border-0 rounded-md"
+                          :class="{ 'bg-gray-200': dateEnd == null }"
+                          :value="inputValue"
+                          v-on="inputEvents"
+                          placeholder="Date end"
+                          readonly
+                          :disabled="dateStart == null"
+                        />
+                      </template>
+                    </v-date-picker>
+                  </div>
+
+                  <!-- <div class="w-full px-4 md:w-4/12">
+                    <button
+                      @click="onSortByDates"
+                      class="px-4 py-2 mb-1 mr-4 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
+                      type="button"
+                      :disabled="dateStart == null || dateEnd == null"
+                    >
+                      <i class="fas fa-search"></i> กรองข้อมูล
+                    </button>
+                  </div> -->
                 </div>
               </div>
 
@@ -69,37 +116,42 @@
                       class="text-blueGray-500 border-b-2 border-blueGray-500"
                     >
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         ลำดับ
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                      >
+                        วันที่
+                      </th>
+                      <th
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         ชื่อ - นามสกุล
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         ชื่อรายวิชา
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         กลุ่มเรียน
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         รายยละเอียด
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         ติดต่อ
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         การจัดการ
                       </th>
@@ -111,68 +163,81 @@
                   <tbody>
                     <tr
                       class="border-b"
-                      v-for="course in products"
-                      :key="course.Id"
+                      v-for="(residual, index) in residuals"
+                      :key="index"
                     >
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="p-4 px-4 text-sm align-middle whitespace-nowrap text-center"
                       >
-                        {{ course.Id }}
+                        {{ (currentPage - 1) * perPage + index + 1 }}
                       </td>
+
                       <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
+                        class="p-4 px-4 text-sm align-middle whitespace-nowrap"
+                      >
+                        {{ new Date(residual.date).toLocaleDateString() }}
+                      </td>
+
+                      <td
+                        class="p-4 px-4 text-xs align-middle whitespace-nowrap"
                       >
                         <div
                           class="flex items-center text-xs text-left align-middle whitespace-nowrap"
                         >
-                          <span class="ml-3 text-sm">
+                          <span class="text-sm">
                             <p class="font-bold">
-                              {{ course.nameTh }} {{ course.surnameTh }}
+                              {{ residual.student_name }}
                             </p>
 
                             <div class="text-xs font-normal">
-                              รหัสนักศึกษา : {{ course.studentCode }}
+                              รหัสนักศึกษา : {{ residual.student_code }}
                             </div>
                           </span>
                         </div>
                       </td>
-                      <td class="p-4 px-2 text-sm align-middle">
+
+                      <td class="p-4 px-4 text-sm align-middle">
                         <div>
-                          <p class="w-48 font-normal">
-                            {{ course.Subject_Internal }}
+                          <p class="w-auto font-normal">
+                            {{ residual.subject_name }}
                           </p>
-                          <p class="font-normal text-red-500 text-xs">
-                            (รายวิชาภายนอก :
-                            {{ course.Subject_External }} )
+                          <p
+                            class="font-normal text-red-500 text-xs flex flex-col"
+                          >
+                            <span v-if="residual.subject_type == 1">
+                              ประเภท : กลุ่มวิชาใน
+                            </span>
+                            <span v-else> ประเภท : กลุ่มวิชานอก </span>
+                            <span>
+                              รหัสรายวิชา : {{ residual.subject_code }}
+                            </span>
                           </p>
                         </div>
                       </td>
 
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="p-4 px-4 text-sm align-middle whitespace-nowrap text-center"
                       >
-                        {{ course.Sec_Internal }}
-                        <p class="text-red-500 text-xs">
-                          กรณีกลุ่มรายวิชานอก : {{ course.Sec_Another }}
-                        </p>
+                        {{ residual.section }}
                       </td>
 
-                      <td class="p-4 px-2 text-sm align-middle">
+                      <td class="p-4 px-4 text-sm align-middle">
                         <div>
-                          <p class="w-48 font-normal">
-                            {{ course.Residaual_Detail }}
+                          <p class="w-auto font-normal">
+                            {{ residual.detail }}
                           </p>
                         </div>
                       </td>
+
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="p-4 px-4 text-sm align-middle whitespace-nowrap"
                       >
-                        <p><b>โทร. :</b> {{ course.mobile }}</p>
-                        <p><b>อีเมล :</b> {{ course.EmailStudent }}</p>
+                        <p><b>โทร. :</b> {{ residual.student_tel_number }}</p>
+                        <p><b>อีเมล :</b> {{ residual.student_email }}</p>
                       </td>
 
                       <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
+                        class="p-4 px-4 text-xs align-middle whitespace-nowrap"
                       >
                         <button
                           class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
@@ -190,7 +255,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <!-- แสดงผลตัวแบ่งหน้าเพจ-->
+                <!-- Paginate -->
                 <VueTailwindPagination
                   :current="currentPage"
                   :total="total"
@@ -208,146 +273,186 @@
 
 <script>
 //? API
-import http from "../../services/APIService";
+import http from "@/services/APIService";
 //? Packages
 import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
-import moment from "moment";
-//import '@ocrv/vue-tailwind-pagination/styles'
 export default {
+  components: { VueTailwindPagination },
+
   data() {
     return {
-      /** ตัวแปรสำหรับเก็บข้อมูลสินค้าที่อ่านจาก API */
-      products: [],
+      //? Data
+      residuals: null,
+
+      //? Pagination
       currentPage: 0,
       perPage: 0,
       total: 0,
 
-      AlumniId: 0,
-      Firstname_Alumni: "",
-      Lastname_Alumni: "",
-      StudentCode_Alumni: "",
-      Workplace: "",
-      Contact: "",
-      Caption: "",
-      Job_Title: "",
-      Alumni_Picture: "",
+      //? Form
+      dateStart: null,
+      dateEnd: null,
+      keyword: "",
     };
   },
-  methods: {
-    Edit(AlumniId) {
-      this.$router.push({ name: "CourseAlertEdit" });
-      this.$store.state.alumnusEdit = AlumniId;
-    },
-    /***********************************************************************
-     * ส่วนของการอ่านข้อมูลจาก API และแสดงผลในตาราง
-     ************************************************************************/
-    // ฟังก์ชันสำหรับดึงรายการสินค้าจาก api ทั้งหมด
-    async getProducts() {
-      let response = await http.get(`residaual`);
-      let responseProduct = response.data;
-      this.products = responseProduct.reverse();
-      // this.currentPage = responseProduct.current_page;
-      // this.perPage = responseProduct.per_page;
-      this.total = responseProduct.length;
-    },
-    // ฟังก์ชันสำหรับดึงรายการสินค้าจาก api เมื่อมีการค้นหา (search)
-    async getProductsSearch(pageNumber) {
-      let response = await http.get(
-        `alumni/name/${this.keyword}?page=${pageNumber}`
-      );
-      let responseProduct = response.data;
-      this.products = responseProduct;
-      this.currentPage = responseProduct.current_page;
-      this.perPage = responseProduct.per_page;
-      this.total = responseProduct.length;
-    },
-    // สร้างฟังก์ชันสำหรับการคลิ๊กเปลี่ยนหน้า
-    onPageClick(event) {
-      this.currentPage = event;
-      // เช็คว่ามีการค้นหาสินค้าอยู่หรือไม่
-      if (this.keyword == "") {
-        // ไม่ได้ค้นหา
-        this.getProducts(this.currentPage);
-      } else {
-        this.getProductsSearch(this.currentPage);
+
+  watch: {
+    keyword(value) {
+      if (!value) {
+        if (this.dateStart != null && this.dateEnd != null) {
+          this.onSortByDates();
+        } else {
+          //? Reset dates input maybe user input the one of them then search
+          this.dateStart = null;
+          this.dateEnd = null;
+
+          //? Get all residuals
+          this.currentPage = 1;
+          this.getResiduals(this.currentPage);
+        }
       }
     },
-    /***********************************************************************
-     * ส่วนของการลบสินค้า
-     ************************************************************************/
-    // สร้างฟังก์ชันสำหรับลบสินค้า
-    onclickDelete(id) {
-      this.$swal
-        .fire({
-          title: "ยืนยันการลบรายการนี้",
-          showDenyButton: false,
-          showCancelButton: true,
-          confirmButtonText: `ยืนยัน`,
-          cancelButtonText: `ปิดหน้าต่าง`,
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            http
-              .delete(`alumnidelete/${id}`)
-              .then(() => {
-                this.$swal.fire("ลบรายการเรียบร้อย!", "", "success");
-                // เมื่อแก้ไขรายการเสร็จทำการ ดึงสินค้าล่าสุดมาแสดง
-                if (this.keyword == "") {
-                  this.getProducts(this.currentPage);
-                } else {
-                  this.getProductsSearch(this.currentPage);
-                }
-              })
-              .catch((error) => {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-              });
-          }
-        });
-    },
-    /***********************************************************************
-     * ส่วนของการค้นหาสินค้า
-     ************************************************************************/
-    // สร้างฟังก์ชันค้นหาสินค้า
-    submitSearchForm() {
-      if (this.keyword != "") {
-        // เรียกค้นไปยัง api ของ laravel
-        http.get(`alumni/name/${this.keyword}`).then((response) => {
-          let responseProduct = response.data;
-          this.products = responseProduct;
-          this.currentPage = responseProduct.current_page;
-          this.perPage = responseProduct.per_page;
-          this.total = responseProduct.total;
-        });
-      } else {
-        this.$swal.fire("ป้อนชื่อสินค้าที่ต้องการค้นหาก่อน");
+    dateStart(value) {
+      if (!value) {
+        if (this.keyword != "") {
+          //? Call search function
+          this.onSearch();
+        } else {
+          //? Get all residuals
+          this.currentPage = 1;
+          this.getResiduals(this.currentPage);
+        }
       }
     },
-    // สร้างฟังก์ชันสำหรับเคลียร์ข้อมูลการค้นหา
-    resetSearchForm() {
-      this.currentPage = 1;
-      this.getProducts(this.currentPage);
-      this.keyword = "";
-    },
-    // สร้างฟังก์ชันสำหรับจัดรูปแบบวันที่ด้วย moment.js
-    format_date(value) {
+    dateEnd(value) {
       if (value) {
-        return moment(String(value)).format("DD/MM/YYYY hh:mm:ss");
+        this.onSortByDates();
       }
-    },
-    // สร้างฟังก์ชันแปลงยอดเงินให้เป็นรูปแบบสกุลเงิน (10,000.50)
-    formatPrice(value) {
-      let val = (value / 1).toFixed(2).replace(",", ",");
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
   },
 
-  components: { VueTailwindPagination },
   mounted() {
     this.currentPage = 1;
-    // อ่านสินค้าจาก API
-    this.getProducts(this.currentPage);
+    this.getResiduals(this.currentPage);
+  },
+
+  methods: {
+    //? Get residuals
+    async getResiduals(page) {
+      const res = await http.get(`residuals?page=${page}`);
+      if (res.data.data.length > 0) {
+        let data = res.data;
+        this.residuals = data.data;
+        this.currentPage = data.current_page;
+        this.perPage = data.per_page;
+        this.total = data.total;
+      } else {
+        this.residuals = null;
+        this.currentPage = 0;
+        this.perPage = 0;
+        this.total = 0;
+      }
+      try {
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    //? Sort by dates handle
+    onSortByDates() {
+      if (this.dateStart != null && this.dateEnd != null) {
+        let data = new FormData();
+        const dateStart = new Date(this.dateStart).toISOString().slice(0, 10);
+        //? Add day to dateEnd
+        let dateEnd = new Date(this.dateEnd);
+        dateEnd.setDate(dateEnd.getDate() + 1);
+        dateEnd = new Date(dateEnd).toISOString().slice(0, 10);
+        data.append("start_date", dateStart);
+        data.append("end_date", dateEnd);
+        if (this.keyword != "") {
+          data.append("keyword", this.keyword);
+        }
+        this.getResidualsByDate(data);
+      }
+    },
+
+    //? Get residuals by date
+    async getResidualsByDate(data) {
+      try {
+        const res = await http.post("residual/datesfilter", data);
+        if (res.data.data.length > 0) {
+          let data = res.data;
+          this.residuals = data.data;
+          this.currentPage = data.current_page;
+          this.perPage = data.per_page;
+          this.total = data.total;
+        } else {
+          this.residuals = null;
+          this.currentPage = 0;
+          this.perPage = 0;
+          this.total = 0;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    //? Search handle
+    onSearch() {
+      if (this.keyword != "") {
+        //? Check dates sort input if not null call onSortByDates()
+        if (this.dateStart != null && this.dateEnd != null) {
+          this.onSortByDates();
+        } else {
+          //? Reset dates input maybe user input the one of them then search
+          this.dateStart = null;
+          this.dateEnd = null;
+
+          //? Call getResidualsByKeyword()
+          let data = new FormData();
+          data.append("keyword", this.keyword);
+          this.getResidualsByKeyword(data);
+        }
+      }
+    },
+
+    //? Get residuals by keyword
+    async getResidualsByKeyword(data) {
+      try {
+        const res = await http.post("residual/search", data);
+        if (res.data.data.length > 0) {
+          let data = res.data;
+          this.residuals = data.data;
+          this.currentPage = data.current_page;
+          this.perPage = data.per_page;
+          this.total = data.total;
+        } else {
+          this.residuals = null;
+          this.currentPage = 0;
+          this.perPage = 0;
+          this.total = 0;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    resetData() {
+      //? Reset form
+      this.dateStart = null;
+      this.dateEnd = null;
+      this.keyword = null;
+
+      //? Get all residuals
+      this.currentPage = 1;
+      this.getResiduals(this.currentPage);
+    },
+
+    //? Pagination
+    onPageClick(event) {
+      this.currentPage = event;
+      this.getResiduals(this.currentPage);
+    },
   },
 };
 </script>

@@ -103,10 +103,10 @@
 <script>
 //? Components
 // import CardLineChart from "@/components/Cards/CardLineChart.vue";
-import CardStats from "../../components/cards/CardStats.vue";
-import CardPageVisits from "../../components/cards/CardPageVisits.vue";
+import CardStats from "@/components/cards/CardStats.vue";
+import CardPageVisits from "@/components/cards/CardPageVisits.vue";
 //? API
-import http from "../../services/APIService";
+import http from "@/services/APIService";
 export default {
   name: "dashboard-page",
   components: {

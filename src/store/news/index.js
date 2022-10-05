@@ -1,5 +1,5 @@
-import http from "../../services/WebpageService";
-import route from "../../router";
+import http from "@/services/WebpageService";
+import route from "@/router";
 
 const state = {
   news: [],

@@ -193,7 +193,7 @@
 
 <script>
 //? API
-import http from "../../services/APIService";
+import http from "@/services/APIService";
 //? Packages
 import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
 export default {

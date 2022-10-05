@@ -216,14 +216,14 @@
 
 <script>
 //? Images
-import cover1 from "../../assets/images/cv.png";
-import cover2 from "../../assets/images/repair.png";
-import cover3 from "../../assets/images/room_rent.png";
-import cover4 from "../../assets/images/equipment.png";
-import cover5 from "../../assets/images/material.png";
-import cover6 from "../../assets/images/enroll_class.png";
+import cover1 from "@/assets/images/cv.png";
+import cover2 from "@/assets/images/repair.png";
+import cover3 from "@/assets/images/room_rent.png";
+import cover4 from "@/assets/images/equipment.png";
+import cover5 from "@/assets/images/material.png";
+import cover6 from "@/assets/images/enroll_class.png";
 //? API
-import http from "../../services/WebpageService";
+import http from "@/services/WebpageService";
 export default {
   data() {
     return {
@@ -252,6 +252,8 @@ export default {
         if (res.data.data.length > 0) {
           const data = res.data.data;
           this.subjectResiduals = data;
+        } else {
+          this.subjectResiduals = null;
         }
       } catch (err) {
         console.log(err);

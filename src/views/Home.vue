@@ -216,18 +216,16 @@
 
 <script>
 //? Components
-import MainNavbar from "../components/navbars/MainNavbar.vue";
-import MainFooter from "../components/footers/HomeFooter.vue";
-import CardHomeEdu from "../components/cards/CardHomeEdu.vue";
+import MainNavbar from "@/components/navbars/MainNavbar.vue";
+import MainFooter from "@/components/footers/HomeFooter.vue";
+import CardHomeEdu from "@/components/cards/CardHomeEdu.vue";
 //? Import images
-import BgHome from "../assets/images/bg-home.png";
-import Menu1 from "../assets/images/menu1.png";
-import Menu2 from "../assets/images/menu2.png";
-import Menu3 from "../assets/images/menu3.png";
-import Menu4 from "../assets/images/menu4.png";
-import Menu5 from "../assets/images/menu5.png";
-//? API
-import http from "../services/WebpageService";
+import BgHome from "@/assets/images/bg-home.png";
+import Menu1 from "@/assets/images/menu1.png";
+import Menu2 from "@/assets/images/menu2.png";
+import Menu3 from "@/assets/images/menu3.png";
+import Menu4 from "@/assets/images/menu4.png";
+import Menu5 from "@/assets/images/menu5.png";
 //? Package
 import { Carousel, Navigation, Pagination, Slide } from "vue3-carousel";
 import { mapActions, mapGetters } from "vuex";

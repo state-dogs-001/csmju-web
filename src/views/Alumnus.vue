@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import http from "../services/WebpageService";
+import http from "@/services/WebpageService";
 import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
 export default {
   components: {

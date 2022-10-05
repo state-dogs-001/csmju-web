@@ -134,12 +134,12 @@
 
 <script>
 //? Component
-import AuthFooter from "../components/footers/AuthFooter.vue";
-import ServiceNavbar from "../components/navbars/ServiceNavbar.vue";
+import AuthFooter from "@/components/footers/AuthFooter.vue";
+import ServiceNavbar from "@/components/navbars/ServiceNavbar.vue";
 //? API
-import http from "../services/WebpageService";
+import http from "@/services/WebpageService";
 //? Image
-import bgupdate from "../assets/images/bg-update.jpg";
+import bgupdate from "@/assets/images/bg-update.jpg";
 export default {
   components: {
     AuthFooter,

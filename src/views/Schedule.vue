@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import http from "../services/WebpageService";
+import http from "@/services/WebpageService";
 export default {
   data() {
     const day = new Date().getDate();

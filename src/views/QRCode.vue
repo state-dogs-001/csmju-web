@@ -4,13 +4,13 @@
       class="flex-1 h-full max-w-4xl mx-auto overflow-hidden rounded-lg dark:bg-gray-800"
     >
       <div class="flex flex-auto border-b-2 pb-4 border-blueGray-500">
-        <img class="h-70-px" src="../assets/images/logo.png" />
+        <img class="h-70-px" src="@/assets/images/logo.png" />
       </div>
       <div
         class="cssanimation sequence fadeInBottom flex flex-col items-center py-10 overflow-y-auto custom md:flex-col"
       >
         <div class="border-2 p-4">
-          <img class="h-200-px" src="../assets/images/qrcode.png" />
+          <img class="h-200-px" src="@/assets/images/qrcode.png" />
         </div>
         <div
           class="px-6 py-2 text-2xl mt-10 text-blueGray-700 dark:text-gray-300"

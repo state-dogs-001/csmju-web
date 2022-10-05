@@ -199,9 +199,9 @@
 
 <script>
 //? API
-import http from "../services/WebpageService";
+import http from "@/services/WebpageService";
 //? Image
-import icon from "../assets/images/paper.png";
+import icon from "@/assets/images/paper.png";
 //? Packages
 import vueRecaptcha from "vue3-recaptcha2";
 import useValidate from "@vuelidate/core";

@@ -127,7 +127,7 @@
 
 <script>
 //? API
-import http from "../../services/APIService";
+import http from "@/services/APIService";
 //? Packages
 import useValidate from "@vuelidate/core";
 import { helpers } from "@vuelidate/validators";

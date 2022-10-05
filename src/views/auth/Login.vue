@@ -129,9 +129,9 @@ import useValidate from "@vuelidate/core";
 import { required, minLength, helpers } from "@vuelidate/validators";
 import Swal from "sweetalert2";
 //? APIs
-import mju from "../../services/MJUService";
-import auth from "../../services/AuthService";
-import http from "../../services/WebpageService";
+import mju from "@/services/MJUService";
+import auth from "@/services/AuthService";
+import http from "@/services/WebpageService";
 //? Set default sweetalert
 const Toast = Swal.mixin({
   toast: true,

@@ -1857,7 +1857,7 @@
 </template>
 
 <script>
-import http from "../services/WebpageService";
+import http from "@/services/WebpageService";
 export default {
   data() {
     return {

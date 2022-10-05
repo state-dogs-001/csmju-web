@@ -26,7 +26,7 @@
 
 <script>
 //? Component
-import AdminDropdown from "../../components/dropdowns/AdminDropdown.vue";
+import AdminDropdown from "@/components/dropdowns/AdminDropdown.vue";
 export default {
   components: {
     AdminDropdown,

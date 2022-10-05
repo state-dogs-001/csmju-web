@@ -196,11 +196,11 @@
 
 <script>
 //? API
-import http from "../../services/APIService";
+import http from "@/services/APIService";
 //? Package
 import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
 //? Image
-import image from "../../assets/images/logo.png";
+import image from "@/assets/images/logo.png";
 export default {
   data() {
     return {

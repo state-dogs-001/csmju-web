@@ -146,7 +146,7 @@
 //import http from "@/services/APIService";
 //import useValidate from "@vuelidate/core";
 //? Image
-import cover from "../../assets/images/password.svg";
+import cover from "@/assets/images/password.svg";
 //import { required, email, minLength, helpers } from "@vuelidate/validators";
 export default {
   data() {
