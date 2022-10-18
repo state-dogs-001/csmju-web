@@ -39,6 +39,7 @@ import StudentService from "@/views/student/StudentService.vue";
 import StudentProfile from "@/views/student/StudentProfile.vue";
 import StudentCourseAlert from "@/views/student/StudentCourseAlert.vue";
 import StudentCourseAlertHistory from "@/views/student/StudentCourseAlertHistory.vue";
+import StudentCourseAlertEdit from "@/views/student/StudentCourseAlertEdit.vue";
 import StudentMaintenance from "@/views/student/StudentMaintenance.vue";
 import StudentRoomReserve from "@/views/student/StudentRoomReserve.vue";
 
@@ -49,7 +50,7 @@ import PersonnelCV from "@/views/personnel/PersonnelCV.vue";
 import PersonnelCVPrint from "@/views/personnel/PersonnelCVPrint.vue";
 import PersonnelMaintain from "@/views/personnel/PersonnelMaintain.vue";
 import PersonnelRoomReserve from "@/views/personnel/PersonnelRoomReserve.vue";
-import PersonnelCourseAlert from "@/views/personnel/PersonnelCourseAlert.vue";
+// import PersonnelCourseAlert from "@/views/personnel/PersonnelCourseAlert.vue";
 
 //? Admin
 import Dashboard from "@/views/admin/Dashboard.vue";
@@ -91,6 +92,7 @@ import RepairShow from "@/views/admin/RepairShow.vue";
 import RepairAdd from "@/views/admin/RepairAdd.vue";
 import RepairEdit from "@/views/admin/RepairEdit.vue";
 import CourseAlertShow from "@/views/admin/CourseAlertShow.vue";
+import CourseAlertSaveExcel from "../views/admin/CourseAlertSaveExcel.vue";
 import ComplainingShow from "@/views/admin/ComplainingShow.vue";
 import ComplainingRead from "@/views/admin/ComplainingRead.vue";
 import ProjectShow from "@/views/admin/ProjectShow.vue";
@@ -272,6 +274,11 @@ const routes = [
         component: StudentCourseAlertHistory,
       },
       {
+        path: "/student/service/course/edit/:id",
+        name: "CourseEdit",
+        component: StudentCourseAlertEdit,
+      },
+      {
         path: "/student/service/maintenance",
         name: "StudentMaintenance",
         component: StudentMaintenance,
@@ -316,11 +323,11 @@ const routes = [
         name: "PersonnelRoomReserve",
         component: PersonnelRoomReserve,
       },
-      {
-        path: "/personnel/service/coursealert",
-        name: "PersonnelCourseAlert",
-        component: PersonnelCourseAlert,
-      },
+      // {
+      //   path: "/personnel/service/coursealert",
+      //   name: "PersonnelCourseAlert",
+      //   component: PersonnelCourseAlert,
+      // },
     ],
   },
 
@@ -525,6 +532,11 @@ const routes = [
         path: "/admin/coursealertshow",
         name: "CourseAlertShow",
         component: CourseAlertShow,
+      },
+      {
+        path: "/admin/coursealert/saveexcel",
+        name: "CourseAlertSaveExcel",
+        component: CourseAlertSaveExcel,
       },
       {
         path: "/admin/complaining",

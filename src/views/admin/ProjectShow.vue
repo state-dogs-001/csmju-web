@@ -66,32 +66,32 @@
                       class="text-blueGray-500 border-b-2 border-blueGray-500"
                     >
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         ลำดับ
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         รหัสโครงงาน
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         ชื่อโครงงาน (ลิงค์ไฟล์)
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         ชื่อผู้ทำโครงงาน
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         ชื่ออาจารย์ที่ปรึกษา
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         การจัดการ
                       </th>
@@ -102,17 +102,17 @@
                   <tbody>
                     <tr v-for="(project, index) in projects" :key="index">
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="px-4 w-auto text-sm align-middle whitespace-nowrap"
                       >
                         {{ (currentPage - 1) * perPage + index + 1 }}
                       </td>
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="px-4 w-auto text-sm align-middle whitespace-nowrap"
                       >
                         {{ project.project_code }}
                       </td>
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="px-4 w-auto text-sm align-middle"
                       >
                         <a
                           :href="project.file"
@@ -123,7 +123,7 @@
                         </a>
                       </td>
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="px-4 w-auto text-sm align-middle whitespace-nowrap"
                       >
                         <p>{{ project.editor_1 }}</p>
                         <p v-if="project.editor_2 != null">
@@ -134,7 +134,7 @@
                         </p>
                       </td>
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="px-4 w-auto text-sm align-middle whitespace-nowrap"
                       >
                         <p class="text-xs font-bold">ประธาน</p>
                         <p>
@@ -170,7 +170,7 @@
                       </td>
                       <!-- Edit -->
                       <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
+                        class="px-4 w-auto text-xs align-middle whitespace-nowrap"
                       >
                         <button
                           @click="onUpdate(project.id)"

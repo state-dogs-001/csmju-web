@@ -175,7 +175,7 @@
                   </div>
 
                   <!-- Course Alert System -->
-                  <div
+                  <!-- <div
                     v-if="subjectResiduals !== null"
                     class="w-full px-2 lg:w-3/12 cssanimation sequence fadeInBottom"
                   >
@@ -203,7 +203,7 @@
                         </div>
                       </router-link>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -223,7 +223,7 @@ import cover4 from "@/assets/images/equipment.png";
 import cover5 from "@/assets/images/material.png";
 import cover6 from "@/assets/images/enroll_class.png";
 //? API
-import http from "@/services/WebpageService";
+// import http from "@/services/WebpageService";
 export default {
   data() {
     return {
@@ -239,26 +239,26 @@ export default {
   },
 
   mounted() {
-    this.getSubjectResiduals();
+    // this.getSubjectResiduals();
   },
 
   methods: {
     //? Get subject residuals
-    async getSubjectResiduals() {
-      try {
-        const local = JSON.parse(localStorage.getItem("user"));
-        const citizenId = local.card_id;
-        const res = await http.get(`residual/personnel/${citizenId}`);
-        if (res.data.data.length > 0) {
-          const data = res.data.data;
-          this.subjectResiduals = data;
-        } else {
-          this.subjectResiduals = null;
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    },
+    // async getSubjectResiduals() {
+    //   try {
+    //     const local = JSON.parse(localStorage.getItem("user"));
+    //     const citizenId = local.card_id;
+    //     const res = await http.get(`residual/personnel/${citizenId}`);
+    //     if (res.data.data.length > 0) {
+    //       const data = res.data.data;
+    //       this.subjectResiduals = data;
+    //     } else {
+    //       this.subjectResiduals = null;
+    //     }
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // },
 
     //! System not yet
     dev() {

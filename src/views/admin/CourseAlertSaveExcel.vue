@@ -6,6 +6,13 @@
       >
         <div class="container mx-auto">
           <div class="px-6">
+            <div class="mt-4 text-right">
+              <router-link to="/admin/coursealertshow">
+                <i
+                  class="relative duration-150 ease-linear hover:zoom fas fa-times fa-2x"
+                ></i>
+              </router-link>
+            </div>
             <div class="mt-6 text-center">
               <h1 class="py-6 text-3xl font-bold">
                 CSMJU | ระบบแจ้งตกค้างรายวิชา
@@ -20,7 +27,7 @@
                     จำนวน {{ this.total }} รายการ
                   </div>
 
-                  <div class="w-full px-4 py-4 md:w-6/12">
+                  <!-- <div class="w-full px-4 py-4 md:w-6/12">
                     <form @submit.prevent="onSearch">
                       <input
                         v-model="keyword"
@@ -48,12 +55,11 @@
                       <i class="fas fa-broom"></i> ล้าง
                     </button>
                     <router-link
-                      to="/admin/coursealert/saveexcel"
+                      to=""
                       class="px-4 py-2 mb-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-emerald-500 active:bg-emerald-600 rounded shadow outline-none hover:shadow-md focus:outline-none"
-                    >
-                      <i class="fa-solid fa-file-export"></i> นำรายชื่อออก
+                      >นำรายชื่อออก
                     </router-link>
-                  </div>
+                  </div> -->
                 </div>
 
                 <!-- Sort data by dates -->
@@ -98,7 +104,7 @@
                     </v-date-picker>
                   </div>
 
-                  <!-- <div class="w-full px-4 md:w-4/12">
+                  <div class="w-full px-4 md:w-4/12">
                     <button
                       @click="onSortByDates"
                       class="px-4 py-2 mb-1 mr-4 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
@@ -107,7 +113,20 @@
                     >
                       <i class="fas fa-search"></i> กรองข้อมูล
                     </button>
-                  </div> -->
+                    <button
+                      @click="resetData"
+                      class="px-4 py-2 mb-1 mr-4 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
+                      type="button"
+                    >
+                      <i class="fas fa-broom"></i> ล้าง
+                    </button>
+                    <button
+                      @click="downloadExcel"
+                      class="px-4 py-2 mb-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-lightBlue-500 active:bg-lightBlue-600 rounded shadow outline-none hover:shadow-md focus:outline-none"
+                    >
+                      <i class="fa-solid fa-download"></i> ดาวน์โหลดรายชื่อ
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -121,6 +140,16 @@
                     <tr
                       class="text-blueGray-500 border-b-2 border-blueGray-500"
                     >
+                      <th
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                      >
+                        <input
+                          type="checkbox"
+                          v-model="isSelectAll"
+                          :onchange="onSelectAll"
+                          class="w-5 h-5 border-none rounded text-blueGray-700 bg-blueGray-200"
+                        />
+                      </th>
                       <th
                         class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
@@ -161,14 +190,6 @@
                       >
                         สถานะ
                       </th>
-                      <th
-                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        การจัดการ
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      ></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -180,7 +201,18 @@
                       <td
                         class="p-4 px-4 text-sm align-middle whitespace-nowrap text-center"
                       >
-                        {{ (currentPage - 1) * perPage + index + 1 }}
+                        <input
+                          type="checkbox"
+                          v-model="residual.isSelected"
+                          :onchange="onSelectRow"
+                          class="w-5 h-5 border-none rounded text-blueGray-700 bg-blueGray-200"
+                        />
+                      </td>
+
+                      <td
+                        class="p-4 px-4 text-sm align-middle whitespace-nowrap text-center"
+                      >
+                        {{ index + 1 }}
                       </td>
 
                       <td
@@ -275,35 +307,9 @@
                           {{ residual.status }}
                         </span>
                       </td>
-
-                      <td
-                        class="p-4 px-4 text-xs align-middle whitespace-nowrap"
-                      >
-                        <button
-                          @click="editHandle(residual.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
-                        >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          @click="deleteHandle(residual.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
-                        >
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
-                      </td>
                     </tr>
                   </tbody>
                 </table>
-                <!-- Paginate -->
-                <VueTailwindPagination
-                  :current="currentPage"
-                  :total="total"
-                  :per-page="perPage"
-                  @page-changed="onPageClick($event)"
-                />
               </div>
             </div>
           </div>
@@ -315,57 +321,32 @@
 
 <script>
 //? API
-import http from "@/services/APIService";
-//? Packages
-import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
+import http from "../../services/APIService";
+//? Package
+import * as XLSX from "xlsx/xlsx.mjs";
+//? Script
+import "@/scripts/FileSaver";
 export default {
-  components: { VueTailwindPagination },
-
   data() {
     return {
       //? Data
       residuals: null,
-
-      //? Pagination
-      currentPage: 0,
-      perPage: 0,
       total: 0,
+
+      //? Selected
+      dataSelected: [],
 
       //? Form
       dateStart: null,
       dateEnd: null,
-      keyword: "",
-      //? Not show in this page but still use it for update residual status in function
-      residualStatus: "",
+      isSelectAll: false,
     };
   },
 
   watch: {
-    keyword(value) {
-      if (!value) {
-        if (this.dateStart != null && this.dateEnd != null) {
-          this.onSortByDates();
-        } else {
-          //? Reset dates input maybe user input the one of them then search
-          this.dateStart = null;
-          this.dateEnd = null;
-
-          //? Get all residuals
-          this.currentPage = 1;
-          this.getResiduals(this.currentPage);
-        }
-      }
-    },
     dateStart(value) {
       if (!value) {
-        if (this.keyword != "") {
-          //? Call search function
-          this.onSearch();
-        } else {
-          //? Get all residuals
-          this.currentPage = 1;
-          this.getResiduals(this.currentPage);
-        }
+        this.getResiduals();
       }
     },
     dateEnd(value) {
@@ -376,33 +357,29 @@ export default {
   },
 
   mounted() {
-    this.currentPage = 1;
-    this.getResiduals(this.currentPage);
+    this.getResiduals();
   },
 
   methods: {
-    //? Get residuals
-    async getResiduals(page) {
-      const res = await http.get(`residuals?page=${page}`);
-      if (res.data.data.length > 0) {
-        let data = res.data;
-        this.residuals = data.data;
-        this.currentPage = data.current_page;
-        this.perPage = data.per_page;
-        this.total = data.total;
-      } else {
-        this.residuals = null;
-        this.currentPage = 0;
-        this.perPage = 0;
-        this.total = 0;
-      }
+    //? Get Residuals
+    async getResiduals() {
+      //? Waiting for new api get all residuals not paginate
       try {
+        const res = await http.get("residuals/all");
+        if (res.data.success) {
+          let data = res.data.data;
+          this.residuals = data;
+          this.total = data.length;
+        } else {
+          this.residuals = null;
+          this.total = 0;
+        }
       } catch (err) {
         console.log(err);
       }
     },
 
-    //? Sort by dates handle
+    //? Dates filter handle
     onSortByDates() {
       if (this.dateStart != null && this.dateEnd != null) {
         let data = new FormData();
@@ -413,27 +390,22 @@ export default {
         dateEnd = new Date(dateEnd).toISOString().slice(0, 10);
         data.append("start_date", dateStart);
         data.append("end_date", dateEnd);
-        if (this.keyword != "") {
-          data.append("keyword", this.keyword);
-        }
+
+        //? Call getResidualsByDate()
         this.getResidualsByDate(data);
       }
     },
 
-    //? Get residuals by date
+    //? Get Residuals By Dates
     async getResidualsByDate(data) {
       try {
-        const res = await http.post("residual/datesfilter", data);
-        if (res.data.data.length > 0) {
-          let data = res.data;
-          this.residuals = data.data;
-          this.currentPage = data.current_page;
-          this.perPage = data.per_page;
-          this.total = data.total;
+        const res = await http.post("residual/datesfilter/all", data);
+        if (res.data.success) {
+          let data = res.data.data;
+          this.residuals = data;
+          this.total = data.length;
         } else {
           this.residuals = null;
-          this.currentPage = 0;
-          this.perPage = 0;
           this.total = 0;
         }
       } catch (err) {
@@ -441,121 +413,112 @@ export default {
       }
     },
 
-    //? Search handle
-    onSearch() {
-      if (this.keyword != "") {
-        //? Check dates sort input if not null call onSortByDates()
-        if (this.dateStart != null && this.dateEnd != null) {
-          this.onSortByDates();
-        } else {
-          //? Reset dates input maybe user input the one of them then search
-          this.dateStart = null;
-          this.dateEnd = null;
-
-          //? Call getResidualsByKeyword()
-          let data = new FormData();
-          data.append("keyword", this.keyword);
-          this.getResidualsByKeyword(data);
-        }
-      }
-    },
-
-    //? Get residuals by keyword
-    async getResidualsByKeyword(data) {
-      try {
-        const res = await http.post("residual/search", data);
-        if (res.data.data.length > 0) {
-          let data = res.data;
-          this.residuals = data.data;
-          this.currentPage = data.current_page;
-          this.perPage = data.per_page;
-          this.total = data.total;
-        } else {
-          this.residuals = null;
-          this.currentPage = 0;
-          this.perPage = 0;
-          this.total = 0;
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    },
-
-    //? Reset
+    //? Reset filter
     resetData() {
       //? Reset form
       this.dateStart = null;
       this.dateEnd = null;
-      this.keyword = null;
 
       //? Get all residuals
-      this.currentPage = 1;
-      this.getResiduals(this.currentPage);
+      this.getResiduals();
     },
 
-    //? Pagination
-    onPageClick(event) {
-      this.currentPage = event;
-      this.getResiduals(this.currentPage);
+    //? Select All
+    onSelectAll() {
+      this.residuals.filter((e) => (e.isSelected = this.isSelectAll));
     },
 
-    //? Edit handle
-    editHandle(id) {
-      //? Set defaul sweet alert
-      const Swal = this.$swal.mixin({
-        customClass: {
-          title: "font-weight-bold custom",
-          confirmButton:
-            "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
-          denyButton:
-            "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-lightBlue-500 active:bg-lightBlue-600 hover:shadow-lg focus:outline-none",
-          cancelButton:
-            "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-red-500 active:bg-red-600 hover:shadow-lg focus:outline-none",
-        },
-        buttonsStyling: false,
-      });
-
-      //? Call sweet alert
-      Swal.fire({
-        title: "อัปเดตข้อมูลสถานะแจ้งตกค้างรายวิชา",
-        showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: "ยืนยันการแจ้งตกค้าง",
-        denyButtonText: "ปฎิเสธการแจ้งตกค้าง",
-        cancelButtonText: "ยกเลิก",
-      }).then((res) => {
-        if (res.isDenied) {
-          this.residualStatus = "rejected";
-          this.updateResidualStatus(id, this.residualStatus);
-        } else if (res.isConfirmed) {
-          this.residualStatus = "confirmed";
-          this.updateResidualStatus(id, this.residualStatus);
-        } else {
-          return;
+    //? Select in row
+    onSelectRow() {
+      //? isSelectAll is false
+      if (this.isSelectAll) {
+        const unSelected = this.residuals.filter((e) => !e.isSelected);
+        if (unSelected.length > 0) {
+          this.isSelectAll = false;
         }
-      });
+      } else {
+        //? isSelectAll is true if all row is selected
+        const selected = this.residuals.filter((e) => e.isSelected);
+        if (selected.length == this.residuals.length) {
+          this.isSelectAll = true;
+        }
+      }
     },
 
-    //? Edit residual status
-    async updateResidualStatus(id, status) {
-      try {
-        let data = new FormData();
-        data.append("status", status);
-        const res = await http.post(`residual/update/status/${id}`, data);
-        if (res.data.success) {
-          this.$swal
-            .fire({
-              title: "อัปเดตสถานะแจ้งตกค้างรายวิชาสำเร็จ",
-              icon: "success",
-              showConfirmButton: false,
-              timer: 1000,
-            })
-            .then(() => {
-              location.reload();
-            });
-        }
-      } catch (err) {
-        console.log(err);
+    //? Download excel
+    downloadExcel() {
+      const selected = this.residuals.filter((e) => e.isSelected);
+      if (selected.length > 0) {
+        //? Excel type and extension
+        const TYPE =
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+        const EXTENSION = ".xlsx";
+
+        this.residuals.forEach((e) => {
+          if (e.isSelected) {
+            //? Set data to download
+            let subjectType = "";
+            e.subject_type == 1
+              ? (subjectType = "กลุ่มวิชาใน")
+              : (subjectType = "กลุ่มวิชานอก");
+            let data = {
+              วันที่: new Date(e.date).toLocaleDateString(),
+              รหัสนักศึกษา: e.student_code,
+              ชื่อนักศึกษา: e.student_name,
+              ประเภท: subjectType,
+              รหัสรายวิชา: e.subject_code,
+              ชื่อรายวิชา: e.subject_name,
+              กลุ่มเรียน: e.subject_type,
+              อาจารย์ผู้รับผิดชอบ: e.advisor,
+              รายละเอียด: e.detail,
+            };
+
+            //? Push data to array
+            this.dataSelected.push(data);
+          }
+        });
+
+        const ws = XLSX.utils.json_to_sheet(this.dataSelected);
+
+        //? Set workbook
+        const wb = {
+          Sheets: {
+            data: ws,
+          },
+          SheetNames: ["data"],
+        };
+
+        //? Set file name
+        const buffer = XLSX.write(wb, {
+          bookType: "xlsx",
+          type: "array",
+        });
+
+        const excel = new Blob([buffer], { type: TYPE });
+
+        //? Download excel
+        saveAs(
+          excel,
+          "residuals" + "_export_" + new Date().getTime() + EXTENSION
+        );
+      } else {
+        const Swal = this.$swal.mixin({
+          customClass: {
+            title: "font-weight-bold",
+            confirmButton:
+              "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+            cancelButton:
+              "px-6 py-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+          },
+          buttonsStyling: false,
+        });
+
+        Swal.fire({
+          title: "กรุณาเลือกข้อมูลที่ต้องการดาวน์โหลดก่อน",
+          icon: "warning",
+          timer: 1000,
+          timerProgressBar: true,
+        });
       }
     },
   },

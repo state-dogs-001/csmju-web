@@ -19,11 +19,11 @@
                 </div>
                 <div class="w-full lg:w-6/12">
                   <h3 class="mt-1 text-2xl font-semibold">
-                    ระบบแจ้งตกค้างรายวิชา
+                    ระบบแก้ไขแจ้งตกค้างรายวิชา
                   </h3>
 
                   <h3 class="text-xl font-normal">
-                    | Course Residualisation System
+                    | Course Residualisation Edit System
                   </h3>
                 </div>
 
@@ -31,7 +31,7 @@
                 <div class="w-full lg:w-3/12">
                   <div class="mt-4 text-right">
                     <router-link
-                      to="/student/service"
+                      to="/student/service/course/history"
                       class="px-6 py-3 mb-1 mr-4 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-blueGray-600 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
                     >
                       ย้อนกลับ
@@ -263,9 +263,12 @@ export default {
     return {
       v$: useValidate(),
 
+      id: this.$route.params.id,
+
       //? Data
       teachers: null,
       // staff: null,
+      residual: null,
 
       //? Image
       cover,
@@ -320,6 +323,8 @@ export default {
         .then((res) => {
           if (res.data.success) {
             this.teachers = res.data.data;
+            //? Call getResidual fucntion and push teachers data into function
+            this.getResidual(this.teachers);
           }
         })
         .catch((error) => {
@@ -340,6 +345,39 @@ export default {
     //       console.log(error);
     //     });
     // },
+
+    //? Get residual
+    async getResidual(teachers) {
+      try {
+        const res = await http.get(`residual/show/update/${this.id}`);
+        if (res.data.success) {
+          this.residual = res.data.data;
+          this.subjectType = this.residual.subject_type;
+          this.subjectCode = this.residual.subject_code;
+          this.subjectName = this.residual.subject_name;
+          this.subjectSec = this.residual.section;
+          this.subjectDetail = this.residual.detail;
+          this.advisor = this.residual.advisor;
+          if (this.subjectType == 1) {
+            //? Loop teachers data and check if teachers equal advisor break loop
+            for (let i = 0; i < teachers.length; i++) {
+              let advisor = teachers[i].name_title + teachers[i].name_th;
+              if (advisor == this.advisor) {
+                this.advisorSelect = this.advisor;
+                break;
+              } else {
+                this.advisorSelect = "other";
+                this.advisorInput = this.advisor;
+              }
+            }
+          } else {
+            this.advisorInput = this.advisor;
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
 
     //? Reset form
     clearForm() {
@@ -409,16 +447,16 @@ export default {
               data.append("advisor", this.advisor);
 
               http
-                .post("residual/new", data)
+                .post(`residual/update/${this.id}`, data)
                 .then(() => {
                   swalWithBootstrapButtons
                     .fire(
                       "บันทึกเรียบร้อย!",
-                      "ดำเนินการแจ้งตก-ค้างรายวิชาเรียบร้อย",
+                      "ดำเนินการแก้ไขแจ้งตก-ค้างรายวิชาเรียบร้อย",
                       "success"
                     )
                     .then(() => {
-                      this.$router.push({ name: "StudentService" });
+                      this.$router.push({ name: "CourseHistory" });
                     });
                 })
                 .catch((error) => {

@@ -107,8 +107,7 @@
                             <td class="p-4 px-6 text-sm align-middle">
                               <div>
                                 <p class="w-full font-normal truncate-3">
-                                  {{ residual.personnel_name_title
-                                  }}{{ residual.personnel_name }}
+                                  {{ residual.advisor }}
                                 </p>
                               </div>
                             </td>
@@ -116,17 +115,42 @@
                             <td
                               class="p-4 px-6 text-sm align-middle whitespace-nowrap"
                             >
-                              {{ residual.status }}
+                              <span
+                                v-if="residual.status == 'waiting'"
+                                class="text-yellow-600"
+                              >
+                                {{ residual.status }}
+                              </span>
+                              <span
+                                v-if="residual.status == 'confirmed'"
+                                class="text-emerald-600"
+                              >
+                                {{ residual.status }}
+                              </span>
+                              <span
+                                v-if="residual.status == 'rejected'"
+                                class="text-red-500"
+                              >
+                                {{ residual.status }}
+                              </span>
                             </td>
 
                             <td
                               class="p-4 px-6 text-xs align-middle whitespace-nowrap"
                             >
                               <button
+                                @click="onEdit(residual.id)"
                                 class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-emerald-500 rounded-lg shadow-md outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
                                 type="button"
                               >
-                                รับทราบ
+                                แก้ไข
+                              </button>
+                              <button
+                                @click="onDelete(residual.id)"
+                                class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-lg shadow-md outline-none active:bg-red-600 hover:shadow-md focus:outline-none"
+                                type="button"
+                              >
+                                ลบ
                               </button>
                             </td>
                           </tr>
@@ -177,6 +201,7 @@ export default {
   },
 
   methods: {
+    //? Get residuals data
     async getResidualsHistories(page) {
       try {
         const local = JSON.parse(localStorage.getItem("user"));
@@ -215,6 +240,71 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
+
+    //? Edit
+    onEdit(id) {
+      this.$router.push({ name: "CourseEdit", params: { id: id } });
+    },
+
+    //? Delete
+    onDelete(id) {
+      //? Set default sweet alert
+      const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          title: "font-weight-bold",
+          confirmButton:
+            "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+          cancelButton:
+            "px-6 py-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+        },
+        buttonsStyling: false,
+      });
+
+      //? Confirmation from user
+      swalWithBootstrapButtons
+        .fire({
+          title: "ยืนยันการลบข้อมูล",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "ยืนยัน",
+          cancelButtonText: "ยกเลิก",
+          reverseButtons: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            //? Call API
+            http
+              .post(`residual/delete/${id}`)
+              .then(() => {
+                swalWithBootstrapButtons
+                  .fire("ลบข้อมูลเรียบร้อย!", "", "success")
+                  .then(() => {
+                    window.location.reload();
+                  });
+              })
+              .catch((err) => {
+                if (err) {
+                  swalWithBootstrapButtons.fire({
+                    icon: "error",
+                    title: "ขออภัย ทำรายการไม่สำเร็จ",
+                  });
+                }
+              });
+          } else if (result.dismiss === this.$swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+              "ยกเลิกการลบข้อมูลเรียบร้อย!",
+              "",
+              "error"
+            );
+          }
+        });
+    },
+
+    //? Pagination
+    onPageChanged(page) {
+      this.currentPage = page;
+      this.getResidualsHistories(this.currentPage);
     },
   },
 };
