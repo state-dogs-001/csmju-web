@@ -558,6 +558,59 @@ export default {
         console.log(err);
       }
     },
+
+    //? Delete
+    deleteHandle(id) {
+      //? Set default sweet alert
+      const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          title: "font-weight-bold",
+          confirmButton:
+            "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+          cancelButton:
+            "px-6 py-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-700 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+        },
+        buttonsStyling: false,
+      });
+
+      //? Confirmation from user
+      swalWithBootstrapButtons
+        .fire({
+          title: "ยืนยันการลบข้อมูล",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "ยืนยัน",
+          cancelButtonText: "ยกเลิก",
+          reverseButtons: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            http
+              .post(`residual/delete/${id}`)
+              .then(() => {
+                swalWithBootstrapButtons
+                  .fire("ลบข้อมูลเรียบร้อย!", "", "success")
+                  .then(() => {
+                    window.location.reload();
+                  });
+              })
+              .catch((err) => {
+                if (err) {
+                  swalWithBootstrapButtons.fire({
+                    icon: "error",
+                    title: "ขออภัย ทำรายการไม่สำเร็จ",
+                  });
+                }
+              });
+          } else if (result.dismiss === this.$swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+              "ยกเลิกการลบข้อมูลเรียบร้อย!",
+              "",
+              "error"
+            );
+          }
+        });
+    },
   },
 };
 </script>
