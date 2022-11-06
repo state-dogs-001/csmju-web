@@ -7,7 +7,7 @@
         <div class="container mx-auto">
           <div class="px-6">
             <div class="mt-6 text-center">
-              <h1 class="py-6 text-3xl font-bold">CSMJU | ระบบประกาศกิจกรรม</h1>
+              <h1 class="py-6 text-3xl font-bold">CSMJU | ระบบบันทึกกิจกรรม</h1>
             </div>
             <br class="shadow-xl" />
             <div class="relative flex flex-col w-full min-w-0 mb-6 break-words">
@@ -24,7 +24,7 @@
                         v-model="keyword"
                         class="w-full py-2 pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-200 border-0 rounded-md"
                         type="text"
-                        placeholder="ป้อนคำที่ต้องการค้นหา เช่น ชื่อกิจกรรม ชื่อผู้จัดกิจกรรม หรือรายละเอียดกิจกรรม"
+                        placeholder="ป้อนชื่อกิจกรรมที่ต้องการค้นหา"
                         aria-label="Search"
                       />
                     </form>
@@ -46,7 +46,7 @@
                       <i class="fas fa-broom"></i> ล้าง
                     </button>
                     <router-link
-                      to="/admin/activityadd"
+                      to="/admin/activityimages/add"
                       class="px-4 py-2 mb-1 ml-2 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-md focus:outline-none"
                     >
                       <i class="fas fa-plus"></i> เพิ่ม
@@ -72,19 +72,13 @@
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
-                        ผู้จัด / ผู้รับผิดชอบ
+                        จำนวนรูปภาพ
                       </th>
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
-                        รายละเอียด
+                        รูปภาพ (ตัวอย่าง)
                       </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        วันที่จัดกิจกรรม
-                      </th>
-
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
@@ -98,52 +92,63 @@
                       v-for="act in activities"
                       :key="act.id"
                     >
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        {{ act.name }}
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        <h5 class="w-48 truncate text-md">
-                          {{ act.organizer }}
-                        </h5>
-                      </td>
-                      <td class="p-4 px-2 text-sm align-middle">
-                        <div>
-                          <p class="w-auto font-normal truncate-3">
-                            {{ act.detail }}
-                          </p>
-                        </div>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        <p class="text" v-if="act.date_end !== null">
-                          เวลา : {{ act.date_start }} ถึง
-                          {{ act.date_end }}
-                        </p>
-                        <p class="text" v-else>เวลา : {{ act.date_start }}</p>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
-                      >
-                        <button
-                          @click="handleEdit(act.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                      <template v-if="act.images_count > 0">
+                        <td
+                          class="p-4 px-6 text-sm align-middle whitespace-nowrap"
                         >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          @click="handleDelete(act.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                          {{ act.name }}
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle whitespace-nowrap"
                         >
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
-                      </td>
+                          {{ act.images_count }}
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        >
+                          <!-- images is less than 3 -->
+                          <div
+                            v-if="act.images_count < 3"
+                            class="flex flex-row"
+                          >
+                            <span v-for="img in act.images" :key="img">
+                              <img
+                                :src="img.image"
+                                alt="activity image"
+                                class="rounded w-32 mr-2"
+                              />
+                            </span>
+                          </div>
+                          <!-- images is more than 3 -->
+                          <div v-else class="flex flex-row">
+                            <span v-for="index in 3" :key="index">
+                              <img
+                                :src="act.images[index - 1].image"
+                                alt="activity image"
+                                class="rounded w-32 mr-2"
+                              />
+                            </span>
+                          </div>
+                        </td>
+                        <td
+                          class="p-4 px-6 text-xs align-middle whitespace-nowrap"
+                        >
+                          <button
+                            @click="handleEdit(act.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            @click="handleDelete(act.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </td>
+                      </template>
                     </tr>
                   </tbody>
                 </table>
@@ -185,31 +190,32 @@ export default {
 
   components: { VueTailwindPagination },
 
-  mounted() {
-    this.currentPage = 1;
-    this.getActivity(this.currentPage);
-  },
-
   watch: {
     keyword(val) {
       if (!val) {
         this.currentPage = 1;
-        this.getActivity(this.currentPage);
+        this.getActivities(this.currentPage);
       }
     },
   },
 
+  mounted() {
+    this.currentPage = 1;
+    this.getActivities(this.currentPage);
+  },
+
   methods: {
-    //? Get activities
-    async getActivity(page) {
+    //? get activities
+    async getActivities(page) {
       try {
-        const res = await http.get(`activities/private?page=${page}`);
+        const res = await http.get(`activity/images?page=${page}`);
         if (res.data.data.length > 0) {
           this.activities = res.data.data;
           this.currentPage = res.data.current_page;
           this.perPage = res.data.per_page;
           this.total = res.data.total;
         } else {
+          //! Not found data
           this.activities = null;
           this.currentPage = 0;
           this.perPage = 0;
@@ -224,7 +230,7 @@ export default {
     async getActivityBySearch(page) {
       try {
         const res = await http.get(
-          `activity/search/private/${this.keyword}?page=${page}`
+          `activity/images/search/${this.keyword}?page=${page}`
         );
         if (res.data.data.length > 0) {
           this.activities = res.data.data;
@@ -256,7 +262,7 @@ export default {
       if (this.keyword !== "") {
         this.getActivityBySearch(this.currentPage);
       } else {
-        this.getActivity(this.currentPage);
+        this.getActivities(this.currentPage);
       }
     },
 
@@ -264,12 +270,12 @@ export default {
     handleReset() {
       this.keyword = "";
       this.currentPage = 1;
-      this.getActivity(this.currentPage);
+      this.getActivities(this.currentPage);
     },
 
     //? Edit
     handleEdit(id) {
-      this.$router.push({ name: "ActivityEdit", params: { id: id } });
+      this.$router.push({ name: "ActivityImagesEdit", params: { id: id } });
     },
 
     //? Delete
@@ -288,7 +294,7 @@ export default {
 
       swalWithBootstrapButtons
         .fire({
-          title: "ยืนยันการลบข้อมูล",
+          title: "ยืนยันการลบข้อมูล\nหากกดยืนยันรูปภาพจะถูกลบทั้งหมด",
           icon: "warning",
           showCancelButton: true,
           confirmButtonText: "ยืนยัน",
@@ -298,7 +304,7 @@ export default {
         .then((result) => {
           if (result.isConfirmed) {
             http
-              .delete(`activity/delete/${id}`)
+              .delete(`/activity/images/delete/${id}`)
               .then(() => {
                 swalWithBootstrapButtons
                   .fire("ลบข้อมูลเรียบร้อย!", "", "success")

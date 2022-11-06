@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="relative z-10 flex flex-wrap items-center justify-between px-6 py-4 bg-white shadow-xl custom md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden md:w-64"
+    class="relative z-10 flex flex-wrap items-center justify-between px-6 py-4 bg-white shadow-xl custom md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden md:w-68"
   >
     <div
       class="flex flex-wrap items-center justify-between w-full px-0 mx-auto md:flex-col md:items-stretch md:min-h-full md:flex-nowrap"
@@ -364,7 +364,55 @@
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
 
-                ระบบบันทึกกิจกรรม
+                ระบบประกาศกิจกรรม
+              </a>
+            </router-link>
+          </li>
+          <li class="items-center">
+            <router-link
+              to="/admin/activityimages/show"
+              v-slot="{ href, navigate, isActive }"
+            >
+              <a
+                :href="href"
+                @click="navigate"
+                class="block py-3 text-sm font-bold uppercase"
+                :class="[
+                  isActive
+                    ? 'text-emerald-500 hover:text-emerald-600'
+                    : 'text-blueGray-700 hover:text-blueGray-500',
+                ]"
+              >
+                <i
+                  class="mr-2 text-sm fas fa-check-circle"
+                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                ></i>
+
+                ระบบบันทึกกิจกรรม (รูปภาพ)
+              </a>
+            </router-link>
+          </li>
+          <li class="items-center">
+            <router-link
+              to="/admin/activityvidocs/show"
+              v-slot="{ href, navigate, isActive }"
+            >
+              <a
+                :href="href"
+                @click="navigate"
+                class="block py-3 text-sm font-bold uppercase"
+                :class="[
+                  isActive
+                    ? 'text-emerald-500 hover:text-emerald-600'
+                    : 'text-blueGray-700 hover:text-blueGray-500',
+                ]"
+              >
+                <i
+                  class="mr-2 text-sm fas fa-check-circle"
+                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                ></i>
+
+                ระบบบันทึกกิจกรรม (ไฟล์ PDF)
               </a>
             </router-link>
           </li>

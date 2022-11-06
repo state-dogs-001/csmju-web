@@ -68,7 +68,6 @@
                   <v-date-picker
                     v-model="activityStart"
                     mode="date"
-                    :min-date="new Date()"
                   >
                     <template #default="{ inputValue, inputEvents }">
                       <input
@@ -201,10 +200,37 @@
                 </div>
               </div>
 
+              <!-- Activity Poster -->
+              <div class="flex flex-wrap">
+                <div class="w-full px-4 md:w-12/12 mt-2">
+                  <label class="block my-3 text-gray-700 text-md" for="image"
+                    >อัพโหลดรูปภาพโปสเตอร์กิจกรรม
+                  </label>
+                  <input
+                    ref="fileupload"
+                    @change="onFileChange"
+                    accept="image/*"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    type="file"
+                  />
+                  <img
+                    v-if="imgUrl"
+                    :src="imgUrl"
+                    class="mt-2 rounded-lg shadow-lg center-img w-1/2 h-auto cropped bg-emerald-500"
+                  />
+                </div>
+                <div
+                  v-if="v$.file.$error"
+                  class="px-4 my-2 text-sm text-red-500"
+                >
+                  {{ v$.file.$errors[0].$message }}
+                </div>
+              </div>
+
               <!-- Buttons -->
               <div class="py-6 text-center">
                 <button
-                  @click="onResetForm"
+                  @click="handleReset"
                   class="px-6 py-4 mr-2 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow-lg outline-none bg-red-500 active:bg-red-600 hover:shadow-lg focus:outline-none"
                   type="button"
                 >
@@ -247,41 +273,57 @@ export default {
       activityOrganizer: "",
       activityDetail: "",
       activityLocation: "",
+
+      //? File upload
+      file: null,
+      imgUrl: "",
     };
   },
 
   methods: {
+    //? Upload file
     onFileChange(e) {
       this.file = e.target.files[0];
       this.imgUrl = URL.createObjectURL(this.file);
     },
 
+    //? Reset form
     handleReset() {
-      this.$refs.activityForm.reset();
+      this.v$.$reset();
+      this.timePeriod = "";
       this.activityStart = "";
       this.activityEnd = "";
       this.activityTitle = "";
       this.activityOrganizer = "";
       this.activityLocation = "";
       this.activityDetail = "";
+      this.file = null;
+      this.imgUrl = "";
+      this.$refs.fileupload.value = "";
     },
 
+    //? Submit form
     handleSubmit() {
       this.v$.$validate();
       if (!this.v$.$error) {
-        const data = {
-          activityStart: this.activityStart,
-          activityEnd: this.activityEnd,
-          activityTitle: this.activityTitle,
-          activityOrganizer: this.activityOrganizer,
-          activityLocation: this.activityLocation,
-          activityDetail: this.activityDetail,
-        };
-
-        console.log(data);
-        /*
         let data = new FormData();
-        http.post(`activity/create`, data).then(() => {
+        const activityStart = new Date(this.activityStart)
+          .toISOString()
+          .slice(0, 10);
+        data.append("date_start", activityStart);
+        if (this.activityEnd && this.timePeriod === "2") {
+          const activityEnd = new Date(this.activityEnd)
+            .toISOString()
+            .slice(0, 10);
+          data.append("date_end", activityEnd);
+        }
+        data.append("name", this.activityTitle);
+        data.append("organizer", this.activityOrganizer);
+        data.append("location", this.activityLocation);
+        data.append("detail", this.activityDetail);
+        data.append("poster", this.file);
+
+        http.post(`activity/new`, data).then(() => {
           const Toast = this.$swal.mixin({
             toast: true,
             position: "top-end",
@@ -296,7 +338,6 @@ export default {
             this.$router.push({ name: "ActivityShow" });
           });
         });
-        */
       }
     },
   },
@@ -329,6 +370,27 @@ export default {
       },
       activityTitle: {
         required: helpers.withMessage("กรุณาป้อนชื่อกิจกรรมก่อน", required),
+      },
+      file: {
+        required: helpers.withMessage(
+          "ไฟล์ที่อัปโหลดต้องเป็นไฟล์ .jpeg .jpg หรือ .png เท่านั้น",
+          () => {
+            if (this.file != null) {
+              //? Check file type
+              if (
+                this.file.type == "image/jpeg" ||
+                this.file.type == "image/jpg" ||
+                this.file.type == "image/png"
+              ) {
+                return true;
+              } else {
+                return false;
+              }
+            } else {
+              return false;
+            }
+          }
+        ),
       },
     };
   },

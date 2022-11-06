@@ -85,6 +85,9 @@ import EquipmentEdit from "@/views/admin/EquipmentEdit.vue";
 import ActivityShow from "@/views/admin/ActivityShow.vue";
 import ActivityAdd from "@/views/admin/ActivityAdd.vue";
 import ActivityEdit from "@/views/admin/ActivityEdit.vue";
+import ActivityImagesShow from "@/views/admin/ActivityImagesShow.vue";
+import ActivityImagesAdd from "@/views/admin/ActivityImagesAdd.vue";
+import ActivityImagesEdit from "@/views/admin/ActivityImagesEdit.vue";
 // import BookingShow from "@/views/admin/BookingShow.vue";
 // import BookingAdd from "@/views/admin/BookingAdd.vue";
 // import BookingEdit from "@/views/admin/BookingEdit.vue";
@@ -494,12 +497,27 @@ const routes = [
         component: ActivityAdd,
       },
       {
-        path: "/admin/activityedit",
+        path: "/admin/activityedit/:id",
         name: "ActivityEdit",
         component: ActivityEdit,
       },
+      {
+        path: "/admin/activityimages/show",
+        name: "ActivityImagesShow",
+        component: ActivityImagesShow,
+      },
+      {
+        path: "/admin/activityimages/add",
+        name: "ActivityImagesAdd",
+        component: ActivityImagesAdd,
+      },
+      {
+        path: "/admin/activityimages/edit/:id",
+        name: "ActivityImagesEdit",
+        component: ActivityImagesEdit,
+      },
       // {
-      //   path: "/admin/bookingshow",
+      //   path: "/admin/bookingshow",classroom
       //   name: "BookingShow",
       //   component: BookingShow,
       // },
