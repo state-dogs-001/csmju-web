@@ -394,7 +394,7 @@
           </li>
           <li class="items-center">
             <router-link
-              to="/admin/activityvidocs/show"
+              to="/admin/activitydoc/show"
               v-slot="{ href, navigate, isActive }"
             >
               <a
