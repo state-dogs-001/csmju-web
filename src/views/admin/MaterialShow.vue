@@ -66,32 +66,32 @@
                       class="text-blueGray-500 border-b-2 border-blueGray-500"
                     >
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         ลำดับ
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         รูปภาพวัสดุอุปกรณ์
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         ชื่อวัสดุอุปกรณ์
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-center uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         จำนวนวัสดุอุปกรณ์
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         สถานะ
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         การจัดการ
                       </th>
@@ -102,29 +102,32 @@
                   <tbody>
                     <tr v-for="(material, index) in materials" :key="index">
                       <td
-                        class="p-4 px-6 w-auto text-sm align-middle whitespace-nowrap"
+                        class="py-3 px-4 w-auto text-sm align-middle whitespace-nowrap"
                       >
                         {{ (currentPage - 1) * perPage + index + 1 }}
                       </td>
-                      <td class="p-4 px-6 w-48 h-auto">
+                      <td
+                        class="py-3 px-4 w-auto align-middle whitespace-nowrap"
+                      >
                         <img
                           :src="material.image != null ? material.image : image"
+                          width="150"
                           alt="material image"
                           class="rounded"
                         />
                       </td>
                       <td
-                        class="p-4 px-6 w-auto text-sm align-middle whitespace-nowrap"
+                        class="py-3 px-4 w-auto text-sm align-middle whitespace-nowrap"
                       >
                         {{ material.name }}
                       </td>
                       <td
-                        class="p-4 px-6 w-auto text-sm text-center align-middle whitespace-nowrap"
+                        class="py-3 px-4 w-auto text-sm align-middle whitespace-nowrap"
                       >
                         {{ material.quantity }}
                       </td>
                       <td
-                        class="p-4 px-6 w-auto text-sm align-middle whitespace-nowrap"
+                        class="py-3 px-4 w-auto text-sm align-middle whitespace-nowrap"
                       >
                         <i class="fa-solid"></i>
                         <span v-if="material.status" class="text-green-400">
@@ -138,7 +141,7 @@
                       </td>
                       <!-- Edit -->
                       <td
-                        class="p-4 px-6 w-auto text-xs align-middle whitespace-nowrap"
+                        class="py-3 px-4 w-auto text-xs align-middle whitespace-nowrap"
                       >
                         <button
                           @click="onUpdate(material.id)"
@@ -158,14 +161,14 @@
                     </tr>
                   </tbody>
                 </table>
-                <!-- Paginate -->
-                <VueTailwindPagination
-                  :current="currentPage"
-                  :total="total"
-                  :per-page="perPage"
-                  @page-changed="onPageClick($event)"
-                />
               </div>
+              <!-- Paginate -->
+              <VueTailwindPagination
+                :current="currentPage"
+                :total="total"
+                :per-page="perPage"
+                @page-changed="onPageClick($event)"
+              />
             </div>
           </div>
         </div>

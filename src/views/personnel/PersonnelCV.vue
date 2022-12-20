@@ -91,12 +91,12 @@
                             placeholder="Biological"
                             class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700"
                           ></textarea>
-                          <div
+                          <!-- <div
                             v-if="v$.bio.$error"
                             class="mt-2 text-sm text-red-500 text-left"
                           >
                             {{ v$.bio.$errors[0].$message }}
-                          </div>
+                          </div> -->
                         </div>
                       </div>
 
@@ -116,14 +116,14 @@
                                 v-model="input.exp"
                                 class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700 border"
                                 type="text"
-                                placeholder="Exeperience"
+                                placeholder="Experience"
                               />
-                              <div
+                              <!-- <div
                                 v-if="v$.experiences.$error"
                                 class="mt-2 text-sm text-red-500 text-left"
                               >
                                 {{ v$.experiences.$errors[0].$message }}
-                              </div>
+                              </div> -->
                             </div>
                             <div class="md:text-right w-4/12">
                               <button
@@ -165,12 +165,12 @@
                                 type="text"
                                 placeholder="Skill"
                               />
-                              <div
+                              <!-- <div
                                 v-if="v$.skills.$error"
                                 class="mt-2 text-sm text-red-500 text-left"
                               >
                                 {{ v$.skills.$errors[0].$message }}
-                              </div>
+                              </div> -->
                             </div>
                             <div class="md:text-right w-4/12">
                               <button
@@ -212,12 +212,12 @@
                                 type="text"
                                 placeholder="Expertise"
                               />
-                              <div
+                              <!-- <div
                                 v-if="v$.experts.$error"
                                 class="mt-2 text-sm text-red-500 text-left"
                               >
                                 {{ v$.experts.$errors[0].$message }}
-                              </div>
+                              </div> -->
                             </div>
                             <div class="md:text-right w-4/12">
                               <button
@@ -259,12 +259,12 @@
                                 type="text"
                                 placeholder="Research"
                               />
-                              <div
+                              <!-- <div
                                 v-if="v$.researches.$error"
                                 class="mt-2 text-sm text-red-500 text-left"
                               >
                                 {{ v$.researches.$errors[0].$message }}
-                              </div>
+                              </div> -->
                             </div>
                             <div class="md:text-right w-4/12">
                               <button
@@ -578,7 +578,6 @@ export default {
         const res = await http.get(`personnel/search/citizen-id/${citizenId}`);
         if (res.data.success) {
           const personnel = res.data.data;
-          console.log(personnel);
           this.nameTitle = personnel.name_title;
           let nameTh = personnel.name_th.split(" ");
           this.nameTh = nameTh[0];
@@ -663,7 +662,6 @@ export default {
 
     //? Handle submit
     handleSubmit() {
-      //? Validate
       this.v$.$validate();
       if (!this.v$.$error) {
         let local = JSON.parse(localStorage.getItem("user"));
@@ -671,12 +669,42 @@ export default {
         let data = {
           citizen_id: citizenId,
           workplace: this.workplace,
-          bio: this.bio,
-          experiences: this.experiences,
-          skills: this.skills,
-          experts: this.experts,
-          researches: this.researches,
+          // bio: this.bio,
+          // experiences: this.experiences,
+          // skills: this.skills,
+          // experts: this.experts,
+          // researches: this.researches,
         };
+
+        if (this.bio) {
+          data.bio = this.bio;
+        } else {
+          data.bio = "";
+        }
+
+        if (this.experiences[0].exp !== "") {
+          data.experiences = this.experiences;
+        } else {
+          data.experiences = [{ exp: "" }];
+        }
+
+        if (this.skills[0].skill !== "") {
+          data.skills = this.skills;
+        } else {
+          data.skills = [{ skill: "" }];
+        }
+
+        if (this.experts[0].expert !== "") {
+          data.experts = this.experts;
+        } else {
+          data.experts = [{ expert: "" }];
+        }
+
+        if (this.researches[0].research !== "") {
+          data.researches = this.researches;
+        } else {
+          data.researches = [{ research: "" }];
+        }
 
         //? If cv database has data of this user call update function
         //? else call create function
@@ -776,29 +804,61 @@ export default {
       workplace: {
         required: helpers.withMessage("ป้อนสถานที่ทำงานก่อน", required),
       },
-      bio: {
-        required: helpers.withMessage("ป้อนประวัติส่วนตัวก่อน", required),
-      },
-      experiences: {
-        required: helpers.withMessage("ป้อนประสบการณ์ทำงานก่อน", () => {
-          return this.experiences[0].exp !== "";
-        }),
-      },
-      skills: {
-        required: helpers.withMessage("ป้อนทักษะที่มีก่อน", () => {
-          return this.skills[0].skill !== "";
-        }),
-      },
-      experts: {
-        required: helpers.withMessage("ป้อนความเชี่ยวชาญก่อน", () => {
-          return this.experts[0].expert !== "";
-        }),
-      },
-      researches: {
-        required: helpers.withMessage("ป้อนงานวิจัยก่อน", () => {
-          return this.researches[0].research !== "";
-        }),
-      },
+      //   bio: {
+      //     required: helpers.withMessage("ป้อนประวัติส่วนตัวก่อน", () => {
+      //       if (this.cv != null) {
+      //         //? Had old data cv
+      //         return true;
+      //       } else {
+      //         //? First create
+      //         return this.bio != "";
+      //       }
+      //     }),
+      //   },
+      //   experiences: {
+      //     required: helpers.withMessage("ป้อนประสบการณ์ทำงานก่อน", () => {
+      //       if (this.cv != null) {
+      //         //? Had old data cv
+      //         return true;
+      //       } else {
+      //         //? First create
+      //         return this.experiences[0].exp !== "";
+      //       }
+      //     }),
+      //   },
+      //   skills: {
+      //     required: helpers.withMessage("ป้อนทักษะที่มีก่อน", () => {
+      //       if (this.cv != null) {
+      //         //? Had old data cv
+      //         return true;
+      //       } else {
+      //         //? First create
+      //         return this.skills[0].skill !== "";
+      //       }
+      //     }),
+      //   },
+      //   experts: {
+      //     required: helpers.withMessage("ป้อนความเชี่ยวชาญก่อน", () => {
+      //       if (this.cv != null) {
+      //         //? Had old data cv
+      //         return true;
+      //       } else {
+      //         //? First create
+      //         return this.experts[0].expert !== "";
+      //       }
+      //     }),
+      //   },
+      //   researches: {
+      //     required: helpers.withMessage("ป้อนงานวิจัยก่อน", () => {
+      //       if (this.cv != null) {
+      //         //? Had old data cv
+      //         return true;
+      //       } else {
+      //         //? First create
+      //         return this.researches[0].research !== "";
+      //       }
+      //     }),
+      //   },
     };
   },
 };

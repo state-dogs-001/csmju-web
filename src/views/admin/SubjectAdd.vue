@@ -15,7 +15,7 @@
             </div>
             <div class="text-center">
               <h1 class="py-6 text-3xl font-bold border-b">
-                CSMJU | เพิ่มข้อมูลรายวิชา
+                CSMJU | เพิ่มข้อมูลหลักสูตรรายวิชา
               </h1>
             </div>
 

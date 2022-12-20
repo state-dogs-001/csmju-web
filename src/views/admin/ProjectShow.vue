@@ -111,13 +111,11 @@
                       >
                         {{ project.project_code }}
                       </td>
-                      <td
-                        class="px-4 w-auto text-sm align-middle"
-                      >
+                      <td class="px-4 w-auto text-sm align-middle">
                         <a
                           :href="project.file"
                           target="_blank"
-                          class="hover:text-emerald-600"
+                          class="hover:text-emerald-600 underline decoration-solid"
                         >
                           {{ project.name }}
                         </a>
@@ -190,14 +188,14 @@
                     </tr>
                   </tbody>
                 </table>
-                <!-- Paginate -->
-                <VueTailwindPagination
-                  :current="currentPage"
-                  :total="total"
-                  :per-page="perPage"
-                  @page-changed="onPageClick($event)"
-                />
               </div>
+              <!-- Paginate -->
+              <VueTailwindPagination
+                :current="currentPage"
+                :total="total"
+                :per-page="perPage"
+                @page-changed="onPageClick($event)"
+              />
             </div>
           </div>
         </div>

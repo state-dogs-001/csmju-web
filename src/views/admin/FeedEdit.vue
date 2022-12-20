@@ -143,34 +143,68 @@
                 </div>
               </div>
 
-              <!-- Image -->
-              <div class="flex flex-wrap mb-4">
-                <div class="w-full px-4 md:w-12/12">
-                  <div class="mt-4">
-                    <img
-                      v-if="imgUrl"
-                      :src="imgUrl"
-                      class="w-auto h-350-px rounded-lg shadow-lg center-img bg-emerald-500 border"
-                    />
-                  </div>
-
+              <!-- Feed Poster -->
+              <div class="flex flex-wrap">
+                <div class="w-full px-4 md:w-12/12 mt-2">
                   <label class="block my-3 text-gray-700 text-md" for="image"
-                    >รูปภาพ</label
-                  >
-                  <div
-                    class="relative flex items-center justify-center h-32 bg-gray-100 border-b border-blue-700"
-                  >
-                    <input
-                      ref="fileupload"
-                      type="file"
-                      @change="onFileChange"
-                      accept="image/*"
-                      class="w-full h-50-px opacity-0 p-3 bg-white"
-                    />
-                  </div>
-                  <div v-if="v$.file.$error" class="mt-2 text-sm text-red-500">
-                    {{ v$.file.$errors[0].$message }}
-                  </div>
+                    >อัพโหลดรูปภาพโปสเตอร์กิจกรรม
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <input
+                    ref="posterupload"
+                    @change="onPosterChange"
+                    accept="image/*"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    type="file"
+                  />
+                  <img
+                    v-if="previewPoster"
+                    :src="previewPoster"
+                    class="mt-2 rounded-lg shadow-lg center-img w-1/2 h-auto cropped bg-emerald-500"
+                  />
+                </div>
+                <div
+                  v-if="v$.poster.$error"
+                  class="px-4 my-2 text-sm text-red-500"
+                >
+                  {{ v$.poster.$errors[0].$message }}
+                </div>
+              </div>
+
+              <!-- Upload images -->
+              <div class="flex flex-wrap">
+                <div class="w-full px-4 mt-4">
+                  <label class="block my-3 text-gray-700 text-md" for="image"
+                    >อัพโหลดรูปภาพบรรยากาศกิจกรรม
+                    <span class="text-red-500 text-xs">
+                      (อัพโหลดได้ไม่เกิน 10 รูปภาพ)
+                    </span>
+                  </label>
+                  <input
+                    ref="imagesupload"
+                    @change="onImagesChange"
+                    accept="image/*"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    type="file"
+                    multiple
+                  />
+                </div>
+                <div
+                  v-if="v$.images.$error"
+                  class="px-4 my-2 text-sm text-red-500"
+                >
+                  {{ v$.images.$errors[0].$message }}
+                </div>
+              </div>
+
+              <!-- Preview images -->
+              <div class="flex flex-wrap" v-if="previewImages">
+                <div
+                  class="px-4 mt-4 w-full md:w-4/12"
+                  v-for="url in previewImages"
+                  :key="url"
+                >
+                  <img :src="url" alt="images" />
                 </div>
               </div>
 
@@ -211,16 +245,21 @@ export default {
 
       newsId: this.$route.params.id,
 
+      //? Checkbox form
       isShow: true,
       isLink: false,
 
+      //? Form
       title: "",
       detail: "",
       link: "",
       type: "",
 
-      imgUrl: "",
-      file: null,
+      //? File upload
+      poster: null,
+      previewPoster: "",
+      images: null,
+      previewImages: [],
     };
   },
 
@@ -236,7 +275,7 @@ export default {
         let data = news.data.data;
         this.title = data.title;
         this.detail = data.detail;
-        this.imgUrl = data.image;
+        this.previewPoster = data.poster;
         this.type = data.type;
 
         if (data.link != null) {
@@ -247,15 +286,69 @@ export default {
         if (!data.is_show) {
           this.isShow = false;
         }
+
+        //? Images is not null or undefined push image to previewImages
+        if (data.images) {
+          let images = data.images;
+          images.forEach((image) => {
+            this.previewImages.push(image.image);
+          });
+        }
       }
     },
 
-    onFileChange(e) {
-      const file = e.target.files[0];
-      this.file = e.target.files[0];
-      this.imgUrl = URL.createObjectURL(file);
+    //? Upload poster
+    onPosterChange(e) {
+      this.poster = e.target.files[0];
+      this.previewPoster = URL.createObjectURL(this.poster);
     },
 
+    //? Upload images
+    onImagesChange(e) {
+      this.images = e.target.files || e.dataTransfer.files;
+      //? Set default SweetAlert2
+      const Swal = this.$swal.mixin({
+        position: "center",
+        showConfirmButton: false,
+        timer: 1200,
+        timerProgressBar: true,
+        customClass: {
+          title: "font-semibold custom text-blueGray-600",
+        },
+      });
+      //? Check if images is more than 10
+      if (this.images.length > 10) {
+        Swal.fire({
+          icon: "error",
+          title: "อัพโหลดรูปภาพได้ไม่เกิน 10 รูป",
+        }).then(() => {
+          //? Reset file input
+          this.images = null;
+          this.$refs.imagesupload.value = "";
+        });
+        return;
+      }
+      //? Call createImage method for each file
+      this.createImage(this.images);
+    },
+
+    //? Create images and push to previewImages[]
+    createImage(files) {
+      //? Reset array first
+      this.previewImages = [];
+
+      //? Loop through files
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.previewImages.push(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+
+    //? Submit form
     onSubmit() {
       this.v$.$validate();
       if (!this.v$.$error) {
@@ -264,23 +357,30 @@ export default {
         data.append("detail", this.detail);
         data.append("type", this.type);
 
-        //? If file not null
-        if (this.file != null) {
-          data.append("image", this.file);
+        //? If isShow is false set data is_show to 0 else 1
+        if (!this.isShow) {
+          data.append("is_show", 0);
+        } else {
+          data.append("is_show", 1);
         }
 
-        //? If isLink is true set data link else ''(NUll)
+        //? If isLink is true set data link else null
         if (this.isLink) {
           data.append("link", this.link);
         } else {
           data.append("link", "");
         }
 
-        //? If isShow is false set data is_show to 0 else 1
-        if (!this.isShow) {
-          data.append("is_show", 0);
-        } else {
-          data.append("is_show", 1);
+        //? If poster is not null append poster to data
+        if (this.poster) {
+          data.append("poster", this.poster);
+        }
+
+        //? If images is not null append poster to data
+        if (this.images) {
+          for (let i = 0; i < this.images.length; i++) {
+            data.append("images[]", this.images[i]);
+          }
         }
 
         //? Set default sweet alert
@@ -315,6 +415,7 @@ export default {
       }
     },
 
+    //? Reset form
     onResetForm() {
       this.v$.$reset();
       this.title = "";
@@ -340,21 +441,44 @@ export default {
       type: {
         required: helpers.withMessage("ป้อนประเภทข่าวก่อน", required),
       },
-      file: {
+      poster: {
         required: helpers.withMessage(
           "ไฟล์ที่อัปโหลดต้องเป็นไฟล์ .jpeg .jpg หรือ .png เท่านั้น",
           () => {
-            if (this.file != null) {
+            if (this.poster != null) {
               //? Check file type
               if (
-                this.file.type == "image/jpeg" ||
-                this.file.type == "image/jpg" ||
-                this.file.type == "image/png"
+                this.poster.type == "image/jpeg" ||
+                this.poster.type == "image/jpg" ||
+                this.poster.type == "image/png"
               ) {
                 return true;
               } else {
                 return false;
               }
+            } else {
+              return true;
+            }
+          }
+        ),
+      },
+      images: {
+        required: helpers.withMessage(
+          "กรุณาอัพโหลดรูปภาพ ไฟล์ที่อัปโหลดต้องเป็นไฟล์ .jpeg .jpg หรือ .png เท่านั้น",
+          () => {
+            if (this.images !== null) {
+              for (let i = 0; i < this.images.length; i++) {
+                const file = this.images[i];
+                const type = file.type;
+                if (
+                  type !== "image/jpeg" &&
+                  type !== "image/jpg" &&
+                  type !== "image/png"
+                ) {
+                  return false;
+                }
+              }
+              return true;
             } else {
               return true;
             }

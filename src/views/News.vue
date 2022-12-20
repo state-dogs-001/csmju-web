@@ -15,11 +15,7 @@
           </p>
         </div>
 
-        <div class="py-6 mt-10 text-center border-t border-blueGray-200">
-          <div class="flex flex-wrap justify-center">
-            <div class="w-full px-4 lg:w-9/12"></div>
-          </div>
-        </div>
+        <div class="pt-6 mt-10 border-t border-blueGray-200"></div>
 
         <!-- News -->
         <div class="flex flex-wrap">
@@ -29,12 +25,11 @@
             class="w-full px-2 py-2 pb-4 lg:w-4/12"
           >
             <div
-              @click="ShowAll(news.newsId)"
               class="relative flex flex-col w-full min-w-0 mb-6 break-words duration-150 ease-linear border rounded-lg shadow-lg max-h-news border-blueGray-300 hover:zoom-xs bg-blueGray-100 h-full"
             >
               <img
-                alt="..."
-                :src="news.image"
+                :src="news.poster"
+                :alt="news.title"
                 class="w-full align-middle rounded-t-lg cropped-news text-blueGray-500"
               />
               <blockquote class="relative">

@@ -85,9 +85,9 @@ import EquipmentEdit from "@/views/admin/EquipmentEdit.vue";
 import ActivityShow from "@/views/admin/ActivityShow.vue";
 import ActivityAdd from "@/views/admin/ActivityAdd.vue";
 import ActivityEdit from "@/views/admin/ActivityEdit.vue";
-import ActivityImagesShow from "@/views/admin/ActivityImagesShow.vue";
-import ActivityImagesAdd from "@/views/admin/ActivityImagesAdd.vue";
-import ActivityImagesEdit from "@/views/admin/ActivityImagesEdit.vue";
+// import ActivityImagesShow from "@/views/admin/ActivityImagesShow.vue";
+// import ActivityImagesAdd from "@/views/admin/ActivityImagesAdd.vue";
+// import ActivityImagesEdit from "@/views/admin/ActivityImagesEdit.vue";
 import ActivityDocShow from "@/views/admin/ActivityDocShow.vue";
 import ActivityDocAdd from "@/views/admin/ActivityDocAdd.vue";
 import ActivityDocEdit from "@/views/admin/ActivityDocEdit.vue";
@@ -329,11 +329,11 @@ const routes = [
         name: "PersonnelRoomReserve",
         component: PersonnelRoomReserve,
       },
-      // {
-      //   path: "/personnel/service/coursealert",
-      //   name: "PersonnelCourseAlert",
-      //   component: PersonnelCourseAlert,
-      // },
+      /*{
+        path: "/personnel/service/coursealert",
+        name: "PersonnelCourseAlert",
+        component: PersonnelCourseAlert,
+      },*/
     ],
   },
 
@@ -369,21 +369,21 @@ const routes = [
         name: "BannerEdit",
         component: BannerEdit,
       },
-      // {
-      //   path: "/admin/aboutmeshow",
-      //   name: "AboutMeShow",
-      //   component: AboutMeShow,
-      // },
-      // {
-      //   path: "/admin/aboutmeadd",
-      //   name: "AboutMeAdd",
-      //   component: AboutMeAdd,
-      // },
-      // {
-      //   path: "/admin/aboutmeedit",
-      //   name: "AboutMeEdit",
-      //   component: AboutMeEdit,
-      // },
+      /*{
+        path: "/admin/aboutmeshow",
+        name: "AboutMeShow",
+        component: AboutMeShow,
+      },
+      {
+        path: "/admin/aboutmeadd",
+        name: "AboutMeAdd",
+        component: AboutMeAdd,
+      },
+      {
+        path: "/admin/aboutmeedit",
+        name: "AboutMeEdit",
+        component: AboutMeEdit,
+      },*/
       {
         path: "/admin/subjectshow",
         name: "SubjectShow",
@@ -504,7 +504,7 @@ const routes = [
         name: "ActivityEdit",
         component: ActivityEdit,
       },
-      {
+      /*{
         path: "/admin/activityimages/show",
         name: "ActivityImagesShow",
         component: ActivityImagesShow,
@@ -518,7 +518,7 @@ const routes = [
         path: "/admin/activityimages/edit/:id",
         name: "ActivityImagesEdit",
         component: ActivityImagesEdit,
-      },
+      },*/
       {
         path: "/admin/activitydoc/show",
         name: "ActivityDocShow",
@@ -534,21 +534,21 @@ const routes = [
         name: "ActivityDocEdit",
         component: ActivityDocEdit,
       },
-      // {
-      //   path: "/admin/bookingshow",classroom
-      //   name: "BookingShow",
-      //   component: BookingShow,
-      // },
-      // {
-      //   path: "/admin/bookingadd",
-      //   name: "BookingAdd",
-      //   component: BookingAdd,
-      // },
-      // {
-      //   path: "/admin/bookingedit",
-      //   name: "BookingEdit",
-      //   component: BookingEdit,
-      // },
+      /*{
+        path: "/admin/bookingshow",
+        name: "BookingShow",
+        component: BookingShow,
+      },
+      {
+        path: "/admin/bookingadd",
+        name: "BookingAdd",
+        component: BookingAdd,
+      },
+      {
+        path: "/admin/bookingedit",
+        name: "BookingEdit",
+        component: BookingEdit,
+      },*/
       {
         path: "/admin/repairshow",
         name: "RepairShow",

@@ -21,12 +21,32 @@
 
             <br class="shadow-xl" />
 
-            <form ref="activityForm" @submit.stop.prevent="handleSubmit">
+            <form
+              ref="activityForm"
+              enctype="multipart/form-data"
+              @submit.stop.prevent="handleSubmit"
+            >
+              <!-- Checkbox for feed status -->
+              <div class="flex flex-wrap mb-4">
+                <div class="w-full px-4 md:w-12/12">
+                  <label class="inline-flex items-center cursor-pointer">
+                    <input
+                      v-model="isShow"
+                      type="checkbox"
+                      class="w-5 h-5 ml-1 rounded bg-blueGray-200 text-blueGray-700"
+                    />
+                    <span class="ml-2 text-blueGray-700">
+                      แสดงกิจกรรมในหน้าสาธารณะ
+                    </span>
+                  </label>
+                </div>
+              </div>
+
               <!-- Radio buttons -->
               <div class="flex flex-wrap">
                 <div class="w-full px-4 md:w-6/12 mt-2">
                   <div class="block my-3 text-gray-700 text-md">
-                    ระยะเวลาการจัดกิจกรรม
+                    ระยะเวลาการจัดกิจกรรม <span class="text-red-500">*</span>
                   </div>
                   <label
                     class="inline-flex items-center cursor-pointer my-4 mr-4"
@@ -55,19 +75,19 @@
                 </div>
               </div>
 
-              <!-- Dates -->
+              <!-- Single date time period = 1 -->
               <div
                 class="flex flex-wrap mb-4"
-                :class="{ hidden: timePeriod == '' }"
+                :class="{ hidden: !timePeriod || timePeriod === '2' }"
               >
-                <!-- Date Start -->
                 <div class="w-full px-4 md:w-6/12 mt-2">
                   <label class="block my-3 text-gray-700 text-md"
-                    >วันที่จัดกิจกรรม</label
+                    >วันที่จัดกิจกรรม <span class="text-red-500">*</span></label
                   >
                   <v-date-picker
-                    v-model="activityStart"
+                    v-model="activityDate"
                     mode="date"
+                    :masks="mask"
                   >
                     <template #default="{ inputValue, inputEvents }">
                       <input
@@ -75,55 +95,84 @@
                         :value="inputValue"
                         v-on="inputEvents"
                         placeholder="Date start"
+                        readonly
                       />
                     </template>
                   </v-date-picker>
                   <div
-                    v-if="v$.activityStart.$error"
+                    v-if="v$.activityDate.$error"
                     class="mt-2 text-sm text-red-500"
                   >
-                    {{ v$.activityStart.$errors[0].$message }}
+                    {{ v$.activityDate.$errors[0].$message }}
                   </div>
                 </div>
+              </div>
 
-                <!-- Date End -->
-                <div
-                  class="w-full px-4 md:w-6/12 mt-2"
-                  :class="{ hidden: timePeriod == '' || timePeriod == '1' }"
+              <!-- Date range time period = 2 -->
+              <div
+                class="mb-4"
+                :class="{ hidden: !timePeriod || timePeriod === '1' }"
+              >
+                <v-date-picker
+                  v-model="activityDates"
+                  mode="date"
+                  is-range
+                  :masks="mask"
+                  class="flex flex-wrap"
                 >
-                  <label class="block my-3 text-gray-700 text-md"
-                    >วันสุดท้ายของกิจกรรม</label
-                  >
-                  <v-date-picker
-                    v-model="activityEnd"
-                    mode="date"
-                    :min-date="activityStart"
-                  >
-                    <template #default="{ inputValue, inputEvents }">
+                  <template v-slot="{ inputValue, inputEvents, isDragging }">
+                    <!-- Date start -->
+                    <div class="w-full px-4 md:w-6/12 mt-2">
+                      <label class="block my-3 text-gray-700 text-md"
+                        >วันที่จัดกิจกรรม
+                        <span class="text-red-500">*</span></label
+                      >
                       <input
                         class="w-full px-3 py-2 text-gray-700 focus:outline-none"
-                        :class="{ 'bg-gray-200': activityStart == null }"
-                        :value="inputValue"
-                        v-on="inputEvents"
-                        placeholder="Date end"
-                        :disabled="activityStart == null"
+                        :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                        :value="inputValue.start"
+                        v-on="inputEvents.start"
+                        placeholder="Date start"
+                        readonly
                       />
-                    </template>
-                  </v-date-picker>
-                  <div
-                    v-if="v$.activityStart.$error"
-                    class="mt-2 text-sm text-red-500"
-                  >
-                    {{ v$.activityStart.$errors[0].$message }}
-                  </div>
-                </div>
+                      <div
+                        v-if="v$.activityDates.start.$error"
+                        class="mt-2 text-sm text-red-500"
+                      >
+                        {{ v$.activityDates.start.$errors[0].$message }}
+                      </div>
+                    </div>
+
+                    <!-- Date end -->
+                    <div class="w-full px-4 md:w-6/12 mt-2">
+                      <label class="block my-3 text-gray-700 text-md"
+                        >วันที่จัดกิจกรรม
+                        <span class="text-red-500">*</span></label
+                      >
+                      <input
+                        class="w-full px-3 py-2 text-gray-700 focus:outline-none"
+                        :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                        :value="inputValue.end"
+                        v-on="inputEvents.end"
+                        placeholder="Date end"
+                        disabled
+                      />
+                      <div
+                        v-if="v$.activityDates.end.$error"
+                        class="mt-2 text-sm text-red-500"
+                      >
+                        {{ v$.activityDates.end.$errors[0].$message }}
+                      </div>
+                    </div>
+                  </template>
+                </v-date-picker>
               </div>
 
               <!-- Activity title -->
               <div class="flex flex-wrap">
                 <div class="w-full px-4 md:w-6/12 mt-2">
                   <label class="block my-3 text-gray-700 text-md" for="Title"
-                    >ชื่อกิจกรรม</label
+                    >ชื่อกิจกรรม <span class="text-red-500">*</span></label
                   >
                   <input
                     v-model="activityTitle"
@@ -141,7 +190,7 @@
 
                 <div class="w-full px-4 md:w-6/12 mt-2">
                   <label class="block my-3 text-gray-700 text-md" for="Title"
-                    >ผู้รับผิดชอบ</label
+                    >ผู้รับผิดชอบ <span class="text-red-500">*</span></label
                   >
                   <input
                     v-model="activityOrganizer"
@@ -162,7 +211,7 @@
               <div class="flex flex-wrap">
                 <div class="w-full px-4 md:w-12/12 mt-2">
                   <label class="block my-3 text-gray-700 text-md"
-                    >รูปแบบกิจกรรม</label
+                    >รูปแบบกิจกรรม <span class="text-red-500">*</span></label
                   >
                   <input
                     v-model="activityLocation"
@@ -183,7 +232,8 @@
               <div class="flex flex-wrap">
                 <div class="w-full px-4 md:w-12/12 mt-2">
                   <label class="block my-3 text-gray-700 text-md"
-                    >รายละเอียดกิจกรรม</label
+                    >รายละเอียดกิจกรรม
+                    <span class="text-red-500">*</span></label
                   >
                   <textarea
                     v-model="activityDetail"
@@ -205,25 +255,63 @@
                 <div class="w-full px-4 md:w-12/12 mt-2">
                   <label class="block my-3 text-gray-700 text-md" for="image"
                     >อัพโหลดรูปภาพโปสเตอร์กิจกรรม
+                    <span class="text-red-500">*</span>
                   </label>
                   <input
-                    ref="fileupload"
-                    @change="onFileChange"
+                    ref="posterupload"
+                    @change="onPosterChange"
                     accept="image/*"
                     class="w-full px-3 py-2 leading-tight text-gray-700"
                     type="file"
                   />
                   <img
-                    v-if="imgUrl"
-                    :src="imgUrl"
+                    v-if="previewPoster"
+                    :src="previewPoster"
                     class="mt-2 rounded-lg shadow-lg center-img w-1/2 h-auto cropped bg-emerald-500"
                   />
                 </div>
                 <div
-                  v-if="v$.file.$error"
+                  v-if="v$.poster.$error"
                   class="px-4 my-2 text-sm text-red-500"
                 >
-                  {{ v$.file.$errors[0].$message }}
+                  {{ v$.poster.$errors[0].$message }}
+                </div>
+              </div>
+
+              <!-- Upload images -->
+              <div class="flex flex-wrap">
+                <div class="w-full px-4 mt-4">
+                  <label class="block my-3 text-gray-700 text-md" for="image"
+                    >อัพโหลดรูปภาพบรรยากาศกิจกรรม
+                    <span class="text-red-500 text-xs">
+                      (อัพโหลดได้ไม่เกิน 10 รูปภาพ)
+                    </span>
+                  </label>
+                  <input
+                    ref="imagesupload"
+                    @change="onImagesChange"
+                    accept="image/*"
+                    class="w-full px-3 py-2 leading-tight text-gray-700"
+                    type="file"
+                    multiple
+                  />
+                </div>
+                <div
+                  v-if="v$.images.$error"
+                  class="px-4 my-2 text-sm text-red-500"
+                >
+                  {{ v$.images.$errors[0].$message }}
+                </div>
+              </div>
+
+              <!-- Preview images -->
+              <div class="flex flex-wrap" v-if="previewImages">
+                <div
+                  class="px-4 mt-4 w-full md:w-4/12"
+                  v-for="url in previewImages"
+                  :key="url"
+                >
+                  <img :src="url" alt="images" />
                 </div>
               </div>
 
@@ -264,42 +352,121 @@ export default {
       //? Validation
       v$: useValidate(),
 
-      timePeriod: "",
+      timePeriod: "1",
+
+      //? Calendar mask
+      mask: {
+        input: "YYYY-MM-DD",
+      },
 
       //? Form attributes
-      activityStart: "",
-      activityEnd: "",
+      isShow: true,
+      //? Single date
+      activityDate: null,
+      //? Multiple date
+      activityDates: {
+        start: null,
+        end: null,
+      },
       activityTitle: "",
       activityOrganizer: "",
       activityDetail: "",
       activityLocation: "",
 
       //? File upload
-      file: null,
-      imgUrl: "",
+      poster: null,
+      previewPoster: "",
+      images: null,
+      previewImages: [],
     };
   },
 
+  watch: {
+    //? Watch time period change and reset date
+    timePeriod(val) {
+      if (val === "1") {
+        this.activityDates = {
+          start: null,
+          end: null,
+        };
+      } else {
+        this.activityDate = null;
+      }
+    },
+  },
+
   methods: {
-    //? Upload file
-    onFileChange(e) {
-      this.file = e.target.files[0];
-      this.imgUrl = URL.createObjectURL(this.file);
+    //? Upload poster
+    onPosterChange(e) {
+      this.poster = e.target.files[0];
+      this.previewPoster = URL.createObjectURL(this.poster);
+    },
+
+    //? Upload images
+    onImagesChange(e) {
+      this.images = e.target.files || e.dataTransfer.files;
+      //? Set default SweetAlert2
+      const Swal = this.$swal.mixin({
+        position: "center",
+        showConfirmButton: false,
+        timer: 1200,
+        timerProgressBar: true,
+        customClass: {
+          title: "font-semibold custom text-blueGray-600",
+        },
+      });
+      //? Check if images is more than 10
+      if (this.images.length > 10) {
+        Swal.fire({
+          icon: "error",
+          title: "อัพโหลดรูปภาพได้ไม่เกิน 10 รูป",
+        }).then(() => {
+          //? Reset file input
+          this.images = null;
+          this.$refs.imagesupload.value = "";
+        });
+        return;
+      }
+      //? Call createImage method for each file
+      this.createImage(this.images);
+    },
+
+    //? Create images and push to previewImages[]
+    createImage(files) {
+      //? Reset array first
+      this.previewImages = [];
+
+      //? Loop through files
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.previewImages.push(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
     },
 
     //? Reset form
     handleReset() {
       this.v$.$reset();
-      this.timePeriod = "";
-      this.activityStart = "";
-      this.activityEnd = "";
+      this.isShow = true;
+      this.timePeriod = "1";
+      this.activityDate = null;
+      this.activityDates = {
+        start: null,
+        end: null,
+      };
       this.activityTitle = "";
       this.activityOrganizer = "";
       this.activityLocation = "";
       this.activityDetail = "";
-      this.file = null;
-      this.imgUrl = "";
-      this.$refs.fileupload.value = "";
+      this.poster = null;
+      this.previewPoster = "";
+      this.images = null;
+      this.previewImages = [];
+      this.$refs.posterupload.value = "";
+      this.$refs.imagesupload.value = "";
     },
 
     //? Submit form
@@ -307,22 +474,39 @@ export default {
       this.v$.$validate();
       if (!this.v$.$error) {
         let data = new FormData();
-        const activityStart = new Date(this.activityStart)
-          .toISOString()
-          .slice(0, 10);
-        data.append("date_start", activityStart);
-        if (this.activityEnd && this.timePeriod === "2") {
-          const activityEnd = new Date(this.activityEnd)
+        if (this.timePeriod === "1") {
+          const dateStart = new Date(this.activityDate)
             .toISOString()
             .slice(0, 10);
-          data.append("date_end", activityEnd);
+          data.append("date_start", dateStart);
+          data.append("date_end", "");
+        } else {
+          const dateStart = new Date(this.activityDates.start)
+            .toISOString()
+            .slice(0, 10);
+          const dateEnd = new Date(this.activityDates.end)
+            .toISOString()
+            .slice(0, 10);
+          data.append("date_start", dateStart);
+          data.append("date_end", dateEnd);
+        }
+        if (this.isShow) {
+          //? If isShow is true, set is_show to 1
+          data.append("is_show", 1);
+        } else {
+          //? If isShow is false, set is_show to 0
+          data.append("is_show", 0);
         }
         data.append("name", this.activityTitle);
         data.append("organizer", this.activityOrganizer);
         data.append("location", this.activityLocation);
         data.append("detail", this.activityDetail);
-        data.append("poster", this.file);
-
+        data.append("poster", this.poster);
+        if (this.images) {
+          for (let i = 0; i < this.images.length; i++) {
+            data.append("images[]", this.images[i]);
+          }
+        }
         http.post(`activity/new`, data).then(() => {
           const Toast = this.$swal.mixin({
             toast: true,
@@ -344,11 +528,52 @@ export default {
 
   validations() {
     return {
-      activityStart: {
+      activityDate: {
         required: helpers.withMessage(
           "กรุณาป้อนวันที่และเวลาของกิจกรรมก่อน",
-          required
+          () => {
+            if (this.timePeriod === "1") {
+              if (this.activityDate) {
+                return true;
+              } else {
+                return false;
+              }
+            }
+            return true;
+          }
         ),
+      },
+      activityDates: {
+        start: {
+          required: helpers.withMessage(
+            "กรุณาป้อนวันที่และเวลาของกิจกรรมก่อน",
+            () => {
+              if (this.timePeriod === "2") {
+                if (this.activityDates.start) {
+                  return true;
+                } else {
+                  return false;
+                }
+              }
+              return true;
+            }
+          ),
+        },
+        end: {
+          required: helpers.withMessage(
+            "กรุณาป้อนวันที่และเวลาของกิจกรรมก่อน",
+            () => {
+              if (this.timePeriod === "2") {
+                if (this.activityDates.end) {
+                  return true;
+                } else {
+                  return false;
+                }
+              }
+              return true;
+            }
+          ),
+        },
       },
       activityOrganizer: {
         required: helpers.withMessage(
@@ -371,16 +596,16 @@ export default {
       activityTitle: {
         required: helpers.withMessage("กรุณาป้อนชื่อกิจกรรมก่อน", required),
       },
-      file: {
+      poster: {
         required: helpers.withMessage(
           "ไฟล์ที่อัปโหลดต้องเป็นไฟล์ .jpeg .jpg หรือ .png เท่านั้น",
           () => {
-            if (this.file != null) {
+            if (this.poster != null) {
               //? Check file type
               if (
-                this.file.type == "image/jpeg" ||
-                this.file.type == "image/jpg" ||
-                this.file.type == "image/png"
+                this.poster.type == "image/jpeg" ||
+                this.poster.type == "image/jpg" ||
+                this.poster.type == "image/png"
               ) {
                 return true;
               } else {
@@ -388,6 +613,29 @@ export default {
               }
             } else {
               return false;
+            }
+          }
+        ),
+      },
+      images: {
+        required: helpers.withMessage(
+          "กรุณาอัพโหลดรูปภาพ ไฟล์ที่อัปโหลดต้องเป็นไฟล์ .jpeg .jpg หรือ .png เท่านั้น",
+          () => {
+            if (this.images !== null) {
+              for (let i = 0; i < this.images.length; i++) {
+                const file = this.images[i];
+                const type = file.type;
+                if (
+                  type !== "image/jpeg" &&
+                  type !== "image/jpg" &&
+                  type !== "image/png"
+                ) {
+                  return false;
+                }
+              }
+              return true;
+            } else {
+              return true;
             }
           }
         ),

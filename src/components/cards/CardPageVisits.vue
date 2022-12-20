@@ -80,6 +80,8 @@
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="p-5">
       <!-- Paginate -->
       <VueTailwindPagination
         :current="currentPage"

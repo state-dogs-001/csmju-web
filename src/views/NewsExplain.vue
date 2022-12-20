@@ -17,7 +17,7 @@
           </p>
         </div>
 
-        <div class="pt-6 mt-10 text-center border-t border-blueGray-200"></div>
+        <div class="pt-6 mt-10 border-t border-blueGray-200"></div>
 
         <div class="flex flex-wrap">
           <div class="w-full px-2 pb-4 lg:w-12/12">
@@ -26,8 +26,8 @@
             >
               <div class="px-0 mt-2 lg:px-10">
                 <img
-                  v-if="news.image"
-                  :src="news.image"
+                  v-if="news.poster"
+                  :src="news.poster"
                   class="max-h-400-px rounded-lg center-img shadow-lg border"
                 />
                 <h3 class="mt-8 font-semibold mb-4">รายละเอียดข่าว :</h3>

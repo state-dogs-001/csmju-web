@@ -8,7 +8,7 @@
           <div class="px-6">
             <div class="mt-6 text-center">
               <h1 class="py-6 text-3xl font-bold">
-                CSMJU | การแสดงข้อมูลกระบวนวิชา
+                CSMJU | การแสดงข้อมูลหลักสูตรรายวิชา
               </h1>
             </div>
             <br class="shadow-xl" />

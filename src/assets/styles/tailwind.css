@@ -4058,6 +4058,26 @@ select {
   text-decoration: underline;
 }
 
+decoration-solid {
+  text-decoration-style: solid;
+}
+
+.decoration-dashed {
+  text-decoration-style: dashed;
+}
+
+.decoration-dotted {
+  text-decoration-style: dotted;
+}
+
+.decoration-double {
+  text-decoration-style: double;
+}
+
+.decoration-wavy {
+  text-decoration-style: wavy;
+}
+
 .line-through {
   text-decoration: line-through;
 }
@@ -4640,6 +4660,11 @@ select {
 
   .md\:text-left {
     text-align: left;
+  }
+
+  .md\:text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
   }
 
   .md\:mt-0 {

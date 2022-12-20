@@ -22,7 +22,7 @@
             <br class="shadow-xl border-t" />
 
             <form @submit.stop.prevent="onSubmit" enctype="multipart/form-data">
-              <!-- Line -->
+              <!-- Checkbox -->
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
                   <label class="inline-flex items-center cursor-pointer">
@@ -38,7 +38,7 @@
                 </div>
               </div>
 
-              <!-- Line -->
+              <!-- Document name -->
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4">
                   <label class="block my-3 text-gray-700 text-md"
@@ -57,9 +57,10 @@
                 </div>
               </div>
 
-              <!-- Line -->
+              <!-- Upload pdf -->
               <div class="flex flex-wrap mb-4">
                 <div class="w-full px-4 md:w-12/12">
+                  <!-- Preview pdf -->
                   <div class="mt-4 mb-4 text-center" v-if="pdf != null">
                     <div class="flex justify-center">
                       <iframe

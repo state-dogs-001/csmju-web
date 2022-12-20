@@ -364,11 +364,11 @@
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
 
-                ระบบประกาศกิจกรรม
+                ระบบบันทึกกิจกรรม
               </a>
             </router-link>
           </li>
-          <li class="items-center">
+          <!-- <li class="items-center">
             <router-link
               to="/admin/activityimages/show"
               v-slot="{ href, navigate, isActive }"
@@ -391,7 +391,7 @@
                 ระบบบันทึกกิจกรรม (รูปภาพ)
               </a>
             </router-link>
-          </li>
+          </li> -->
           <li class="items-center">
             <router-link
               to="/admin/activitydoc/show"
@@ -412,7 +412,7 @@
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
 
-                ระบบบันทึกกิจกรรม (ไฟล์ PDF)
+                ระบบบันทึกการเข้าร่วมกิจกรรม
               </a>
             </router-link>
           </li>

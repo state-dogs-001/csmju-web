@@ -177,15 +177,14 @@
                     </tr>
                   </tbody>
                 </table>
-
-                <!-- แสดงผลตัวแบ่งหน้าเพจ-->
-                <VueTailwindPagination
-                  :current="currentPage"
-                  :total="total"
-                  :per-page="perPage"
-                  @page-changed="onPageClick($event)"
-                />
               </div>
+              <!-- Paginate -->
+              <VueTailwindPagination
+                :current="currentPage"
+                :total="total"
+                :per-page="perPage"
+                @page-changed="onPageClick($event)"
+              />
             </div>
           </div>
         </div>

@@ -7,7 +7,7 @@
         <div class="container mx-auto">
           <div class="px-6">
             <div class="mt-6 text-center">
-              <h1 class="py-6 text-3xl font-bold">CSMJU | ระบบประกาศกิจกรรม</h1>
+              <h1 class="py-6 text-3xl font-bold">CSMJU | ระบบบันทึกกิจกรรม</h1>
             </div>
             <br class="shadow-xl" />
             <div class="relative flex flex-col w-full min-w-0 mb-6 break-words">
@@ -56,7 +56,7 @@
               </div>
 
               <div class="block w-full overflow-x-auto">
-                <!-- Projects table -->
+                <!-- Activity table -->
                 <table
                   class="items-center w-full bg-transparent border-collapse"
                 >
@@ -65,28 +65,37 @@
                       class="text-blueGray-500 border-b-2 border-blueGray-500"
                     >
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                      >
+                        ลำดับ
+                      </th>
+                      <th
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         ชื่อกิจกรรม / โครงการ
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                      >
+                        สถานะการแสดง
+                      </th>
+                      <th
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                      >
+                        วันที่จัดกิจกรรม
+                      </th>
+                      <th
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         ผู้จัด / ผู้รับผิดชอบ
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         รายละเอียด
                       </th>
                       <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        วันที่จัดกิจกรรม
-                      </th>
-
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
                         การจัดการ
                       </th>
@@ -95,39 +104,53 @@
                   <tbody>
                     <tr
                       class="border-b"
-                      v-for="act in activities"
-                      :key="act.id"
+                      v-for="(act, index) in activities"
+                      :key="index"
                     >
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="py-3 px-4 text-sm align-middle whitespace-nowrap"
                       >
-                        {{ act.name }}
+                        {{ (currentPage - 1) * perPage + index + 1 }}
+                      </td>
+                      <td class="flex flex-col py-3 px-4 text-sm align-middle">
+                        <span>{{ act.name }}</span>
+                        <span class="text-xs text-emerald-500">{{
+                          act.location
+                        }}</span>
                       </td>
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="py-3 px-4 text-sm text-center align-middle whitespace-nowrap"
                       >
-                        <h5 class="w-48 truncate text-md">
+                        <i
+                          :class="
+                            act.is_show
+                              ? 'fas fa-eye text-emerald-500'
+                              : 'fas fa-eye-slash text-red-500'
+                          "
+                        ></i>
+                      </td>
+                      <td
+                        class="py-3 px-4 text-sm align-middle whitespace-nowrap"
+                      >
+                        <p class="text" v-if="act.date_end !== null">
+                          {{ act.date_start }} - {{ act.date_end }}
+                        </p>
+                        <p class="text" v-else>{{ act.date_start }}</p>
+                      </td>
+                      <td
+                        class="py-3 px-4 text-sm align-middle whitespace-nowrap"
+                      >
+                        <h5 class="w-auto truncate text-md">
                           {{ act.organizer }}
                         </h5>
                       </td>
-                      <td class="p-4 px-2 text-sm align-middle">
-                        <div>
-                          <p class="w-auto font-normal truncate-3">
-                            {{ act.detail }}
-                          </p>
-                        </div>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        <p class="text" v-if="act.date_end !== null">
-                          เวลา : {{ act.date_start }} ถึง
-                          {{ act.date_end }}
+                      <td class="py-3 px-4 text-sm align-middle">
+                        <p class="w-auto font-normal truncate-3">
+                          {{ act.detail }}
                         </p>
-                        <p class="text" v-else>เวลา : {{ act.date_start }}</p>
                       </td>
                       <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
+                        class="py-3 px-4 text-xs align-middle whitespace-nowrap"
                       >
                         <button
                           @click="handleEdit(act.id)"
@@ -147,13 +170,13 @@
                     </tr>
                   </tbody>
                 </table>
-                <VueTailwindPagination
-                  :current="currentPage"
-                  :total="total"
-                  :per-page="perPage"
-                  @page-changed="onPageClick($event)"
-                />
               </div>
+              <VueTailwindPagination
+                :current="currentPage"
+                :total="total"
+                :per-page="perPage"
+                @page-changed="onPageClick($event)"
+              />
             </div>
           </div>
         </div>
@@ -223,8 +246,12 @@ export default {
     //? Get activities by search
     async getActivityBySearch(page) {
       try {
-        const res = await http.get(
-          `activity/search/private/${this.keyword}?page=${page}`
+        let data = new FormData();
+        data.append("keyword", this.keyword);
+        //? Get data
+        const res = await http.post(
+          `activity/search/private?page=${page}`,
+          data
         );
         if (res.data.data.length > 0) {
           this.activities = res.data.data;
@@ -243,7 +270,7 @@ export default {
     },
 
     //? Search
-    handleSearch(page) {
+    handleSearch() {
       if (this.keyword) {
         this.currentPage = 1;
         this.getActivityBySearch(this.currentPage);

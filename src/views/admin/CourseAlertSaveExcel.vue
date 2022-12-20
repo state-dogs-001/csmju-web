@@ -321,7 +321,7 @@
 
 <script>
 //? API
-import http from "../../services/APIService";
+import http from "@/services/APIService";
 //? Package
 import * as XLSX from "xlsx/xlsx.mjs";
 //? Script

@@ -157,7 +157,7 @@
                   <div class="flex-auto p-4">
                     <img
                       alt="news"
-                      :src="news.image"
+                      :src="news.poster"
                       class="relative row-end-auto mx-0 shadow-lg cropped-card2"
                     />
                   </div>

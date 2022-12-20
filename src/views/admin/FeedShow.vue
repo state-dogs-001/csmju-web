@@ -80,7 +80,7 @@
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
-                        รายละเอียด
+                        สถานะการแสดง
                       </th>
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
@@ -90,7 +90,7 @@
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                       >
-                        สถานะการแสดง
+                        รายละเอียด
                       </th>
                       <th
                         class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
@@ -106,43 +106,31 @@
                       :key="index"
                     >
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="py-3 px-6 text-sm align-middle whitespace-nowrap"
                       >
                         {{ (currentPage - 1) * perPage + index + 1 }}
                       </td>
 
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        class="py-3 px-6 text-sm align-middle whitespace-nowrap"
                       >
                         <h5 class="w-48 font-semibold truncate text-md">
                           {{ feed.title }}
                         </h5>
                         <p>
                           เผยแพร่ :
-                          {{ new Date(feed.created_at).toDateString() }} | เวลา
-                          :
+                          {{ new Date(feed.created_at).toDateString() }}
+                        </p>
+                        <p>
+                          เวลา :
                           {{
                             new Date(feed.created_at).toString().split(" ")[4]
                           }}
                         </p>
                       </td>
 
-                      <td class="p-4 px-6 text-sm align-middle">
-                        <div>
-                          <p class="w-auto font-normal truncate-3">
-                            {{ feed.detail }}
-                          </p>
-                        </div>
-                      </td>
-
                       <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        {{ feed.type }}
-                      </td>
-
-                      <td
-                        class="p-4 px-6 text-sm text-center align-middle whitespace-nowrap"
+                        class="py-3 px-6 text-sm text-center align-middle whitespace-nowrap"
                       >
                         <i
                           :class="
@@ -154,7 +142,22 @@
                       </td>
 
                       <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
+                        class="py-3 px-6 text-sm align-middle whitespace-nowrap"
+                      >
+                        {{ feed.type }}
+                      </td>
+
+                      <td class="py-3 px-6 text-sm align-middle">
+                        <div>
+                          <p class="w-auto font-normal truncate-3">
+                            {{ feed.detail }}
+                          </p>
+                        </div>
+                      </td>
+
+                      <!-- Edit and Delete buttons -->
+                      <td
+                        class="py-3 px-6 text-xs align-middle whitespace-nowrap"
                       >
                         <button
                           @click="onUpdate(feed.id)"
@@ -174,15 +177,14 @@
                     </tr>
                   </tbody>
                 </table>
-
-                <!-- Paginate -->
-                <VueTailwindPagination
-                  :current="currentPage"
-                  :total="total"
-                  :per-page="perPage"
-                  @page-changed="onPageClick($event)"
-                />
               </div>
+              <!-- Paginate -->
+              <VueTailwindPagination
+                :current="currentPage"
+                :total="total"
+                :per-page="perPage"
+                @page-changed="onPageClick($event)"
+              />
             </div>
           </div>
         </div>
@@ -313,7 +315,7 @@ export default {
           if (result.isConfirmed) {
             //? Call API
             http
-              .post(`news/delete/${id}`)
+              .delete(`news/delete/${id}`)
               .then(() => {
                 swalWithBootstrapButtons
                   .fire("ลบข้อมูลเรียบร้อย!", "", "success")

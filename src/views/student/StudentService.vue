@@ -275,6 +275,9 @@ export default {
         showConfirmButton: false,
         timer: 2500,
         timerProgressBar: true,
+        customClass: {
+          title: "custom",
+        },
       });
       Swal.fire({
         icon: "warning",
