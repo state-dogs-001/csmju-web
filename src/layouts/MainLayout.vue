@@ -46,8 +46,8 @@
 </template>
 
 <script>
-import AuthNavbar from "@/components/navbars/AuthNavbar.vue"
-import MainFooter from "@/components/footers/MainFooter.vue"
+import AuthNavbar from "@/components/navbars/AuthNavbar.vue";
+import MainFooter from "@/components/footers/MainFooter.vue";
 import bgupdate from "@/assets/images/bg-update.jpg";
 export default {
   name: "main-layout",
