@@ -1,7 +1,7 @@
 <template>
   <div class="container px-4 mx-auto">
     <div
-      class="relative flex flex-col w-full min-w-0 mb-6 -mt-64 break-words bg-white rounded-lg shadow-xl"
+      class="flex flex-col w-full min-w-0 mb-6 -mt-64 break-words bg-white rounded-lg shadow-xl"
     >
       <div class="px-6">
         <div class="mt-6 text-center">
@@ -17,54 +17,76 @@
 
         <div class="pt-6 mt-10 border-t border-blueGray-200"></div>
 
-        <!-- News -->
+        <!-- Layout and search bar -->
+        <div class="w-full px-2 pb-6">
+          <form @submit.stop.prevent="handleSearch">
+            <div class="flex flex-row justify-center w-full">
+              <input
+                v-model="keyword"
+                type="text"
+                placeholder="ค้นหา"
+                class="w-auto md:w-124 px-4 py-3 mr-1 text-sm text-gray-700 placeholder-gray-600 bg-blueGray-100 border-none rounded-lg"
+              />
+              <button
+                type="submit"
+                class="w-auto px-3 py-3 bg-emerald-500 text-white rounded-lg focus:outline-none"
+              >
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+
         <div class="flex flex-wrap">
           <div
-            v-for="news in newsData"
-            :key="news.id"
+            v-for="feed in newsData"
+            :key="feed.id"
             class="w-full px-2 py-2 pb-4 lg:w-4/12"
           >
             <div
-              class="relative flex flex-col w-full min-w-0 mb-6 break-words duration-150 ease-linear border rounded-lg shadow-lg max-h-news border-blueGray-300 hover:zoom-xs bg-blueGray-100 h-full"
+              class="flex flex-col w-full min-w-0 h-500-px mb-8 break-words duration-150 ease-linear shadow-lg rounded-lg bg-white hover:zoom"
             >
-              <img
-                :src="news.poster"
-                :alt="news.title"
-                class="w-full align-middle rounded-t-lg cropped-news text-blueGray-500"
-              />
-              <blockquote class="relative">
-                <svg
-                  preserveAspectRatio="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 583 95"
-                  class="absolute left-0 block w-full h-95-px -top-94-px"
+              <div
+                class="p-1 cursor-pointer"
+                @click="handleReadMoreClick(feed.id)"
+              >
+                <img
+                  :src="feed.poster"
+                  :alt="feed.title"
+                  class="rounded-t-lg cropped-news"
+                />
+              </div>
+              <div
+                class="w-8/12 -mt-6 px-5 py-2 text-sm text-white bg-black rounded-r-lg"
+              >
+                {{ new Date(feed.created_at).toDateString() }}
+              </div>
+              <div class="p-5">
+                <div
+                  class="cursor-pointer"
+                  @click="handleReadMoreClick(feed.id)"
                 >
-                  <polygon
-                    points="-30,95 583,95 583,65"
-                    class="fill-current text-blueGray-100"
-                  ></polygon>
-                </svg>
-              </blockquote>
-              <div class="relative p-4">
-                <h4 class="h-24 text-xl font-bold truncate-3">
-                  {{ news.title }}
-                </h4>
-                <p class="mt-2 font-light truncate-3 text-md">
-                  {{ news.detail }}
-                </p>
-                <div class="mt-2 text-center border-t border-blueGray-200">
-                  <button
-                    @click="readMore(news.id)"
-                    class="px-4 py-2 mt-2 mb-1 mr-1 text-xs font-semibold text-white uppercase transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                    type="button"
-                  >
-                    อ่านต่อ
-                  </button>
+                  <div class="text-gray-900 font-bold text-2xl mb-2">
+                    {{ feed.title }}
+                  </div>
                 </div>
+                <div class="font-normal text-gray-700 mb-3 truncate-3">
+                  {{ feed.detail }}
+                </div>
+              </div>
+              <div class="flex items-center justify-center">
+                <button
+                  class="px-2 py-4 w-24 break-words duration-150 ease-linear bg-lightBlue-500 text-white rounded-lg hover:zoom focus:outline-none"
+                  @click="handleReadMoreClick(feed.id)"
+                >
+                  <span class="mr-2">อ่านต่อ</span>
+                  <i class="fas fa-arrow-right" />
+                </button>
               </div>
             </div>
           </div>
         </div>
+
         <VueTailwindPagination
           :current="currentPage"
           :total="total"
@@ -95,6 +117,10 @@ export default {
 
   data() {
     return {
+      //? Search
+      keyword: "",
+
+      //? Paginate
       currentPage: 0,
       perPage: 0,
       total: 0,
@@ -114,22 +140,52 @@ export default {
     this.total = this.newsArray.total;
   },
 
+  watch: {
+    keyword(val) {
+      //? Watch keyword if empty then call getNewsStore
+      if (!val) {
+        this.currentPage = 1;
+        this.getNewsStore(this.currentPage);
+      }
+    },
+  },
+
   methods: {
     //? Get data
-    ...mapActions("news", ["getNewsArray"]),
-    async getNewsStore() {
-      await this.getNewsArray(this.currentPage);
+    ...mapActions("news", ["getNewsArray", "getNewsArraySearch"]),
+    async getNewsStore(page) {
+      await this.getNewsArray(page);
     },
 
     //? Handle router to detail news
-    readMore(id) {
+    handleReadMoreClick(id) {
       this.$router.push({ name: "NewsExplain", params: { id: id } });
+    },
+
+    //? Handle search
+    handleSearch() {
+      if (this.keyword) {
+        this.currentPage = 1;
+        this.getNewsByKeyWord(this.currentPage, this.keyword);
+      }
+    },
+
+    //? Get data by keyword
+    async getNewsByKeyWord(page, keyword) {
+      await this.getNewsArraySearch({
+        page: page,
+        keyword: keyword,
+      });
     },
 
     //? Paginate
     async onPageChanged(page) {
       this.currentPage = page;
-      await this.getNewsStore(this.currentPage);
+      if (this.keyword) {
+        await this.getNewsByKeyWord(this.currentPage, this.keyword);
+      } else {
+        await this.getNewsStore(this.currentPage);
+      }
     },
   },
 };

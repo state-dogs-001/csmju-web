@@ -34,6 +34,7 @@ const actions = {
       console.log(err);
     }
   },
+
   async getNewsArray({ commit }, page) {
     try {
       const res = await http.get(`news?page=${page}`);
@@ -45,6 +46,21 @@ const actions = {
       console.log(err);
     }
   },
+
+  async getNewsArraySearch({ commit }, { page, keyword }) {
+    try {
+      let formData = new FormData();
+      formData.append("keyword", keyword);
+      const res = await http.post(`news/search?page=${page}`, formData);
+      const data = res.data;
+      if (data.data.length > 0) {
+        commit("setNewsArray", data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
   async getNewsLimit({ commit }) {
     try {
       const res = await http.get("news/limit/3"); //? News limit 3

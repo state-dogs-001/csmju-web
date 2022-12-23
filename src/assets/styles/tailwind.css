@@ -1498,17 +1498,28 @@ select {
   object-fit: cover;
 }
 
-.cropped-bg {
-  width: 1200px;
-  height: 400px;
+.cropped-bg-sm {
+  float: left;
+  width: 600px;
+  height: 250px;
+  object-fit: cover;
+}
+
+.cropped-bg-thumbnail {
+  float: left;
+  width: 400px;
+  height: 150px;
   object-fit: cover;
 }
 
 .cropped-news {
-  width: 400px;
-  height: 300px;
+  float: left;
+  width: 100%;
+  height: 250px;
   object-fit: cover;
 }
+
+
 
 .cropped-profile {
   width: 500px;
@@ -1710,6 +1721,11 @@ select {
   background-color: rgba(228, 228, 231, var(--tw-bg-opacity));
 }
 
+.bg-blue-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(59, 130, 246, var(--tw-bg-opacity));
+}
+
 .bg-blueGray-50 {
   --tw-bg-opacity: 1;
   background-color: rgba(248, 250, 252, var(--tw-bg-opacity));
@@ -1839,6 +1855,11 @@ select {
   border-collapse: separate;
 }
 
+.border-emerald-400 {
+  --tw-border-opacity: 1;
+  border-color: rgba(48, 209, 88, var(--tw-border-opacity));
+}
+
 .border-emerald-700 {
   --tw-border-opacity: 1;
   border-color: rgba(4, 120, 87, var(--tw-border-opacity));
@@ -1919,6 +1940,30 @@ select {
 
 .rounded-lg {
   border-radius: 0.5rem;
+}
+
+.rounded-t-lg {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.rounded-b-lg {
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.rounded-r-lg {
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.rounded-l-lg {
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.rounded-custom {
+  border-radius: 15% 0%;
 }
 
 .rounded-full {
@@ -2030,6 +2075,10 @@ select {
   border-left-width: 1px;
 }
 
+.border-l-0 {
+  border-left-width: 0px;
+}
+
 .border-l-2 {
   border-left-width: 2px;
 }
@@ -2119,6 +2168,14 @@ select {
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.grow-0 {
+  flex-grow: 0;
+}
+
+.grow {
+  flex-grow: 1;
 }
 
 .inline-grid {
@@ -2567,6 +2624,10 @@ select {
   height: 350px;
 }
 
+.h-450-px {
+  height: 450px;
+}
+
 .h-500-px {
   height: 500px;
 }
@@ -2885,16 +2946,16 @@ select {
   margin-top: -1rem;
 }
 
+.-mt-6 {
+  margin-top: -1.5rem;
+}
+
 .-mt-10 {
   margin-top: -2rem;
 }
 
 .-mt-20 {
   margin-top: -5rem;
-}
-
-.-ml-20 {
-  margin-left: -5rem;
 }
 
 .-mt-24 {
@@ -2941,8 +3002,20 @@ select {
   transform: scale(1.05);
 }
 
+.hover\:border-none:hover {
+  border: none;
+}
+
 .hover\:bg-blueGray-700:hover {
   background-color: rgba(51, 65, 85, var(--tw-bg-opacity));
+}
+
+.hover\:bg-emerald-400:hover {
+  background-color: rgba(52, 211, 153, var(--tw-bg-opacity));
+}
+
+.hover\:text-white:hover {
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
 
 .max-h-860-px {
@@ -3243,6 +3316,11 @@ select {
 .py-5 {
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
+}
+
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 .py-6 {
@@ -4571,6 +4649,10 @@ decoration-solid {
     display: block;
   }
 
+  .sm\:hidden {
+    display: none;
+  }
+
   .sm\:mt-0 {
     margin-top: 0px;
   }
@@ -4589,6 +4671,13 @@ decoration-solid {
 
   .sm\:w-6\/12 {
     width: 50%;
+  }
+
+  .sm\:cropped-bg {
+    float: left;
+    width: 1200px;
+    height: 400px;
+    object-fit: cover;
   }
 }
 
@@ -4741,6 +4830,10 @@ decoration-solid {
     padding-right: 3rem;
   }
 
+  .md\:pt-20 {
+    padding-top: 5rem;
+  }
+
   .md\:pt-32 {
     padding-top: 8rem;
   }
@@ -4785,6 +4878,14 @@ decoration-solid {
     width: 17rem;
   }
 
+  .md\:w-96 {
+    width: 24rem;
+  }
+
+  .md\:w-124 {
+    width: 31rem;
+  }
+
   .md\:-mt-48 {
     margin-top: -12rem;
   }
@@ -4821,8 +4922,19 @@ decoration-solid {
     width: 83.5%;
   }
 
+  .md\:h-600-px {
+    height: 600px;
+  }
+
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:cropped-bg-md {
+    float: left;
+    width: 1400px;
+    height: 400px;
+    object-fit: cover;
   }
 }
 
@@ -4833,6 +4945,10 @@ decoration-solid {
 
   .lg\:block {
     display: block;
+  }
+
+  .lg\:border-l-2 {
+    border-left-width: 2px;
   }
 
   .lg\:inline-block {
@@ -5057,14 +5173,22 @@ decoration-solid {
   .xl\:w-8\/12 {
     width: 66.666667%;
   }
+
+  .xl\:-mt-64 {
+    margin-top: -16rem;
+  }
+
+  .xl\:mt-0 {
+    margin-top: 0px;
+  }
 }
 
 @media (min-width: 1536px) {}
 
-.carousel__item {
+/* .carousel__item {
   min-height: 200px;
   width: 100%;
-  background-color: #642afb;
+  background-color: transparent;
   color: white;
   font-size: 20px;
   border-radius: 8px;
@@ -5081,4 +5205,4 @@ decoration-solid {
 .carousel__next {
   box-sizing: content-box;
   border: 5px solid white;
-}
+} */

@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="w-full bg-blueGray-200">
     <!-- Navbar -->
     <main-navbar />
     <main>
       <!-- Header -->
       <div
-        class="relative flex items-center content-center justify-center pt-16 pb-32 custom min-h-screen-75"
+        class="relative flex items-center content-center justify-center pt-16 custom min-h-screen-75"
       >
         <!-- Image Header -->
         <div class="top-0 w-full h-full bg-center bg-cover">
@@ -20,7 +20,7 @@
         <div class="container absolute">
           <div class="flex flex-wrap -mt-20">
             <!-- Text -->
-            <div class="w-full px-4 mt-32 text-left lg:w-6/12">
+            <div class="w-full px-4 mt-32 xl:w-6/12">
               <div class="pr-12 flex-wrap">
                 <h1
                   class="cssanimation sequence fadeInBottom text-home font-semibold text-white"
@@ -52,7 +52,7 @@
             </div>
 
             <!-- Banner -->
-            <div class="w-full text-left lg:w-6/12">
+            <div class="w-full mt-6 xl:w-6/12">
               <div class="top-0 w-full h-full bg-center bg-cover">
                 <Carousel
                   v-if="banners.length > 0"
@@ -61,17 +61,19 @@
                 >
                   <Slide v-for="banner in banners" :key="banner.id">
                     <div
-                      class="cssanimation sequence fadeInBottom relative mx-0 shadow-lg bg-emerald-500 carousel__item cropped-bg round-lg"
+                      class="cssanimation sequence fadeInBottom relative mx-0 shadow-lg"
                     >
                       <a :href="banner.link" target="_blank">
-                        <img class="cropped-bg" :src="banner.banner" />
+                        <img
+                          class="cropped-bg-sm rounded-lg sm:cropped-bg"
+                          :src="banner.banner"
+                        />
                       </a>
                     </div>
                   </Slide>
                   <!-- Next and Previous Button -->
                   <template #addons>
-                    <Navigation />
-                    <Pagination />
+                    <pagination />
                   </template>
                 </Carousel>
               </div>
@@ -81,37 +83,37 @@
       </div>
 
       <!-- Contents -->
-      <section class="pb-20 lg:-mt-64 bg-blueGray-200 custom">
+      <section class="pb-20 xl:-mt-64 custom">
         <div class="container mx-auto">
           <!-- Menu -->
-          <div class="flex flex-wrap">
+          <div class="px-6 pt-2 md:pt-20 mt-12 mb-12 flex flex-wrap">
             <!-- Main menu 1 -->
-            <div class="w-full px-4 text-center md:w-6/12">
+            <div class="w-full px-4 md:w-6/12">
               <router-link to="/program">
                 <div
-                  class="relative flex flex-col w-full min-w-0 mb-8 break-words duration-150 ease-linear bg-white shadow-lg hover:zoom hover:text-white"
+                  class="relative w-full min-w-0 mb-8 break-words duration-150 ease-linear rounded-custom bg-white shadow-lg hover:zoom"
                 >
                   <div class="flex-auto p-1">
                     <img
                       alt="Program"
                       :src="Menu1"
-                      class="relative mx-0 shadow-lg lg:cropped-card1"
+                      class="relative mx-0 shadow-lg lg:cropped-card1 rounded-custom"
                     />
                   </div>
                 </div>
               </router-link>
             </div>
             <!-- Main menu 2 -->
-            <div class="w-full px-4 text-center md:w-6/12">
+            <div class="w-full px-4 md:w-6/12">
               <a href="http://www.admissions.mju.ac.th/" target="_blank">
                 <div
-                  class="relative flex flex-col w-full min-w-0 mb-8 break-words duration-150 ease-linear bg-white shadow-lg hover:zoom hover:text-white"
+                  class="relative w-full min-w-0 mb-8 break-words duration-150 ease-linear rounded-custom bg-white shadow-lg hover:zoom"
                 >
                   <div class="flex-auto p-1">
                     <img
                       alt="Admissions"
                       :src="Menu2"
-                      class="relative mx-0 shadow-lg lg:cropped-card1"
+                      class="relative mx-0 shadow-lg lg:cropped-card1 rounded-custom"
                     />
                   </div>
                 </div>
@@ -120,19 +122,19 @@
 
             <!-- Sub menu -->
             <div
-              class="w-full px-4 text-center md:w-4/12"
+              class="w-full px-4 md:w-4/12"
               v-for="item in subMenu"
               :key="item"
             >
               <router-link :to="item.link">
                 <div
-                  class="relative flex flex-col w-full min-w-0 mb-8 break-words duration-150 ease-linear bg-white shadow-lg hover:zoom hover:text-white"
+                  class="w-full min-w-0 mb-8 break-words duration-150 ease-linear rounded-custom bg-white shadow-lg hover:zoom"
                 >
                   <div class="flex-auto p-1">
                     <img
                       :alt="item.alt"
                       :src="item.image"
-                      class="relative mx-0 shadow-lg lg:cropped-card2"
+                      class="relative mx-0 shadow-lg lg:cropped-card2 rounded-custom"
                     />
                   </div>
                 </div>
@@ -141,39 +143,68 @@
           </div>
 
           <!-- News and update -->
-          <h1 class="px-6 pt-20 mt-4 mb-4 text-3xl">
+          <h1 class="px-6 pt-2 md:pt-20 text-3xl">
             <b>News Update</b> | ข่าวสารล่าสุด
           </h1>
           <div class="flex flex-wrap mt-12 mb-12">
             <div
-              v-for="news in newsLimit"
-              :key="news"
-              class="w-full px-4 text-center md:w-4/12"
+              class="w-full px-4 md:w-4/12"
+              v-for="feed in newsLimit"
+              :key="feed.id"
             >
-              <router-link to="news">
+              <div
+                class="flex flex-col w-full min-w-0 h-500-px mb-8 break-words duration-150 ease-linear shadow-lg rounded-lg bg-white hover:zoom"
+              >
                 <div
-                  class="relative flex flex-col w-full min-w-0 mb-8 break-words duration-150 ease-linear bg-white shadow-lg hover:zoom"
+                  class="p-1 cursor-pointer"
+                  @click="handleReadMoreClick(feed.id)"
                 >
-                  <div class="flex-auto p-4">
-                    <img
-                      alt="news"
-                      :src="news.poster"
-                      class="relative row-end-auto mx-0 shadow-lg cropped-card2"
-                    />
-                  </div>
-                  <h3 class="px-4 mb-2 text-lg font-semibold truncate">
-                    {{ news.title }}
-                  </h3>
-                  <p class="px-4 pb-4 text-left truncate-3">
-                    {{ news.detail }}
-                  </p>
+                  <img
+                    :src="feed.poster"
+                    :alt="feed.title"
+                    class="rounded-t-lg cropped-news"
+                  />
                 </div>
-              </router-link>
+                <div
+                  class="w-8/12 -mt-6 px-5 py-2 text-sm text-white bg-black rounded-r-lg"
+                >
+                  {{ new Date(feed.created_at).toDateString() }}
+                </div>
+                <div class="p-5">
+                  <div
+                    class="cursor-pointer"
+                    @click="handleReadMoreClick(feed.id)"
+                  >
+                    <div class="text-gray-900 font-bold text-2xl mb-2">
+                      {{ feed.title }}
+                    </div>
+                  </div>
+                  <div class="font-normal text-gray-700 mb-3 truncate-3">
+                    {{ feed.detail }}
+                  </div>
+                </div>
+                <div class="flex items-center justify-center">
+                  <button
+                    class="px-2 py-4 w-24 break-words duration-150 ease-linear bg-lightBlue-500 text-white rounded-lg hover:zoom focus:outline-none"
+                    @click="handleReadMoreClick(feed.id)"
+                  >
+                    <span class="mr-2">อ่านต่อ</span>
+                    <i class="fas fa-arrow-right" />
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center justify-center w-full pt-8">
+              <router-link
+                to="/news"
+                class="px-2 py-4 duration-150 ease-linear border rounded-lg bg-lightBlue-500 text-white focus:outline-none hover:zoom"
+                >ดูข่าวสารทั้งหมด <i class="fas fa-newspaper"
+              /></router-link>
             </div>
           </div>
 
           <!-- Curriculum -->
-          <h1 class="px-6 pt-20 mt-12 mb-4 text-3xl">
+          <h1 class="px-6 pt-2 md:pt-20 text-3xl">
             <b>Curriculum </b> | หลักสูตร
           </h1>
           <div class="mt-12 mb-12">
@@ -181,29 +212,19 @@
           </div>
 
           <!-- Introduction YouTube embed -->
-          <h1 class="px-6 pt-20 mt-12 mb-4 text-3xl" id="section2">
+          <h1 class="px-6 pt-2 md:pt-20 text-3xl" id="section2">
             <b>Introduction </b> | วีดีโอแนะนำสาขา
           </h1>
           <div class="flex flex-wrap mt-12 mb-12">
-            <div class="w-full px-4 text-center md:w-12/12">
-              <div
-                class="relative flex flex-col w-full min-w-0 mb-8 break-words bg-white rounded-lg shadow-lg"
-              >
-                <div class="flex-auto px-0">
-                  <div
-                    class="relative w-full max-w-full overflow-hidden h-500-px pb-72"
-                  >
-                    <iframe
-                      class="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
-                      src="https://www.youtube.com/embed/88JeU0ShY60"
-                      title="Presentation | Com-Sci MJU 2020"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen
-                    ></iframe>
-                  </div>
-                </div>
-              </div>
+            <div class="px-4 w-full h-350-px md:h-600-px md:w-12/12">
+              <iframe
+                class="top-0 left-0 w-full h-full rounded-lg shadow-lg"
+                src="https://www.youtube.com/embed/88JeU0ShY60"
+                title="Presentation | Com-Sci MJU 2020"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
             </div>
           </div>
         </div>
@@ -227,7 +248,7 @@ import Menu3 from "@/assets/images/menu3.png";
 import Menu4 from "@/assets/images/menu4.png";
 import Menu5 from "@/assets/images/menu5.png";
 //? Package
-import { Carousel, Navigation, Pagination, Slide } from "vue3-carousel";
+import { Carousel, Pagination, Slide } from "vue3-carousel";
 import { mapActions, mapGetters } from "vuex";
 export default {
   components: {
@@ -238,7 +259,6 @@ export default {
     //? Carousel
     Carousel,
     Slide,
-    Navigation,
     Pagination,
   },
 
@@ -285,6 +305,11 @@ export default {
     //? Get banner
     ...mapActions("banner", ["getBanners"]),
     ...mapActions("news", ["getNewsLimit"]),
+
+    //? Read more
+    handleReadMoreClick(id) {
+      this.$router.push({ name: "NewsExplain", params: { id: id } });
+    },
   },
 };
 </script>

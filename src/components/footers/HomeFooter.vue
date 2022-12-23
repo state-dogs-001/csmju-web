@@ -65,7 +65,7 @@
           </div>
         </div>
         <div class="w-full px-6 lg:w-4/12">
-          <div class="mb-6 items-top border-l-2 pl-4 border-blueGray-300">
+          <div class="mb-6 items-top border-l-0 lg:border-l-2 pl-4 border-blueGray-300">
             <h3 class="mb-2 pb-2 font-semibold text-justify text-md test-left">
               เว็บไซต์ที่เกี่ยวข้อง :
             </h3>
@@ -117,7 +117,7 @@
           </div>
         </div>
         <div class="w-full px-6 lg:w-4/12">
-          <div class="mb-6 items-top border-l-2 pl-4 border-blueGray-300">
+          <div class="mb-6 items-top border-l-0 lg:border-l-2 pl-4 border-blueGray-300">
             <h3 class="mb-2 pb-2 font-semibold text-justify text-md test-left">
               ตำแหน่งที่ตั้ง :
             </h3>
