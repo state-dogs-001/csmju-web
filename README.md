@@ -43,3 +43,9 @@ yarn dev
 ```
 npm run build
 ```
+
+or
+
+```
+yarn build
+```
