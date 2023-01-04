@@ -154,16 +154,15 @@
 
                 <!-- Recaptcha -->
                 <div class="w-full text-left">
-                  <vue-recaptcha
+                  <vue-hcaptcha
                     :sitekey="siteKey"
+                    @verify="onVerify"
+                    @expired="onExpire"
                     size="normal"
-                    theme="light"
-                    data-size="compact"
-                    @verify="recaptchaVerified"
-                    @expire="recaptchaExpired"
-                    ref="vueRecaptcha"
+                    language="en"
+                    ref="vueHcaptcha"
                   >
-                  </vue-recaptcha>
+                  </vue-hcaptcha>
                   <div
                     v-if="v$.verify.$error"
                     class="mt-0 text-sm text-red-500"
@@ -203,12 +202,12 @@ import http from "@/services/WebpageService";
 //? Image
 import icon from "@/assets/images/paper.png";
 //? Packages
-import vueRecaptcha from "vue3-recaptcha2";
+import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 import useValidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 export default {
   components: {
-    vueRecaptcha,
+    VueHcaptcha,
   },
 
   data() {
@@ -238,19 +237,12 @@ export default {
       this.imgUrl = URL.createObjectURL(file);
     },
 
-    //? Recaptcha verify
-    recaptchaVerified(response) {
-      this.verify = response;
+    onVerify(token, eKey) {
+      this.verify = token;
     },
 
-    //? Recaptcha expire
-    recaptchaExpired() {
-      this.$refs.vueRecaptcha.reset();
-    },
-
-    //? Recapcha failed
-    recaptchaFailed() {
-      this.$refs.vueRecaptcha.reset();
+    onExpire() {
+      this.$refs.vueHcaptcha.reset();
     },
 
     //? Reset form

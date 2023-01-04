@@ -95,6 +95,8 @@ import ActivityDocEdit from "@/views/admin/ActivityDocEdit.vue";
 // import BookingAdd from "@/views/admin/BookingAdd.vue";
 // import BookingEdit from "@/views/admin/BookingEdit.vue";
 import RepairShow from "@/views/admin/RepairShow.vue";
+import RepairLogs from "@/views/admin/repairPages/RepairLogs.vue";
+import RepairChart from "@/views/admin/repairPages/RepairChart.vue";
 import RepairAdd from "@/views/admin/RepairAdd.vue";
 import RepairEdit from "@/views/admin/RepairEdit.vue";
 import CourseAlertShow from "@/views/admin/CourseAlertShow.vue";
@@ -554,6 +556,19 @@ const routes = [
         path: "/admin/repairshow",
         name: "RepairShow",
         component: RepairShow,
+        redirect: "/admin/repairshow/logs",
+        children: [
+          {
+            path: "/admin/repairshow/logs",
+            name: "RepairLogs",
+            component: RepairLogs,
+          },
+          {
+            path: "/admin/repairshow/chart",
+            name: "RepairChart",
+            component: RepairChart,
+          },
+        ],
       },
       {
         path: "/admin/repairadd",
@@ -710,7 +725,7 @@ function adminAuthGuard(to, from, next) {
   let local_user = JSON.parse(window.localStorage.getItem("user"));
 
   if (local_user != null) {
-    let user_role = local_user.user.role;
+    let user_role = local_user.data.role;
     let token = local_user.token;
 
     if (token && user_role == "admin") {
@@ -730,9 +745,6 @@ function adminAuthGuard(to, from, next) {
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
-  scrollBehavior(to, from, savedPosition) {
-    return { top: 0 };
-  },
 });
 
 export default router;

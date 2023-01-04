@@ -243,7 +243,7 @@ export default {
           });
           Toast.fire({
             icon: "error",
-            title: "ขออภัย ไม่พบข้อมูลนักศึกษา",
+            title: "ขออภัย คุณไม่มีสิทธิ์เข้าใช้งานระบบนี้",
           }).then(() => {
             localStorage.removeItem("user");
             localStorage.removeItem("permission");

@@ -18,24 +18,17 @@
             <form @submit.stop.prevent="handleSubmit">
               <!-- Username -->
               <div class="relative w-full mb-3">
-                <label
-                  class="block mb-2 text-md font-normal text-blueGray-600"
-                  htmlFor="grid-password"
-                >
-                  <b> ชื่อผู้ใช้งาน </b>
-                  <span class="text-xs"> (Username) </span>
+                <label class="block mb-2 text-md font-normal text-blueGray-600">
+                  <b> อีเมล </b>
+                  <span class="text-xs"> (Email) </span>
                 </label>
                 <div class="wrapper">
                   <input
                     v-model="username"
-                    type="username"
+                    type="text"
                     class="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
-                    placeholder="รหัสนักศึกษา เช่น 6104101301"
+                    placeholder="เช่น mju6204101XXX"
                   />
-
-                  <div class="tooltip rounded-lg text-center text-sm">
-                    บุคลากรสาขาวิชาฯ กรอกเป็น email
-                  </div>
                 </div>
               </div>
               <div
@@ -47,10 +40,7 @@
 
               <!-- Password -->
               <div class="relative w-full mb-3">
-                <label
-                  class="block mb-2 text-md font-normal text-blueGray-600"
-                  htmlFor="grid-password"
-                >
+                <label class="block mb-2 text-md font-normal text-blueGray-600">
                   <b> รหัสผ่าน </b>
                   <span class="text-xs"> (Password) </span>
                 </label>
@@ -87,16 +77,15 @@
 
               <!-- Recaptcha -->
               <div class="mb-3 mt-6 block w-full overflow-x-auto">
-                <vue-recaptcha
+                <vue-hcaptcha
                   :sitekey="siteKey"
+                  @verify="onVerify"
+                  @expired="onExpire"
                   size="normal"
-                  theme="light"
-                  data-size="compact"
-                  @verify="recaptchaVerified"
-                  @expire="recaptchaExpired"
-                  ref="vueRecaptcha"
+                  language="en"
+                  ref="vueHcaptcha"
                 >
-                </vue-recaptcha>
+                </vue-hcaptcha>
               </div>
               <div
                 v-if="v$.verify.$error"
@@ -124,14 +113,16 @@
 
 <script>
 //? Packages
-import vueRecaptcha from "vue3-recaptcha2";
+import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 import useValidate from "@vuelidate/core";
 import { required, minLength, helpers } from "@vuelidate/validators";
 import Swal from "sweetalert2";
+
 //? APIs
 import mju from "@/services/MJUService";
 import auth from "@/services/AuthService";
 import http from "@/services/WebpageService";
+
 //? Set default sweetalert
 const Toast = Swal.mixin({
   toast: true,
@@ -140,10 +131,12 @@ const Toast = Swal.mixin({
   timer: 1000,
   timerProgressBar: true,
 });
+
 export default {
   components: {
-    vueRecaptcha,
+    VueHcaptcha,
   },
+
   data() {
     return {
       //? Validate
@@ -163,13 +156,21 @@ export default {
       verify: null,
     };
   },
+
+  mounted() {
+    //? Backward
+    if (localStorage.getItem("user")) {
+      history.forward();
+    }
+  },
+
   methods: {
-    recaptchaVerified(response) {
-      this.verify = response;
+    onVerify(token, eKey) {
+      this.verify = token;
     },
 
-    recaptchaExpired() {
-      this.$refs.vueRecaptcha.reset();
+    onExpire() {
+      this.$refs.vueHcaptcha.reset();
     },
 
     showPassword() {
@@ -183,146 +184,179 @@ export default {
     //? Handle submit
     handleSubmit() {
       this.v$.$validate();
-      //! Validate's error
-      if (this.v$.$error) {
-        Toast.fire({
-          icon: "error",
-          title: "กรุณากรอกข้อมูลให้ครบถ้วน",
-        });
-      } else {
-        /**
-         * ? Check username type is email or not
-         * ? If email, it mean user is admin or personnels then call personnelLogin function
-         * ? If not, it mean user is student then call studentLogin function
-         */
-        if (
-          /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.username)
-        ) {
-          this.personnelLogin();
-        } else {
-          this.studentLogin();
-        }
+      if (!this.v$.$error) {
+        this.userLogin();
       }
     },
 
-    //? Personnel login
-    async personnelLogin() {
+    //? User login
+    async userLogin() {
       try {
-        const form = {
-          username: this.username,
-          password: this.password,
-        };
-        const res = await mju.post("login/mju/ad", form);
-        if (res.data.status === "success" && res.data.type[0] == "personnel") {
-          //? Login success save data to local storage
-          let permission = { role: 1 };
-          localStorage.setItem("user", JSON.stringify(res.data));
-          localStorage.setItem("permission", JSON.stringify(permission));
+        let form = new FormData();
+        form.append("username", this.username);
+        // form.append("password", this.password);
+        const response = await mju.post("login/mju/ad", form);
+        const user = response.data;
+        //? Check login status
+        if (user.status === "success") {
+          //? Check user type
+          if (user.type[0] === "personnel") {
+            //? User type is 'personnel'
 
-          //? Alert
-          Toast.fire({
-            icon: "success",
-            title: "กำลังเข้าสู่ระบบ",
-          }).then(() => {
-            //? Call LoginCheck function to save user login history
-            //? then redirect to personnel service page
-            this.loginCheck();
-            this.$router.push({ name: "PersonnelService" });
-          });
+            //? Check personnel permission is 'admin'
+            const isAdmin = this.permissionCheck(user);
+
+            //? Resolve promise
+            const promise = new Promise((resolve, reject) => {
+              resolve(isAdmin);
+            });
+
+            promise.then((result) => {
+              if (!result.success) {
+                this.setPersonnel(user);
+              } else {
+                //? Set default sweetalert
+                const swalWithBootstrapButtons = this.$swal.mixin({
+                  customClass: {
+                    title: "font-weight-bold",
+                    confirmButton:
+                      "px-6 py-3 ml-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-indigo-500 active:bg-indigo-600 hover:shadow-lg focus:outline-none",
+                    cancelButton:
+                      "px-6 py-3 custom mb-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none",
+                  },
+                  buttonsStyling: false,
+                });
+
+                swalWithBootstrapButtons
+                  .fire({
+                    title: "เลือกสิทธิ์ใช้งานระบบ",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "ผู้ดูแลระบบ (Admin)",
+                    cancelButtonText: "บุคลากร",
+                    reverseButtons: true,
+                  })
+                  .then((choose) => {
+                    if (choose.isConfirmed) {
+                      //? User type is 'admin'
+                      this.adminLogin(result.data);
+                    } else if (choose.dismiss === Swal.DismissReason.cancel) {
+                      //? User type is 'personnel'
+                      this.setPersonnel(user);
+                    }
+                  });
+              }
+            });
+          } else {
+            //? User type is 'student'
+            this.setStudent(user);
+          }
         } else {
-          //? Call adminLogin function to check user is admin or not
-          this.adminLogin();
-        }
-      } catch (err) {
-        if (err) {
+          //? Login failed
           Toast.fire({
             icon: "error",
-            title: "เข้าสู่ระบบไม่สำเร็จ",
+            title: "เข้าสู่ระบบไม่สำเร็จ อีเมลหรือรหัสผ่านไม่ถูกต้อง",
           }).then(() => {
             //? Reset password
             this.password = "";
           });
         }
-      }
-    },
-
-    //? Student login
-    async studentLogin() {
-      try {
-        const form = {
-          username: "mju" + this.username,
-          password: this.password,
-        };
-        const res = await mju.post("login/mju/ad", form);
-        if (res.data.status === "success" && res.data.type[0] == "student") {
-          //? Login success save data to local storage
-          let permission = { role: 2 };
-          localStorage.setItem("user", JSON.stringify(res.data));
-          localStorage.setItem("permission", JSON.stringify(permission));
-
-          //? Alert
-          Toast.fire({
-            icon: "success",
-            title: "กำลังเข้าสู่ระบบ",
-          }).then(() => {
-            //? Call LoginCheck function to save user login history
-            //? then redirect to student service page
-            this.loginCheck();
-            this.$router.push({ name: "StudentService" });
-          });
-        } else {
-          throw new Error("Login failed");
-        }
-      } catch (err) {
-        if (err) {
+      } catch (error) {
+        if (error) {
           Toast.fire({
             icon: "error",
-            title: "เข้าสู่ระบบไม่สำเร็จ",
+            title: "เข้าสู่ระบบไม่สำเร็จ กรณาลองใหม่อีกครั้ง",
           }).then(() => {
-            //? Reset password
-            this.password = "";
+            //? Reload page
+            window.location.reload();
           });
         }
       }
     },
 
     //? Admin login
-    async adminLogin() {
+    async adminLogin(data) {
       try {
-        let data = new FormData();
-        data.append("email", this.username);
-        data.append("password", this.password);
-        const res = await auth.post("auth/signin", data);
-        if (res.data.success && res.data.user.role == "admin") {
-          //? Login success save data to local storage
-          localStorage.setItem("user", JSON.stringify(res.data));
-
-          //? Alert
-          Toast.fire({
-            icon: "success",
-            title: "กำลังเข้าสู่ระบบ",
-          }).then(() => {
-            this.$router.push({ name: "Dashboard" });
-          });
-        } else {
-          let msg = res.data.message;
-          throw new Error(msg);
+        let form = new FormData();
+        form.append("personnel_id", data.id);
+        const response = await auth.post("auth/signin", form);
+        const user = response.data;
+        if (user.success && user.data.role === "admin") {
+          this.setAdmin(user);
         }
-      } catch (err) {
-        if (err) {
+      } catch (error) {
+        if (error) {
           Toast.fire({
             icon: "error",
-            title: "เข้าสู่ระบบไม่สำเร็จ",
+            title: "เข้าสู่ระบบไม่สำเร็จ กรณาลองใหม่อีกครั้ง",
           }).then(() => {
-            //? Reset password
-            this.password = "";
+            //? Reload page
+            window.location.reload();
           });
         }
       }
     },
 
+    //? Check personnel permission is 'admin'
+    async permissionCheck(data) {
+      try {
+        let citizenId = data.card_id;
+        const response = await auth.get(`auth/admin-check/${citizenId}`);
+        if (response.data.success) {
+          return response.data;
+        } else {
+          return response.data;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    //? Set personnel data to local storage
+    setPersonnel(data) {
+      let permission = { role: 1 };
+      localStorage.setItem("user", JSON.stringify(data));
+      localStorage.setItem("permission", JSON.stringify(permission));
+      Toast.fire({
+        icon: "success",
+        title: "กำลังเข้าสู่ระบบ",
+      }).then(() => {
+        //? Call LoginCheck function to save user login history
+        this.saveLoginHistory();
+        //? then redirect to personnel service page
+        this.$router.push({ name: "PersonnelService" });
+      });
+    },
+
+    //? Set student data to local storage
+    setStudent(data) {
+      let permission = { role: 2 };
+      localStorage.setItem("user", JSON.stringify(data));
+      localStorage.setItem("permission", JSON.stringify(permission));
+      Toast.fire({
+        icon: "success",
+        title: "กำลังเข้าสู่ระบบ",
+      }).then(() => {
+        //? Call LoginCheck function to save user login history
+        this.saveLoginHistory();
+        //? then redirect to student service page
+        this.$router.push({ name: "StudentService" });
+      });
+    },
+
+    //? Set admin data to local storage
+    setAdmin(data) {
+      localStorage.setItem("user", JSON.stringify(data));
+      Toast.fire({
+        icon: "success",
+        title: "กำลังเข้าสู่ระบบ",
+      }).then(() => {
+        this.$router.push({ name: "Dashboard" });
+      });
+    },
+
     //? Save user login history
-    async loginCheck() {
+    async saveLoginHistory() {
       try {
         let user = JSON.parse(window.localStorage.getItem("user"));
         let email = user.email;
@@ -344,22 +378,11 @@ export default {
     },
   },
 
-  mounted() {
-    //? Backward
-    if (localStorage.getItem("user")) {
-      history.forward();
-    }
-  },
-
   validations() {
     return {
-      verify: {
-        required: helpers.withMessage(
-          "กรุณากดยืนยันการยืนยันตัวตนก่อน",
-          required
-        ),
+      username: {
+        required: helpers.withMessage("ป้อนอีเมลผู้ใช้งานก่อน", required),
       },
-
       password: {
         required: helpers.withMessage("ป้อนรหัสผ่านก่อน", required),
         minLength: helpers.withMessage(
@@ -367,9 +390,11 @@ export default {
           minLength(6)
         ),
       },
-
-      username: {
-        required: helpers.withMessage("ป้อนชื่อผู้ใช้ก่อน", required),
+      verify: {
+        required: helpers.withMessage(
+          "กรุณากดยืนยันการยืนยันตัวตนก่อน",
+          required
+        ),
       },
     };
   },

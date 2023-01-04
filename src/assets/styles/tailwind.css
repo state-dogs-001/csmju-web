@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Prompt&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap");
 /*! tailwindcss v2.0.4 | MIT License | https://tailwindcss.com */
 @import "@ocrv/vue-tailwind-pagination/styles";
 /*! modern-normalize v1.0.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
@@ -182,10 +183,7 @@ sup {
   text-indent: 20px;
 }
 
-/*
-Transition Routing by Harrie13
-============
-*/
+/* Route Transition */
 
 .route-enter-from {
   opacity: 0;
@@ -203,6 +201,16 @@ Transition Routing by Harrie13
 
 .route-leave-active {
   transition: all 0.3s ease-in;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
 .cssanimation,
@@ -1799,6 +1807,11 @@ select {
 .active\:bg-red-600:active {
   --tw-bg-opacity: 1;
   background-color: rgba(220, 38, 38, var(--tw-bg-opacity));
+}
+
+.active\:bg-yellow-600:active {
+  --tw-bg-opacity: 1;
+  background-color: rgba(245, 158, 11, var(--tw-bg-opacity));
 }
 
 .rectangle {

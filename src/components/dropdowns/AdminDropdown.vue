@@ -80,7 +80,7 @@ export default {
   methods: {
     getUser() {
       let user = JSON.parse(localStorage.getItem("user"));
-      let citizenId = user.user.citizen_id;
+      let citizenId = user.data.citizen_id;
       http
         .get(`personnel/search/citizen-id/${citizenId}`)
         .then((res) => {
