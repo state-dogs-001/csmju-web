@@ -99,6 +99,7 @@ import RepairLogs from "@/views/admin/repairPages/RepairLogs.vue";
 import RepairChart from "@/views/admin/repairPages/RepairChart.vue";
 import RepairAdd from "@/views/admin/RepairAdd.vue";
 import RepairEdit from "@/views/admin/RepairEdit.vue";
+import AddLineToken from "@/views/admin/repairPages/AddLineToken.vue";
 import CourseAlertShow from "@/views/admin/CourseAlertShow.vue";
 import CourseAlertSaveExcel from "../views/admin/CourseAlertSaveExcel.vue";
 import ComplainingShow from "@/views/admin/ComplainingShow.vue";
@@ -567,6 +568,11 @@ const routes = [
             path: "/admin/repairshow/chart",
             name: "RepairChart",
             component: RepairChart,
+          },
+          {
+            path: "/admin/repairshow/addlinetoken",
+            name: "AddLineToken",
+            component: AddLineToken,
           },
         ],
       },

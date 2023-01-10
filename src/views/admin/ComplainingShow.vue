@@ -56,135 +56,136 @@
                 </div>
               </div>
 
-              <!-- News Feeds table -->
-              <div class="block w-full overflow-x-auto">
-                <!-- Projects table -->
-                <table
-                  class="items-center w-full bg-transparent border-collapse"
-                >
-                  <thead>
-                    <tr
-                      class="text-blueGray-500 border-b-2 border-blueGray-500"
-                    >
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+              <!-- Complain table -->
+              <div
+                class="w-full overflow-hidden overflow-x-auto rounded-lg shadow-xs"
+              >
+                <div class="w-full overflow-x-auto">
+                  <table class="w-full whitespace-no-wrap">
+                    <thead>
+                      <tr
+                        class="text-blueGray-500 border-b-2 border-blueGray-500"
                       >
-                        ลำดับ
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        หัวข้อ
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        รายละเอียด
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ไฟล์แนบ / รูปภาพ
-                      </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ลำดับ
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          หัวข้อ
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          รายละเอียด
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ไฟล์แนบ / รูปภาพ
+                        </th>
 
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        สถานะ
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      class="border-b"
-                      v-for="(report, index) in complains"
-                      :key="index"
-                    >
-                      <td
-                        class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        {{ (currentPage - 1) * perPage + index + 1 }}
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0"
-                      >
-                        <h5
-                          class="w-48 flex flex-col font-semibold truncate text-md text-green-400"
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                         >
-                          {{ report.title }}
-                          <span class="font-normal text-xs text-black">
-                            วันที่ :
-                            {{ new Date(report.created_at).toDateString() }}
-                          </span>
-                          <span class="font-normal text-xs text-black">
-                            เวลา :
-                            {{
-                              new Date(report.created_at).toLocaleTimeString()
-                            }}
-                          </span>
-                        </h5>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0"
+                          สถานะ
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="border-b"
+                        v-for="(report, index) in complains"
+                        :key="index"
                       >
-                        <p class="w-48 font-normal truncate-3">
-                          {{ report.detail }}
-                        </p>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        <!-- Image not null -->
-                        <a
-                          :href="report.image"
-                          target="_blank"
-                          v-if="report.image != null"
+                        <td
+                          class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                         >
+                          {{ (currentPage - 1) * perPage + index + 1 }}
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0"
+                        >
+                          <h5
+                            class="w-48 flex flex-col font-semibold truncate text-md text-green-400"
+                          >
+                            {{ report.title }}
+                            <span class="font-normal text-xs text-black">
+                              วันที่ :
+                              {{ new Date(report.created_at).toDateString() }}
+                            </span>
+                            <span class="font-normal text-xs text-black">
+                              เวลา :
+                              {{
+                                new Date(report.created_at).toLocaleTimeString()
+                              }}
+                            </span>
+                          </h5>
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0"
+                        >
+                          <p class="w-48 font-normal truncate-3">
+                            {{ report.detail }}
+                          </p>
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                        >
+                          <!-- Image not null -->
+                          <a
+                            :href="report.image"
+                            target="_blank"
+                            v-if="report.image != null"
+                          >
+                            <img
+                              class="w-48 h-auto hover:zoom shadow-lg rounded overflow-hidden"
+                              :src="report.image"
+                              alt="report image"
+                            />
+                          </a>
+
+                          <!-- Image null -->
                           <img
+                            :src="image"
                             class="w-48 h-auto hover:zoom shadow-lg rounded overflow-hidden"
-                            :src="report.image"
-                            alt="report image"
+                            alt="image null"
+                            v-else
                           />
-                        </a>
+                        </td>
 
-                        <!-- Image null -->
-                        <img
-                          :src="image"
-                          class="w-48 h-auto hover:zoom shadow-lg rounded overflow-hidden"
-                          alt="image null"
-                          v-else
-                        />
-                      </td>
-
-                      <td
-                        class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        <button
-                          @click="onRead(report.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                        <td
+                          class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                         >
-                          <i class="fa-sharp fa-solid fa-book"></i>
-                        </button>
-                        <button
-                          @click="onDelete(report.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
-                        >
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                          <button
+                            @click="onRead(report.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fa-sharp fa-solid fa-book"></i>
+                          </button>
+                          <button
+                            @click="onDelete(report.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Paginate -->
+                <VueTailwindPagination
+                  :current="currentPage"
+                  :total="total"
+                  :per-page="perPage"
+                  @page-changed="onPageClick($event)"
+                />
               </div>
-              <!-- Paginate -->
-              <VueTailwindPagination
-                :current="currentPage"
-                :total="total"
-                :per-page="perPage"
-                @page-changed="onPageClick($event)"
-              />
             </div>
           </div>
         </div>

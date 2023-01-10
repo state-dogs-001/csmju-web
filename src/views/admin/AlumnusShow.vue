@@ -60,129 +60,130 @@
                 </div>
               </div>
 
-              <!-- News Feeds table -->
-              <div class="block w-full overflow-x-auto">
-                <!-- Projects table -->
-                <table
-                  class="items-center w-full bg-transparent border-collapse"
-                >
-                  <thead>
-                    <tr
-                      class="text-blueGray-500 border-b-2 border-blueGray-500"
-                    >
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+              <!-- Alumnus Table -->
+              <div
+                class="w-full overflow-hidden overflow-x-auto rounded-lg shadow-xs"
+              >
+                <div class="w-full overflow-x-auto">
+                  <table class="w-full whitespace-no-wrap">
+                    <thead>
+                      <tr
+                        class="text-blueGray-500 border-b-2 border-blueGray-500"
                       >
-                        ลำดับ
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ชื่อ - นามสกุล
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ศิษย์เก่า (รุ่นที่)
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        สังกัด / องค์กร
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ตำแหน่ง / หน้าที่
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        การจัดการ
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      ></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      class="border-b"
-                      v-for="(alumni, index) in alumnus"
-                      :key="index"
-                    >
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        {{ (currentPage - 1) * perPage + index + 1 }}
-                      </td>
-                      <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
-                      >
-                        <div
-                          class="flex items-center text-xs text-left align-middle whitespace-nowrap"
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                         >
-                          <img
-                            :src="
-                              alumni.image_profile == null
-                                ? User
-                                : alumni.image_profile
-                            "
-                            class="w-10 h-10 rounded-full shadow-lg"
-                          />
-                          <span class="ml-3 text-sm font-semiBold">
-                            {{ alumni.name.split(" ")[0] }}
-                            <div class="text-xs font-normal">
-                              {{ alumni.name.split(" ")[1] }}
-                            </div>
-                          </span>
-                        </div>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                          ลำดับ
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ชื่อ - นามสกุล
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ศิษย์เก่า (รุ่นที่)
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          สังกัด / องค์กร
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ตำแหน่ง / หน้าที่
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          การจัดการ
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        ></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="border-b"
+                        v-for="(alumni, index) in alumnus"
+                        :key="index"
                       >
-                        {{ alumni.generation }}
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        {{ alumni.work_place }}
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        {{ alumni.job_title }}
-                      </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        >
+                          {{ (currentPage - 1) * perPage + index + 1 }}
+                        </td>
+                        <td
+                          class="p-4 px-6 text-xs align-middle whitespace-nowrap"
+                        >
+                          <div
+                            class="flex items-center text-xs text-left align-middle whitespace-nowrap"
+                          >
+                            <img
+                              :src="
+                                alumni.image_profile == null
+                                  ? User
+                                  : alumni.image_profile
+                              "
+                              class="w-10 h-10 rounded-full shadow-lg"
+                            />
+                            <span class="ml-3 text-sm font-semiBold">
+                              {{ alumni.name.split(" ")[0] }}
+                              <div class="text-xs font-normal">
+                                {{ alumni.name.split(" ")[1] }}
+                              </div>
+                            </span>
+                          </div>
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        >
+                          {{ alumni.generation }}
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        >
+                          {{ alumni.work_place }}
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        >
+                          {{ alumni.job_title }}
+                        </td>
 
-                      <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
-                      >
-                        <button
-                          @click="onUpdate(alumni.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                        <td
+                          class="p-4 px-6 text-xs align-middle whitespace-nowrap"
                         >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          @click="onDelete(alumni.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
-                        >
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                          <button
+                            @click="onUpdate(alumni.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            @click="onDelete(alumni.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Paginate -->
+                <VueTailwindPagination
+                  :current="currentPage"
+                  :total="total"
+                  :per-page="perPage"
+                  @page-changed="onPageClick($event)"
+                />
               </div>
-              <!-- Paginate -->
-              <VueTailwindPagination
-                :current="currentPage"
-                :total="total"
-                :per-page="perPage"
-                @page-changed="onPageClick($event)"
-              />
             </div>
           </div>
         </div>

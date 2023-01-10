@@ -130,9 +130,8 @@
                 </div>
               </div>
 
-              <!-- News Feeds table -->
+              <!-- Course alert table -->
               <div class="block w-full overflow-x-auto">
-                <!-- Projects table -->
                 <table
                   class="items-center w-full bg-transparent border-collapse"
                 >

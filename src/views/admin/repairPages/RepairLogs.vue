@@ -50,103 +50,108 @@
       </div>
     </div>
 
-    <!-- News Feeds table -->
-    <div class="block w-full overflow-x-auto">
-      <!-- Projects table -->
-      <table class="items-center w-full bg-transparent border-collapse">
-        <thead>
-          <tr class="text-blueGray-500 border-b-2 border-blueGray-500">
-            <th
-              class="px-4 py-3 text-sm font-semibold text-center uppercase align-middle whitespace-nowrap"
-            >
-              ลำดับ
-            </th>
-            <th
-              class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-            >
-              รหัสครุภัณฑ์
-            </th>
-            <th
-              class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-            >
-              ชื่อครุภัณฑ์
-            </th>
-            <th
-              class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-            >
-              ห้องเก็บ
-            </th>
-            <th
-              class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-            >
-              ความเสียหาย / ข้อบกพร่อง
-            </th>
-            <th
-              class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-            >
-              ผู้แจ้ง
-            </th>
-            <th
-              class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-            >
-              การจัดการ
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-b" v-for="(log, index) in repairLogs" :key="index">
-            <td
-              class="px-4 py-3 text-sm text-center align-middle whitespace-nowrap"
-            >
-              {{ (currentPage - 1) * perPage + index + 1 }}
-            </td>
-            <td class="px-4 py-3 text-sm align-middle whitespace-nowrap">
-              <span v-if="log.equip_id !== null">
-                {{ log.equip_id }}
-              </span>
-              <span v-else class="text-red-500"> ไม่มีรหัสครุภัณฑ์ </span>
-            </td>
-            <td class="px-4 py-3 text-sm align-middle whitespace-nowrap">
-              {{ log.equip_name }}
-            </td>
-            <td class="px-4 py-3 text-sm align-middle whitespace-nowrap">
-              {{ log.room_name_th }}
-            </td>
-            <td class="px-4 py-3 text-sm align-middle">
-              <p class="w-auto font-normal truncate-3">
-                {{ log.initial_symptoms }}
-              </p>
-            </td>
-            <td class="px-4 py-3 text-sm align-middle whitespace-nowrap">
-              {{ log.notifier_name }}
-            </td>
-            <td class="py-3 px-4 text-xs align-middle whitespace-nowrap">
-              <button
-                @click="handleEdit(log.id)"
-                class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                type="button"
+    <!-- Repair Table -->
+    <div class="w-full overflow-hidden overflow-x-auto rounded-lg shadow-xs">
+      <div class="w-full overflow-x-auto">
+        <table class="w-full whitespace-no-wrap">
+          <thead>
+            <tr class="text-blueGray-500 border-b-2 border-blueGray-500">
+              <th
+                class="px-4 py-3 text-sm font-semibold text-center uppercase align-middle whitespace-nowrap"
               >
-                <i class="fas fa-edit"></i>
-              </button>
-              <button
-                @click="handleDelete(log.id)"
-                class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                type="button"
+                ลำดับ
+              </th>
+              <th
+                class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
               >
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                รหัสครุภัณฑ์
+              </th>
+              <th
+                class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+              >
+                ชื่อครุภัณฑ์
+              </th>
+              <th
+                class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+              >
+                ห้องเก็บ
+              </th>
+              <th
+                class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+              >
+                ความเสียหาย / ข้อบกพร่อง
+              </th>
+              <th
+                class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+              >
+                ผู้แจ้ง
+              </th>
+              <th
+                class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+              >
+                การจัดการ
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="border-b"
+              v-for="(log, index) in repairLogs"
+              :key="index"
+            >
+              <td
+                class="px-4 py-3 text-sm text-center align-middle whitespace-nowrap"
+              >
+                {{ (currentPage - 1) * perPage + index + 1 }}
+              </td>
+              <td class="px-4 py-3 text-sm align-middle whitespace-nowrap">
+                <span v-if="log.equip_id !== null">
+                  {{ log.equip_id }}
+                </span>
+                <span v-else class="text-red-500"> ไม่มีรหัสครุภัณฑ์ </span>
+              </td>
+              <td class="px-4 py-3 text-sm align-middle whitespace-nowrap">
+                {{ log.equip_name }}
+              </td>
+              <td class="px-4 py-3 text-sm align-middle whitespace-nowrap">
+                {{ log.room_name_th }}
+              </td>
+              <td class="px-4 py-3 text-sm align-middle">
+                <p class="w-auto font-normal truncate-3">
+                  {{ log.initial_symptoms }}
+                </p>
+              </td>
+              <td class="px-4 py-3 text-sm align-middle whitespace-nowrap">
+                {{ log.notifier_name }}
+              </td>
+              <td class="py-3 px-4 text-xs align-middle whitespace-nowrap">
+                <button
+                  @click="handleEdit(log.id)"
+                  class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                  type="button"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  @click="handleDelete(log.id)"
+                  class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                  type="button"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Paginate -->
+      <VueTailwindPagination
+        :current="currentPage"
+        :total="total"
+        :per-page="perPage"
+        @page-changed="onPageClick($event)"
+      />
     </div>
-    <!-- Paginate -->
-    <VueTailwindPagination
-      :current="currentPage"
-      :total="total"
-      :per-page="perPage"
-      @page-changed="onPageClick($event)"
-    />
   </div>
 </template>
 

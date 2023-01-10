@@ -58,133 +58,134 @@
               </div>
 
               <!-- News Feeds table -->
-              <div class="block w-full overflow-x-auto">
-                <!-- Projects table -->
-                <table
-                  class="items-center w-full bg-transparent border-collapse"
-                >
-                  <thead>
-                    <tr
-                      class="text-blueGray-500 border-b-2 border-blueGray-500"
-                    >
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+              <div
+                class="w-full overflow-hidden overflow-x-auto rounded-lg shadow-xs"
+              >
+                <div class="w-full overflow-x-auto">
+                  <table class="w-full whitespace-no-wrap">
+                    <thead>
+                      <tr
+                        class="text-blueGray-500 border-b-2 border-blueGray-500"
                       >
-                        ลำดับ
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ลำดับ
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          หัวข้อข่าว
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          สถานะการแสดง
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ประเภท
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          รายละเอียด
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          การจัดการ
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="border-b"
+                        v-for="(feed, index) in news"
+                        :key="index"
                       >
-                        หัวข้อข่าว
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        สถานะการแสดง
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ประเภท
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        รายละเอียด
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        การจัดการ
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      class="border-b"
-                      v-for="(feed, index) in news"
-                      :key="index"
-                    >
-                      <td
-                        class="py-3 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        {{ (currentPage - 1) * perPage + index + 1 }}
-                      </td>
+                        <td
+                          class="py-3 px-6 text-sm align-middle whitespace-nowrap"
+                        >
+                          {{ (currentPage - 1) * perPage + index + 1 }}
+                        </td>
 
-                      <td
-                        class="py-3 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        <h5 class="w-48 font-semibold truncate text-md">
-                          {{ feed.title }}
-                        </h5>
-                        <p>
-                          เผยแพร่ :
-                          {{ new Date(feed.created_at).toDateString() }}
-                        </p>
-                        <p>
-                          เวลา :
-                          {{
-                            new Date(feed.created_at).toString().split(" ")[4]
-                          }}
-                        </p>
-                      </td>
-
-                      <td
-                        class="py-3 px-6 text-sm text-center align-middle whitespace-nowrap"
-                      >
-                        <i
-                          :class="
-                            feed.is_show
-                              ? 'fas fa-eye text-emerald-500'
-                              : 'fas fa-eye-slash text-red-500'
-                          "
-                        ></i>
-                      </td>
-
-                      <td
-                        class="py-3 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        {{ feed.type }}
-                      </td>
-
-                      <td class="py-3 px-6 text-sm align-middle">
-                        <div>
-                          <p class="w-auto font-normal truncate-3">
-                            {{ feed.detail }}
+                        <td
+                          class="py-3 px-6 text-sm align-middle whitespace-nowrap"
+                        >
+                          <h5 class="w-48 font-semibold truncate text-md">
+                            {{ feed.title }}
+                          </h5>
+                          <p>
+                            เผยแพร่ :
+                            {{ new Date(feed.created_at).toDateString() }}
                           </p>
-                        </div>
-                      </td>
+                          <p>
+                            เวลา :
+                            {{
+                              new Date(feed.created_at).toString().split(" ")[4]
+                            }}
+                          </p>
+                        </td>
 
-                      <!-- Edit and Delete buttons -->
-                      <td
-                        class="py-3 px-6 text-xs align-middle whitespace-nowrap"
-                      >
-                        <button
-                          @click="onUpdate(feed.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                        <td
+                          class="py-3 px-6 text-sm text-center align-middle whitespace-nowrap"
                         >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          @click="onDelete(feed.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                          <i
+                            :class="
+                              feed.is_show
+                                ? 'fas fa-eye text-emerald-500'
+                                : 'fas fa-eye-slash text-red-500'
+                            "
+                          ></i>
+                        </td>
+
+                        <td
+                          class="py-3 px-6 text-sm align-middle whitespace-nowrap"
                         >
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                          {{ feed.type }}
+                        </td>
+
+                        <td class="py-3 px-6 text-sm align-middle">
+                          <div>
+                            <p class="w-auto font-normal truncate-3">
+                              {{ feed.detail }}
+                            </p>
+                          </div>
+                        </td>
+
+                        <!-- Edit and Delete buttons -->
+                        <td
+                          class="py-3 px-6 text-xs align-middle whitespace-nowrap"
+                        >
+                          <button
+                            @click="onUpdate(feed.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            @click="onDelete(feed.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Paginate -->
+                <VueTailwindPagination
+                  :current="currentPage"
+                  :total="total"
+                  :per-page="perPage"
+                  @page-changed="onPageClick($event)"
+                />
               </div>
-              <!-- Paginate -->
-              <VueTailwindPagination
-                :current="currentPage"
-                :total="total"
-                :per-page="perPage"
-                @page-changed="onPageClick($event)"
-              />
             </div>
           </div>
         </div>

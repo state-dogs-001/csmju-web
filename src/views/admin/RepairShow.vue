@@ -29,7 +29,11 @@
                       'bg-blueGray-200': !isActive,
                     }"
                   >
-                    ความคืบหน้าการทำงาน <i class="fa-solid fa-chart-pie"></i>
+                    <span class="mr-2 hidden md:inline-block"
+                      >ความคืบหน้าการทำงาน</span
+                    >
+                    <span class="mr-2 inline-block md:hidden">ความคืบหน้า</span>
+                    <i class="fa-solid fa-chart-pie"></i>
                   </a>
                 </router-link>
               </div>
@@ -42,13 +46,40 @@
                   <a
                     :href="href"
                     @click="navigate"
-                    class="px-2 py-2 rounded-lg"
+                    class="px-2 py-2 rounded-lg mr-2"
+                    :class="{
+                      'bg-blue-500 text-white': isActive,
+                      'bg-blueGray-200': !isActive,
+                    }"
+                  >
+                    <span class="mr-2 hidden md:inline-block"
+                      >รายการแจ้งซ่อม</span
+                    >
+                    <span class="mr-2 inline-block md:hidden">รายการ</span>
+                    <i class="fa-solid fa-list-check"></i>
+                  </a>
+                </router-link>
+              </div>
+
+              <div class="py-3">
+                <router-link
+                  :to="{ name: 'AddLineToken' }"
+                  v-slot="{ href, navigate, isActive }"
+                >
+                  <a
+                    :href="href"
+                    @click="navigate"
+                    class="px-2 py-2 rounded-lg mr-2"
                     :class="{
                       'bg-emerald-500 text-white': isActive,
                       'bg-blueGray-200': !isActive,
                     }"
                   >
-                    รายการแจ้งซ่อม <i class="fa-solid fa-list-check"></i>
+                    <span class="mr-2 hidden md:inline-block"
+                      >เพิ่ม Line Token</span
+                    >
+                    <span class="mr-2 inline-block md:hidden">Line Token</span>
+                    <i class="fa-solid fa-cookie-bite"></i>
                   </a>
                 </router-link>
               </div>
@@ -58,7 +89,7 @@
 
             <div class="w-full">
               <router-view v-slot="{ Component, route }">
-                <transition name="fade" mode="out-in">
+                <transition name="slide-fade" mode="out-in">
                   <component :is="Component" :key="route.path"></component>
                 </transition>
               </router-view>
@@ -71,5 +102,20 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      collapseShow: "hidden",
+    };
+  },
+  methods: {
+    toggleCollapseShow: function (classes) {
+      if (this.collapseShow !== "hidden") {
+        this.collapseShow = "hidden";
+        return;
+      }
+      this.collapseShow = classes;
+    },
+  },
+};
 </script>

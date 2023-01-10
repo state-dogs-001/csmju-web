@@ -58,97 +58,99 @@
               </div>
 
               <!-- Table -->
-              <div class="block w-full overflow-x-auto">
-                <table
-                  class="items-center w-full bg-transparent border-collapse"
-                >
-                  <!-- thead -->
-                  <thead>
-                    <tr
-                      class="text-blueGray-500 border-b-2 border-blueGray-500"
-                    >
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+              <div
+                class="w-full overflow-hidden overflow-x-auto rounded-lg shadow-xs"
+              >
+                <div class="w-full overflow-x-auto">
+                  <table class="w-full whitespace-no-wrap">
+                    <!-- thead -->
+                    <thead>
+                      <tr
+                        class="text-blueGray-500 border-b-2 border-blueGray-500"
                       >
-                        ลำดับ
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ชื่อเอกสาร (ลิงค์ไฟล์)
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-center uppercase align-middle whitespace-nowrap"
-                      >
-                        สถานะการแสดง
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        การจัดการ
-                      </th>
-                    </tr>
-                  </thead>
-                  <!-- Body -->
-                  <tbody>
-                    <tr v-for="(doc, index) in documents" :key="index">
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        {{ (currentPage - 1) * perPage + index + 1 }}
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap"
-                      >
-                        <a
-                          :href="doc.file"
-                          target="_blank"
-                          class="hover:text-emerald-600"
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                         >
-                          {{ doc.name }}
-                        </a>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle whitespace-nowrap text-center"
-                      >
-                        <i
-                          :class="
-                            doc.is_show
-                              ? 'fas fa-eye text-emerald-500'
-                              : 'fas fa-eye-slash text-red-500'
-                          "
-                        ></i>
-                      </td>
-                      <!-- Edit -->
-                      <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
-                      >
-                        <button
-                          @click="onUpdate(doc.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                          ลำดับ
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                         >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          @click="onDelete(doc.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                          ชื่อเอกสาร (ลิงค์ไฟล์)
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-center uppercase align-middle whitespace-nowrap"
                         >
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                          สถานะการแสดง
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          การจัดการ
+                        </th>
+                      </tr>
+                    </thead>
+                    <!-- Body -->
+                    <tbody>
+                      <tr v-for="(doc, index) in documents" :key="index">
+                        <td
+                          class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        >
+                          {{ (currentPage - 1) * perPage + index + 1 }}
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle whitespace-nowrap"
+                        >
+                          <a
+                            :href="doc.file"
+                            target="_blank"
+                            class="hover:text-emerald-600"
+                          >
+                            {{ doc.name }}
+                          </a>
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle whitespace-nowrap text-center"
+                        >
+                          <i
+                            :class="
+                              doc.is_show
+                                ? 'fas fa-eye text-emerald-500'
+                                : 'fas fa-eye-slash text-red-500'
+                            "
+                          ></i>
+                        </td>
+                        <!-- Edit -->
+                        <td
+                          class="p-4 px-6 text-xs align-middle whitespace-nowrap"
+                        >
+                          <button
+                            @click="onUpdate(doc.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            @click="onDelete(doc.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Paginate -->
+                <VueTailwindPagination
+                  :current="currentPage"
+                  :total="total"
+                  :per-page="perPage"
+                  @page-changed="onPageClick($event)"
+                />
               </div>
-              <!-- Paginate -->
-              <VueTailwindPagination
-                :current="currentPage"
-                :total="total"
-                :per-page="perPage"
-                @page-changed="onPageClick($event)"
-              />
             </div>
           </div>
         </div>

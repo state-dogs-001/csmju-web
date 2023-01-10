@@ -58,112 +58,114 @@
                 </div>
               </div>
 
-              <!-- News Feeds table -->
-              <div class="block w-full overflow-x-auto">
-                <!-- Projects table -->
-                <table class="items-center w-full bg-transparent">
-                  <thead>
-                    <tr
-                      class="text-blueGray-500 border-b-2 border-blueGray-500"
-                    >
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+              <!-- Subjects table -->
+              <div
+                class="w-full overflow-hidden overflow-x-auto rounded-lg shadow-xs"
+              >
+                <div class="w-full overflow-x-auto">
+                  <table class="w-full whitespace-no-wrap">
+                    <thead>
+                      <tr
+                        class="text-blueGray-500 border-b-2 border-blueGray-500"
                       >
-                        รหัสรายวิชา
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ชื่อรายวิชา
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        หน่วยกิต
-                      </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          รหัสรายวิชา
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ชื่อรายวิชา
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          หน่วยกิต
+                        </th>
 
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          กลุ่มรายวิชา
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          การจัดการ
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="subject in subjects"
+                        :key="subject.id"
+                        class="border-b"
                       >
-                        กลุ่มรายวิชา
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        การจัดการ
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="subject in subjects"
-                      :key="subject.id"
-                      class="border-b"
-                    >
-                      <td
-                        class="w-5 p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        <div>
-                          <p class="w-12 font-normal">
-                            {{ subject.subject_code }}
+                        <td
+                          class="w-5 p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                        >
+                          <div>
+                            <p class="w-12 font-normal">
+                              {{ subject.subject_code }}
+                            </p>
+                          </div>
+                        </td>
+                        <td
+                          class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                        >
+                          <div
+                            class="flex items-center text-xs text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                          >
+                            <span class="ml-3 text-sm font-semiBold">
+                              {{ subject.name_th }}
+                              <div class="text-xs font-normal">
+                                {{ subject.name_en }}
+                              </div>
+                            </span>
+                          </div>
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                        >
+                          <p class="font-normal truncate-3">
+                            {{ subject.credit }} ( {{ subject.theory_hour }}-{{
+                              subject.practical_hour
+                            }}-{{ subject.self_hour }} )
                           </p>
-                        </div>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        <div
-                          class="flex items-center text-xs text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-wrap"
                         >
-                          <span class="ml-3 text-sm font-semiBold">
-                            {{ subject.name_th }}
-                            <div class="text-xs font-normal">
-                              {{ subject.name_en }}
-                            </div>
-                          </span>
-                        </div>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        <p class="font-normal truncate-3">
-                          {{ subject.credit }} ( {{ subject.theory_hour }}-{{
-                            subject.practical_hour
-                          }}-{{ subject.self_hour }} )
-                        </p>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-wrap"
-                      >
-                        <div class="w-56">
-                          <p class="w-48 font-normal">
-                            {{ subject.detail }}
-                          </p>
-                        </div>
-                      </td>
+                          <div class="w-56">
+                            <p class="w-48 font-normal">
+                              {{ subject.detail }}
+                            </p>
+                          </div>
+                        </td>
 
-                      <td
-                        class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        <button
-                          @click="onUpdate(subject.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                        <td
+                          class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                         >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          @click="onDelete(subject.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
-                        >
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
+                          <button
+                            @click="onUpdate(subject.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            @click="onDelete(subject.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
                 <!-- Paginate -->
                 <VueTailwindPagination
                   :current="currentPage"

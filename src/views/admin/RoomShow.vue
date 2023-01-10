@@ -57,122 +57,123 @@
                 </div>
               </div>
 
-              <!-- News Feeds table -->
-              <div class="block w-full overflow-x-auto">
-                <!-- Projects table -->
-                <table class="items-center w-full bg-transparent">
-                  <thead>
-                    <tr
-                      class="text-blueGray-500 border-b-2 border-blueGray-500"
-                    >
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+              <!-- Room Table -->
+              <div class="w-full overflow-hidden overflow-x-auto rounded-lg shadow-xs">
+                <div class="w-full overflow-x-auto">
+                  <table class="w-full whitespace-no-wrap">
+                    <thead>
+                      <tr
+                        class="text-blueGray-500 border-b-2 border-blueGray-500"
                       >
-                        รหัสห้องเรียน
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ชื่อห้องเรียน
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ประเภท
-                      </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          รหัสห้องเรียน
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ชื่อห้องเรียน
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ประเภท
+                        </th>
 
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ตำแหน่ง / อาคาร
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        การจัดการ
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="room in rooms" :key="room.id" class="border-b">
-                      <td
-                        class="w-5 p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        <div>
-                          <p class="w-12 font-normal">
-                            {{ room.room_id }}
-                          </p>
-                        </div>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        <div
-                          class="flex items-center text-xs text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                         >
-                          <img
-                            :src="room.image == null ? imageNull : room.image"
-                            class="w-20 h-auto rounded-lg shadow-lg border-2"
-                          />
-                          <span class="ml-3 text-sm font-semibold">
-                            {{ room.room_name_th }}
-                            <div
-                              class="text-sm font-normal text-emerald-600"
-                              v-if="room.amount_seat != null"
-                            >
-                              จำนวน {{ room.amount_seat }} ที่นั่ง
-                            </div>
-                          </span>
-                        </div>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        <div class="w-48">
-                          <p class="font-normal truncate-3">
-                            {{ room.type_room }}
-                          </p>
-                        </div>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-wrap"
-                      >
-                        <div>
-                          <p class="w-48 font-normal truncate-3">
-                            ชั้น {{ room.floor }} {{ room.building }}
-                          </p>
-                        </div>
-                      </td>
+                          ตำแหน่ง / อาคาร
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          การจัดการ
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="room in rooms" :key="room.id" class="border-b">
+                        <td
+                          class="w-5 p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                        >
+                          <div>
+                            <p class="w-12 font-normal">
+                              {{ room.room_id }}
+                            </p>
+                          </div>
+                        </td>
+                        <td
+                          class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                        >
+                          <div
+                            class="flex items-center text-xs text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                          >
+                            <img
+                              :src="room.image == null ? imageNull : room.image"
+                              class="w-20 h-auto rounded-lg shadow-lg border-2"
+                            />
+                            <span class="ml-3 text-sm font-semibold">
+                              {{ room.room_name_th }}
+                              <div
+                                class="text-sm font-normal text-emerald-600"
+                                v-if="room.amount_seat != null"
+                              >
+                                จำนวน {{ room.amount_seat }} ที่นั่ง
+                              </div>
+                            </span>
+                          </div>
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                        >
+                          <div class="w-48">
+                            <p class="font-normal truncate-3">
+                              {{ room.type_room }}
+                            </p>
+                          </div>
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-wrap"
+                        >
+                          <div>
+                            <p class="w-48 font-normal truncate-3">
+                              ชั้น {{ room.floor }} {{ room.building }}
+                            </p>
+                          </div>
+                        </td>
 
-                      <td
-                        class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        <button
-                          @click="onUpdate(room.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                        <td
+                          class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                         >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          @click="onDelete(room.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
-                        >
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                          <button
+                            @click="onUpdate(room.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            @click="onDelete(room.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Paginate -->
+                <VueTailwindPagination
+                  :current="currentPage"
+                  :total="total"
+                  :per-page="perPage"
+                  @page-changed="onPageClick($event)"
+                />
               </div>
-              <!-- Paginate -->
-              <VueTailwindPagination
-                :current="currentPage"
-                :total="total"
-                :per-page="perPage"
-                @page-changed="onPageClick($event)"
-              />
             </div>
           </div>
         </div>

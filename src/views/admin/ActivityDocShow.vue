@@ -58,91 +58,93 @@
               </div>
 
               <!-- Table of activity docs -->
-              <div class="block w-full overflow-x-auto">
-                <table
-                  class="items-center w-full bg-transparent border-collapse"
-                >
-                  <thead>
-                    <tr
-                      class="text-blueGray-500 border-b-2 border-blueGray-500"
-                    >
-                      <th
-                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+              <div
+                class="w-full overflow-hidden overflow-x-auto rounded-lg shadow-xs"
+              >
+                <div class="w-full overflow-x-auto">
+                  <table class="w-full whitespace-no-wrap">
+                    <thead>
+                      <tr
+                        class="text-blueGray-500 border-b-2 border-blueGray-500"
                       >
-                        ลำดับ
-                      </th>
-                      <th
-                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ชื่อกิจกรรม / โครงการ
-                      </th>
-                      <th
-                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ชื่อเอกสาร
-                      </th>
-                      <th
-                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        การจัดการ
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      class="border-b"
-                      v-for="(doc, index) in activityDocs"
-                      :key="index"
-                    >
-                      <td
-                        class="p-4 px-4 text-sm align-middle whitespace-nowrap"
-                      >
-                        {{ (currentPage - 1) * perPage + index + 1 }}
-                      </td>
-                      <td
-                        class="p-4 px-4 text-sm align-middle whitespace-nowrap"
-                      >
-                        {{ doc.activity_name }}
-                      </td>
-                      <td
-                        class="p-4 px-4 text-sm align-middle whitespace-nowrap"
-                      >
-                        <a
-                          :href="doc.file"
-                          target="_blank"
-                          class="hover:text-emerald-600 underline decoration-solid"
+                        <th
+                          class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                         >
-                          {{ doc.name }}
-                        </a>
-                      </td>
-                      <td
-                        class="p-4 px-4 text-xs align-middle whitespace-nowrap"
+                          ลำดับ
+                        </th>
+                        <th
+                          class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ชื่อกิจกรรม / โครงการ
+                        </th>
+                        <th
+                          class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ชื่อเอกสาร
+                        </th>
+                        <th
+                          class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          การจัดการ
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="border-b"
+                        v-for="(doc, index) in activityDocs"
+                        :key="index"
                       >
-                        <button
-                          @click="handleEdit(doc.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                        <td
+                          class="p-4 px-4 text-sm align-middle whitespace-nowrap"
                         >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          @click="handleDelete(doc.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                          {{ (currentPage - 1) * perPage + index + 1 }}
+                        </td>
+                        <td
+                          class="p-4 px-4 text-sm align-middle whitespace-nowrap"
                         >
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                          {{ doc.activity_name }}
+                        </td>
+                        <td
+                          class="p-4 px-4 text-sm align-middle whitespace-nowrap"
+                        >
+                          <a
+                            :href="doc.file"
+                            target="_blank"
+                            class="hover:text-emerald-600 underline decoration-solid"
+                          >
+                            {{ doc.name }}
+                          </a>
+                        </td>
+                        <td
+                          class="p-4 px-4 text-xs align-middle whitespace-nowrap"
+                        >
+                          <button
+                            @click="handleEdit(doc.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            @click="handleDelete(doc.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <VueTailwindPagination
+                  :current="currentPage"
+                  :total="total"
+                  :per-page="perPage"
+                  @page-changed="onPageClick($event)"
+                />
               </div>
-              <VueTailwindPagination
-                :current="currentPage"
-                :total="total"
-                :per-page="perPage"
-                @page-changed="onPageClick($event)"
-              />
             </div>
           </div>
         </div>

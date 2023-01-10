@@ -87,7 +87,7 @@
                   </div>
 
                   <!-- Reservation System -->
-                  <div
+                  <!-- <div
                     class="w-full px-2 lg:w-3/12 cssanimation sequence fadeInBottom"
                   >
                     <div
@@ -114,7 +114,7 @@
                         </div>
                       </router-link>
                     </div>
-                  </div>
+                  </div> -->
 
                   <!-- Equipment Inventory System -->
                   <div

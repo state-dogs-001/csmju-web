@@ -60,7 +60,8 @@
                       <div class="flex flex-wrap mb-4">
                         <div class="w-full px-4">
                           <label class="block text-gray-700 text-md"
-                            >สถานที่ทำงาน</label
+                            >สถานที่ทำงาน
+                            <span class="text-red-500">*</span></label
                           >
                           <textarea
                             v-model="workplace"
@@ -83,7 +84,8 @@
                       <div class="flex flex-wrap mb-4">
                         <div class="w-full px-4">
                           <label class="block text-gray-700 text-md"
-                            >ประวัติโดยย่อ</label
+                            >ประวัติโดยย่อ
+                            <span class="text-red-500">*</span></label
                           >
                           <textarea
                             v-model="bio"
@@ -91,12 +93,12 @@
                             placeholder="Biological"
                             class="w-full placeholder-blueGray-300 px-3 py-2 leading-tight text-gray-700"
                           ></textarea>
-                          <!-- <div
+                          <div
                             v-if="v$.bio.$error"
                             class="mt-2 text-sm text-red-500 text-left"
                           >
                             {{ v$.bio.$errors[0].$message }}
-                          </div> -->
+                          </div>
                         </div>
                       </div>
 
@@ -118,15 +120,10 @@
                                 type="text"
                                 placeholder="Experience"
                               />
-                              <!-- <div
-                                v-if="v$.experiences.$error"
-                                class="mt-2 text-sm text-red-500 text-left"
-                              >
-                                {{ v$.experiences.$errors[0].$message }}
-                              </div> -->
                             </div>
                             <div class="md:text-right w-4/12">
                               <button
+                                v-show="index === experiences.length - 1"
                                 @click="addFieldExp(input, experiences)"
                                 class="mr-2 px-6 py-2 text-sm font-bold text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
                                 type="button"
@@ -143,6 +140,12 @@
                                 <i class="fas fa-trash" /> ลบ
                               </button>
                             </div>
+                          </div>
+                          <div
+                            v-if="v$.experiences.$error"
+                            class="mt-2 text-sm text-red-500 text-left"
+                          >
+                            {{ v$.experiences.$errors[0].$message }}
                           </div>
                         </div>
                       </div>
@@ -165,15 +168,10 @@
                                 type="text"
                                 placeholder="Skill"
                               />
-                              <!-- <div
-                                v-if="v$.skills.$error"
-                                class="mt-2 text-sm text-red-500 text-left"
-                              >
-                                {{ v$.skills.$errors[0].$message }}
-                              </div> -->
                             </div>
                             <div class="md:text-right w-4/12">
                               <button
+                                v-show="index === skills.length - 1"
                                 @click="addFieldSkill(input, skills)"
                                 class="mr-2 px-6 py-2 text-sm font-bold text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
                                 type="button"
@@ -190,6 +188,12 @@
                                 <i class="fas fa-trash" /> ลบ
                               </button>
                             </div>
+                          </div>
+                          <div
+                            v-if="v$.skills.$error"
+                            class="mt-2 text-sm text-red-500 text-left"
+                          >
+                            {{ v$.skills.$errors[0].$message }}
                           </div>
                         </div>
                       </div>
@@ -212,15 +216,10 @@
                                 type="text"
                                 placeholder="Expertise"
                               />
-                              <!-- <div
-                                v-if="v$.experts.$error"
-                                class="mt-2 text-sm text-red-500 text-left"
-                              >
-                                {{ v$.experts.$errors[0].$message }}
-                              </div> -->
                             </div>
                             <div class="md:text-right w-4/12">
                               <button
+                                v-show="index === experts.length - 1"
                                 @click="addFieldExpert(input, experts)"
                                 class="mr-2 px-6 py-2 text-sm font-bold text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
                                 type="button"
@@ -237,6 +236,12 @@
                                 <i class="fas fa-trash" /> ลบ
                               </button>
                             </div>
+                          </div>
+                          <div
+                            v-if="v$.experts.$error"
+                            class="mt-2 text-sm text-red-500 text-left"
+                          >
+                            {{ v$.experts.$errors[0].$message }}
                           </div>
                         </div>
                       </div>
@@ -259,15 +264,10 @@
                                 type="text"
                                 placeholder="Research"
                               />
-                              <!-- <div
-                                v-if="v$.researches.$error"
-                                class="mt-2 text-sm text-red-500 text-left"
-                              >
-                                {{ v$.researches.$errors[0].$message }}
-                              </div> -->
                             </div>
                             <div class="md:text-right w-4/12">
                               <button
+                                v-show="index === researches.length - 1"
                                 @click="addFieldResearch(input, researches)"
                                 class="mr-2 px-6 py-2 text-sm font-bold text-white transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-lg focus:outline-none"
                                 type="button"
@@ -284,6 +284,12 @@
                                 <i class="fas fa-trash" /> ลบ
                               </button>
                             </div>
+                          </div>
+                          <div
+                            v-if="v$.researches.$error"
+                            class="mt-2 text-sm text-red-500 text-left"
+                          >
+                            {{ v$.researches.$errors[0].$message }}
                           </div>
                         </div>
                       </div>
@@ -669,11 +675,6 @@ export default {
         let data = {
           citizen_id: citizenId,
           workplace: this.workplace,
-          // bio: this.bio,
-          // experiences: this.experiences,
-          // skills: this.skills,
-          // experts: this.experts,
-          // researches: this.researches,
         };
 
         if (this.bio) {
@@ -804,61 +805,37 @@ export default {
       workplace: {
         required: helpers.withMessage("ป้อนสถานที่ทำงานก่อน", required),
       },
-      //   bio: {
-      //     required: helpers.withMessage("ป้อนประวัติส่วนตัวก่อน", () => {
-      //       if (this.cv != null) {
-      //         //? Had old data cv
-      //         return true;
-      //       } else {
-      //         //? First create
-      //         return this.bio != "";
-      //       }
-      //     }),
-      //   },
-      //   experiences: {
-      //     required: helpers.withMessage("ป้อนประสบการณ์ทำงานก่อน", () => {
-      //       if (this.cv != null) {
-      //         //? Had old data cv
-      //         return true;
-      //       } else {
-      //         //? First create
-      //         return this.experiences[0].exp !== "";
-      //       }
-      //     }),
-      //   },
-      //   skills: {
-      //     required: helpers.withMessage("ป้อนทักษะที่มีก่อน", () => {
-      //       if (this.cv != null) {
-      //         //? Had old data cv
-      //         return true;
-      //       } else {
-      //         //? First create
-      //         return this.skills[0].skill !== "";
-      //       }
-      //     }),
-      //   },
-      //   experts: {
-      //     required: helpers.withMessage("ป้อนความเชี่ยวชาญก่อน", () => {
-      //       if (this.cv != null) {
-      //         //? Had old data cv
-      //         return true;
-      //       } else {
-      //         //? First create
-      //         return this.experts[0].expert !== "";
-      //       }
-      //     }),
-      //   },
-      //   researches: {
-      //     required: helpers.withMessage("ป้อนงานวิจัยก่อน", () => {
-      //       if (this.cv != null) {
-      //         //? Had old data cv
-      //         return true;
-      //       } else {
-      //         //? First create
-      //         return this.researches[0].research !== "";
-      //       }
-      //     }),
-      //   },
+      bio: {
+        required: helpers.withMessage("ป้อนประวัติส่วนตัวก่อน", required),
+      },
+      experiences: {
+        required: helpers.withMessage("ป้อนประสบการณ์ทำงานก่อน", () => {
+          const lastIndex = this.experiences.length - 1;
+          if (lastIndex > 0) return this.experiences[lastIndex].exp !== "";
+          return true;
+        }),
+      },
+      skills: {
+        required: helpers.withMessage("ป้อนข้อมูลทักษะก่อน", () => {
+          const lastIndex = this.skills.length - 1;
+          if (lastIndex > 0) return this.skills[lastIndex].skill !== "";
+          return true;
+        }),
+      },
+      experts: {
+        required: helpers.withMessage("ป้อนข้อมูลความเชี่ยวชาญก่อน", () => {
+          const lastIndex = this.experts.length - 1;
+          if (lastIndex > 0) return this.experts[lastIndex].expert !== "";
+          return true;
+        }),
+      },
+      researches: {
+        required: helpers.withMessage("ป้อนข้อมูลงานวิจัยก่อน", () => {
+          const lastIndex = this.researches.length - 1;
+          if (lastIndex > 0) return this.researches[lastIndex].research !== "";
+          return true;
+        }),
+      },
     };
   },
 };

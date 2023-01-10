@@ -14,74 +14,74 @@
         </div>
       </div>
     </div>
-    <div class="block w-full overflow-x-auto p-5">
-      <!-- table -->
-      <table class="items-center w-full bg-transparent border-collapse">
-        <thead>
-          <tr>
-            <th
-              class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle border border-l-0 border-r-0 border-solid bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap"
-            >
-              ลำดับ (ID)
-            </th>
-            <th
-              class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle border border-l-0 border-r-0 border-solid bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap"
-            >
-              ชื่อผู้ใช้งาน
-            </th>
-            <th
-              class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle border border-l-0 border-r-0 border-solid bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap"
-            >
-              ประเภทผู้ใช้งาน
-            </th>
-            <th
-              class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle border border-l-0 border-r-0 border-solid bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap"
-            >
-              วันที่ / เวลา
-            </th>
-            <th
-              class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle border border-l-0 border-r-0 border-solid bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap"
-            >
-              อุปกรณ์ที่ใช้งาน
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(user, index) in userLogin" :key="index">
-            <th
-              class="p-4 px-6 text-md text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-            >
-              {{ (currentPage - 1) * perPage + index + 1 }}
-            </th>
-            <td
-              class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-            >
-              {{ user.email }}
-            </td>
-            <td
-              class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-            >
-              {{ user.user_type }}
-            </td>
-            <td
-              class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-            >
-              {{ new Date(user.created_at).toDateString() }}
-              <p class="text-sm text-emerald-600 font-semibold">
-                {{ new Date(user.created_at).toString().split(" ")[4] }}
-              </p>
-            </td>
+    <!-- Table -->
+    <div class="w-full overflow-hidden overflow-x-auto rounded-lg shadow-xs">
+      <div class="w-full overflow-x-auto">
+        <table class="w-full whitespace-no-wrap">
+          <thead>
+            <tr>
+              <th
+                class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle border border-l-0 border-r-0 border-solid bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap"
+              >
+                ลำดับ (ID)
+              </th>
+              <th
+                class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle border border-l-0 border-r-0 border-solid bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap"
+              >
+                ชื่อผู้ใช้งาน
+              </th>
+              <th
+                class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle border border-l-0 border-r-0 border-solid bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap"
+              >
+                ประเภทผู้ใช้งาน
+              </th>
+              <th
+                class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle border border-l-0 border-r-0 border-solid bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap"
+              >
+                วันที่ / เวลา
+              </th>
+              <th
+                class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle border border-l-0 border-r-0 border-solid bg-blueGray-50 text-blueGray-500 border-blueGray-100 whitespace-nowrap"
+              >
+                อุปกรณ์ที่ใช้งาน
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(user, index) in userLogin" :key="index">
+              <th
+                class="p-4 px-6 text-md text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+              >
+                {{ (currentPage - 1) * perPage + index + 1 }}
+              </th>
+              <td
+                class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+              >
+                {{ user.email }}
+              </td>
+              <td
+                class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+              >
+                {{ user.user_type }}
+              </td>
+              <td
+                class="p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+              >
+                {{ new Date(user.created_at).toDateString() }}
+                <p class="text-sm text-emerald-600 font-semibold">
+                  {{ new Date(user.created_at).toString().split(" ")[4] }}
+                </p>
+              </td>
 
-            <td
-              class="w-64 p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0"
-            >
-              {{ user.device }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="p-5">
+              <td
+                class="w-64 p-4 px-6 text-md align-middle border-t-0 border-l-0 border-r-0"
+              >
+                {{ user.device }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <!-- Paginate -->
       <VueTailwindPagination
         :current="currentPage"

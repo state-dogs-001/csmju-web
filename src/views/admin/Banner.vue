@@ -8,7 +8,7 @@
           <div class="px-6">
             <!-- Title -->
             <div class="mt-6 text-center">
-              <h1 class="py-6 text-3xl font-bold">
+              <h1 class="py-6 text-xl md:text-3xl font-bold">
                 CSMJU | การแสดงรูปภาพเคลื่อนไหว
               </h1>
             </div>
@@ -17,28 +17,27 @@
 
             <div class="relative flex flex-col w-full min-w-0 mb-6 break-words">
               <!-- Header -->
-              <div div class="px-4 py-3 mb-0 border-0 rounded-t">
-                <div class="flex flex-wrap items-center">
-                  <div class="w-full px-4 font-bold text-md md:w-2/12 mr-auto">
-                    จำนวน {{ total }} รายการ
-                  </div>
-
-                  <div class="w-full px-4 text-center md:w-4/12">
-                    <router-link
-                      to="/admin/banneradd"
-                      class="px-4 py-2 mb-1 ml-2 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                    >
-                      <i class="fas fa-plus"></i> เพิ่ม
-                    </router-link>
-                  </div>
+              <div class="flex flex-wrap">
+                <div
+                  class="font-bold text-md w-full pt-2 text-center md:text-left md:w-8/12"
+                >
+                  จำนวน {{ total }} รายการ
+                </div>
+                <div class="w-full py-2 text-center md:text-right md:w-4/12">
+                  <router-link
+                    to="/admin/banneradd"
+                    class="px-4 py-2 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-emerald-500 active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                  >
+                    <i class="fas fa-plus"></i> เพิ่ม
+                  </router-link>
                 </div>
               </div>
 
               <!-- Simulator  -->
-              <div class="w-full mt-0 lg:w-12/12">
-                <div class="border-l pr-2 pl-4">
+              <div class="w-full">
+                <div class="md:border-l pl-4">
                   <label
-                    class="block mt-4 mb-2 text-gray-700 text-lg font-semibold"
+                    class="block mt-4 mb-2 text-gray-700 text-lg font-semibold text-center md:text-left"
                     for="image"
                     >การแสดงรูปภาพเคลื่อนไหว</label
                   >
@@ -54,7 +53,7 @@
                       </div>
 
                       <div class="p-2 text-sm mx-2">
-                        สถานะการแสดง : 
+                        สถานะการแสดง :
                         <i
                           :class="
                             image.is_show

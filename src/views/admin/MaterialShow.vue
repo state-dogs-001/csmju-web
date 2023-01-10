@@ -56,119 +56,125 @@
               </div>
 
               <!-- Table -->
-              <div class="block w-full overflow-x-auto">
-                <table
-                  class="items-center w-full bg-transparent border-collapse"
-                >
-                  <!-- thead -->
-                  <thead>
-                    <tr
-                      class="text-blueGray-500 border-b-2 border-blueGray-500"
-                    >
-                      <th
-                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+              <div
+                class="w-full overflow-hidden overflow-x-auto rounded-lg shadow-xs"
+              >
+                <div class="w-full overflow-x-auto">
+                  <table class="w-full whitespace-no-wrap">
+                    <!-- thead -->
+                    <thead>
+                      <tr
+                        class="text-blueGray-500 border-b-2 border-blueGray-500"
                       >
-                        ลำดับ
-                      </th>
-                      <th
-                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        รูปภาพวัสดุอุปกรณ์
-                      </th>
-                      <th
-                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ชื่อวัสดุอุปกรณ์
-                      </th>
-                      <th
-                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        จำนวนวัสดุอุปกรณ์
-                      </th>
-                      <th
-                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        สถานะ
-                      </th>
-                      <th
-                        class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        การจัดการ
-                      </th>
-                    </tr>
-                  </thead>
+                        <th
+                          class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ลำดับ
+                        </th>
+                        <th
+                          class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          รูปภาพวัสดุอุปกรณ์
+                        </th>
+                        <th
+                          class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ชื่อวัสดุอุปกรณ์
+                        </th>
+                        <th
+                          class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          จำนวนวัสดุอุปกรณ์
+                        </th>
+                        <th
+                          class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          สถานะ
+                        </th>
+                        <th
+                          class="px-4 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          การจัดการ
+                        </th>
+                      </tr>
+                    </thead>
 
-                  <!-- Body -->
-                  <tbody>
-                    <tr v-for="(material, index) in materials" :key="index">
-                      <td
-                        class="py-3 px-4 w-auto text-sm align-middle whitespace-nowrap"
-                      >
-                        {{ (currentPage - 1) * perPage + index + 1 }}
-                      </td>
-                      <td
-                        class="py-3 px-4 w-auto align-middle whitespace-nowrap"
-                      >
-                        <img
-                          :src="material.image != null ? material.image : image"
-                          width="150"
-                          alt="material image"
-                          class="rounded"
-                        />
-                      </td>
-                      <td
-                        class="py-3 px-4 w-auto text-sm align-middle whitespace-nowrap"
-                      >
-                        {{ material.name }}
-                      </td>
-                      <td
-                        class="py-3 px-4 w-auto text-sm align-middle whitespace-nowrap"
-                      >
-                        {{ material.quantity }}
-                      </td>
-                      <td
-                        class="py-3 px-4 w-auto text-sm align-middle whitespace-nowrap"
-                      >
-                        <i class="fa-solid"></i>
-                        <span v-if="material.status" class="text-green-400">
-                          <i class="fa-solid fa-boxes-stacked text-xl mr-2"></i>
-                          in stock
-                        </span>
-                        <span v-else class="text-red-500">
-                          <i class="fa-solid fa-pallet text-xl mr-2"></i>
-                          out stock
-                        </span>
-                      </td>
-                      <!-- Edit -->
-                      <td
-                        class="py-3 px-4 w-auto text-xs align-middle whitespace-nowrap"
-                      >
-                        <button
-                          @click="onUpdate(material.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                    <!-- Body -->
+                    <tbody>
+                      <tr v-for="(material, index) in materials" :key="index">
+                        <td
+                          class="py-3 px-4 w-auto text-sm align-middle whitespace-nowrap"
                         >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          @click="onDelete(material.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                          {{ (currentPage - 1) * perPage + index + 1 }}
+                        </td>
+                        <td
+                          class="py-3 px-4 w-auto align-middle whitespace-nowrap"
                         >
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                          <img
+                            :src="
+                              material.image != null ? material.image : image
+                            "
+                            width="150"
+                            alt="material image"
+                            class="rounded"
+                          />
+                        </td>
+                        <td
+                          class="py-3 px-4 w-auto text-sm align-middle whitespace-nowrap"
+                        >
+                          {{ material.name }}
+                        </td>
+                        <td
+                          class="py-3 px-4 w-auto text-sm align-middle whitespace-nowrap"
+                        >
+                          {{ material.quantity }}
+                        </td>
+                        <td
+                          class="py-3 px-4 w-auto text-sm align-middle whitespace-nowrap"
+                        >
+                          <i class="fa-solid"></i>
+                          <span v-if="material.status" class="text-green-400">
+                            <i
+                              class="fa-solid fa-boxes-stacked text-xl mr-2"
+                            ></i>
+                            in stock
+                          </span>
+                          <span v-else class="text-red-500">
+                            <i class="fa-solid fa-pallet text-xl mr-2"></i>
+                            out stock
+                          </span>
+                        </td>
+                        <!-- Edit -->
+                        <td
+                          class="py-3 px-4 w-auto text-xs align-middle whitespace-nowrap"
+                        >
+                          <button
+                            @click="onUpdate(material.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            @click="onDelete(material.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Paginate -->
+                <VueTailwindPagination
+                  :current="currentPage"
+                  :total="total"
+                  :per-page="perPage"
+                  @page-changed="onPageClick($event)"
+                />
               </div>
-              <!-- Paginate -->
-              <VueTailwindPagination
-                :current="currentPage"
-                :total="total"
-                :per-page="perPage"
-                @page-changed="onPageClick($event)"
-              />
             </div>
           </div>
         </div>

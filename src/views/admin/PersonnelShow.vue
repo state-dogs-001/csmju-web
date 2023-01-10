@@ -60,147 +60,148 @@
                 </div>
               </div>
 
-              <!-- News Feeds table -->
-              <div class="block w-full overflow-x-auto">
-                <!-- Projects table -->
-                <table
-                  class="items-center w-full bg-transparent border-collapse"
-                >
-                  <thead>
-                    <tr
-                      class="text-blueGray-500 border-b-2 border-blueGray-500"
-                    >
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+              <!-- Personal table -->
+              <div
+                class="w-full overflow-hidden overflow-x-auto rounded-lg shadow-xs"
+              >
+                <div class="w-full overflow-x-auto">
+                  <table class="w-full whitespace-no-wrap">
+                    <thead>
+                      <tr
+                        class="text-blueGray-500 border-b-2 border-blueGray-500"
                       >
-                        ชื่อ - นามสกุล
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ประเภท
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        การศึกษา
-                      </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ชื่อ - นามสกุล
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ประเภท
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          การศึกษา
+                        </th>
 
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ติดต่อ
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        สถานะการทำงาน
-                      </th>
-                      <th
-                        class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        การจัดการ
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="personnel in personnels"
-                      :key="personnel.id"
-                      class="border-b"
-                    >
-                      <td
-                        class="p-4 px-6 text-xs align-middle whitespace-nowrap"
-                      >
-                        <div
-                          class="flex items-center text-xs text-left align-middle whitespace-nowrap"
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                         >
-                          <img
-                            :src="
-                              personnel.image_profile == null
-                                ? User
-                                : personnel.image_profile
-                            "
-                            alt="profile"
-                            class="w-10 h-10 border-2 rounded-full shadow border-blueGray-50"
-                          />
-                          <span class="ml-3 text-sm font-semiBold">
-                            {{ personnel.name_title }}{{ personnel.name_th }}
-                            <div class="text-xs font-normal">
-                              {{ personnel.name_en }}
-                            </div>
-                          </span>
-                        </div>
-                      </td>
-                      <td
-                        class="w-5 p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                          ติดต่อ
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          สถานะการทำงาน
+                        </th>
+                        <th
+                          class="px-6 py-3 text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          การจัดการ
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="personnel in personnels"
+                        :key="personnel.id"
+                        class="border-b"
                       >
-                        <div>
-                          <p class="w-20 font-normal">
-                            {{ personnel.personnel_type }}
-                          </p>
-                        </div>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-wrap"
-                      >
-                        <div>
-                          <p class="w-20 font-normal truncate-3">
-                            {{ personnel.education }}
-                          </p>
-                        </div>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        <div class="w-48">
-                          <p class="font-normal truncate-3">
-                            อีเมล : {{ personnel.email }}
-                          </p>
-                          <p class="font-normal truncate-3">
-                            โทร. : {{ personnel.tel_number }}
-                          </p>
-                        </div>
-                      </td>
-                      <td
-                        class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-wrap"
-                      >
-                        <div>
-                          <p class="w-20 font-normal truncate-3">
-                            {{ personnel.status }}
-                          </p>
-                        </div>
-                      </td>
+                        <td
+                          class="p-4 px-6 text-xs align-middle whitespace-nowrap"
+                        >
+                          <div
+                            class="flex items-center text-xs text-left align-middle whitespace-nowrap"
+                          >
+                            <img
+                              :src="
+                                personnel.image_profile == null
+                                  ? User
+                                  : personnel.image_profile
+                              "
+                              alt="profile"
+                              class="w-10 h-10 border-2 rounded-full shadow border-blueGray-50"
+                            />
+                            <span class="ml-3 text-sm font-semiBold">
+                              {{ personnel.name_title }}{{ personnel.name_th }}
+                              <div class="text-xs font-normal">
+                                {{ personnel.name_en }}
+                              </div>
+                            </span>
+                          </div>
+                        </td>
+                        <td
+                          class="w-5 p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                        >
+                          <div>
+                            <p class="w-20 font-normal">
+                              {{ personnel.personnel_type }}
+                            </p>
+                          </div>
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-wrap"
+                        >
+                          <div>
+                            <p class="w-20 font-normal truncate-3">
+                              {{ personnel.education }}
+                            </p>
+                          </div>
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
+                        >
+                          <div class="w-48">
+                            <p class="font-normal truncate-3">
+                              อีเมล : {{ personnel.email }}
+                            </p>
+                            <p class="font-normal truncate-3">
+                              โทร. : {{ personnel.tel_number }}
+                            </p>
+                          </div>
+                        </td>
+                        <td
+                          class="p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-wrap"
+                        >
+                          <div>
+                            <p class="w-20 font-normal truncate-3">
+                              {{ personnel.status }}
+                            </p>
+                          </div>
+                        </td>
 
-                      <td
-                        class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
-                      >
-                        <button
-                          @click="onUpdate(personnel.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                        <td
+                          class="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"
                         >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          @click="onDelete(personnel.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
-                        >
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                          <button
+                            @click="onUpdate(personnel.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            @click="onDelete(personnel.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Paginate -->
+                <VueTailwindPagination
+                  :current="currentPage"
+                  :total="total"
+                  :per-page="perPage"
+                  @page-changed="onPageClick($event)"
+                />
               </div>
-              <!-- Paginate -->
-              <VueTailwindPagination
-                :current="currentPage"
-                :total="total"
-                :per-page="perPage"
-                @page-changed="onPageClick($event)"
-              />
             </div>
           </div>
         </div>

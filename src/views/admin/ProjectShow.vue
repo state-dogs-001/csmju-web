@@ -56,146 +56,148 @@
               </div>
 
               <!-- Table -->
-              <div class="block w-full overflow-x-auto">
-                <table
-                  class="items-center w-full bg-transparent border-collapse"
-                >
-                  <!-- thead -->
-                  <thead>
-                    <tr
-                      class="text-blueGray-500 border-b-2 border-blueGray-500"
-                    >
-                      <th
-                        class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+              <div
+                class="w-full overflow-hidden overflow-x-auto rounded-lg shadow-xs"
+              >
+                <div class="w-full overflow-x-auto">
+                  <table class="w-full whitespace-no-wrap">
+                    <!-- thead -->
+                    <thead>
+                      <tr
+                        class="text-blueGray-500 border-b-2 border-blueGray-500"
                       >
-                        ลำดับ
-                      </th>
-                      <th
-                        class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        รหัสโครงงาน
-                      </th>
-                      <th
-                        class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ชื่อโครงงาน (ลิงค์ไฟล์)
-                      </th>
-                      <th
-                        class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ชื่อผู้ทำโครงงาน
-                      </th>
-                      <th
-                        class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        ชื่ออาจารย์ที่ปรึกษา
-                      </th>
-                      <th
-                        class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
-                      >
-                        การจัดการ
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <!-- Body -->
-                  <tbody>
-                    <tr v-for="(project, index) in projects" :key="index">
-                      <td
-                        class="px-4 w-auto text-sm align-middle whitespace-nowrap"
-                      >
-                        {{ (currentPage - 1) * perPage + index + 1 }}
-                      </td>
-                      <td
-                        class="px-4 w-auto text-sm align-middle whitespace-nowrap"
-                      >
-                        {{ project.project_code }}
-                      </td>
-                      <td class="px-4 w-auto text-sm align-middle">
-                        <a
-                          :href="project.file"
-                          target="_blank"
-                          class="hover:text-emerald-600 underline decoration-solid"
+                        <th
+                          class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                         >
-                          {{ project.name }}
-                        </a>
-                      </td>
-                      <td
-                        class="px-4 w-auto text-sm align-middle whitespace-nowrap"
-                      >
-                        <p>{{ project.editor_1 }}</p>
-                        <p v-if="project.editor_2 != null">
-                          {{ project.editor_2 }}
-                        </p>
-                        <p v-if="project.editor_3 != null">
-                          {{ project.editor_3 }}
-                        </p>
-                      </td>
-                      <td
-                        class="px-4 w-auto text-sm align-middle whitespace-nowrap"
-                      >
-                        <p class="text-xs font-bold">ประธาน</p>
-                        <p>
-                          {{ project.chairman_name_title
-                          }}{{ project.chairman_name }}
-                        </p>
-
-                        <div
-                          v-if="
-                            project.director_1_name_title != null &&
-                            project.director_1_name != null
-                          "
+                          ลำดับ
+                        </th>
+                        <th
+                          class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
                         >
-                          <p class="text-xs font-bold">กรรมการ</p>
-                          <p>
-                            {{ project.director_1_name_title
-                            }}{{ project.director_1_name }}
+                          รหัสโครงงาน
+                        </th>
+                        <th
+                          class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ชื่อโครงงาน (ลิงค์ไฟล์)
+                        </th>
+                        <th
+                          class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ชื่อผู้ทำโครงงาน
+                        </th>
+                        <th
+                          class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          ชื่ออาจารย์ที่ปรึกษา
+                        </th>
+                        <th
+                          class="px-4 py-3 w-auto text-sm font-semibold text-left uppercase align-middle whitespace-nowrap"
+                        >
+                          การจัดการ
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <!-- Body -->
+                    <tbody>
+                      <tr v-for="(project, index) in projects" :key="index">
+                        <td
+                          class="px-4 w-auto text-sm align-middle whitespace-nowrap"
+                        >
+                          {{ (currentPage - 1) * perPage + index + 1 }}
+                        </td>
+                        <td
+                          class="px-4 w-auto text-sm align-middle whitespace-nowrap"
+                        >
+                          {{ project.project_code }}
+                        </td>
+                        <td class="px-4 w-auto text-sm align-middle">
+                          <a
+                            :href="project.file"
+                            target="_blank"
+                            class="hover:text-emerald-600 underline decoration-solid"
+                          >
+                            {{ project.name }}
+                          </a>
+                        </td>
+                        <td
+                          class="px-4 w-auto text-sm align-middle whitespace-nowrap"
+                        >
+                          <p>{{ project.editor_1 }}</p>
+                          <p v-if="project.editor_2 != null">
+                            {{ project.editor_2 }}
                           </p>
-                        </div>
-
-                        <div
-                          v-if="
-                            project.director_2_name_title != null &&
-                            project.director_2_name != null
-                          "
-                        >
-                          <p class="text-xs font-bold">กรรมการ</p>
-                          <p>
-                            {{ project.director_2_name_title
-                            }}{{ project.director_2_name }}
+                          <p v-if="project.editor_3 != null">
+                            {{ project.editor_3 }}
                           </p>
-                        </div>
-                      </td>
-                      <!-- Edit -->
-                      <td
-                        class="px-4 w-auto text-xs align-middle whitespace-nowrap"
-                      >
-                        <button
-                          @click="onUpdate(project.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                        </td>
+                        <td
+                          class="px-4 w-auto text-sm align-middle whitespace-nowrap"
                         >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          @click="onDelete(project.id)"
-                          class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
-                          type="button"
+                          <p class="text-xs font-bold">ประธาน</p>
+                          <p>
+                            {{ project.chairman_name_title
+                            }}{{ project.chairman_name }}
+                          </p>
+
+                          <div
+                            v-if="
+                              project.director_1_name_title != null &&
+                              project.director_1_name != null
+                            "
+                          >
+                            <p class="text-xs font-bold">กรรมการ</p>
+                            <p>
+                              {{ project.director_1_name_title
+                              }}{{ project.director_1_name }}
+                            </p>
+                          </div>
+
+                          <div
+                            v-if="
+                              project.director_2_name_title != null &&
+                              project.director_2_name != null
+                            "
+                          >
+                            <p class="text-xs font-bold">กรรมการ</p>
+                            <p>
+                              {{ project.director_2_name_title
+                              }}{{ project.director_2_name }}
+                            </p>
+                          </div>
+                        </td>
+                        <!-- Edit -->
+                        <td
+                          class="px-4 w-auto text-xs align-middle whitespace-nowrap"
                         >
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                          <button
+                            @click="onUpdate(project.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear bg-yellow-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            @click="onDelete(project.id)"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-normal text-white uppercase transition-all duration-150 ease-linear bg-red-500 rounded-full shadow outline-none active:bg-emerald-600 hover:shadow-md focus:outline-none"
+                            type="button"
+                          >
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Paginate -->
+                <VueTailwindPagination
+                  :current="currentPage"
+                  :total="total"
+                  :per-page="perPage"
+                  @page-changed="onPageClick($event)"
+                />
               </div>
-              <!-- Paginate -->
-              <VueTailwindPagination
-                :current="currentPage"
-                :total="total"
-                :per-page="perPage"
-                @page-changed="onPageClick($event)"
-              />
             </div>
           </div>
         </div>

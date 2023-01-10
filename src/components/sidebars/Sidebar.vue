@@ -55,8 +55,9 @@
             </div>
           </div>
         </div>
+
         <!-- Form -->
-        <form class="mt-6 mb-4 md:hidden">
+        <!-- <form class="mt-6 mb-4 md:hidden">
           <div class="pt-0 mb-3">
             <input
               type="text"
@@ -64,9 +65,10 @@
               class="w-full h-12 px-3 py-2 text-base font-normal leading-snug bg-white border-solid rounded shadow-none outline-none border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 focus:outline-none"
             />
           </div>
-        </form>
+        </form> -->
 
         <hr class="my-4 md:min-w-full" />
+        
         <h6
           class="block pt-1 pb-4 font-bold no-underline uppercase text-md md:min-w-full text-blueGray-500"
         >
